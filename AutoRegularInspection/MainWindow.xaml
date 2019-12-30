@@ -4,10 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1400">
     <Grid>
         <DataGrid Name="gridTotal">
             <DataGrid.Columns>
+                <DataGridTextColumn
+                    Width="Auto"
+                    MinWidth="50"
+                    Binding="{Binding Position}"
+                    Header="位置" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Component}"
+                    Header="构件类型" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Damage}"
+                    Header="损坏类型" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding Damage}"
+                    Header="损坏类型" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding DamageDescription}"
+                    Header="病害描述" />
+                <DataGridTextColumn
+                    Width="Auto"
+                    Binding="{Binding PictureNo}"
+                    Header="照片编号" />
+            </DataGrid.Columns>
+            <!--<DataGrid.Columns>
                 <DataGridTextColumn
                     Width="Auto"
                     MinWidth="50"
@@ -18,7 +45,7 @@
                     Binding="{Binding Name}"
                     Header="名称" />
   
-            </DataGrid.Columns>
+            </DataGrid.Columns>-->
         </DataGrid>
     </Grid>
 </Window>

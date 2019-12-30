@@ -2,11 +2,13 @@
 using Aspose.Words.Drawing;
 using Aspose.Words.Fields;
 using Aspose.Words.Tables;
+using AutoRegularInspection.Models;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
+using System.Linq;
 
 namespace AutoRegularInspection
 {
@@ -23,14 +25,16 @@ namespace AutoRegularInspection
         public MainWindow()
         {
             InitializeComponent();
-            List<Test> testList = new List<Test>
+            var testList = new List<DamageSummary>
             {
-                new Test{ changeTime="11",startTime="12"},
-                new Test{ changeTime="21",startTime="22"},
+                new DamageSummary {Position="第1跨",Component="伸缩缝",Damage="缝内沉积物阻塞",DamageDescription="左幅0#伸缩缝沉积物阻塞"
+                ,DamageDescriptionInPicture="左幅0#伸缩缝沉积物阻塞",PictureNo="855"},
+                new DamageSummary {Position="第1跨",Component="伸缩缝",Damage="接缝处铺装碎边",DamageDescription="左幅0#伸缩缝接缝处铺装碎边"
+                ,DamageDescriptionInPicture="左幅0#伸缩缝接缝处铺装碎边",PictureNo="868,875"},
             };
-            
+
             gridTotal.ItemsSource = testList;
-            //StartMain();
+            StartMain();
 
         }
 
@@ -38,6 +42,10 @@ namespace AutoRegularInspection
         {
             //var doc = new Document("default.docx");
             //var builder = new DocumentBuilder(doc);
+
+            //获取ItemsSource的值
+            //var m1 = gridTotal.ItemsSource as List<DamageSummary>;
+            //MessageBox.Show(m1[0].Component);
 
             double ImageWidth = 224.25; double ImageHeight = 168.75;
 
@@ -53,11 +61,13 @@ namespace AutoRegularInspection
             fieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
             fieldSequenceBuilder.AddSwitch(@"\s", "1");
 
+            //_Refxx的书签不会在word的“插入”=>“书签”中显示
+
             //模板在书签位置格式调整
             //1、单倍行距
             //2、首行不缩进
             var bookmark = doc.Range.Bookmarks["BridgeDeckStart"];
-            
+
             builder.MoveTo(bookmark.BookmarkStart);
 
             var summaryTable = builder.StartTable();    //病害汇总表格
@@ -66,7 +76,7 @@ namespace AutoRegularInspection
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
             builder.Font.Bold = true;
 
-            builder.Write("序号"); 
+            builder.Write("序号");
             builder.InsertCell(); builder.Write("位置");
             builder.InsertCell(); builder.Write("构件类型");
             builder.InsertCell(); builder.Write("缺损类型");
@@ -84,7 +94,7 @@ namespace AutoRegularInspection
 
 
             var field2 = InsertFieldRef(builder, "_Ref11455", "", "");
-            field2.InsertHyperlink = true; 
+            field2.InsertHyperlink = true;
 
             builder.EndRow();
             builder.EndTable();
@@ -110,7 +120,7 @@ namespace AutoRegularInspection
 
             builder.EndRow();
 
-            CompressImage("Pictures/DSC00855.JPG", "PicturesOut/DSC00855.JPG",80);
+            CompressImage("Pictures/DSC00855.JPG", "PicturesOut/DSC00855.JPG", 80);
             //第2行
             builder.InsertCell();
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
@@ -131,7 +141,7 @@ namespace AutoRegularInspection
 
             builder.Write(" 病害描述2");
 
-            
+
 
             builder.EndRow();
 
