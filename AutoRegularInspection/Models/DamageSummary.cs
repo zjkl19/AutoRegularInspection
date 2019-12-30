@@ -12,6 +12,10 @@ namespace AutoRegularInspection.Models
     public class DamageSummary
     {
         /// <summary>
+        /// 序号
+        /// </summary>
+        public int No { set; get; }
+        /// <summary>
         /// 位置
         /// </summary>
         public string Position { set; get; }
@@ -40,5 +44,29 @@ namespace AutoRegularInspection.Models
         /// 病害对应图片编号
         /// </summary>
         public string PictureNo { set; get; }
+
+        //以下为扩展字段（根据其它已知信息可以推算出内容的字段）
+
+        /// <summary>
+        /// 图片数量
+        /// </summary>
+        public int PictureCounts { set; get; }
+
+        /// <summary>
+        /// 首张图片编号
+        /// </summary>
+        public string FirstPictureNo { set; get; }
+        /// <summary>
+        /// 首张图片书签
+        /// </summary>
+        public string FirstPictureBookmark { set; get; }
+        /// <summary>
+        /// 最后一张图片编号
+        /// </summary>
+        public string LastPictureNo { set; get; }
+        /// <summary>
+        /// 最后一张图片书签
+        /// </summary>
+        public string LastPictureBookmark { set; get; }
     }
 }

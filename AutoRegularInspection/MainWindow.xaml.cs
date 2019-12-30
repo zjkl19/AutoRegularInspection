@@ -9,6 +9,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Windows;
 using System.Linq;
+using AutoRegularInspection.Services;
 
 namespace AutoRegularInspection
 {
@@ -17,24 +18,23 @@ namespace AutoRegularInspection
     /// </summary>
     public partial class MainWindow : Window
     {
-        class Test
-        {
-            public string startTime { set; get; }
-            public string changeTime { set; get; }
-        }
+
         public MainWindow()
         {
             InitializeComponent();
             var testList = new List<DamageSummary>
             {
-                new DamageSummary {Position="第1跨",Component="伸缩缝",Damage="缝内沉积物阻塞",DamageDescription="左幅0#伸缩缝沉积物阻塞"
+                new DamageSummary {No=1,Position="第1跨",Component="伸缩缝",Damage="缝内沉积物阻塞",DamageDescription="左幅0#伸缩缝沉积物阻塞"
                 ,DamageDescriptionInPicture="左幅0#伸缩缝沉积物阻塞",PictureNo="855"},
-                new DamageSummary {Position="第1跨",Component="伸缩缝",Damage="接缝处铺装碎边",DamageDescription="左幅0#伸缩缝接缝处铺装碎边"
+                new DamageSummary {No=2,Position="第1跨",Component="伸缩缝",Damage="接缝处铺装碎边",DamageDescription="左幅0#伸缩缝接缝处铺装碎边"
                 ,DamageDescriptionInPicture="左幅0#伸缩缝接缝处铺装碎边",PictureNo="868,875"},
             };
 
             gridTotal.ItemsSource = testList;
-            StartMain();
+            var ds = new DamageSummaryServices();
+            ds.InitListDamageSummary(testList);
+            ;
+            //StartMain();
 
         }
 
@@ -43,9 +43,11 @@ namespace AutoRegularInspection
             //var doc = new Document("default.docx");
             //var builder = new DocumentBuilder(doc);
 
-            //获取ItemsSource的值
+            //获取ItemsSource的值参考代码
             //var m1 = gridTotal.ItemsSource as List<DamageSummary>;
             //MessageBox.Show(m1[0].Component);
+
+            int PictureNoColumn = 7;    //照片编号所在列
 
             double ImageWidth = 224.25; double ImageHeight = 168.75;
 
@@ -70,7 +72,8 @@ namespace AutoRegularInspection
 
             builder.MoveTo(bookmark.BookmarkStart);
 
-            var summaryTable = builder.StartTable();    //病害汇总表格
+            //病害汇总表格
+            var summaryTable = builder.StartTable();
 
             builder.InsertCell();
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
@@ -106,9 +109,12 @@ namespace AutoRegularInspection
             summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
 
             builder.Writeln();
+            
+            //病害内容插入表格
+
             //Reference:
             //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs
-            Table table = builder.StartTable();
+            var table = builder.StartTable();
 
             // 第1行
             builder.InsertCell();
