@@ -15,18 +15,21 @@ namespace AutoRegularInspection.Services
 
         public void InitListDamageSummary(List<DamageSummary> listDamageSummary)
         {
-            SetPictureNums(listDamageSummary);
+            SetPictureCounts(listDamageSummary);
             SetFirstAndLastPictureBookmark(listDamageSummary);
         }
 
-        void SetPictureNums(List<DamageSummary> listDamageSummary)
+        void SetPictureCounts(List<DamageSummary> listDamageSummary)
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(',').Count();
             }
         }
-
+        /// <summary>
+        /// 要考虑PirctureCounts为0的情况
+        /// </summary>
+        /// <param name="listDamageSummary"></param>
         void SetFirstAndLastPictureBookmark(List<DamageSummary> listDamageSummary)
         {
             int firstIndex = 10000;

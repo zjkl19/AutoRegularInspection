@@ -116,6 +116,57 @@ namespace AutoRegularInspection
             //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs
             var table = builder.StartTable();
 
+            //计算总的图片数量
+            int totalPictureCounts = 0;
+            var listDamageSummary = gridTotal.ItemsSource as List<DamageSummary>;
+            for(int i=0;i<listDamageSummary.Count;i++)
+            {
+                totalPictureCounts += listDamageSummary[i].PictureCounts;
+            }
+
+            //假定每个病害都有照片
+            //将所有图片依次插入word
+            for(int i=0;i<= listDamageSummary.Count; i++)
+            {
+                
+                var p=listDamageSummary[i].PictureNo.Split(',');
+                for(int j=1;j<=p.Length;j++)
+                {
+                    builder.InsertCell();
+                    CompressImage("Pictures/DSC00855.JPG", "PicturesOut/DSC00855.JPG", 80);
+                    builder.InsertImage("PicturesOut/DSC00855.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
+
+                    //if (j % 2 == 0 || (j==p.Length && i== listDamageSummary.Count))
+                    if (j % 2 == 0 || (j==p.Length && i== listDamageSummary.Count))
+                    {
+                        builder.EndRow();
+                    }
+                    builder.InsertCell();
+                    builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                    builder.Write("图 ");
+                    fieldStyleRefBuilder.BuildAndInsert(table.Rows[1].Cells[0].Paragraphs[0]);
+                    builder.Write("-");
+                    fieldSequenceBuilder.BuildAndInsert(table.Rows[1].Cells[0].Paragraphs[0]);
+                    builder.Write(" 病害描述1");
+
+                    builder.InsertCell();
+
+                    builder.StartBookmark("_Ref11455");
+                    builder.Write("图 ");
+                    fieldStyleRefBuilder.BuildAndInsert(table.Rows[1].Cells[1].Paragraphs[0]);
+                    builder.Write("-");
+                    fieldSequenceBuilder.BuildAndInsert(table.Rows[1].Cells[1].Paragraphs[0]);
+                    builder.EndBookmark("_Ref11455");
+
+                    builder.Write(" 病害描述2");
+
+
+
+                    builder.EndRow();
+
+                }
+            }
+
             // 第1行
             builder.InsertCell();
             builder.InsertImage("Pictures/DSC00855.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
