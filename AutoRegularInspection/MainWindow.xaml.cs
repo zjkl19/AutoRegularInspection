@@ -126,7 +126,9 @@ namespace AutoRegularInspection
 
             //假定每个病害都有照片
             //将所有图片依次插入word
-            for(int i=0;i<= listDamageSummary.Count; i++)
+
+            int curr = 0;    //当前插入图片数
+            for(int i=0;i< listDamageSummary.Count; i++)
             {
                 
                 var p=listDamageSummary[i].PictureNo.Split(',');
@@ -135,34 +137,35 @@ namespace AutoRegularInspection
                     builder.InsertCell();
                     CompressImage("Pictures/DSC00855.JPG", "PicturesOut/DSC00855.JPG", 80);
                     builder.InsertImage("PicturesOut/DSC00855.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
-
+                    curr++;
                     //if (j % 2 == 0 || (j==p.Length && i== listDamageSummary.Count))
-                    if (j % 2 == 0 || (j==p.Length && i== listDamageSummary.Count))
+                    if (j % 2 == 0 || (j==p.Length && i== listDamageSummary.Count-1))
                     {
                         builder.EndRow();
+
                     }
+
                     builder.InsertCell();
                     builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                    builder.StartBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex+j-1}");
                     builder.Write("图 ");
-                    fieldStyleRefBuilder.BuildAndInsert(table.Rows[1].Cells[0].Paragraphs[0]);
+                    fieldStyleRefBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[0].Paragraphs[0]);
                     builder.Write("-");
-                    fieldSequenceBuilder.BuildAndInsert(table.Rows[1].Cells[0].Paragraphs[0]);
+                    fieldSequenceBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[0].Paragraphs[0]);
                     builder.Write(" 病害描述1");
+                    builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j - 1}");
 
                     builder.InsertCell();
-
                     builder.StartBookmark("_Ref11455");
                     builder.Write("图 ");
-                    fieldStyleRefBuilder.BuildAndInsert(table.Rows[1].Cells[1].Paragraphs[0]);
+                    fieldStyleRefBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[1].Paragraphs[0]);
                     builder.Write("-");
-                    fieldSequenceBuilder.BuildAndInsert(table.Rows[1].Cells[1].Paragraphs[0]);
+                    fieldSequenceBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[1].Paragraphs[0]);
                     builder.EndBookmark("_Ref11455");
 
                     builder.Write(" 病害描述2");
-
-
-
                     builder.EndRow();
+
 
                 }
             }
