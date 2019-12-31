@@ -7,31 +7,41 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Services
 {
+    /// <summary>
+    /// 对List<DamageSummary>数据进行初始化、预处理
+    /// </summary>
     public class DamageSummaryServices
     {
 
         public void InitListDamageSummary(List<DamageSummary> listDamageSummary)
         {
-            SetListDamageSummaryPictureNums(listDamageSummary);
-            int firstIndex = 10000;
-            for(int i=0;i<listDamageSummary.Count;i++)
-            {
-                if(i==0)
-                {
-                    listDamageSummary[i].FirstPictureBookmark = $"_Ref{firstIndex+i}";
-                }
-                else
-                {
-
-                }
-            }
+            SetPictureNums(listDamageSummary);
+            SetFirstAndLastPictureBookmark(listDamageSummary);
         }
 
-        void SetListDamageSummaryPictureNums(List<DamageSummary> listDamageSummary)
+        void SetPictureNums(List<DamageSummary> listDamageSummary)
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(',').Count();
+            }
+        }
+
+        void SetFirstAndLastPictureBookmark(List<DamageSummary> listDamageSummary)
+        {
+            int firstIndex = 10000;
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                if (i == 0)
+                {
+                    listDamageSummary[i].FirstPictureBookmarkIndex = firstIndex;
+                }
+                else
+                {
+                    listDamageSummary[i].FirstPictureBookmarkIndex = listDamageSummary[i - 1].FirstPictureBookmarkIndex + listDamageSummary[i - 1].PictureCounts;
+                }
+                listDamageSummary[i].FirstPictureBookmark = $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}";
+                listDamageSummary[i].LastPictureBookmark = $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + listDamageSummary[i].PictureCounts - 1}";
             }
         }
     }

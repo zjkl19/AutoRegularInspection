@@ -47,7 +47,7 @@ namespace AutoRegularInspection
             //var m1 = gridTotal.ItemsSource as List<DamageSummary>;
             //MessageBox.Show(m1[0].Component);
 
-            int PictureNoColumn = 7;    //照片编号所在列
+            //int PictureNoColumn = 7;    //照片编号所在列
 
             double ImageWidth = 224.25; double ImageHeight = 168.75;
 

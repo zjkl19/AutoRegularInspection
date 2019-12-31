@@ -57,6 +57,11 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string FirstPictureNo { set; get; }
         /// <summary>
+        /// 首张图片书签索引
+        /// </summary>
+        public int FirstPictureBookmarkIndex { set; get; }
+
+        /// <summary>
         /// 首张图片书签
         /// </summary>
         public string FirstPictureBookmark { set; get; }
