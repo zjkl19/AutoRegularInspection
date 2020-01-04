@@ -42,11 +42,11 @@ namespace AutoRegularInspection
             BridgeDeckGrid.ItemsSource= lst;
 
             lst = ReadDamageData("上部结构");
-            ds.InitListDamageSummary(lst);
+            ds.InitListDamageSummary(lst,2_000_000);
             SuperSpaceGrid.ItemsSource = lst;
 
             lst = ReadDamageData("下部结构");
-            ds.InitListDamageSummary(lst);
+            ds.InitListDamageSummary(lst, 3_000_000);
             SubSpaceGrid.ItemsSource = lst;
 
             //StartMain();
@@ -479,13 +479,31 @@ namespace AutoRegularInspection
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
-
+            string BookmarkStartName = "BridgeDeckStart";
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
             var listDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
 
             double ImageWidth = 224.25; double ImageHeight = 168.75;
 
             var doc = new Document("RegularInspectionTemplate.docx");
+            InsertSummaryAndPictureTable(BookmarkStartName,CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight, doc);
+
+            BookmarkStartName = "SuperSpaceStart";
+            listDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
+            InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight, doc);
+
+            BookmarkStartName = "SubSpaceStart";
+            listDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
+            InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight,doc);
+
+            doc.UpdateFields();
+            doc.UpdateFields();
+
+            doc.Save("RegularInspectionTemplate-out.docx", SaveFormat.Docx);
+        }
+
+        private void InsertSummaryAndPictureTable(string BookmarkStartName,int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, Document doc)
+        {
             var builder = new DocumentBuilder(doc);
 
             var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
@@ -504,7 +522,7 @@ namespace AutoRegularInspection
             //模板在书签位置格式调整
             //1、单倍行距
             //2、首行不缩进
-            var bookmark = doc.Range.Bookmarks["BridgeDeckStart"];
+            var bookmark = doc.Range.Bookmarks[BookmarkStartName];
 
             builder.MoveTo(bookmark.BookmarkStart);
 
@@ -615,6 +633,8 @@ namespace AutoRegularInspection
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
 
                         var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
+
+                        //TODO：检测文件是否重复，若重复不需要再压缩（MD5校验）
                         CompressImage($"{dirs[0]}", $"PicturesOut/{Path.GetFileName(dirs[0])}", CompressImageFlag);    //只取查找到的第1个文件，TODO：UI提示       
                         builder.InsertImage($"PicturesOut/{Path.GetFileName(dirs[0])}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
 
@@ -636,11 +656,6 @@ namespace AutoRegularInspection
 
 
             pictureTable.ClearBorders();
-
-            doc.UpdateFields();
-            doc.UpdateFields();
-
-            doc.Save("RegularInspectionTemplate-out.docx", SaveFormat.Docx);
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)

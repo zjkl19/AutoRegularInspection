@@ -12,11 +12,15 @@ namespace AutoRegularInspection.Services
     /// </summary>
     public class DamageSummaryServices
     {
-
-        public void InitListDamageSummary(List<DamageSummary> listDamageSummary)
+        /// <summary>
+        /// 初始化病害汇总列表
+        /// </summary>
+        /// <param name="listDamageSummary"></param>
+        /// <param name="firstIndex"></param>
+        public void InitListDamageSummary(List<DamageSummary> listDamageSummary,int firstIndex= 1000000)
         {
             SetPictureCounts(listDamageSummary);
-            SetFirstAndLastPictureBookmark(listDamageSummary);
+            SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
         }
 
         void SetPictureCounts(List<DamageSummary> listDamageSummary)
@@ -30,9 +34,9 @@ namespace AutoRegularInspection.Services
         /// 要考虑PirctureCounts为0的情况
         /// </summary>
         /// <param name="listDamageSummary"></param>
-        void SetFirstAndLastPictureBookmark(List<DamageSummary> listDamageSummary)
+        void SetFirstAndLastPictureBookmark(List<DamageSummary> listDamageSummary,int firstIndex = 1000000)
         {
-            int firstIndex = 1000000;
+            
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 if (i == 0)
