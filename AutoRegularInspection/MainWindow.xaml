@@ -5,16 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1000">
+        Title="外观检查自动报告" Height="450" Width="1000">
     <Grid>
         <Grid.Resources>
-            <sys:Int32 x:Key="CommonButtonRowIndex">1</sys:Int32>
+            <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
+            <sys:Int32 x:Key="CommonButtonRowIndex">2</sys:Int32>
             <GridLength x:Key="CommonButtonRowHeight">50</GridLength>
-            <sys:Int32 x:Key="CopyRightRowIndex">2</sys:Int32>
+            <sys:Int32 x:Key="CopyRightRowIndex">3</sys:Int32>
             <GridLength x:Key="CopyRightRowHeight">30</GridLength>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
+            <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="{StaticResource CommonButtonRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource CopyRightRowHeight}"></RowDefinition>
@@ -25,10 +27,23 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <TabControl Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4">
+        <Menu Grid.ColumnSpan="4">
+            <!-- 参考 https://www.cnblogs.com/lk-kk/p/4609026.html-->
+            <MenuItem Header="文件">
+                <MenuItem Header="退出" Click="MenuItem_Exit_Click" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="工具">
+                <MenuItem Header="选项" Click="MenuItem_Option_Click" ></MenuItem>
+            </MenuItem>
+            <MenuItem Header="帮助">
+                <MenuItem Header="查看源代码" Click="MenuItem_ViewSourceCode_Click" ></MenuItem>
+                <MenuItem Header="关于" Click="MenuItem_About_Click" ></MenuItem>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Row="{StaticResource TabControlRowIndex}" Grid.Column="0" Grid.ColumnSpan="4">
             <TabItem Header="桥面系">
                 <StackPanel>
-                    <DataGrid  Name="gridTotal" AutoGenerateColumns="False">
+                    <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="Auto"
@@ -66,7 +81,7 @@
             </TabItem>
             <TabItem Header="上部结构">
                 <StackPanel>
-                    <DataGrid  Name="gridTotal1" AutoGenerateColumns="False">
+                    <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="Auto"
@@ -104,7 +119,7 @@
             </TabItem>
             <TabItem Header="下部结构">
                 <StackPanel>
-                    <DataGrid  Name="gridTotal2" AutoGenerateColumns="False">
+                    <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="Auto"

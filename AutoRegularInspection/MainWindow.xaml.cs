@@ -10,6 +10,8 @@ using System.IO;
 using System.Windows;
 using System.Linq;
 using AutoRegularInspection.Services;
+using OfficeOpenXml;
+using System;
 
 namespace AutoRegularInspection
 {
@@ -30,9 +32,23 @@ namespace AutoRegularInspection
                 ,DamageDescriptionInPicture="左幅0#伸缩缝接缝处铺装碎边",PictureNo="868,875"},
             };
 
-            gridTotal.ItemsSource = testList;
+            //TODO：Grid数据和Excel绑定
             var ds = new DamageSummaryServices();
-            ds.InitListDamageSummary(testList);
+            
+            List<DamageSummary> lst;
+
+            lst=ReadDamageData("桥面系");
+            ds.InitListDamageSummary(lst);
+            BridgeDeckGrid.ItemsSource= lst;
+
+            lst = ReadDamageData("上部结构");
+            ds.InitListDamageSummary(lst);
+            SuperSpaceGrid.ItemsSource = lst;
+
+            lst = ReadDamageData("下部结构");
+            ds.InitListDamageSummary(lst);
+            SubSpaceGrid.ItemsSource = lst;
+
             //StartMain();
 
         }
@@ -49,7 +65,7 @@ namespace AutoRegularInspection
             //int PictureNoColumn = 7;    //照片编号所在列
 
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
-            var listDamageSummary = gridTotal.ItemsSource as List<DamageSummary>;
+            var listDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
 
             double ImageWidth = 224.25; double ImageHeight = 168.75;
 
@@ -95,19 +111,19 @@ namespace AutoRegularInspection
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                builder.InsertCell(); builder.Write($"{i+1}");
+                builder.InsertCell(); builder.Write($"{i + 1}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Component}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Damage}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamageDescription}");
                 builder.InsertCell();
-                if(listDamageSummary[i].PictureCounts==0)
+                if (listDamageSummary[i].PictureCounts == 0)
                 {
                     builder.Write("/");
                 }
-                else if(listDamageSummary[i].PictureCounts == 1)
+                else if (listDamageSummary[i].PictureCounts == 1)
                 {
-                    pictureRefField= InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
                     pictureRefField.InsertHyperlink = true;
                 }
                 else if (listDamageSummary[i].PictureCounts == 2)
@@ -117,7 +133,7 @@ namespace AutoRegularInspection
 
                     builder.Write("\r\n");
 
-                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex+1}", "", "");
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + 1}", "", "");
                     pictureRefField.InsertHyperlink = true;
                 }
                 else    //图片大于2张
@@ -127,13 +143,13 @@ namespace AutoRegularInspection
 
                     builder.Write("\r\n～\r\n");
 
-                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + listDamageSummary[i].PictureCounts-1}", "", "");
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + listDamageSummary[i].PictureCounts - 1}", "", "");
                     pictureRefField.InsertHyperlink = true;
                 }
                 builder.EndRow();
             }
-            
-           
+
+
             builder.EndTable();
 
             // Set a green border around the table but not inside. 
@@ -143,7 +159,7 @@ namespace AutoRegularInspection
             summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
 
             builder.Writeln();
-            
+
             //病害内容插入表格
 
             //Reference:
@@ -153,12 +169,12 @@ namespace AutoRegularInspection
             //计算总的图片数量
             int totalPictureCounts = 0;
 
-            for(int i=0;i<listDamageSummary.Count;i++)
+            for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 totalPictureCounts += listDamageSummary[i].PictureCounts;
             }
 
-            int tableTotalRows = 2 * ((totalPictureCounts+1)/2);    //表格总行数
+            int tableTotalRows = 2 * ((totalPictureCounts + 1) / 2);    //表格总行数
             int tableTotalCols = 2;
 
             for (int i = 0; i < tableTotalRows; i++)
@@ -186,7 +202,7 @@ namespace AutoRegularInspection
                         CompressImage($"{dirs[0]}", $"PicturesOut/{Path.GetFileName(dirs[0])}", CompressImageFlag);    //只取查找到的第1个文件，TODO：UI提示       
                         builder.InsertImage($"PicturesOut/{Path.GetFileName(dirs[0])}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
 
-                        builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)+1].Cells[(curr) % 2].FirstParagraph);
+                        builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].FirstParagraph);
                         builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                         builder.StartBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
                         builder.Write("图 ");
@@ -194,8 +210,8 @@ namespace AutoRegularInspection
                         builder.Write("-");
                         fieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
                         builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
-                        builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j+1}");
-                        
+                        builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
+
 
                         curr++;
                     }
@@ -372,12 +388,100 @@ namespace AutoRegularInspection
             //doc.Save("default-out.doc", SaveFormat.Doc);
 
         }
+        /// <summary>
+        /// 读取病害数据
+        /// </summary>
+        /// <param name="workSheetName">工作簿名称</param>
+        /// <returns></returns>
+        private List<DamageSummary> ReadDamageData(string workSheetName= "桥面系")
+        {
+            string strFilePath = "外观检查.xlsx";
+
+            var lst = new List<DamageSummary>();
+
+            if (!File.Exists(strFilePath))
+            {
+                return lst;
+            }
+
+            try
+            {
+
+                FileInfo file = new FileInfo(strFilePath);
+
+                using (ExcelPackage package = new ExcelPackage(file))
+                {
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[workSheetName];
+                    int rowCount = 2;// worksheet.Dimension.Rows;   //worksheet.Dimension.Rows指的是所有列中最大行
+                    //首行：表头不导入
+                    bool rowCur = true;    //行游标指示器
+                                           //rowCur=false表示到达行尾
+                                           //计算行数
+                    while (rowCur)
+                    {
+                        try
+                        {
+                            //跳过表头
+                            if (string.IsNullOrWhiteSpace(worksheet.Cells[rowCount + 1, 1].Value.ToString()))
+                            {
+                                rowCur = false;
+                            }
+                        }
+                        catch (Exception)   //读取异常则终止
+                        {
+                            rowCur = false;
+                        }
+
+                        if (rowCur)
+                        {
+                            rowCount++;
+                        }
+                    }
+
+                    //bool validationResult = false;
+                    int row = 2;    //excel中行指针
+                    //行号不为空，则继续添加
+                    //while (!string.IsNullOrEmpty(worksheet.Cells[row, 1].Value.ToString()))
+                    for (row = 2; row <= rowCount; row++)
+                    {
+                        //
+                        //1、处理excel数据导入;
+                        //2、验证"视图模型";
+                        //3、验证业务模型;
+                        try
+                        {
+                            lst.Add(new DamageSummary
+                            {
+                                No = row - 1,
+                                Position = worksheet.Cells[row, 2].Value?.ToString() ?? string.Empty,
+                                Component = worksheet.Cells[row, 3].Value?.ToString() ?? string.Empty,
+                                Damage = worksheet.Cells[row, 4].Value?.ToString() ?? string.Empty,
+                                DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty,
+                                DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty,
+                                PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty,
+                            });
+                        }
+                        catch (Exception)
+                        {
+                            continue;
+                        }
+
+                    }
+                }
+                //显示导入结果
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
 
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
-            var listDamageSummary = gridTotal.ItemsSource as List<DamageSummary>;
+            var listDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
 
             double ImageWidth = 224.25; double ImageHeight = 168.75;
 
@@ -537,6 +641,30 @@ namespace AutoRegularInspection
             doc.UpdateFields();
 
             doc.Save("RegularInspectionTemplate-out.docx", SaveFormat.Docx);
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
+        }
+
+        private void MenuItem_ViewSourceCode_Click(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Process.Start("https://github.com/zjkl19/AutoRegularInspection/");
+        }
+
+        private void MenuItem_About_Click(object sender, RoutedEventArgs e)
+        {
+            //TODO：通过反射读取 AssemblyCopyright
+            MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version.ToString()}\r" +
+            $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020\r" +
+            $"系统框架设计、编程及维护：路桥检测研究所林迪南等"
+            , "关于");
         }
 
         private void DisclaimerButton_Click(object sender, RoutedEventArgs e)
