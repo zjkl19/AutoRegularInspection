@@ -12,6 +12,7 @@ using System.Linq;
 using AutoRegularInspection.Services;
 using OfficeOpenXml;
 using System;
+using System.Threading;
 
 namespace AutoRegularInspection
 {
@@ -24,13 +25,6 @@ namespace AutoRegularInspection
         public MainWindow()
         {
             InitializeComponent();
-            var testList = new List<DamageSummary>
-            {
-                new DamageSummary {No=1,Position="第1跨",Component="伸缩缝",Damage="缝内沉积物阻塞",DamageDescription="左幅0#伸缩缝沉积物阻塞"
-                ,DamageDescriptionInPicture="左幅0#伸缩缝沉积物阻塞",PictureNo="855"},
-                new DamageSummary {No=2,Position="第1跨",Component="伸缩缝",Damage="接缝处铺装碎边",DamageDescription="左幅0#伸缩缝接缝处铺装碎边"
-                ,DamageDescriptionInPicture="左幅0#伸缩缝接缝处铺装碎边",PictureNo="868,875"},
-            };
 
             //TODO：Grid数据和Excel绑定
             var ds = new DamageSummaryServices();
@@ -53,341 +47,7 @@ namespace AutoRegularInspection
 
         }
 
-        public void StartMain()
-        {
-            //var doc = new Document("default.docx");
-            //var builder = new DocumentBuilder(doc);
-
-            //获取ItemsSource的值参考代码
-            //var m1 = gridTotal.ItemsSource as List<DamageSummary>;
-            //MessageBox.Show(m1[0].Component);
-
-            //int PictureNoColumn = 7;    //照片编号所在列
-
-            int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
-            var listDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
-
-            double ImageWidth = 224.25; double ImageHeight = 168.75;
-
-            var doc = new Document("RegularInspectionTemplate.docx");
-            var builder = new DocumentBuilder(doc);
-
-            var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
-            fieldStyleRefBuilder.AddArgument(1);
-            fieldStyleRefBuilder.AddSwitch(@"\s");
-
-            var fieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
-            fieldSequenceBuilder.AddArgument("图");
-            fieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
-            fieldSequenceBuilder.AddSwitch(@"\s", "1");
-
-            //_Refxx的书签不会在word的“插入”=>“书签”中显示
-
-            FieldRef pictureRefField;
-
-            //模板在书签位置格式调整
-            //1、单倍行距
-            //2、首行不缩进
-            var bookmark = doc.Range.Bookmarks["BridgeDeckStart"];
-
-            builder.MoveTo(bookmark.BookmarkStart);
-
-            //病害汇总表格
-            var summaryTable = builder.StartTable();
-
-            builder.InsertCell();
-            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-            builder.Font.Bold = true;
-
-            builder.Write("序号");
-            builder.InsertCell(); builder.Write("位置");
-            builder.InsertCell(); builder.Write("构件类型");
-            builder.InsertCell(); builder.Write("缺损类型");
-            builder.InsertCell(); builder.Write("缺损描述");
-            builder.InsertCell(); builder.Write("图示编号");
-
-            builder.Font.Bold = false;
-            builder.EndRow();
-
-            for (int i = 0; i < listDamageSummary.Count; i++)
-            {
-                builder.InsertCell(); builder.Write($"{i + 1}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Component}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Damage}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamageDescription}");
-                builder.InsertCell();
-                if (listDamageSummary[i].PictureCounts == 0)
-                {
-                    builder.Write("/");
-                }
-                else if (listDamageSummary[i].PictureCounts == 1)
-                {
-                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
-                    pictureRefField.InsertHyperlink = true;
-                }
-                else if (listDamageSummary[i].PictureCounts == 2)
-                {
-                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
-                    pictureRefField.InsertHyperlink = true;
-
-                    builder.Write("\r\n");
-
-                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + 1}", "", "");
-                    pictureRefField.InsertHyperlink = true;
-                }
-                else    //图片大于2张
-                {
-                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
-                    pictureRefField.InsertHyperlink = true;
-
-                    builder.Write("\r\n～\r\n");
-
-                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + listDamageSummary[i].PictureCounts - 1}", "", "");
-                    pictureRefField.InsertHyperlink = true;
-                }
-                builder.EndRow();
-            }
-
-
-            builder.EndTable();
-
-            // Set a green border around the table but not inside. 
-            summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, Color.Black, true);
-            summaryTable.SetBorder(BorderType.Right, LineStyle.Single, 1.5, Color.Black, true);
-            summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, Color.Black, true);
-            summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
-
-            builder.Writeln();
-
-            //病害内容插入表格
-
-            //Reference:
-            //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs
-            var pictureTable = builder.StartTable();    //病害详细图片
-
-            //计算总的图片数量
-            int totalPictureCounts = 0;
-
-            for (int i = 0; i < listDamageSummary.Count; i++)
-            {
-                totalPictureCounts += listDamageSummary[i].PictureCounts;
-            }
-
-            int tableTotalRows = 2 * ((totalPictureCounts + 1) / 2);    //表格总行数
-            int tableTotalCols = 2;
-
-            for (int i = 0; i < tableTotalRows; i++)
-            {
-                for (int j = 0; j < tableTotalCols; j++)
-                {
-                    builder.InsertCell();
-                }
-                builder.EndRow();
-            }
-            builder.EndTable();
-
-            //builder.MoveTo(table.Rows[1 + 1].Cells[0].FirstParagraph);
-            int curr = 0;    //当前已插入图片数
-            for (int i = 0; i < listDamageSummary.Count; i++)
-            {
-                if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
-                {
-                    var p = listDamageSummary[i].PictureNo.Split(',');
-                    for (int j = 0; j < p.Length; j++)
-                    {
-                        builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
-
-                        var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
-                        CompressImage($"{dirs[0]}", $"PicturesOut/{Path.GetFileName(dirs[0])}", CompressImageFlag);    //只取查找到的第1个文件，TODO：UI提示       
-                        builder.InsertImage($"PicturesOut/{Path.GetFileName(dirs[0])}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
-
-                        builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].FirstParagraph);
-                        builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-                        builder.StartBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
-                        builder.Write("图 ");
-                        fieldStyleRefBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
-                        builder.Write("-");
-                        fieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
-                        builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
-                        builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
-
-
-                        curr++;
-                    }
-                }
-            }
-            //假定每个病害都有照片
-            //将所有图片依次插入word
-
-
-            //for(int i=0;i< listDamageSummary.Count; i++)
-            //{
-            //    if(listDamageSummary[i].PictureCounts>0)
-            //    {
-            //        var p = listDamageSummary[i].PictureNo.Split(',');
-            //        for (int j = 0; j < p.Length; j++)
-            //        {
-            //            if (curr % 2 == 0)
-            //            {
-            //                builder.InsertCell();
-
-            //                var dirs = Directory.GetFiles(@"Pictures/", $"*{p[0]}*");
-
-            //                CompressImage($"Pictures/{dirs[0]}", $"PicturesOut/{dirs[0]}", 80);    //只取查找到的第1个文件，TODO：UI提示
-            //                builder.InsertImage($"PicturesOut/{dirs[0]}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
-            //                curr++;
-
-            //                builder.InsertCell();
-            //                CompressImage("Pictures/DSC00855.JPG", "PicturesOut/DSC00855.JPG", 80);
-            //                builder.InsertImage("PicturesOut/DSC00855.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
-            //                curr++;
-            //                builder.EndRow();
-
-            //                builder.InsertCell();
-            //                builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-            //                builder.StartBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j - 1}");
-            //                builder.Write("图 ");
-            //                fieldStyleRefBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[0].Paragraphs[0]);
-            //                builder.Write("-");
-            //                fieldSequenceBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[0].Paragraphs[0]);
-            //                builder.Write(" 病害描述1");
-            //                builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j - 1}");
-
-            //                builder.InsertCell();
-            //                builder.StartBookmark("_Ref11455");
-            //                builder.Write("图 ");
-            //                fieldStyleRefBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[1].Paragraphs[0]);
-            //                builder.Write("-");
-            //                fieldSequenceBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[1].Paragraphs[0]);
-            //                builder.EndBookmark("_Ref11455");
-
-            //                builder.Write(" 病害描述2");
-            //                builder.EndRow();
-            //            }
-            //            else   //curr % 2 == 1
-            //            {
-            //                builder.InsertCell();
-            //                CompressImage("Pictures/DSC00855.JPG", "PicturesOut/DSC00855.JPG", 80);
-            //                builder.InsertImage("PicturesOut/DSC00855.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
-            //                curr++;
-            //                builder.EndRow();
-
-            //                builder.InsertCell();
-            //                builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-            //                builder.StartBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j - 1}");
-            //                builder.Write("图 ");
-            //                fieldStyleRefBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[0].Paragraphs[0]);
-            //                builder.Write("-");
-            //                fieldSequenceBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[0].Paragraphs[0]);
-            //                builder.Write(" 病害描述1");
-            //                builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j - 1}");
-
-            //                builder.InsertCell();
-            //                builder.StartBookmark("_Ref11455");
-            //                builder.Write("图 ");
-            //                fieldStyleRefBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[1].Paragraphs[0]);
-            //                builder.Write("-");
-            //                fieldSequenceBuilder.BuildAndInsert(table.Rows[curr % 2 == 0 ? curr - 1 : curr].Cells[1].Paragraphs[0]);
-            //                builder.EndBookmark("_Ref11455");
-
-            //                builder.Write(" 病害描述2");
-            //                builder.EndRow();
-
-
-            //            }
-            //        }
-            //    }
-
-            //}
-
-            //// 第1行
-            //builder.InsertCell();
-            //builder.InsertImage("Pictures/DSC00855.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
-
-            //// Insert a cell
-            //builder.InsertCell();
-            //builder.InsertImage("Pictures/DSC00858.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
-
-            //builder.EndRow();
-
-            //CompressImage("Pictures/DSC00855.JPG", "PicturesOut/DSC00855.JPG", 80);
-            ////第2行
-            //builder.InsertCell();
-            //builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-            //builder.Write("图 ");
-            //fieldStyleRefBuilder.BuildAndInsert(table.Rows[1].Cells[0].Paragraphs[0]);
-            //builder.Write("-");
-            //fieldSequenceBuilder.BuildAndInsert(table.Rows[1].Cells[0].Paragraphs[0]);
-            //builder.Write(" 病害描述1");
-
-            //builder.InsertCell();
-
-            //builder.StartBookmark("_Ref11455");
-            //builder.Write("图 ");
-            //fieldStyleRefBuilder.BuildAndInsert(table.Rows[1].Cells[1].Paragraphs[0]);
-            //builder.Write("-");
-            //fieldSequenceBuilder.BuildAndInsert(table.Rows[1].Cells[1].Paragraphs[0]);
-            //builder.EndBookmark("_Ref11455");
-
-            //builder.Write(" 病害描述2");
-
-
-
-            //builder.EndRow();
-
-
-            pictureTable.ClearBorders();
-
-            //builder.MoveTo(table.Rows[1].Cells[1].FirstChild);
-            //builder.StartBookmark("_Ref11455");
-            //builder.EndBookmark("_Ref11455");
-
-            //builder.MoveTo(summaryTable.Rows[1].Cells[5].FirstChild);
-            //var field2 = InsertFieldRef(builder, "_Ref11455", "图2-1", "");
-            //field2.InsertHyperlink = true; 
-
-            doc.UpdateFields();
-            doc.UpdateFields();
-
-            doc.Save("RegularInspectionTemplate-out.docx", SaveFormat.Docx);
-
-            //var shape = new Shape(doc, ShapeType.Image);
-            //shape.ImageData.SetImage("Pictures/DSC00855.JPG");
-
-            //var s = doc.GetChildNodes(NodeType.Shape, true)[0] as Shape;
-
-            //var table0 = doc.GetChildNodes(NodeType.Table, true)[0] as Table;
-            //builder.MoveTo(table0.Rows[3].Cells[1].FirstChild);
-            //builder.StartBookmark("_Ref11455");
-            ////builder.InsertFootnote(FootnoteType.Footnote, "MyBookmark footnote #1");
-            ////builder.Write("Text that will appear in REF field");
-            ////builder.InsertFootnote(FootnoteType.Footnote, "MyBookmark footnote #2");
-            //builder.EndBookmark("_Ref11455");
-            //builder.MoveTo(table0.Rows[0].Cells[0].FirstChild);
-
-            ////builder.InsertNode(shape);   //可测试查看效果
-            ////https://blog.csdn.net/ly315ly/article/details/88076782
-            //builder.InsertImage("Pictures/DSC00855.JPG", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, 224.25, 168.75, WrapType.Inline);
-
-            //builder.MoveTo(table0.Rows[1].Cells[0].FirstChild);
-            //var field = InsertSeqField(builder,"图 ", @" 病害描述","图");
-            //builder.MoveTo(table0.Rows[2].Cells[0].FirstChild);
-            //var field1 = InsertFieldRef(builder, "_Ref11455", @"before", "after");
-            //field1.InsertHyperlink = true; 
-            ////word宏录制
-            ////            Sub 宏1()
-            ////'
-            ////' 宏1 宏
-            ////'
-            ////'
-            ////    Selection.InsertCrossReference ReferenceType:= "图", ReferenceKind:= _
-            ////        wdEntireCaption, ReferenceItem:= "2", InsertAsHyperlink:= True, _
-            ////          IncludePosition:= False, SeparateNumbers:= False, SeparatorString:= " "
-            ////End Sub
-            //doc.Save("default-out.doc", SaveFormat.Doc);
-
-        }
+        
         /// <summary>
         /// 读取病害数据
         /// </summary>
@@ -479,27 +139,43 @@ namespace AutoRegularInspection
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
+            string templateFile = "外观检查报告模板.docx";string outputFile = "自动生成的外观检查报告.docx";
             string BookmarkStartName = "BridgeDeckStart";
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
             var listDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
 
             double ImageWidth = 224.25; double ImageHeight = 168.75;
 
-            var doc = new Document("RegularInspectionTemplate.docx");
-            InsertSummaryAndPictureTable(BookmarkStartName,CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight, doc);
+            new Thread(() =>
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    try
+                    {
+                        var doc = new Document(templateFile);
+                        InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight, doc);
 
-            BookmarkStartName = "SuperSpaceStart";
-            listDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
-            InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight, doc);
+                        BookmarkStartName = "SuperSpaceStart";
+                        listDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
+                        InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight, doc);
 
-            BookmarkStartName = "SubSpaceStart";
-            listDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
-            InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight,doc);
+                        BookmarkStartName = "SubSpaceStart";
+                        listDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
+                        InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight, doc);
 
-            doc.UpdateFields();
-            doc.UpdateFields();
+                        doc.UpdateFields();
+                        doc.UpdateFields();
 
-            doc.Save("RegularInspectionTemplate-out.docx", SaveFormat.Docx);
+                        doc.Save(outputFile, SaveFormat.Docx);
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }));
+            }).Start();
+
+
         }
 
         private void InsertSummaryAndPictureTable(string BookmarkStartName,int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, Document doc)
@@ -635,7 +311,11 @@ namespace AutoRegularInspection
                         var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
 
                         //TODO：检测文件是否重复，若重复不需要再压缩（MD5校验）
-                        CompressImage($"{dirs[0]}", $"PicturesOut/{Path.GetFileName(dirs[0])}", CompressImageFlag);    //只取查找到的第1个文件，TODO：UI提示       
+                        //(暂时用文件名校验)
+                        if(!File.Exists($"PicturesOut/{Path.GetFileName(dirs[0])}"))
+                        {
+                            CompressImage($"{dirs[0]}", $"PicturesOut/{Path.GetFileName(dirs[0])}", CompressImageFlag);    //只取查找到的第1个文件，TODO：UI提示       
+                        }
                         builder.InsertImage($"PicturesOut/{Path.GetFileName(dirs[0])}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
 
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].FirstParagraph);

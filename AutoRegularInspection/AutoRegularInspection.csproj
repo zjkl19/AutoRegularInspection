@@ -111,10 +111,13 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="RegularInspectionTemplate.docx">
+    <None Include="RegularInspectionTemplate - 副本.docx" />
+    <None Include="RegularInspectionTemplate.docx" />
+    <None Include="外观检查 - 副本.xlsx" />
+    <None Include="外观检查.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="外观检查.xlsx">
+    <None Include="外观检查报告模板.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
