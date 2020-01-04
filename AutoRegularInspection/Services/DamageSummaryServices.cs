@@ -32,7 +32,7 @@ namespace AutoRegularInspection.Services
         /// <param name="listDamageSummary"></param>
         void SetFirstAndLastPictureBookmark(List<DamageSummary> listDamageSummary)
         {
-            int firstIndex = 10000;
+            int firstIndex = 1000000;
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 if (i == 0)

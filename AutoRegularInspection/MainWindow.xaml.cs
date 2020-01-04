@@ -33,7 +33,7 @@ namespace AutoRegularInspection
             gridTotal.ItemsSource = testList;
             var ds = new DamageSummaryServices();
             ds.InitListDamageSummary(testList);
-            StartMain();
+            //StartMain();
 
         }
 
@@ -193,8 +193,9 @@ namespace AutoRegularInspection
                         fieldStyleRefBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
                         builder.Write("-");
                         fieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
+                        builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
                         builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j+1}");
-                        builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j - 1}");
+                        
 
                         curr++;
                     }
@@ -370,6 +371,20 @@ namespace AutoRegularInspection
             ////End Sub
             //doc.Save("default-out.doc", SaveFormat.Doc);
 
+        }
+
+        private void DisclaimerButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
+        }
+        private void InstructionsButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
+        }
+
+        private void CheckForUpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("该功能开发中");
         }
 
         /// <summary>
