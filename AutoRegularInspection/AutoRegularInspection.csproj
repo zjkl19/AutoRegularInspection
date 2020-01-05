@@ -78,8 +78,10 @@
     <Compile Include="IRepository\IDataRepository.cs" />
     <Compile Include="Models\BridgePart.cs" />
     <Compile Include="Repository\ExcelDataRepository.cs" />
+    <Compile Include="Services\AsposeWordsServices.cs" />
     <Compile Include="Services\DamageSummaryServices.cs" />
     <Compile Include="Services\EnumHelper.cs" />
+    <Compile Include="Services\ImageServices.cs" />
     <Compile Include="Services\NinjectDependencyResolver.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
