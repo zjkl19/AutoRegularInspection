@@ -17,11 +17,32 @@ namespace AutoRegularInspection.Services
     public class AsposeWordsServices
     {
         private Document _doc;
-        public AsposeWordsServices(ref Document doc)
+        private List<DamageSummary> _bridgeDeckListDamageSummary;
+        private List<DamageSummary> _superSpaceListDamageSummary;
+        private List<DamageSummary> _subSpaceListDamageSummary;
+        public AsposeWordsServices(ref Document doc
+            , List<DamageSummary> bridgeDeckListDamageSummary
+            , List<DamageSummary> superSpaceListDamageSummary
+            , List<DamageSummary> subSpaceListDamageSummary)
         {
             _doc = doc;
+            _bridgeDeckListDamageSummary = bridgeDeckListDamageSummary;
+            _superSpaceListDamageSummary = superSpaceListDamageSummary;
+            _subSpaceListDamageSummary = subSpaceListDamageSummary;
         }
-        public void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight)
+
+        public void GenerateSummaryTableAndPictureTable(double ImageWidth = 224.25, double ImageHeight = 168.75,int CompressImageFlag = 70)
+        {
+            string BridgeDeckBookmarkStartName = "BridgeDeckStart";
+            string SuperSpaceBookmarkStartName = "SuperSpaceStart";
+            string SubSpaceBookmarkStartName = "SubSpaceStart";
+
+            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight);
+            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight);
+        }
+
+        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight)
         {
             var builder = new DocumentBuilder(_doc);
 

@@ -28,19 +28,19 @@ namespace AutoRegularInspection
 
             //TODO:考虑放到App.xaml中
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
-            var dataRepository=kernel.Get<IDataRepository>();
+            var dataRepository = kernel.Get<IDataRepository>();
 
             //TODO：Grid数据和Excel绑定
             var ds = new DamageSummaryServices();
-            
+
             List<DamageSummary> lst;
 
-            lst= dataRepository.ReadDamageData(BridgePart.BridgeDeck);
+            lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
             ds.InitListDamageSummary(lst);
-            BridgeDeckGrid.ItemsSource= lst;
+            BridgeDeckGrid.ItemsSource = lst;
 
             lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
-            ds.InitListDamageSummary(lst,2_000_000);
+            ds.InitListDamageSummary(lst, 2_000_000);
             SuperSpaceGrid.ItemsSource = lst;
 
             lst = dataRepository.ReadDamageData(BridgePart.SubSpace);
@@ -52,13 +52,13 @@ namespace AutoRegularInspection
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
-            string templateFile = "外观检查报告模板.docx";string outputFile = "自动生成的外观检查报告.docx";
-            string BookmarkStartName = "BridgeDeckStart";
-            int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
-            var listDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
-
+            string templateFile = "外观检查报告模板.docx"; string outputFile = "自动生成的外观检查报告.docx";
             double ImageWidth = 224.25; double ImageHeight = 168.75;
+            int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
 
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+            var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
+            var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
             new Thread(() =>
             {
                 Dispatcher.BeginInvoke(new Action(() =>
@@ -67,17 +67,9 @@ namespace AutoRegularInspection
                     {
                         var doc = new Document(templateFile);
 
-                        var asposeService = new AsposeWordsServices(ref doc);
+                        var asposeService = new AsposeWordsServices(ref doc, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
-                        asposeService.InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight);
-
-                        BookmarkStartName = "SuperSpaceStart";
-                        listDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
-                        asposeService.InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight);
-
-                        BookmarkStartName = "SubSpaceStart";
-                        listDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
-                        asposeService.InsertSummaryAndPictureTable(BookmarkStartName, CompressImageFlag, listDamageSummary, ImageWidth, ImageHeight);
+                        asposeService.GenerateSummaryTableAndPictureTable(ImageWidth, ImageHeight, CompressImageFlag);
 
                         doc.UpdateFields();
                         doc.UpdateFields();
@@ -132,6 +124,6 @@ namespace AutoRegularInspection
             MessageBox.Show("该功能开发中");
         }
 
-        
+
     }
 }
