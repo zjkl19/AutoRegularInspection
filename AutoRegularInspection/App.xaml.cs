@@ -1,4 +1,7 @@
 ﻿using System.Windows;
+using Ninject;
+using AutoRegularInspection.IRepository;
+using AutoRegularInspection.Services;
 
 namespace AutoRegularInspection
 {
@@ -7,5 +10,11 @@ namespace AutoRegularInspection
     /// </summary>
     public partial class App : Application
     {
+        //全局常量
+        //...
+        public App()
+        {
+            //IOC，依赖注入
+        }
     }
 }
