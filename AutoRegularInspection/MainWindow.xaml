@@ -13,6 +13,8 @@
             <GridLength x:Key="CommonButtonRowHeight">50</GridLength>
             <sys:Int32 x:Key="CopyRightRowIndex">3</sys:Int32>
             <GridLength x:Key="CopyRightRowHeight">30</GridLength>
+            <sys:Int32 x:Key="StatusBarRowIndex">4</sys:Int32>
+            <GridLength x:Key="StatusBarRowHeight">30</GridLength>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -20,6 +22,7 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="{StaticResource CommonButtonRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource CopyRightRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource StatusBarRowHeight}"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -42,7 +45,7 @@
         </Menu>
         <TabControl Grid.Row="{StaticResource TabControlRowIndex}" Grid.Column="0" Grid.ColumnSpan="4">
             <TabItem Header="桥面系">
-                <StackPanel>
+                <Grid>
                     <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn
@@ -50,37 +53,37 @@
                                 MinWidth="30"
                                 Binding="{Binding No}"
                                 Header="序号" />
-                                        <DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
-                                        <DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"
                                 Header="构件类型" />
-                                        <DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Damage}"
                                 Header="损坏类型" />
-                                        <DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Damage}"
                                 Header="损坏类型" />
-                                        <DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescription}"
                                 Header="病害描述" />
-                                        <DataGridTextColumn
+                            <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="上部结构">
-                <StackPanel>
+                <Grid>
                     <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn
@@ -115,10 +118,10 @@
                                 Header="照片编号" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
             <TabItem Header="下部结构">
-                <StackPanel>
+                <Grid>
                     <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False">
                         <DataGrid.Columns>
                             <DataGridTextColumn
@@ -153,7 +156,7 @@
                                 Header="照片编号" />
                         </DataGrid.Columns>
                     </DataGrid>
-                </StackPanel>
+                </Grid>
             </TabItem>
 
         </TabControl>
@@ -163,6 +166,10 @@
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="2" Margin="10" Click="CheckForUpdateButton_Click">检查更新</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="3" Margin="10" Click="DisclaimerButton_Click">免责声明</Button>
         <Label Grid.Row="{StaticResource CopyRightRowIndex}" Grid.Column="0" Grid.ColumnSpan="4" Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020" VerticalAlignment="Center"/>
-
+        <StatusBar  Grid.Row="{StaticResource StatusBarRowIndex}" Grid.Column="0" Grid.ColumnSpan="3">
+            <StatusBarItem>
+                <TextBlock Name="StatusBarText" Text="就绪"/>
+            </StatusBarItem>
+        </StatusBar>
     </Grid>
 </Window>

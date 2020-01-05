@@ -13,6 +13,8 @@ using System.Threading;
 
 using Ninject;
 using AutoRegularInspection.IRepository;
+using AutoRegularInspection.Views;
+using System.Xml.Linq;
 
 namespace AutoRegularInspection
 {
@@ -52,8 +54,15 @@ namespace AutoRegularInspection
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
+            var config = XDocument.Load(@"Option.config");
+            var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
+            var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+
+            //double ImageWidth = 224.25; double ImageHeight = 168.75;
+            double ImageWidth = Convert.ToDouble(pictureWidth); double ImageHeight = Convert.ToDouble(pictureHeight);
+
             string templateFile = "外观检查报告模板.docx"; string outputFile = "自动生成的外观检查报告.docx";
-            double ImageWidth = 224.25; double ImageHeight = 168.75;
+            
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
 
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
@@ -93,7 +102,10 @@ namespace AutoRegularInspection
 
         private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("该功能开发中");
+            var w = new OptionWindow();
+            w.Top = 0.4 * (App.ScreenHeight - w.Height);
+            w.Left = 0.5 * (App.ScreenWidth - w.Width);
+            w.Show();
         }
 
         private void MenuItem_ViewSourceCode_Click(object sender, RoutedEventArgs e)

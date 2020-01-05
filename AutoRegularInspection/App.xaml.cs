@@ -11,7 +11,10 @@ namespace AutoRegularInspection
     public partial class App : Application
     {
         //全局常量
-        //...
+
+        //参考https://www.cnblogs.com/Gildor/archive/2010/06/29/1767156.html
+        public static double ScreenWidth = SystemParameters.PrimaryScreenWidth;
+        public static double ScreenHeight = SystemParameters.PrimaryScreenHeight;
         public App()
         {
             //IOC，依赖注入
