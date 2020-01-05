@@ -20,10 +20,14 @@ namespace AutoRegularInspection.Services
         private List<DamageSummary> _bridgeDeckListDamageSummary;
         private List<DamageSummary> _superSpaceListDamageSummary;
         private List<DamageSummary> _subSpaceListDamageSummary;
+        readonly string BridgeDeckBookmarkStartName = "BridgeDeckStart";
+        readonly string SuperSpaceBookmarkStartName = "SuperSpaceStart";
+        readonly string SubSpaceBookmarkStartName = "SubSpaceStart";
+
         public AsposeWordsServices(ref Document doc
-            , List<DamageSummary> bridgeDeckListDamageSummary
-            , List<DamageSummary> superSpaceListDamageSummary
-            , List<DamageSummary> subSpaceListDamageSummary)
+            ,ref List<DamageSummary> bridgeDeckListDamageSummary
+            ,ref List<DamageSummary> superSpaceListDamageSummary
+            ,ref List<DamageSummary> subSpaceListDamageSummary)
         {
             _doc = doc;
             _bridgeDeckListDamageSummary = bridgeDeckListDamageSummary;
@@ -33,9 +37,7 @@ namespace AutoRegularInspection.Services
 
         public void GenerateSummaryTableAndPictureTable(double ImageWidth = 224.25, double ImageHeight = 168.75,int CompressImageFlag = 70)
         {
-            string BridgeDeckBookmarkStartName = "BridgeDeckStart";
-            string SuperSpaceBookmarkStartName = "SuperSpaceStart";
-            string SubSpaceBookmarkStartName = "SubSpaceStart";
+
 
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight);
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight);
@@ -50,10 +52,15 @@ namespace AutoRegularInspection.Services
             fieldStyleRefBuilder.AddArgument(1);
             fieldStyleRefBuilder.AddSwitch(@"\s");
 
-            var fieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
-            fieldSequenceBuilder.AddArgument("图");
-            fieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
-            fieldSequenceBuilder.AddSwitch(@"\s", "1");
+            var pictureFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            pictureFieldSequenceBuilder.AddArgument("图");
+            pictureFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            pictureFieldSequenceBuilder.AddSwitch(@"\s", "1");
+
+            var tableFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            tableFieldSequenceBuilder.AddArgument("表");
+            tableFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            tableFieldSequenceBuilder.AddSwitch(@"\s", "1");
 
             //_Refxx的书签不会在word的“插入”=>“书签”中显示
 
@@ -66,6 +73,34 @@ namespace AutoRegularInspection.Services
 
             builder.MoveTo(bookmark.BookmarkStart);
 
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            
+            builder.Write("表 ");
+            var r1 = new Run(_doc, "");
+            builder.InsertNode(r1);
+            fieldStyleRefBuilder.BuildAndInsert(r1);
+            builder.Write("-");
+            var r2 = new Run(_doc, "");
+            builder.InsertNode(r2);
+            tableFieldSequenceBuilder.BuildAndInsert(r2);
+
+            //写入表头
+            if (BookmarkStartName == BridgeDeckBookmarkStartName)
+            {
+                builder.Write("桥面系检查结果汇总表");
+                
+            }
+            else if(BookmarkStartName == SuperSpaceBookmarkStartName)
+            {
+                builder.Write("上部结构检查结果汇总表");
+            }
+            else
+            {
+                builder.Write("下部结构检查结果汇总表");
+            }
+
+            builder.Writeln();
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
             //病害汇总表格
             var summaryTable = builder.StartTable();
 
@@ -188,7 +223,7 @@ namespace AutoRegularInspection.Services
                         builder.Write("图 ");
                         fieldStyleRefBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
                         builder.Write("-");
-                        fieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
+                        pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
                         builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
                         builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
 

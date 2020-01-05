@@ -54,12 +54,13 @@ namespace AutoRegularInspection
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
+
             var config = XDocument.Load(@"Option.config");
             var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
             var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
 
             //double ImageWidth = 224.25; double ImageHeight = 168.75;
-            double ImageWidth = Convert.ToDouble(pictureWidth); double ImageHeight = Convert.ToDouble(pictureHeight);
+            double ImageWidth = Convert.ToDouble(pictureWidth.Value.ToString()); double ImageHeight = Convert.ToDouble(pictureHeight.Value.ToString());
 
             string templateFile = "外观检查报告模板.docx"; string outputFile = "自动生成的外观检查报告.docx";
             
@@ -74,16 +75,17 @@ namespace AutoRegularInspection
                 {
                     try
                     {
+                        
                         var doc = new Document(templateFile);
 
-                        var asposeService = new AsposeWordsServices(ref doc, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
-
+                        var asposeService = new AsposeWordsServices(ref doc, ref _bridgeDeckListDamageSummary, ref _superSpaceListDamageSummary, ref _subSpaceListDamageSummary);
                         asposeService.GenerateSummaryTableAndPictureTable(ImageWidth, ImageHeight, CompressImageFlag);
 
                         doc.UpdateFields();
                         doc.UpdateFields();
 
                         doc.Save(outputFile, SaveFormat.Docx);
+                        
                     }
                     catch (Exception ex)
                     {
@@ -91,7 +93,6 @@ namespace AutoRegularInspection
                     }
                 }));
             }).Start();
-
 
         }
 
