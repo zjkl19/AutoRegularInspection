@@ -83,6 +83,7 @@ namespace AutoRegularInspection.Services
             var r2 = new Run(_doc, "");
             builder.InsertNode(r2);
             tableFieldSequenceBuilder.BuildAndInsert(r2);
+            builder.Write(" ");
 
             //写入表头
             if (BookmarkStartName == BridgeDeckBookmarkStartName)

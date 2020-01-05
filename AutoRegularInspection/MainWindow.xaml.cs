@@ -85,7 +85,7 @@ namespace AutoRegularInspection
                         doc.UpdateFields();
 
                         doc.Save(outputFile, SaveFormat.Docx);
-                        
+                        MessageBox.Show("成功生成报告！");
                     }
                     catch (Exception ex)
                     {
