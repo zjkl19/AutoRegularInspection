@@ -46,6 +46,7 @@ namespace AutoRegularInspection.Services
 
         private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight)
         {
+
             var builder = new DocumentBuilder(_doc);
 
             var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
@@ -162,64 +163,8 @@ namespace AutoRegularInspection.Services
 
             builder.EndTable();
 
-            //先合并“缺损类型”列
-            //合并算法：
-            //1、先找出合并起始行和最后一行
-            #region t1
-            int col = 2;    //第3列
-            int refCol;    //参考列，默认为前一列（位置列）
-            refCol = col - 1;
-            int totalRows; totalRows = listDamageSummary.Count+1;
-            int mergeLength;    //合并长度
-            mergeLength = 0;
-            int currRow;    //当前行
-            string currContent;    //当前单元格的内容
-            string currRefContent;    //当前参考列的内容
 
-            int startRow = 1;    //第2行
-
-
-    //逻辑较复杂，需作图理解算法
-    currRow = startRow;
-            for (int i1=startRow;i1<totalRows;i1++)
-            {
-                mergeLength = 0;
-                currContent = summaryTable.Rows[currRow].Cells[col].Range.Text; currRefContent = summaryTable.Cell(currRow, refCol).Range.Text
-            }
-    For i = startRow To totalRows -1
-        mergeLength = 0
-        currContent = tbl.Cell(currRow, col).Range.Text: currRefContent = tbl.Cell(currRow, refCol).Range.Text
-
-
-        '计算合并的长度
-        For j = currRow + 1 To totalRows
-            If currContent = tbl.Cell(j, col).Range.Text And currRefContent = tbl.Cell(j, refCol).Range.Text Then
-                mergeLength = mergeLength + 1
-            Else
-                Exit For
-            End If
-        Next j
-
-        If mergeLength <> 0 Then
-            tbl.Cell(currRow, col).Merge tbl.Cell(currRow + mergeLength, col)
-            tbl.Cell(currRow, col).Range.Text = Mid(currContent, 1, Len(currContent) - 2)   '最后一个回车换行符去掉（CrLf占两个位置）
-            currRow = currRow + mergeLength
-        End If
-
-
-        currRow = currRow + 1    '无论是否合并，都+1
-
-
-        If currRow >= totalRows Then
-            Exit For
-        End If
-    Next i
-            #endregion
-            var cellStartRange = summaryTable.Rows[1].Cells[1];
-            var cellEndRange = summaryTable.Rows[2].Cells[1];
-
-            // Merge all the cells between the two specified cells into one
-            MergeCells(cellStartRange, cellEndRange);
+            MergeDamageColumn(listDamageSummary,summaryTable);
 
             // Set a green border around the table but not inside. 
             summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, Color.Black, true);
@@ -298,6 +243,44 @@ namespace AutoRegularInspection.Services
         }
 
         /// <summary>
+        /// 合并缺损类型1列
+        /// </summary>
+        /// <param name="listDamageSummary">病害列表</param>
+        /// <param name="summaryTable">word中的汇总表（Aspose.words格式）</param>
+        private void MergeDamageColumn(List<DamageSummary> listDamageSummary, Table summaryTable)
+        {
+            int damageColumn = 2;    //缺损类型所在列(Aspose.words)
+            //先合并“缺损类型”列
+            //合并算法：
+            //1、先找出合并起始行和最后一行
+            int mergeLength = 0;     //合并长度
+
+            //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
+            for (int i = 0; i < listDamageSummary.Count-1; i++)
+            {
+                for(int j=i+1;j<listDamageSummary.Count;j++)
+                {
+                    //缺损类型列相同并且构件类型相同
+                    if(listDamageSummary[i].Damage == listDamageSummary[j].Damage
+                        && listDamageSummary[i].Component == listDamageSummary[j].Component)
+                    {
+                        mergeLength++;
+                    }
+                }
+                if(mergeLength>0)
+                {
+                    var cellStartRange = summaryTable.Rows[i+1].Cells[damageColumn];
+                    var cellEndRange = summaryTable.Rows[i+1+mergeLength].Cells[damageColumn];
+                    MergeCells(cellStartRange, cellEndRange);
+                    i=i+mergeLength;    //i要跳过
+                    mergeLength = 0;    //合并单元格后归0
+                   
+                }
+            }
+
+        }
+
+        /// <summary>
         /// Merges the range of cells found between the two specified cells both horizontally and vertically. Can span over multiple rows.
         /// </summary>
         ///参考：https://github.com/aspose-words/Aspose.Words-for-.NET/blob/22d6889ef1ee0d3f1f69a129aa46fef6644048b0/ApiExamples/CSharp/ApiExamples/ExTable.cs
@@ -334,6 +317,7 @@ namespace AutoRegularInspection.Services
                 }
             }
         }
+        
 
         /// <summary>
         /// Insert a sequence field with preceding text and a specified sequence identifier
