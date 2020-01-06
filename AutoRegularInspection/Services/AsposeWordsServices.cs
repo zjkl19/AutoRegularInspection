@@ -249,7 +249,7 @@ namespace AutoRegularInspection.Services
         /// <param name="summaryTable">word中的汇总表（Aspose.words格式）</param>
         private void MergeDamageColumn(List<DamageSummary> listDamageSummary, Table summaryTable)
         {
-            int damageColumn = 2;    //缺损类型所在列(Aspose.words)
+            int damageColumn = 3;    //缺损类型所在列(Aspose.words)
             //先合并“缺损类型”列
             //合并算法：
             //1、先找出合并起始行和最后一行
@@ -262,9 +262,14 @@ namespace AutoRegularInspection.Services
                 {
                     //缺损类型列相同并且构件类型相同
                     if(listDamageSummary[i].Damage == listDamageSummary[j].Damage
-                        && listDamageSummary[i].Component == listDamageSummary[j].Component)
+                        && listDamageSummary[i].Component == listDamageSummary[j].Component
+                        && listDamageSummary[i].Position == listDamageSummary[j].Position)
                     {
                         mergeLength++;
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
                 if(mergeLength>0)
@@ -272,7 +277,7 @@ namespace AutoRegularInspection.Services
                     var cellStartRange = summaryTable.Rows[i+1].Cells[damageColumn];
                     var cellEndRange = summaryTable.Rows[i+1+mergeLength].Cells[damageColumn];
                     MergeCells(cellStartRange, cellEndRange);
-                    i=i+mergeLength;    //i要跳过
+                    i += mergeLength;    //i要跳过
                     mergeLength = 0;    //合并单元格后归0
                    
                 }
