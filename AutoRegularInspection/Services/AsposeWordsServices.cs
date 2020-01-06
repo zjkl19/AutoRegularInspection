@@ -125,8 +125,8 @@ namespace AutoRegularInspection.Services
                 builder.InsertCell(); builder.Write($"{i + 1}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Component}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Damage}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamageDescription}");
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Damage.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamageDescription.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");
                 builder.InsertCell();
                 if (listDamageSummary[i].PictureCounts == 0)
                 {
