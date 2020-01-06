@@ -25,9 +25,9 @@ namespace AutoRegularInspection.Services
         readonly string SubSpaceBookmarkStartName = "SubSpaceStart";
 
         public AsposeWordsServices(ref Document doc
-            ,ref List<DamageSummary> bridgeDeckListDamageSummary
-            ,ref List<DamageSummary> superSpaceListDamageSummary
-            ,ref List<DamageSummary> subSpaceListDamageSummary)
+            , ref List<DamageSummary> bridgeDeckListDamageSummary
+            , ref List<DamageSummary> superSpaceListDamageSummary
+            , ref List<DamageSummary> subSpaceListDamageSummary)
         {
             _doc = doc;
             _bridgeDeckListDamageSummary = bridgeDeckListDamageSummary;
@@ -35,7 +35,7 @@ namespace AutoRegularInspection.Services
             _subSpaceListDamageSummary = subSpaceListDamageSummary;
         }
 
-        public void GenerateSummaryTableAndPictureTable(double ImageWidth = 224.25, double ImageHeight = 168.75,int CompressImageFlag = 70)
+        public void GenerateSummaryTableAndPictureTable(double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
 
 
@@ -74,7 +74,7 @@ namespace AutoRegularInspection.Services
             builder.MoveTo(bookmark.BookmarkStart);
 
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-            
+
             builder.Write("表 ");
             var r1 = new Run(_doc, "");
             builder.InsertNode(r1);
@@ -89,9 +89,9 @@ namespace AutoRegularInspection.Services
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
                 builder.Write("桥面系检查结果汇总表");
-                
+
             }
-            else if(BookmarkStartName == SuperSpaceBookmarkStartName)
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
             {
                 builder.Write("上部结构检查结果汇总表");
             }
@@ -161,6 +161,65 @@ namespace AutoRegularInspection.Services
 
 
             builder.EndTable();
+
+            //先合并“缺损类型”列
+            //合并算法：
+            //1、先找出合并起始行和最后一行
+            #region t1
+            int col = 2;    //第3列
+            int refCol;    //参考列，默认为前一列（位置列）
+            refCol = col - 1;
+            int totalRows; totalRows = listDamageSummary.Count+1;
+            int mergeLength;    //合并长度
+            mergeLength = 0;
+            int currRow;    //当前行
+            string currContent;    //当前单元格的内容
+            string currRefContent;    //当前参考列的内容
+
+            int startRow = 1;    //第2行
+
+
+    //逻辑较复杂，需作图理解算法
+    currRow = startRow;
+            for (int i1=startRow;i1<totalRows;i1++)
+            {
+                mergeLength = 0;
+                currContent = summaryTable.Rows[currRow].Cells[col].Range.Text; currRefContent = summaryTable.Cell(currRow, refCol).Range.Text
+            }
+    For i = startRow To totalRows -1
+        mergeLength = 0
+        currContent = tbl.Cell(currRow, col).Range.Text: currRefContent = tbl.Cell(currRow, refCol).Range.Text
+
+
+        '计算合并的长度
+        For j = currRow + 1 To totalRows
+            If currContent = tbl.Cell(j, col).Range.Text And currRefContent = tbl.Cell(j, refCol).Range.Text Then
+                mergeLength = mergeLength + 1
+            Else
+                Exit For
+            End If
+        Next j
+
+        If mergeLength <> 0 Then
+            tbl.Cell(currRow, col).Merge tbl.Cell(currRow + mergeLength, col)
+            tbl.Cell(currRow, col).Range.Text = Mid(currContent, 1, Len(currContent) - 2)   '最后一个回车换行符去掉（CrLf占两个位置）
+            currRow = currRow + mergeLength
+        End If
+
+
+        currRow = currRow + 1    '无论是否合并，都+1
+
+
+        If currRow >= totalRows Then
+            Exit For
+        End If
+    Next i
+            #endregion
+            var cellStartRange = summaryTable.Rows[1].Cells[1];
+            var cellEndRange = summaryTable.Rows[2].Cells[1];
+
+            // Merge all the cells between the two specified cells into one
+            MergeCells(cellStartRange, cellEndRange);
 
             // Set a green border around the table but not inside. 
             summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, Color.Black, true);
@@ -239,6 +298,44 @@ namespace AutoRegularInspection.Services
         }
 
         /// <summary>
+        /// Merges the range of cells found between the two specified cells both horizontally and vertically. Can span over multiple rows.
+        /// </summary>
+        ///参考：https://github.com/aspose-words/Aspose.Words-for-.NET/blob/22d6889ef1ee0d3f1f69a129aa46fef6644048b0/ApiExamples/CSharp/ApiExamples/ExTable.cs
+        internal static void MergeCells(Cell startCell, Cell endCell)
+        {
+            Table parentTable = startCell.ParentRow.ParentTable;
+
+            // Find the row and cell indices for the start and end cell.
+            Point startCellPos = new Point(startCell.ParentRow.IndexOf(startCell), parentTable.IndexOf(startCell.ParentRow));
+            Point endCellPos = new Point(endCell.ParentRow.IndexOf(endCell), parentTable.IndexOf(endCell.ParentRow));
+            // Create the range of cells to be merged based off these indices. Inverse each index if the end cell if before the start cell. 
+            Rectangle mergeRange = new Rectangle(Math.Min(startCellPos.X, endCellPos.X), Math.Min(startCellPos.Y, endCellPos.Y),
+                Math.Abs(endCellPos.X - startCellPos.X) + 1, Math.Abs(endCellPos.Y - startCellPos.Y) + 1);
+
+            foreach (Row row in parentTable.Rows)
+            {
+                foreach (Cell cell in row.Cells)
+                {
+                    Point currentPos = new Point(row.IndexOf(cell), parentTable.IndexOf(row));
+
+                    // Check if the current cell is inside our merge range then merge it.
+                    if (mergeRange.Contains(currentPos))
+                    {
+                        if (currentPos.X == mergeRange.X)
+                            cell.CellFormat.HorizontalMerge = CellMerge.First;
+                        else
+                            cell.CellFormat.HorizontalMerge = CellMerge.Previous;
+
+                        if (currentPos.Y == mergeRange.Y)
+                            cell.CellFormat.VerticalMerge = CellMerge.First;
+                        else
+                            cell.CellFormat.VerticalMerge = CellMerge.Previous;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         /// Insert a sequence field with preceding text and a specified sequence identifier
         /// </summary>
         public FieldSeq InsertSeqField(DocumentBuilder builder, string textBefore, string textAfter, string sequenceIdentifier)
@@ -262,6 +359,6 @@ namespace AutoRegularInspection.Services
             builder.Write(textAfter);
             return field;
         }
-        
+
     }
 }
