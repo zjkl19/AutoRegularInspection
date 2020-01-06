@@ -163,8 +163,10 @@ namespace AutoRegularInspection.Services
 
             builder.EndTable();
 
-
+            //TODO:用建造者模式重构
             MergeDamageColumn(listDamageSummary,summaryTable);
+            MergeComponentColumn(listDamageSummary, summaryTable);
+            MergeTheSameColumn(listDamageSummary, summaryTable,1);
 
             // Set a green border around the table but not inside. 
             summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, Color.Black, true);
@@ -280,6 +282,87 @@ namespace AutoRegularInspection.Services
                     i += mergeLength;    //i要跳过
                     mergeLength = 0;    //合并单元格后归0
                    
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 合并构件类型1列
+        /// </summary>
+        /// <param name="listDamageSummary">病害列表</param>
+        /// <param name="summaryTable">word中的汇总表（Aspose.words格式）</param>
+        private void MergeComponentColumn(List<DamageSummary> listDamageSummary, Table summaryTable)
+        {
+            int componentColumn = 2;    //构件类型所在列(Aspose.words)
+
+            //合并算法：
+            //1、先找出合并起始行和最后一行
+            int mergeLength = 0;     //合并长度
+
+            //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
+            for (int i = 0; i < listDamageSummary.Count - 1; i++)
+            {
+                for (int j = i + 1; j < listDamageSummary.Count; j++)
+                {
+                    //缺损类型列相同并且构件类型相同
+                    if (listDamageSummary[i].Component == listDamageSummary[j].Component
+                        && listDamageSummary[i].Position == listDamageSummary[j].Position)
+                    {
+                        mergeLength++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (mergeLength > 0)
+                {
+                    var cellStartRange = summaryTable.Rows[i + 1].Cells[componentColumn];
+                    var cellEndRange = summaryTable.Rows[i + 1 + mergeLength].Cells[componentColumn];
+                    MergeCells(cellStartRange, cellEndRange);
+                    i += mergeLength;    //i要跳过
+                    mergeLength = 0;    //合并单元格后归0
+
+                }
+            }
+
+        }
+
+        /// <summary>
+        /// 合并竖向内容相同的列
+        /// </summary>
+        /// <param name="listDamageSummary">病害列表</param>
+        /// <param name="summaryTable">word中的汇总表（Aspose.words格式）</param>
+        /// <param name="mergedColumn">word中的汇总表需要合并的列（Aspose.words格式）</param>
+        private void MergeTheSameColumn(List<DamageSummary> listDamageSummary, Table summaryTable ,int mergedColumn=1)
+        {
+            //合并算法：
+            //1、先找出合并起始行和最后一行
+            int mergeLength = 0;     //合并长度
+
+            //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
+            for (int i = 0; i < listDamageSummary.Count - 1; i++)
+            {
+                for (int j = i + 1; j < listDamageSummary.Count; j++)
+                {
+                    if (listDamageSummary[i].Position == listDamageSummary[j].Position)
+                    {
+                        mergeLength++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (mergeLength > 0)
+                {
+                    var cellStartRange = summaryTable.Rows[i + 1].Cells[mergedColumn];
+                    var cellEndRange = summaryTable.Rows[i + 1 + mergeLength].Cells[mergedColumn];
+                    MergeCells(cellStartRange, cellEndRange);
+                    i += mergeLength;    //i要跳过
+                    mergeLength = 0;    //合并单元格后归0
+
                 }
             }
 
