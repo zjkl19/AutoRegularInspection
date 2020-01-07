@@ -110,6 +110,17 @@ namespace AutoRegularInspection
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
             w.Left = 0.5 * (App.ScreenWidth - w.Width);
             w.Show();
+
+            var s = new SuggestionServices();
+
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+            var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
+            var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
+
+            var lst = _bridgeDeckListDamageSummary.Union(_superSpaceListDamageSummary).Union(_subSpaceListDamageSummary).ToList<DamageSummary>();
+
+            w.SuggestionTextBox.Text = s.MakeSuggestions(lst);
+            
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)

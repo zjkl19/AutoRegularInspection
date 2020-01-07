@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoRegularInspection.Views"
         mc:Ignorable="d"
-        Title="SuggestionWindow" Height="350" Width="600">
+        Title="参考建议" Height="350" Width="600">
     <Grid>
-        <TextBox HorizontalAlignment="Left" Height="220" Margin="54,25,0,0" 
+        <TextBox Name="SuggestionTextBox" HorizontalAlignment="Left" Height="220" Margin="54,25,0,0" 
                  TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="484"
                  FontSize="15"/>
 
