@@ -232,8 +232,15 @@ namespace AutoRegularInspection.Services
                         builder.Write("-");
                         pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
                         builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
-                        builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
 
+                        if(listDamageSummary[i].PictureCounts>1)
+                        {
+                            builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
+                        }
+                        else
+                        {
+                            builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}");
+                        }
 
                         curr++;
                     }
