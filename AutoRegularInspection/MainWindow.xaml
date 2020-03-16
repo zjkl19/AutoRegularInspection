@@ -10,17 +10,20 @@
         <Grid.Resources>
             <sys:Int32 x:Key="ColumnCounts">5</sys:Int32>
             <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
-            <sys:Int32 x:Key="CommonButtonRowIndex">2</sys:Int32>
+            <sys:Int32 x:Key="OperationButtonRowIndex">2</sys:Int32>
+            <sys:Int32 x:Key="CommonButtonRowIndex">3</sys:Int32>
+            <sys:Int32 x:Key="CopyRightRowIndex">4</sys:Int32>
+            <sys:Int32 x:Key="StatusBarRowIndex">5</sys:Int32>
+            <GridLength x:Key="OperationButtonRowHeight">50</GridLength>
             <GridLength x:Key="CommonButtonRowHeight">50</GridLength>
-            <sys:Int32 x:Key="CopyRightRowIndex">3</sys:Int32>
             <GridLength x:Key="CopyRightRowHeight">30</GridLength>
-            <sys:Int32 x:Key="StatusBarRowIndex">4</sys:Int32>
             <GridLength x:Key="StatusBarRowHeight">30</GridLength>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="30"></RowDefinition>
             <RowDefinition></RowDefinition>
+            <RowDefinition Height="{StaticResource OperationButtonRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource CommonButtonRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource CopyRightRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource StatusBarRowHeight}"></RowDefinition>
@@ -163,6 +166,9 @@
 
         </TabControl>
 
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
+        
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="0" Margin="10" Click="AutoReport_Click">自动生成报告</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="1" Margin="10" Click="SuggestionButton_Click">查看参考建议</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="2" Margin="10" Click="InstructionsButton_Click">使用说明</Button>
