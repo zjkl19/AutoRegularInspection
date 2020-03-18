@@ -171,9 +171,21 @@ namespace AutoRegularInspection
 
         private void SaveExcel_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("该功能开发中");
-        }
+            if (MessageBox.Show("保存后将会覆盖原来的Excel文件，你确定要继续吗？", "保存Excel", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            {
+                var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+                if (SaveExcelService.SaveExcel(_bridgeDeckListDamageSummary)==1)
+                {
+                    MessageBox.Show("Excel保存成功！");
+                }
+                else
+                {
+                    MessageBox.Show("Excel保存失败！");
+                }
+                
+            }
 
+        }
         private void DisclaimerButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("本软件计算结果及生成的报告等仅供参考，因本软件产生的计算错误、生成报告结果不正确的后果由软件使用者自行承担。");

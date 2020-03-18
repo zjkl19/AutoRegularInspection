@@ -83,6 +83,7 @@
     <Compile Include="Services\EnumHelper.cs" />
     <Compile Include="Services\ImageServices.cs" />
     <Compile Include="Services\NinjectDependencyResolver.cs" />
+    <Compile Include="Services\SaveExcel.cs" />
     <Compile Include="Services\SuggestionServices.cs" />
     <Compile Include="Views\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
