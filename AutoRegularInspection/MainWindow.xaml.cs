@@ -15,6 +15,7 @@ using Ninject;
 using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Views;
 using System.Xml.Linq;
+using System.Diagnostics;
 
 namespace AutoRegularInspection
 {
@@ -63,7 +64,7 @@ namespace AutoRegularInspection
             double ImageWidth = Convert.ToDouble(pictureWidth.Value.ToString()); double ImageHeight = Convert.ToDouble(pictureHeight.Value.ToString());
 
             string templateFile = "外观检查报告模板.docx"; string outputFile = "自动生成的外观检查报告.docx";
-            
+
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
 
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
@@ -75,7 +76,7 @@ namespace AutoRegularInspection
                 {
                     try
                     {
-                        
+
                         var doc = new Document(templateFile);
 
                         var asposeService = new AsposeWordsServices(ref doc, ref _bridgeDeckListDamageSummary, ref _superSpaceListDamageSummary, ref _subSpaceListDamageSummary);
@@ -120,7 +121,7 @@ namespace AutoRegularInspection
             var lst = _bridgeDeckListDamageSummary.Union(_superSpaceListDamageSummary).Union(_subSpaceListDamageSummary).ToList<DamageSummary>();
 
             w.SuggestionTextBox.Text = s.MakeSuggestions(lst);
-            
+
         }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
@@ -142,9 +143,30 @@ namespace AutoRegularInspection
             , "关于");
         }
 
+        //算法：检测是否存在"外观检查 - 副本 (1).xlsx"，若不存在，则复制保存
+        //若存在，检测是否存在"外观检查 - 副本 (2).xlsx",若不存在，则复制保存，以此类推
+
         private void BackupExcel_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("该功能开发中");
+            int i = 1;
+            try
+            {
+
+                while (File.Exists($"外观检查 - 副本 ({i}).xlsx"))
+                {
+                    i++;
+                }
+                if (File.Exists($"外观检查.xlsx"))
+                {
+                    File.Copy($"外观检查.xlsx", $"外观检查 - 副本 ({i}).xlsx", true);
+                    MessageBox.Show($"成功备份文件\"外观检查 - 副本 ({i}).xlsx\"");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.Print($"备份Excel表格出错，错误信息：{ex.Message}");
+            }
+            
         }
 
         private void SaveExcel_Click(object sender, RoutedEventArgs e)
