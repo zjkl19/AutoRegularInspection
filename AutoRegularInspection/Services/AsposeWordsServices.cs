@@ -112,7 +112,22 @@ namespace AutoRegularInspection.Services
 
             builder.Write("序号");
             builder.InsertCell(); builder.Write("位置");
-            builder.InsertCell(); builder.Write("要素");
+            builder.InsertCell();
+
+            if (BookmarkStartName == BridgeDeckBookmarkStartName)
+            {
+                builder.Write("要素");
+
+            }
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
+            {
+                builder.Write("构件类型");
+            }
+            else
+            {
+                builder.Write("构件类型");
+            }
+
             builder.InsertCell(); builder.Write("缺损类型");
             builder.InsertCell(); builder.Write("缺损描述");
             builder.InsertCell(); builder.Write("图示编号");
