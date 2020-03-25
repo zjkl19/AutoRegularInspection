@@ -113,7 +113,7 @@
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"
-                                Header="要素" />
+                                Header="构件类型" />
 
                             <DataGridTextColumn
                                 Width="Auto"
@@ -157,7 +157,7 @@
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"
-                                Header="要素" />
+                                Header="构件类型" />
 
                             <DataGridTextColumn
                                 Width="Auto"
