@@ -131,7 +131,7 @@ namespace AutoRegularInspection
 
         private void MenuItem_ViewSourceCode_Click(object sender, RoutedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/zjkl19/AutoRegularInspection/");
+            Process.Start("https://github.com/zjkl19/AutoRegularInspection/");
         }
 
         private void MenuItem_About_Click(object sender, RoutedEventArgs e)
@@ -174,7 +174,11 @@ namespace AutoRegularInspection
             if (MessageBox.Show("保存后将会覆盖原来的Excel文件，你确定要继续吗？", "保存Excel", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
             {
                 var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
-                if (SaveExcelService.SaveExcel(_bridgeDeckListDamageSummary)==1)
+                var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
+                var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
+                if (SaveExcelService.SaveExcel(_bridgeDeckListDamageSummary
+                    , _superSpaceListDamageSummary
+                    , _subSpaceListDamageSummary) ==1)
                 {
                     MessageBox.Show("Excel保存成功！");
                 }
