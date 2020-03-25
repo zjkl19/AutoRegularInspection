@@ -23,13 +23,13 @@ namespace AutoRegularInspection.Services
             SetPictureCounts(listDamageSummary);
             SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
 
-            for (int i = 0; i < listDamageSummary.Count; i++)
-            {
-                var img = System.Drawing.Image.FromFile($"PicturesOut/DSC00855.jpg");
-                var map = new System.Drawing.Bitmap(img);
-                listDamageSummary[i].PicturePreview= ConvertBitmap(map);
+            //for (int i = 0; i < listDamageSummary.Count; i++)
+            //{
+            //    var img = System.Drawing.Image.FromFile($"PicturesOut/DSC00855.jpg");
+            //    var map = new System.Drawing.Bitmap(img);
+            //    listDamageSummary[i].PicturePreview= ConvertBitmap(map);
 
-            }
+            //}
         }
 
         void SetPictureCounts(List<DamageSummary> listDamageSummary)
