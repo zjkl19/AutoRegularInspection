@@ -7,3 +7,5 @@
 6、listDamageSummary变量数据绑定;
 7、生成报告功能添加进度条；
 8、Excel增加自动查找列名所在列函数；
+9、DataGrid数据绑定；
+10、DamageSummaryServices添加单元测试；
