@@ -21,10 +21,16 @@ namespace AutoRegularInspection.Services
             , List<DamageSummary> superSpaceListDamageSummary
             , List<DamageSummary> subSpaceListDamageSummary)
         {
+            string tempFileName = "temp外观检查.xlsx";
+
+            if (File.Exists(tempFileName))
+            {
+                File.Delete(tempFileName);
+            }
 
             string sheetName = string.Empty;
 
-            var file = new FileInfo("temp外观检查.xlsx");
+            var file = new FileInfo(tempFileName);
 
             try
             {
@@ -67,7 +73,7 @@ namespace AutoRegularInspection.Services
                     worksheet.Cells[1, 7].Value = "照片编号";
 
                     //添加值
-                    for (int i = 0; i < bridgeDeckListDamageSummary.Count; i++)
+                    for (int i = 0; i < superSpaceListDamageSummary.Count; i++)
                     {
                         worksheet.Cells[i + 2, 1].Value = i + 1;
                         worksheet.Cells[i + 2, 2].Value = superSpaceListDamageSummary[i].Position;
@@ -78,8 +84,32 @@ namespace AutoRegularInspection.Services
                         worksheet.Cells[i + 2, 7].Value = superSpaceListDamageSummary[i].PictureNo;
                     }
 
+                    worksheet = excelPackage.Workbook.Worksheets.Add("下部结构");
+                    //添加表头
+                    worksheet.Cells[1, 1].Value = "序号";
+                    worksheet.Cells[1, 2].Value = "位置";
+                    worksheet.Cells[1, 3].Value = "构件类型";
+                    worksheet.Cells[1, 4].Value = "缺损类型";
+                    worksheet.Cells[1, 5].Value = "缺损描述";
+                    worksheet.Cells[1, 6].Value = "图片描述";
+                    worksheet.Cells[1, 7].Value = "照片编号";
+
+                    //添加值
+                    for (int i = 0; i < subSpaceListDamageSummary.Count; i++)
+                    {
+                        worksheet.Cells[i + 2, 1].Value = i + 1;
+                        worksheet.Cells[i + 2, 2].Value = subSpaceListDamageSummary[i].Position;
+                        worksheet.Cells[i + 2, 3].Value = subSpaceListDamageSummary[i].Component;
+                        worksheet.Cells[i + 2, 4].Value = subSpaceListDamageSummary[i].Damage;
+                        worksheet.Cells[i + 2, 5].Value = subSpaceListDamageSummary[i].DamageDescription;
+                        worksheet.Cells[i + 2, 6].Value = subSpaceListDamageSummary[i].DamageDescriptionInPicture;
+                        worksheet.Cells[i + 2, 7].Value = subSpaceListDamageSummary[i].PictureNo;
+                    }
+
                     excelPackage.Save();
                 }
+                File.Copy(tempFileName, "外观检查.xlsx",true);
+                File.Delete(tempFileName);
                 return 1;
             }
             catch (Exception ex)

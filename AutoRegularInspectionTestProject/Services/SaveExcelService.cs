@@ -15,7 +15,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void SaveExcel_ShouldSaveVarInExcel()
         {
             //Arrange
-            string tempFileName = "temp外观检查.xlsx";
+            string FileName = "外观检查.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary { 
@@ -49,16 +49,12 @@ namespace AutoRegularInspectionTestProject.Services
             string expectedDamageDescription = bridgeDeckListDamageSummary[0].DamageDescription; string acturalDamageDescription = string.Empty;
 
             string expectedDamageInSuperStructure = "无"; string acturalDamageInSuperStructure = string.Empty;
+            string expectedDamageInSubStructure = "水蚀"; string acturalDamageInSubStructure = string.Empty;
             //Act
-
-            if (File.Exists(tempFileName))
-            {
-                File.Delete(tempFileName);
-            }
 
             SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary);
 
-            var file = new FileInfo(tempFileName);
+            var file = new FileInfo(FileName);
 
             using (var excelPackage = new ExcelPackage(file))
             {
@@ -69,6 +65,9 @@ namespace AutoRegularInspectionTestProject.Services
                 // 检查"上部结构"Worksheets
                 worksheet = excelPackage.Workbook.Worksheets["上部结构"];
                 acturalDamageInSuperStructure = worksheet.Cells[2, 4].Value?.ToString() ?? string.Empty;
+
+                worksheet = excelPackage.Workbook.Worksheets["下部结构"];
+                acturalDamageInSubStructure = worksheet.Cells[2, 4].Value?.ToString() ?? string.Empty;
             }
 
             //Assert
@@ -79,6 +78,7 @@ namespace AutoRegularInspectionTestProject.Services
             Assert.Equal(expectedDamageInSuperStructure, acturalDamageInSuperStructure);
             //下部结构
             Assert.Equal(expectedDamageInSubStructure, acturalDamageInSubStructure);
+            //Assert.Equal(0, 1);    //TODO：初始化变量重构
         }
     }
 }
