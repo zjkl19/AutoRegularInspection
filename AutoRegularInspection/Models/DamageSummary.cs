@@ -20,6 +20,8 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string Position { set; get; }
 
+        public BridgePart TestEnum { set; get; }
+
         public List<string> TestComboBox { set; get; }
         /// <summary>
         /// 构件类型

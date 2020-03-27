@@ -4,10 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:core="clr-namespace:System;assembly=mscorlib" 
+        xmlns:local="clr-namespace:AutoRegularInspection.Models"
         mc:Ignorable="d"
         Title="外观检查自动报告" Height="450" Width="1000">
+    
+    
     <Grid>
+    
         <Grid.Resources>
+            <Style TargetType="{x:Type DataGridCell}">
+                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown" />
+                <EventSetter Event="PreviewTextInput" Handler="DataGridCell_PreviewTextInput" />
+            </Style>
+
             <sys:Int32 x:Key="ColumnCounts">5</sys:Int32>
             <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
             <sys:Int32 x:Key="OperationButtonRowIndex">2</sys:Int32>
@@ -18,6 +28,16 @@
             <GridLength x:Key="CommonButtonRowHeight">50</GridLength>
             <GridLength x:Key="CopyRightRowHeight">30</GridLength>
             <GridLength x:Key="StatusBarRowHeight">30</GridLength>
+
+            <!--Create list of enumeration values-->
+            <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type Type="local:BridgePart"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            <!--Create an instance of the converter for Email-->
+            <!--<local:EmailConverter x:Key="EmailConverter" />-->
+
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -63,6 +83,12 @@
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
+
+                            <DataGridComboBoxColumn
+                                Header="Order Status"
+                                SelectedItemBinding="{Binding TestEnum}"
+                                ItemsSource="{Binding Source={StaticResource myEnum}}"/>
+
                             <DataGridTemplateColumn Header="ComboBox" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
