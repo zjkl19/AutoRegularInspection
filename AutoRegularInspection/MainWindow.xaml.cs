@@ -34,20 +34,18 @@ namespace AutoRegularInspection
             var dataRepository = kernel.Get<IDataRepository>();
 
             //TODO：Grid数据和Excel绑定
-            var ds = new DamageSummaryServices();
-
             List<DamageSummary> lst;
 
             lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
-            ds.InitListDamageSummary(lst);
+            DamageSummaryServices.InitListDamageSummary(lst);
             BridgeDeckGrid.ItemsSource = lst;
 
             lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
-            ds.InitListDamageSummary(lst, 2_000_000);
+            DamageSummaryServices.InitListDamageSummary(lst, 2_000_000);
             SuperSpaceGrid.ItemsSource = lst;
 
             lst = dataRepository.ReadDamageData(BridgePart.SubSpace);
-            ds.InitListDamageSummary(lst, 3_000_000);
+            DamageSummaryServices.InitListDamageSummary(lst, 3_000_000);
             SubSpaceGrid.ItemsSource = lst;
 
         }

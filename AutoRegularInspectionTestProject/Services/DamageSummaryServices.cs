@@ -19,11 +19,9 @@ namespace AutoRegularInspectionTestProject.Services
                 }
             };
 
-            var ds = new AutoRegularInspection.Services.DamageSummaryServices();
-
             //Act
 
-            ds.InitListDamageSummary(bridgeDeckListDamageSummary);
+            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
 
             //Assert
             Assert.Equal(3, bridgeDeckListDamageSummary[0].PictureCounts);
@@ -40,11 +38,10 @@ namespace AutoRegularInspectionTestProject.Services
                 }
             };
 
-            var ds = new AutoRegularInspection.Services.DamageSummaryServices();
-
+           
             //Act
 
-            ds.InitListDamageSummary(bridgeDeckListDamageSummary);
+            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
 
             //Assert
             Assert.Equal(1000000, bridgeDeckListDamageSummary[0].FirstPictureBookmarkIndex);
