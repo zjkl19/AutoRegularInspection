@@ -20,6 +20,7 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string Position { set; get; }
 
+        public List<string> TestComboBox { set; get; }
         /// <summary>
         /// 构件类型
         /// </summary>

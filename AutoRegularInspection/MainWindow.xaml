@@ -63,6 +63,14 @@
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
+                            <DataGridTemplateColumn Header="ComboBox" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox ItemsSource="{Binding TestComboBox}" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"

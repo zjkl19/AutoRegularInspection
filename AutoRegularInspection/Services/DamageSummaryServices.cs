@@ -23,6 +23,17 @@ namespace AutoRegularInspection.Services
             SetPictureCounts(listDamageSummary);
             SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
 
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                listDamageSummary[i].TestComboBox = new List<string>
+                {
+                    "a"
+                    ,"b"
+                    ,"c"
+                };
+            }
+
+
             //for (int i = 0; i < listDamageSummary.Count; i++)
             //{
             //    var img = System.Drawing.Image.FromFile($"PicturesOut/DSC00855.jpg");
