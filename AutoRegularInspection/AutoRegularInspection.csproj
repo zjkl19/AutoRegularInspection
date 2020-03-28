@@ -76,7 +76,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IRepository\IDataRepository.cs" />
+    <Compile Include="Models\BridgeDeck.cs" />
+    <Compile Include="Models\BridgeDeckEnum.cs" />
     <Compile Include="Models\BridgePart.cs" />
+    <Compile Include="Models\EnumConverter.cs" />
     <Compile Include="Repository\ExcelDataRepository.cs" />
     <Compile Include="Services\AsposeWordsServices.cs" />
     <Compile Include="Services\DamageSummaryServices.cs" />

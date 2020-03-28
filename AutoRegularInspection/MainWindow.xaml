@@ -8,11 +8,21 @@
         xmlns:local="clr-namespace:AutoRegularInspection.Models"
         mc:Ignorable="d"
         Title="外观检查自动报告" Height="450" Width="1000">
-    
+    <Window.Resources>
+        <local:EnumConverter x:Key="eConverter"/>
+    </Window.Resources>
     
     <Grid>
-    
+
         <Grid.Resources>
+            <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type Type="local:BridgeDeckEnum"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+            
+            
+            
             <Style TargetType="{x:Type DataGridCell}">
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown" />
                 <EventSetter Event="PreviewTextInput" Handler="DataGridCell_PreviewTextInput" />
@@ -30,14 +40,15 @@
             <GridLength x:Key="StatusBarRowHeight">30</GridLength>
 
             <!--Create list of enumeration values-->
-            <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type Type="local:BridgePart"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
+
             <!--Create an instance of the converter for Email-->
             <!--<local:EmailConverter x:Key="EmailConverter" />-->
-
+            <!--<ObjectDataProvider x:Key="myComboBox" MethodName="GetValues" ObjectType="{x:Type core:Object}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type Type="local:BridgeDeck"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>-->
+            
         </Grid.Resources>
 
         <Grid.RowDefinitions>
@@ -85,14 +96,20 @@
                                 Header="位置" />
 
                             <DataGridComboBoxColumn
-                                Header="Order Status"
+                                Header="要素（枚举）"
                                 SelectedItemBinding="{Binding TestEnum}"
-                                ItemsSource="{Binding Source={StaticResource myEnum}}"/>
+                                ItemsSource="{Binding Source={StaticResource myEnum},Converter={StaticResource eConverter}}"
+                                />
+
 
                             <DataGridTemplateColumn Header="ComboBox" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <ComboBox ItemsSource="{Binding TestComboBox}" />
+                                        <ComboBox 
+                                            ItemsSource="{Binding TestComboBox}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding TestValue,Mode=OneTime}"
+                                            />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

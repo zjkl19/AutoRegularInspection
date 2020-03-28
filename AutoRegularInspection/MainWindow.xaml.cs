@@ -130,7 +130,7 @@ namespace AutoRegularInspection
             }
             return null;
         }
-#endregion
+        #endregion
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
 

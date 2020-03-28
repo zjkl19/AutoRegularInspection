@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,9 +21,11 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string Position { set; get; }
 
-        public BridgePart TestEnum { set; get; }
+        public BridgeDeckEnum TestEnum { set; get; }
 
-        public List<string> TestComboBox { set; get; }
+        public BindingList<BridgeDeck> TestComboBox { set; get; }
+
+        public int TestValue { set; get; }
         /// <summary>
         /// 构件类型
         /// </summary>

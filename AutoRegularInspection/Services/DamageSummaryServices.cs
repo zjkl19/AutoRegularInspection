@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace AutoRegularInspection.Services
 {
@@ -25,12 +26,47 @@ namespace AutoRegularInspection.Services
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                listDamageSummary[i].TestComboBox = new List<string>
+
+                foreach (int v in Enum.GetValues(typeof(BridgeDeckEnum)))
                 {
-                    "a"
-                    ,"b"
-                    ,"c"
+                    if (EnumHelper.GetEnumDesc((BridgeDeckEnum)v).ToString() == listDamageSummary[i].Component)
+                    {
+                        listDamageSummary[i].TestEnum = (BridgeDeckEnum)v;
+                        break;
+                    }
+                    else
+                    {
+                        listDamageSummary[i].TestEnum = BridgeDeckEnum.Others;
+                    }
+                }
+
+                //if (listDamageSummary[i].Component=="伸缩缝")
+                //{
+                //    listDamageSummary[i].TestEnum = BridgePart.BridgeDeck;
+                //}
+                //else
+                //{
+                //    listDamageSummary[i].TestEnum = BridgePart.SubSpace;
+                //}
+            }
+
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                listDamageSummary[i].TestComboBox = new BindingList<BridgeDeck>
+                {
+                    new BridgeDeck{  Id=1,Title="桥面铺装"}
+                    ,new BridgeDeck{  Id=2,Title="其它"}
                 };
+                if(i==0)
+                {
+
+                    listDamageSummary[i].TestValue = 0;
+                }
+                else
+                {
+
+                    listDamageSummary[i].TestValue = 1;
+                }
             }
 
 
