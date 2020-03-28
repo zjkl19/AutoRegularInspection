@@ -15,9 +15,10 @@
     <Grid>
 
         <Grid.Resources>
-            <ObjectDataProvider x:Key="myEnum" MethodName="GetValues" ObjectType="{x:Type core:Enum}">
+            
+            <ObjectDataProvider x:Key="myEnum" MethodName="GetNames" ObjectType="{x:Type sys:Enum}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type Type="local:BridgeDeckEnum"/>
+                    <x:Type TypeName="local:BridgeDeckEnum"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
             
