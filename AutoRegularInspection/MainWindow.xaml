@@ -4,7 +4,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
-        xmlns:core="clr-namespace:System;assembly=mscorlib" 
         xmlns:local="clr-namespace:AutoRegularInspection.Models"
         mc:Ignorable="d"
         Title="外观检查自动报告" Height="450" Width="1000">
@@ -21,13 +20,11 @@
                     <x:Type TypeName="local:BridgeDeckEnum"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
-            
-            
-            
-            <Style TargetType="{x:Type DataGridCell}">
+
+            <!--<Style TargetType="{x:Type DataGridCell}">
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown" />
                 <EventSetter Event="PreviewTextInput" Handler="DataGridCell_PreviewTextInput" />
-            </Style>
+            </Style>-->
 
             <sys:Int32 x:Key="ColumnCounts">5</sys:Int32>
             <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
@@ -95,19 +92,46 @@
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
-
-                            <DataGridComboBoxColumn
+                            
+                            <!--<DataGridComboBoxColumn
                                 Header="要素（枚举）"
+                                SelectedValueBinding="{Binding TestEnum}"
                                 SelectedItemBinding="{Binding TestEnum}"
                                 ItemsSource="{Binding Source={StaticResource myEnum},Converter={StaticResource eConverter}}"
-                                />
+                                />-->
+                            <DataGridComboBoxColumn Header="ComboBox模式（修正）">
+                                <DataGridComboBoxColumn.ElementStyle>
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="ItemsSource" Value="{Binding Source={StaticResource myEnum},Converter={StaticResource eConverter}}" />
+                                        <!--<Setter Property="SelectedValue" Value="{Binding TestEnum}" />-->
+                                    </Style>
+                                </DataGridComboBoxColumn.ElementStyle>
+                                <DataGridComboBoxColumn.EditingElementStyle>
+                                    <Style TargetType="ComboBox">
+                                        <Setter Property="ItemsSource" Value="{Binding Source={StaticResource myEnum},Converter={StaticResource eConverter}}" />
+                                        <Setter Property="SelectedValue" Value="{Binding TestEnum}" />
+                                    </Style>
+                                </DataGridComboBoxColumn.EditingElementStyle>
+                            </DataGridComboBoxColumn>
+                            
 
+                            <!--<DataGridTemplateColumn Header="ComboBox" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding TestComboBox}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding TestValue,Mode=OneTime}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>-->
 
                             <DataGridTemplateColumn Header="ComboBox" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
-                                            ItemsSource="{Binding TestComboBox}"
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.TestComboBox}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding TestValue,Mode=OneTime}"
                                             />

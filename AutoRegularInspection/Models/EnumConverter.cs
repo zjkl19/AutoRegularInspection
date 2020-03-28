@@ -25,8 +25,8 @@ namespace AutoRegularInspection.Models
                     case "DeckPavement":
                         result.Add("桥面铺装");
                         break;
-                    case "SelectedTwo":
-                        result.Add("第二行");
+                    case "ExpansionJoint":
+                        result.Add("伸缩缝");
                         break;
                     case "SelectedThird":
                         result.Add("第三行");
