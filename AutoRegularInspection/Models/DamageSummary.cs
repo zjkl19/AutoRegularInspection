@@ -10,7 +10,7 @@ namespace AutoRegularInspection.Models
     /// <summary>
     /// 病害汇总
     /// </summary>
-    public class DamageSummary
+    public class DamageSummary : INotifyPropertyChanged
     {
         /// <summary>
         /// 序号
@@ -40,16 +40,38 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string Damage { set; get; }
 
+
+        private string damageDescription;
         /// <summary>
         /// 病害描述
         /// </summary>
-        public string DamageDescription { set; get; }
+        public string DamageDescription
 
+        {
+            get { return damageDescription; }
+            set
+            {
+                damageDescription = value;
+
+                OnPropertyChanged(nameof(DamageDescription));
+            }
+        }
+
+
+        private string damageDescriptionInPicture { set; get; }
         /// <summary>
         /// 病害对应图片描述
         /// </summary>
-        public string DamageDescriptionInPicture { set; get; }
+        public string DamageDescriptionInPicture
+        {
+            get { return damageDescriptionInPicture; }
+            set
+            {
+                damageDescriptionInPicture = value;
 
+                OnPropertyChanged(nameof(DamageDescriptionInPicture));
+            }
+        }
         /// <summary>
         /// 病害对应图片编号
         /// </summary>
@@ -88,5 +110,11 @@ namespace AutoRegularInspection.Models
         /// 最后一张图片书签
         /// </summary>
         public string LastPictureBookmark { set; get; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

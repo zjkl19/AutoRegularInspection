@@ -291,5 +291,11 @@ namespace AutoRegularInspection
           
 
         }
+
+        private void Test_Click(object sender, RoutedEventArgs e)
+        {
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+            _bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
+        }
     }
 }

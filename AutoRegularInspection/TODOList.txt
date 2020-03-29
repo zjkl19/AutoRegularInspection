@@ -1,11 +1,15 @@
 0、添加单元测试；
+进度：简单的功能正在添加测试，复杂的功能还没添加
 1、建议参考金武的word；
 2、表格表头部分完善一下：“缺损类型”还是“损坏类型”？“缺损描述”还是“损坏描述”？
+进度：已完成
 3、自动对部分病害信息进行统计；
 4、添加“备份外观检查excel表格"功能；
+进度：正在用TDD重构
 5、添加“直接打开excel编辑”功能；
-6、listDamageSummary变量数据绑定;
+6、listDamageSummary变量数据绑定（和第9点合并）;
 7、生成报告功能添加进度条；
 8、Excel增加自动查找列名所在列函数；
-9、DataGrid数据绑定；
+9、DataGrid数据绑定（使用DataContext）；
+进度：正在使用INotification重构
 10、DamageSummaryServices添加单元测试；
