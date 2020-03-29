@@ -99,11 +99,12 @@
                                 SelectedItemBinding="{Binding TestEnum}"
                                 ItemsSource="{Binding Source={StaticResource myEnum},Converter={StaticResource eConverter}}"
                                 />-->
-                            <DataGridComboBoxColumn Header="ComboBox模式（修正）">
+                            
+                            <!--<DataGridComboBoxColumn Header="ComboBox模式（修正）">
                                 <DataGridComboBoxColumn.ElementStyle>
                                     <Style TargetType="ComboBox">
                                         <Setter Property="ItemsSource" Value="{Binding Source={StaticResource myEnum},Converter={StaticResource eConverter}}" />
-                                        <!--<Setter Property="SelectedValue" Value="{Binding TestEnum}" />-->
+                                        --><!--<Setter Property="SelectedValue" Value="{Binding TestEnum}" />--><!--
                                     </Style>
                                 </DataGridComboBoxColumn.ElementStyle>
                                 <DataGridComboBoxColumn.EditingElementStyle>
@@ -112,7 +113,7 @@
                                         <Setter Property="SelectedValue" Value="{Binding TestEnum}" />
                                     </Style>
                                 </DataGridComboBoxColumn.EditingElementStyle>
-                            </DataGridComboBoxColumn>
+                            </DataGridComboBoxColumn>-->
                             
 
                             <!--<DataGridTemplateColumn Header="ComboBox" Width="Auto">
@@ -127,13 +128,13 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>-->
 
-                            <DataGridTemplateColumn Header="要素（ComboBox）" Width="Auto">
+                            <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
-                                            ItemsSource="{Binding Source={x:Static local:GlobalData.TestComboBox}}"
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.ComponentComboBox}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding TestValue,Mode=OneTime}"
+                                            SelectedIndex="{Binding ComponentValue,Mode=OneTime}"
                                             SelectionChanged="ComboBox_SelectionChanged"
                                             />
                                     </DataTemplate>

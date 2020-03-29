@@ -9,7 +9,7 @@ namespace AutoRegularInspection.Models
 {
     public class GlobalData
     {
-        public static BindingList<BridgeDeck> TestComboBox { get; } = new BindingList<BridgeDeck>() {
+        public static BindingList<BridgeDeck> ComponentComboBox { get; } = new BindingList<BridgeDeck>() {
                     new BridgeDeck{  Id=1,Title="桥面铺装"}
                     ,aa()
                     ,new BridgeDeck{  Id=2,Title="其它"}

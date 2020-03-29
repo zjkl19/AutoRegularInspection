@@ -52,7 +52,7 @@ namespace AutoRegularInspection.Services
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                listDamageSummary[i].TestComboBox = new BindingList<BridgeDeck>
+                listDamageSummary[i].ComponentComboBox = new BindingList<BridgeDeck>
                 {
                     new BridgeDeck{  Id=1,Title="桥面铺装"}
                     ,new BridgeDeck{  Id=2,Title="其它"}
@@ -60,12 +60,12 @@ namespace AutoRegularInspection.Services
                 if (i == 0)
                 {
 
-                    listDamageSummary[i].TestValue = 0;
+                    listDamageSummary[i].ComponentValue = 0;
                 }
                 else
                 {
 
-                    listDamageSummary[i].TestValue = 1;
+                    listDamageSummary[i].ComponentValue = 1;
                 }
 
                 if (i == 0)
