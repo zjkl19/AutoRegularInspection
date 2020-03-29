@@ -23,22 +23,35 @@ namespace AutoRegularInspection.Services
         {
             SetPictureCounts(listDamageSummary);
             SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
+            SetComboBox(listDamageSummary);
 
+
+            //for (int i = 0; i < listDamageSummary.Count; i++)
+            //{
+            //    var img = System.Drawing.Image.FromFile($"PicturesOut/DSC00855.jpg");
+            //    var map = new System.Drawing.Bitmap(img);
+            //    listDamageSummary[i].PicturePreview= ConvertBitmap(map);
+
+            //}
+        }
+
+        private static void SetComboBox(List<DamageSummary> listDamageSummary)
+        {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
 
-                foreach (int v in Enum.GetValues(typeof(BridgeDeckEnum)))
-                {
-                    if (EnumHelper.GetEnumDesc((BridgeDeckEnum)v).ToString() == listDamageSummary[i].Component)
-                    {
-                        listDamageSummary[i].TestEnum = (BridgeDeckEnum)v;
-                        break;
-                    }
-                    else
-                    {
-                        listDamageSummary[i].TestEnum = BridgeDeckEnum.Others;
-                    }
-                }
+                //foreach (int v in Enum.GetValues(typeof(BridgeDeckEnum)))
+                //{
+                //    if (EnumHelper.GetEnumDesc((BridgeDeckEnum)v).ToString() == listDamageSummary[i].Component)
+                //    {
+                //        listDamageSummary[i].TestEnum = (BridgeDeckEnum)v;
+                //        break;
+                //    }
+                //    else
+                //    {
+                //        listDamageSummary[i].TestEnum = BridgeDeckEnum.Others;
+                //    }
+                //}
 
                 //if (listDamageSummary[i].Component=="伸缩缝")
                 //{
@@ -65,7 +78,7 @@ namespace AutoRegularInspection.Services
                 {
                     listDamageSummary[i].ComponentValue = componentFound.FirstOrDefault().Idx;
 
-                    var subComponentFound = componentFound.FirstOrDefault().SubComponentComboBox.Where(x=>x.Title== listDamageSummary[i].Damage);
+                    var subComponentFound = componentFound.FirstOrDefault().SubComponentComboBox.Where(x => x.Title == listDamageSummary[i].Damage);
 
                     //if (subComponentFound.Any())
                     //{
@@ -85,7 +98,7 @@ namespace AutoRegularInspection.Services
                     {
                         listDamageSummary[i].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
 
-                        listDamageSummary[i].SubComponentValue = componentFound.FirstOrDefault().SubComponentComboBox.Where(x=>x.Title=="其它").FirstOrDefault().Idx;
+                        listDamageSummary[i].SubComponentValue = componentFound.FirstOrDefault().SubComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                     }
 
                 }
@@ -117,15 +130,6 @@ namespace AutoRegularInspection.Services
 
 
             }
-
-
-            //for (int i = 0; i < listDamageSummary.Count; i++)
-            //{
-            //    var img = System.Drawing.Image.FromFile($"PicturesOut/DSC00855.jpg");
-            //    var map = new System.Drawing.Bitmap(img);
-            //    listDamageSummary[i].PicturePreview= ConvertBitmap(map);
-
-            //}
         }
 
         private static void SetPictureCounts(List<DamageSummary> listDamageSummary)

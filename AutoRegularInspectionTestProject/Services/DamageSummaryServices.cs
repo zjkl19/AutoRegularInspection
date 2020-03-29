@@ -48,5 +48,27 @@ namespace AutoRegularInspectionTestProject.Services
             Assert.Equal($"_Ref1000000", bridgeDeckListDamageSummary[0].FirstPictureBookmark);
             Assert.Equal($"_Ref1000002", bridgeDeckListDamageSummary[0].LastPictureBookmark);
         }
+
+        [Fact]
+        public void SetSetComboBox_ShouldSetCorretComponentValue()
+        {
+            //Arrange
+            var bridgeDeckListDamageSummary = new List<DamageSummary>
+            {
+                new DamageSummary {
+
+                    Component="伸缩缝"
+                    ,Damage="缝内沉积物阻塞"
+                    ,PictureNo="855,858,875"
+                }
+            };
+
+
+            //Act
+
+            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+            //Assert
+            Assert.Equal(2, bridgeDeckListDamageSummary[0].ComponentValue);
+        }
     }
 }
