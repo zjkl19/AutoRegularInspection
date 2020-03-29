@@ -52,21 +52,26 @@ namespace AutoRegularInspection.Services
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                listDamageSummary[i].ComponentComboBox = new BindingList<BridgeDeck>
-                {
-                    new BridgeDeck{  Id=1,Title="桥面铺装"}
-                    ,new BridgeDeck{  Id=2,Title="其它"}
-                };
-                if (i == 0)
-                {
+                //listDamageSummary[i].ComponentComboBox = new BindingList<BridgeDeck>
+                //{
+                //    new BridgeDeck{  Id=1,Title="桥面铺装"}
+                //    ,new BridgeDeck{  Id=2,Title="其它"}
+                //};
 
-                    listDamageSummary[i].ComponentValue = 0;
-                }
-                else
+                if(GlobalData.ComponentComboBox.Where(x=>x.Title== listDamageSummary[i].Component).Any())
                 {
-
-                    listDamageSummary[i].ComponentValue = 1;
+                    listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component).FirstOrDefault().Id-1 ;
                 }
+                //if (i == 0)
+                //{
+
+                //    listDamageSummary[i].ComponentValue = 0;
+                //}
+                //else
+                //{
+
+                //    listDamageSummary[i].ComponentValue = 1;
+                //}
 
                 if (i == 0)
                 {

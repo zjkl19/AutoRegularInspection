@@ -11,11 +11,27 @@ namespace AutoRegularInspection.Models
     {
         public static BindingList<BridgeDeck> ComponentComboBox { get; } = new BindingList<BridgeDeck>() {
                     new BridgeDeck{  Id=1,Title="桥面铺装"}
-                    ,aa()
-                    ,new BridgeDeck{  Id=2,Title="其它"}
-                    
+                    ,new BridgeDeck{  Id=2,Title="桥头平顺"}
+                    ,new BridgeDeck{  Id=3,Title="伸缩缝"}
+                    ,new BridgeDeck{  Id=4,Title="排水系统"}
+                    ,new BridgeDeck{  Id=5,Title="栏杆"}
+                    ,new BridgeDeck{  Id=6,Title="护栏"}
+                    ,new BridgeDeck{  Id=7,Title="人行道块件"}
+                    ,new BridgeDeck{  Id=8,Title="其它"}
+
         };
 
+        //public static BindingList<BridgeDeck> ComponentComboBox { get; } = new BindingList<BridgeDeck>() {
+        //            new BridgeDeck{  Id=1,Title="桥面铺装"}
+        //            ,aa()
+        //            ,new BridgeDeck{  Id=2,Title="其它"}
+
+        //};
+
+        /// <summary>
+        /// 从文本文件中读取数据
+        /// </summary>
+        /// <returns></returns>
         private static BridgeDeck aa()
         {
             var strmopen = new System.IO.StreamReader("TestTxt.txt");

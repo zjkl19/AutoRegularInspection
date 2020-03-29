@@ -134,7 +134,7 @@
                                         <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.ComponentComboBox}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding ComponentValue,Mode=OneTime}"
+                                            SelectedIndex="{Binding ComponentValue}"
                                             SelectionChanged="ComboBox_SelectionChanged"
                                             />
                                     </DataTemplate>

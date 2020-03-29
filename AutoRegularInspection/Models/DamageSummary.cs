@@ -36,10 +36,21 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public BindingList<BridgeDeck> ComponentComboBox { set; get; }
 
+        private int _ComponentValue;
         /// <summary>
         /// 构件类型对应的Combobox对应的Id值
         /// </summary>
-        public int ComponentValue { set; get; }
+        public int ComponentValue
+        {
+            get { return _ComponentValue; }
+            set
+            {
+                _ComponentValue = value;
+
+                OnPropertyChanged(nameof(ComponentValue));
+            }
+        }
+
         /// <summary>
         /// 构件类型
         /// </summary>
@@ -68,16 +79,16 @@ namespace AutoRegularInspection.Models
         }
 
 
-        private string damageDescriptionInPicture { set; get; }
+        private string _DamageDescriptionInPicture { set; get; }
         /// <summary>
         /// 病害对应图片描述
         /// </summary>
         public string DamageDescriptionInPicture
         {
-            get { return damageDescriptionInPicture; }
+            get { return _DamageDescriptionInPicture; }
             set
             {
-                damageDescriptionInPicture = value;
+                _DamageDescriptionInPicture = value;
 
                 OnPropertyChanged(nameof(DamageDescriptionInPicture));
             }
