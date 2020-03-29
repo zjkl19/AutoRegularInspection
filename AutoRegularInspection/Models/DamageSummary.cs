@@ -25,18 +25,18 @@ namespace AutoRegularInspection.Models
 
 
 
-        public BindingList<BridgeDeck> TestComboBox1 { set; get; }
+        public BindingList<BridgeDeck> SubComponentComboBox { set; get; }
 
 
-        private int _TestValue1 { set; get; }
-        public int TestValue1
+        private int _SubComponentValue { set; get; }
+        public int SubComponentValue
         {
-            get { return _TestValue1; }
+            get { return _SubComponentValue; }
             set
             {
-                _TestValue1 = value;
+                _SubComponentValue = value;
 
-                OnPropertyChanged(nameof(TestValue1));
+                OnPropertyChanged(nameof(SubComponentValue));
             }
         }
         /// <summary>

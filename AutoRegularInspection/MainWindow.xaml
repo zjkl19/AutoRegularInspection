@@ -163,9 +163,9 @@
                                     <DataTemplate>
                                         <ComboBox 
                                             Name="LinkComboBox"
-                                            ItemsSource="{Binding TestComboBox1}"
+                                            ItemsSource="{Binding SubComponentComboBox}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding TestValue1}"
+                                            SelectedIndex="{Binding SubComponentValue}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

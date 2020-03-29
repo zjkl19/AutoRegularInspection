@@ -125,14 +125,12 @@ namespace AutoRegularInspection.Models
 
         public static BindingList<BridgeDeck> TestComboBox1 { get; } = new BindingList<BridgeDeck>() {
                     new BridgeDeck{  Id=1,Title="阻塞"}
-                    ,aa()
                     ,new BridgeDeck{  Id=2,Title="碎边"}
 
         };
 
         public static BindingList<BridgeDeck> TestComboBox2 { get; } = new BindingList<BridgeDeck>() {
                     new BridgeDeck{  Id=1,Title="残缺"}
-                    ,aa()
                     ,new BridgeDeck{  Id=2,Title="锈蚀"}
 
         };

@@ -77,22 +77,22 @@ namespace AutoRegularInspection.Services
                     if (subComponentFound.Any())
                     {
                         //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
-                        listDamageSummary[i].TestComboBox1 = componentFound.FirstOrDefault().SubComponentComboBox;
+                        listDamageSummary[i].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
 
-                        listDamageSummary[i].TestValue1 = subComponentFound.FirstOrDefault().Idx;
+                        listDamageSummary[i].SubComponentValue = subComponentFound.FirstOrDefault().Idx;
                     }
                     else
                     {
-                        listDamageSummary[i].TestComboBox1 = componentFound.FirstOrDefault().SubComponentComboBox;
+                        listDamageSummary[i].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
 
-                        listDamageSummary[i].TestValue1 = componentFound.FirstOrDefault().SubComponentComboBox.Where(x=>x.Title=="其它").FirstOrDefault().Idx;
+                        listDamageSummary[i].SubComponentValue = componentFound.FirstOrDefault().SubComponentComboBox.Where(x=>x.Title=="其它").FirstOrDefault().Idx;
                     }
 
                 }
                 else
                 {
 
-                    listDamageSummary[i].TestComboBox1 = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().SubComponentComboBox;
+                    listDamageSummary[i].SubComponentComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().SubComponentComboBox;
                     listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                 }
 
