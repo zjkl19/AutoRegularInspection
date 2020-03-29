@@ -10,14 +10,91 @@ namespace AutoRegularInspection.Models
     public class GlobalData
     {
         public static BindingList<BridgeDeck> ComponentComboBox { get; } = new BindingList<BridgeDeck>() {
-                    new BridgeDeck{ Idx=0, Id=1,Title="桥面铺装"}
-                    ,new BridgeDeck{ Idx=1, Id=2,Title="桥头平顺"}
-                    ,new BridgeDeck{  Idx=2,Id=3,Title="伸缩缝"}
-                    ,new BridgeDeck{  Idx=3,Id=4,Title="排水系统"}
-                    ,new BridgeDeck{  Idx=4,Id=5,Title="栏杆"}
-                    ,new BridgeDeck{  Idx=5,Id=6,Title="护栏"}
-                    ,new BridgeDeck{  Idx=6,Id=7,Title="人行道块件"}
-                    ,new BridgeDeck{  Idx=7,Id=99,Title="其它"}
+                    new BridgeDeck{ Idx=0, Id=1,Title="桥面铺装"
+                        ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="网裂"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="波浪及车辙"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="坑槽"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="碎裂"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="破碎"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="坑洞"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=8,Title="桥面贯通纵缝"}
+                            ,new BridgeDeck{ Idx=8, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{ Idx=1, Id=2,Title="桥头平顺"
+                            ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="桥头沉降"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="台背下沉"}
+                            ,new BridgeDeck{ Idx=2, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{  Idx=2,Id=3,Title="伸缩缝"
+                            ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="螺帽松动"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="缝内沉积物阻塞"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="止水带破损、老化"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="钢材料破损"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="接缝处铺装碎边"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="接缝处高差"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="钢材料翘曲变形"}
+                            ,new BridgeDeck{ Idx=7, Id=8,Title="结构缝宽异常"}
+                            ,new BridgeDeck{ Idx=8, Id=9,Title="伸缩缝处异常声响"}
+                            ,new BridgeDeck{ Idx=9, Id=99,Title="其它"}
+                        }}
+                    ,new BridgeDeck{  Idx=3,Id=4,Title="排水系统"
+                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="网裂"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="波浪及车辙"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="坑槽"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="碎裂"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="破碎"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="坑洞"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=8,Title="桥面贯通纵缝"}
+                            ,new BridgeDeck{ Idx=8, Id=99,Title="其它"}
+                        }}
+                    ,new BridgeDeck{  Idx=4,Id=5,Title="栏杆"
+                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="网裂"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="波浪及车辙"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="坑槽"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="碎裂"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="破碎"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="坑洞"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=8,Title="桥面贯通纵缝"}
+                            ,new BridgeDeck{ Idx=8, Id=99,Title="其它"}
+                        }}
+                    ,new BridgeDeck{  Idx=5,Id=6,Title="护栏"
+                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="网裂"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="波浪及车辙"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="坑槽"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="碎裂"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="破碎"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="坑洞"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=8,Title="桥面贯通纵缝"}
+                            ,new BridgeDeck{ Idx=8, Id=99,Title="其它"}
+                        }}
+                    ,new BridgeDeck{  Idx=6,Id=7,Title="人行道块件"
+                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="网裂"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="波浪及车辙"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="坑槽"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="碎裂"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="破碎"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="坑洞"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=8,Title="桥面贯通纵缝"}
+                            ,new BridgeDeck{ Idx=8, Id=99,Title="其它"}
+                        }}
+                    ,new BridgeDeck{  Idx=7,Id=99,Title="其它"
+                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=99,Title="其它"}
+                        }}
 
         };
 

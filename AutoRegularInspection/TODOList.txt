@@ -13,3 +13,4 @@
 9、DataGrid数据绑定（使用DataContext）；
 进度：正在使用INotification重构
 10、DamageSummaryServices添加单元测试；
+11、增加每日提示；

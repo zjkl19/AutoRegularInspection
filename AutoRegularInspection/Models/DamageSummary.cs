@@ -23,14 +23,22 @@ namespace AutoRegularInspection.Models
 
         public BridgeDeckEnum TestEnum { set; get; }
 
-        
+
 
         public BindingList<BridgeDeck> TestComboBox1 { set; get; }
 
-        
 
-        public int TestValue1 { set; get; }
+        private int _TestValue1 { set; get; }
+        public int TestValue1
+        {
+            get { return _TestValue1; }
+            set
+            {
+                _TestValue1 = value;
 
+                OnPropertyChanged(nameof(TestValue1));
+            }
+        }
         /// <summary>
         /// 构件类型对应的Combobox
         /// </summary>

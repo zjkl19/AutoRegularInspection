@@ -60,29 +60,60 @@ namespace AutoRegularInspection.Services
 
                 //TODO：写单元测试
                 //创建映射
-                if (GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component).Any())
+                var componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
+                if (componentFound.Any())
                 {
-                    listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component).FirstOrDefault().Idx;
-                }
+                    listDamageSummary[i].ComponentValue = componentFound.FirstOrDefault().Idx;
 
-                if (i == 0)
-                {
-                    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
+                    var subComponentFound = componentFound.FirstOrDefault().SubComponentComboBox.Where(x=>x.Title== listDamageSummary[i].Damage);
+
+                    //if (subComponentFound.Any())
+                    //{
+                    //    listDamageSummary[i].TestComboBox1 = subComponentFound.FirstOrDefault().SubComponentComboBox;
+
+                    //    listDamageSummary[i].TestValue1 = subComponentFound.FirstOrDefault().SubComponentComboBox.FirstOrDefault().Idx;
+                    //}
+
+                    if (subComponentFound.Any())
                     {
-                        new BridgeDeck{  Id=1,Title="阻塞"}
-                        ,new BridgeDeck{  Id=2,Title="碎边"}
-                    };
-                    listDamageSummary[i].TestValue1 = 0;
+                        //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
+                        listDamageSummary[i].TestComboBox1 = componentFound.FirstOrDefault().SubComponentComboBox;
+
+                        listDamageSummary[i].TestValue1 = subComponentFound.FirstOrDefault().Idx;
+                    }
+                    else
+                    {
+                        listDamageSummary[i].TestComboBox1 = componentFound.FirstOrDefault().SubComponentComboBox;
+
+                        listDamageSummary[i].TestValue1 = componentFound.FirstOrDefault().SubComponentComboBox.Where(x=>x.Title=="其它").FirstOrDefault().Idx;
+                    }
+
                 }
                 else
                 {
-                    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
-                    {
-                        new BridgeDeck{  Id=1,Title="阻塞2"}
-                        ,new BridgeDeck{  Id=2,Title="碎边2"}
-                    };
-                    listDamageSummary[i].TestValue1 = 1;
+
+                    listDamageSummary[i].TestComboBox1 = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().SubComponentComboBox;
+                    listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                 }
+
+                //if (i == 0)
+                //{
+                //    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
+                //    {
+                //        new BridgeDeck{  Id=1,Title="阻塞"}
+                //        ,new BridgeDeck{  Id=2,Title="碎边"}
+                //    };
+                //    listDamageSummary[i].TestValue1 = 0;
+                //}
+                //else
+                //{
+                //    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
+                //    {
+                //        new BridgeDeck{  Id=1,Title="阻塞2"}
+                //        ,new BridgeDeck{  Id=2,Title="碎边2"}
+                //    };
+                //    listDamageSummary[i].TestValue1 = 1;
+                //}
 
 
             }

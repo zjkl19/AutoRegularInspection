@@ -165,7 +165,7 @@
                                             Name="LinkComboBox"
                                             ItemsSource="{Binding TestComboBox1}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding TestValue1,Mode=OneTime}"
+                                            SelectedIndex="{Binding TestValue1}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

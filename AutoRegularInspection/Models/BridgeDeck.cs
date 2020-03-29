@@ -46,6 +46,8 @@ namespace AutoRegularInspection.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
             }
         }
+
+        public BindingList<BridgeDeck> SubComponentComboBox { set; get; }
     }
     
 }
