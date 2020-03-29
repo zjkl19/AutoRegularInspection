@@ -127,13 +127,14 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>-->
 
-                            <DataGridTemplateColumn Header="ComboBox" Width="Auto">
+                            <DataGridTemplateColumn Header="要素（ComboBox）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.TestComboBox}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding TestValue,Mode=OneTime}"
+                                            SelectionChanged="ComboBox_SelectionChanged"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -143,6 +144,31 @@
                                 Width="Auto"
                                 Binding="{Binding Component}"
                                 Header="要素" />
+
+                            <!--<DataGridTemplateColumn Header="缺损类型（ComboBox）" Width="Auto" x:Name="lbt">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            Name="LinkComboBox"
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.TestComboBox1}}"
+                                            DisplayMemberPath="Title"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>-->
+                            
+                            <DataGridTemplateColumn Header="缺损类型（ComboBox）" Width="Auto" x:Name="lbt">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            Name="LinkComboBox"
+                                            ItemsSource="{Binding TestComboBox1}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding TestValue1,Mode=OneTime}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
 
                             <DataGridTextColumn
                                 Width="Auto"

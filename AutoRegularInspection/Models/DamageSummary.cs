@@ -25,7 +25,11 @@ namespace AutoRegularInspection.Models
 
         public BindingList<BridgeDeck> TestComboBox { set; get; }
 
+        public BindingList<BridgeDeck> TestComboBox1 { set; get; }
+
         public int TestValue { set; get; }
+
+        public int TestValue1 { set; get; }
         /// <summary>
         /// 构件类型
         /// </summary>

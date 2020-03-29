@@ -57,7 +57,7 @@ namespace AutoRegularInspection.Services
                     new BridgeDeck{  Id=1,Title="桥面铺装"}
                     ,new BridgeDeck{  Id=2,Title="其它"}
                 };
-                if(i==0)
+                if (i == 0)
                 {
 
                     listDamageSummary[i].TestValue = 0;
@@ -67,6 +67,29 @@ namespace AutoRegularInspection.Services
 
                     listDamageSummary[i].TestValue = 1;
                 }
+
+                if (i == 0)
+                {
+
+                    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
+                {
+                    new BridgeDeck{  Id=1,Title="阻塞"}
+                    ,new BridgeDeck{  Id=2,Title="碎边"}
+                };
+                    listDamageSummary[i].TestValue1 = 0;
+                }
+                else
+                {
+
+                    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
+                {
+                    new BridgeDeck{  Id=1,Title="阻塞2"}
+                    ,new BridgeDeck{  Id=2,Title="碎边2"}
+                };
+                    listDamageSummary[i].TestValue1 = 1;
+                }
+
+
             }
 
 

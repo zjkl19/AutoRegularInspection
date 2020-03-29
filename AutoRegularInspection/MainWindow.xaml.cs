@@ -133,7 +133,7 @@ namespace AutoRegularInspection
         #endregion
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
-
+ 
             var config = XDocument.Load(@"Option.config");
             var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
             var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
@@ -282,6 +282,14 @@ namespace AutoRegularInspection
             MessageBox.Show("该功能开发中");
         }
 
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
 
+            var cb = (sender as ComboBox);
+            if (cb == null || cb.Tag == null) return;
+            int idx = int.Parse(cb.Tag.ToString());
+          
+
+        }
     }
 }
