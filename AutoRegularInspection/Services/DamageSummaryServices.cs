@@ -58,39 +58,29 @@ namespace AutoRegularInspection.Services
                 //    ,new BridgeDeck{  Id=2,Title="其它"}
                 //};
 
-                if(GlobalData.ComponentComboBox.Where(x=>x.Title== listDamageSummary[i].Component).Any())
+                //TODO：写单元测试
+                //创建映射
+                if (GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component).Any())
                 {
-                    listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component).FirstOrDefault().Id-1 ;
+                    listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component).FirstOrDefault().Idx;
                 }
-                //if (i == 0)
-                //{
-
-                //    listDamageSummary[i].ComponentValue = 0;
-                //}
-                //else
-                //{
-
-                //    listDamageSummary[i].ComponentValue = 1;
-                //}
 
                 if (i == 0)
                 {
-
                     listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
-                {
-                    new BridgeDeck{  Id=1,Title="阻塞"}
-                    ,new BridgeDeck{  Id=2,Title="碎边"}
-                };
+                    {
+                        new BridgeDeck{  Id=1,Title="阻塞"}
+                        ,new BridgeDeck{  Id=2,Title="碎边"}
+                    };
                     listDamageSummary[i].TestValue1 = 0;
                 }
                 else
                 {
-
                     listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
-                {
-                    new BridgeDeck{  Id=1,Title="阻塞2"}
-                    ,new BridgeDeck{  Id=2,Title="碎边2"}
-                };
+                    {
+                        new BridgeDeck{  Id=1,Title="阻塞2"}
+                        ,new BridgeDeck{  Id=2,Title="碎边2"}
+                    };
                     listDamageSummary[i].TestValue1 = 1;
                 }
 

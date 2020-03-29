@@ -10,14 +10,14 @@ namespace AutoRegularInspection.Models
     public class GlobalData
     {
         public static BindingList<BridgeDeck> ComponentComboBox { get; } = new BindingList<BridgeDeck>() {
-                    new BridgeDeck{  Id=1,Title="桥面铺装"}
-                    ,new BridgeDeck{  Id=2,Title="桥头平顺"}
-                    ,new BridgeDeck{  Id=3,Title="伸缩缝"}
-                    ,new BridgeDeck{  Id=4,Title="排水系统"}
-                    ,new BridgeDeck{  Id=5,Title="栏杆"}
-                    ,new BridgeDeck{  Id=6,Title="护栏"}
-                    ,new BridgeDeck{  Id=7,Title="人行道块件"}
-                    ,new BridgeDeck{  Id=8,Title="其它"}
+                    new BridgeDeck{ Idx=0, Id=1,Title="桥面铺装"}
+                    ,new BridgeDeck{ Idx=1, Id=2,Title="桥头平顺"}
+                    ,new BridgeDeck{  Idx=2,Id=3,Title="伸缩缝"}
+                    ,new BridgeDeck{  Idx=3,Id=4,Title="排水系统"}
+                    ,new BridgeDeck{  Idx=4,Id=5,Title="栏杆"}
+                    ,new BridgeDeck{  Idx=5,Id=6,Title="护栏"}
+                    ,new BridgeDeck{  Idx=6,Id=7,Title="人行道块件"}
+                    ,new BridgeDeck{  Idx=7,Id=99,Title="其它"}
 
         };
 
