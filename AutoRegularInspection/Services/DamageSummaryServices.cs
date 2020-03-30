@@ -12,7 +12,7 @@ namespace AutoRegularInspection.Services
     /// <summary>
     /// 对List<DamageSummary>数据进行初始化、预处理
     /// </summary>
-    public class DamageSummaryServices
+    public static class DamageSummaryServices
     {
         /// <summary>
         /// 初始化病害汇总列表
@@ -37,32 +37,6 @@ namespace AutoRegularInspection.Services
 
         private static void SetComboBox(List<DamageSummary> listDamageSummary)
         {
-            for (int i = 0; i < listDamageSummary.Count; i++)
-            {
-
-                //foreach (int v in Enum.GetValues(typeof(BridgeDeckEnum)))
-                //{
-                //    if (EnumHelper.GetEnumDesc((BridgeDeckEnum)v).ToString() == listDamageSummary[i].Component)
-                //    {
-                //        listDamageSummary[i].TestEnum = (BridgeDeckEnum)v;
-                //        break;
-                //    }
-                //    else
-                //    {
-                //        listDamageSummary[i].TestEnum = BridgeDeckEnum.Others;
-                //    }
-                //}
-
-                //if (listDamageSummary[i].Component=="伸缩缝")
-                //{
-                //    listDamageSummary[i].TestEnum = BridgePart.BridgeDeck;
-                //}
-                //else
-                //{
-                //    listDamageSummary[i].TestEnum = BridgePart.SubSpace;
-                //}
-            }
-
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 //listDamageSummary[i].ComponentComboBox = new BindingList<BridgeDeck>
@@ -109,26 +83,6 @@ namespace AutoRegularInspection.Services
                     listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                 }
 
-                //if (i == 0)
-                //{
-                //    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
-                //    {
-                //        new BridgeDeck{  Id=1,Title="阻塞"}
-                //        ,new BridgeDeck{  Id=2,Title="碎边"}
-                //    };
-                //    listDamageSummary[i].TestValue1 = 0;
-                //}
-                //else
-                //{
-                //    listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>
-                //    {
-                //        new BridgeDeck{  Id=1,Title="阻塞2"}
-                //        ,new BridgeDeck{  Id=2,Title="碎边2"}
-                //    };
-                //    listDamageSummary[i].TestValue1 = 1;
-                //}
-
-
             }
         }
 
@@ -161,7 +115,7 @@ namespace AutoRegularInspection.Services
             }
         }
 
-        public System.Windows.Media.Imaging.BitmapImage ConvertBitmap(System.Drawing.Bitmap bitmap)
+        public static System.Windows.Media.Imaging.BitmapImage ConvertBitmap(System.Drawing.Bitmap bitmap)
         {
             var ms = new MemoryStream();
             bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);

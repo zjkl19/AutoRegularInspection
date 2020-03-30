@@ -9,6 +9,19 @@ namespace AutoRegularInspection.Models
 {
     public class BridgeDeck : INotifyPropertyChanged
     {
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="Idx">索引</param>
+        /// <param name="Id">Id</param>
+        /// <param name="Title">标题</param>
+        //public BridgeDeck(int Idx, int Id,string Title)
+        //{
+        //    _Idx = Idx;
+        //    _Id = Id;
+        //    _Title = Title;
+        //}
+
         public event PropertyChangedEventHandler PropertyChanged;
         /// <summary>
         /// 实际为Index（命名为Idx防止和关键字重名）

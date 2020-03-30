@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using System.Linq;
 
 namespace AutoRegularInspectionTestProject.Services
 {
@@ -50,7 +51,7 @@ namespace AutoRegularInspectionTestProject.Services
         }
 
         [Fact]
-        public void SetSetComboBox_ShouldSetCorretComponentValue()
+        public void SetComboBox_ShouldSetCorretComponentValue()
         {
             //Arrange
             var bridgeDeckListDamageSummary = new List<DamageSummary>
@@ -63,12 +64,60 @@ namespace AutoRegularInspectionTestProject.Services
                 }
             };
 
-
             //Act
 
             AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
             //Assert
             Assert.Equal(2, bridgeDeckListDamageSummary[0].ComponentValue);
+        }
+        /// <summary>
+        /// WhileSubComponentFound指的是在非“其它”的“枚举”中找到
+        /// </summary>
+        [Fact]
+        public void SetComboBox_ShouldSetCorrectSubComponentAndSubComponentValue_WhileSubComponentFound()
+        {
+            //Arrange
+            var bridgeDeckListDamageSummary = new List<DamageSummary>
+            {
+                new DamageSummary {
+
+                    Component="伸缩缝"
+                    ,Damage="缝内沉积物阻塞"
+                    ,PictureNo="855,858,875"
+                }
+            };
+
+            //Act
+
+            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+            //Assert
+            Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].SubComponentComboBox[0].Title);
+            Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].SubComponentComboBox[1].Title);
+            Assert.Equal(1, bridgeDeckListDamageSummary[0].SubComponentValue);
+        }
+
+  
+        [Fact]
+        public void SetComboBox_ShouldSetCorrectSubComponentAndSubComponentValue_WhileSubComponentNotFound()
+        {
+            //Arrange
+            var bridgeDeckListDamageSummary = new List<DamageSummary>
+            {
+                new DamageSummary {
+
+                    Component="伸缩缝"
+                    ,Damage="其它病害"
+                    ,PictureNo="855,858,875"
+                }
+            };
+
+            //Act
+
+            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+            //Assert
+            Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].SubComponentComboBox[0].Title);
+            Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].SubComponentComboBox[1].Title);
+            Assert.Equal(10, bridgeDeckListDamageSummary[0].SubComponentValue);
         }
     }
 }
