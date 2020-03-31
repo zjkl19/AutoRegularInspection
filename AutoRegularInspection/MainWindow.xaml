@@ -9,6 +9,7 @@
         Title="外观检查自动报告" Height="450" Width="1000">
     <Window.Resources>
         <local:EnumConverter x:Key="eConverter"/>
+        <local:ComponentValueConverter x:Key="cConverter"/>
     </Window.Resources>
     
     <Grid>
@@ -128,7 +129,7 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>-->
 
-                            <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
+                            <!--<DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
@@ -136,6 +137,20 @@
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding ComponentValue}"
                                             SelectionChanged="ComboBox_SelectionChanged"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>-->
+
+                            <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.ComponentComboBox}}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay}"
+                                            SelectedValuePath = "Idx"
+                                            DropDownClosed="ComboBox_DropDownClosed"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -163,9 +178,10 @@
                                     <DataTemplate>
                                         <ComboBox 
                                             Name="LinkComboBox"
-                                            ItemsSource="{Binding SubComponentComboBox}"
+                                            ItemsSource="{Binding SubComponentComboBox,Mode=TwoWay}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding SubComponentValue}"
+                                            SelectedIndex="{Binding SubComponentValue,Mode=TwoWay,Converter={StaticResource cConverter}}"
+                                            DropDownClosed="SubComboBox_DropDownClosed"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

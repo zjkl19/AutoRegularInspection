@@ -284,22 +284,182 @@ namespace AutoRegularInspection
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ComboBox curComboBox = sender as ComboBox;
 
-            var cb = (sender as ComboBox);
-            if (cb == null || cb.Tag == null) return;
-            int idx = int.Parse(cb.Tag.ToString());
-          
+            
+            int rowIndex=0;
+            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            if (_cells.Any())
+            {
+
+                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+                //columnIndex = _cells.First().Column.DisplayIndex;
+                
+            }
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+
+            var componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
+            if (componentFound.Any())
+            {
+                //_bridgeDeckListDamageSummary[rowIndex].ComponentValue = componentFound.FirstOrDefault().Idx;
+
+                var subComponentFound = componentFound.FirstOrDefault().SubComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Damage);
+
+
+                //if (subComponentFound.Any())
+                //{
+                //    //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
+                //    _bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
+
+                //    _bridgeDeckListDamageSummary[rowIndex].SubComponentValue = subComponentFound.FirstOrDefault().Idx;
+                //}
+                //else
+                //{
+                    _bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
+
+                    _bridgeDeckListDamageSummary[rowIndex].SubComponentValue = componentFound.FirstOrDefault().SubComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+                //}
+
+            }
+            else
+            {
+
+                _bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().SubComponentComboBox;
+                _bridgeDeckListDamageSummary[rowIndex].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+            }
+
+            //MessageBox.Show(rowIndex.ToString());
+
+
+            //var cb = (sender as ComboBox);
+            //if (cb == null || cb.Tag == null) return;
+            //int idx = int.Parse(cb.Tag.ToString());
+
+            //试试UpdateSourceTrigger??
+            //试试Trigger??
+
+            //var curComboBox = sender as ComboBox;
+            ////为下拉控件绑定数据源，并选择原选项为默认选项
+            //string text = curComboBox.Text;
+            ////去除重复项查找，跟数据库连接时可以让数据库来实现
+            //var query = GlobalData.ComponentComboBox.Select(p => new { Province = p.FirstOrDefault().Province });
+            //int itemcount = 0;
+            //curComboBox.SelectedIndex = itemcount;
+            //foreach (var item in query.ToList())
+            //{
+            //    if (item.Province == text)
+            //    {
+            //        curComboBox.SelectedIndex = itemcount;
+            //        break;
+            //    }
+            //    itemcount++;
+            //}
+            //curComboBox.ItemsSource = query;
+            //curComboBox.IsDropDownOpen = true;//获得焦点后下拉
+
+        }
+        private void ComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            ComboBox curComboBox = sender as ComboBox;
+
+
+            int rowIndex = 0;
+            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            if (_cells.Any())
+            {
+
+                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+                //columnIndex = _cells.First().Column.DisplayIndex;
+
+            }
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+            var m=curComboBox.SelectedIndex;
+            var componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
+            var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
+            
+            if(componentFound.Title != componentFoundBefore.Title)
+            {
+                _bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox = componentFound.SubComponentComboBox;
+
+                _bridgeDeckListDamageSummary[rowIndex].SubComponentValue = 0;
+                //if (componentFound.Title != "其它")
+                //{
+                //    //_bridgeDeckListDamageSummary[rowIndex].ComponentValue = componentFound.FirstOrDefault().Idx;
+
+                    
+                    
+
+                //    var subComponentFound = componentFound.SubComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Damage);
+
+
+                //    //if (subComponentFound.Any())
+                //    //{
+                //    //    //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
+                //    //    _bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
+
+                //    //    _bridgeDeckListDamageSummary[rowIndex].SubComponentValue = subComponentFound.FirstOrDefault().Idx;
+                //    //}
+                //    //else
+                //    //{
+
+                //    if (_bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox != componentFound.SubComponentComboBox)
+                //    {
+                //        _bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox = componentFound.SubComponentComboBox;
+
+                //        _bridgeDeckListDamageSummary[rowIndex].SubComponentValue = componentFound.SubComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+                //    }
+
+                //    //}
+
+                //}
+                //else
+                //{
+
+                //    _bridgeDeckListDamageSummary[rowIndex].SubComponentComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().SubComponentComboBox;
+                //    _bridgeDeckListDamageSummary[rowIndex].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+                //}
+            }
+            
 
         }
 
+        private void SubComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            ComboBox curComboBox = sender as ComboBox;
+
+
+            int rowIndex = 0;
+            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            if (_cells.Any())
+            {
+
+                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+                //columnIndex = _cells.First().Column.DisplayIndex;
+
+            }
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+            var m = curComboBox.SelectedIndex;
+            //var componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
+            //var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
+
+
+            _bridgeDeckListDamageSummary[rowIndex].SubComponentValue = curComboBox.SelectedIndex;
+ 
+
+
+        }
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
             //_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
 
+            //_bridgeDeckListDamageSummary[2].SubComponentComboBox = GlobalData.ComponentComboBox[5].SubComponentComboBox;
+            //_bridgeDeckListDamageSummary[2].SubComponentValue = 2;
+            //MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
 
-           _bridgeDeckListDamageSummary[0].ComponentValue = 1;
-
+            MessageBox.Show(_bridgeDeckListDamageSummary[2].SubComponentValue.ToString());
         }
+
+
     }
 }

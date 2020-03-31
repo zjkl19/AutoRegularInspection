@@ -13,4 +13,6 @@
 9、DataGrid数据绑定（使用DataContext）；
 进度：正在使用INotification重构
 10、DamageSummaryServices添加单元测试；
+进度：已添加大部分
 11、增加每日提示；
+12、SaveExcel升级（由于视图增加了枚举功能）

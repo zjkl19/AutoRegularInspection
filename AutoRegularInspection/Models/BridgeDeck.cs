@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -60,7 +61,17 @@ namespace AutoRegularInspection.Models
             }
         }
 
-        public BindingList<BridgeDeck> SubComponentComboBox { set; get; }
+        private BindingList<BridgeDeck>  _SubComponentComboBox;
+        public BindingList<BridgeDeck> SubComponentComboBox
+        {
+            get { return _SubComponentComboBox; }
+            set
+            {
+                _SubComponentComboBox = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubComponentComboBox)));
+            }
+        }
+        //public BindingList<BridgeDeck> SubComponentComboBox { set; get; }
     }
     
 }
