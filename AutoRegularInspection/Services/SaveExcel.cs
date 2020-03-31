@@ -55,7 +55,15 @@ namespace AutoRegularInspection.Services
                     {
                         worksheet.Cells[i + 2, 1].Value = i + 1;
                         worksheet.Cells[i + 2, 2].Value = bridgeDeckListDamageSummary[i].Position;
-                        worksheet.Cells[i + 2, 3].Value = bridgeDeckListDamageSummary[i].Component;
+                        if(GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].Title != "其它")
+                        {
+                            worksheet.Cells[i + 2, 3].Value = GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].Title;
+                        }
+                        else    //TODO:考虑"其它"输入为空的情况
+                        {
+                            worksheet.Cells[i + 2, 3].Value = bridgeDeckListDamageSummary[i].Component;
+                        }
+
                         worksheet.Cells[i + 2, 4].Value = bridgeDeckListDamageSummary[i].Damage;
                         worksheet.Cells[i + 2, 5].Value = bridgeDeckListDamageSummary[i].DamageDescription;
                         worksheet.Cells[i + 2, 6].Value = bridgeDeckListDamageSummary[i].DamageDescriptionInPicture;
@@ -118,6 +126,26 @@ namespace AutoRegularInspection.Services
                 return 0;
             }
 
+        }
+
+        /// <summary>
+        /// 通过名称查找列索引
+        /// </summary>
+        /// <param name="workSheet">工作簿项目URL:https://epplussoftware.com/<
+        /// <param name="keyWord">查找关键字
+        /// <param name="maxSearchColumnCounts">最大查找列数，默认为100</param>
+        /// <returns>找到则返回正确的列数（索引从1开始），否则返回0</returns>
+        public static int FindColumnIndexByName(ExcelWorksheet workSheet,string keyWord,int maxSearchColumnCounts=100)
+        {
+            for(int i=1;i<maxSearchColumnCounts;i++)
+            {
+                if((workSheet.Cells[1, i].Value?.ToString() ?? string.Empty)  == keyWord)
+                {
+                    return i;
+                }
+            }
+
+            return 0;
         }
     }
 }
