@@ -19,7 +19,7 @@ namespace AutoRegularInspection.Services
         /// <returns>1表示返回成功，0表示返回失败</returns>
         public static int SaveExcel(List<DamageSummary> bridgeDeckListDamageSummary
             , List<DamageSummary> superSpaceListDamageSummary
-            , List<DamageSummary> subSpaceListDamageSummary)
+            , List<DamageSummary> subSpaceListDamageSummary,string saveFileName="外观检查.xlsx")
         {
             string tempFileName = "temp外观检查.xlsx";
 
@@ -124,7 +124,7 @@ namespace AutoRegularInspection.Services
 
                     excelPackage.Save();
                 }
-                File.Copy(tempFileName, "外观检查.xlsx",true);
+                File.Copy(tempFileName, saveFileName, true);
                 File.Delete(tempFileName);
                 return 1;
             }

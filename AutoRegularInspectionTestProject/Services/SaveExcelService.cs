@@ -16,7 +16,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void SaveExcel_ShouldSaveVarInExcel()
         {
             //Arrange
-            string FileName = "外观检查.xlsx";
+            string saveFileName = "外观检查_ShouldSaveVarInExcel.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary { 
@@ -53,9 +53,9 @@ namespace AutoRegularInspectionTestProject.Services
             string expectedDamageInSubStructure = "水蚀"; string acturalDamageInSubStructure = string.Empty;
             //Act
 
-            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary);
+            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary, saveFileName);
 
-            var file = new FileInfo(FileName);
+            var file = new FileInfo(saveFileName);
 
             using (var excelPackage = new ExcelPackage(file))
             {
@@ -86,7 +86,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void SaveExcel_ShouldSaveCorrectComponentInExcel_WhileComponentIsNotOthers()
         {
             //Arrange
-            string FileName = "外观检查.xlsx";
+            string saveFileName = "外观检查_ShouldSaveCorrectComponentInExcel.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary {
@@ -120,9 +120,9 @@ namespace AutoRegularInspectionTestProject.Services
             string expectedComponent = "伸缩缝"; string acturalComponent = string.Empty;
             //Act
 
-            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary);
+            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary, saveFileName);
 
-            var file = new FileInfo(FileName);
+            var file = new FileInfo(saveFileName);
 
             using (var excelPackage = new ExcelPackage(file))
             {
@@ -134,7 +134,10 @@ namespace AutoRegularInspectionTestProject.Services
 
                 worksheet = excelPackage.Workbook.Worksheets["下部结构"];
             }
-
+            if (File.Exists(saveFileName))
+            {
+                File.Delete(saveFileName);
+            }
             //Assert
             //桥面系
             Assert.Equal(expectedComponent, acturalComponent);
@@ -144,7 +147,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void SaveExcel_ShouldSaveCorrectComponentInExcel_WhileComponentIsOthers()
         {
             //Arrange
-            string FileName = "外观检查.xlsx";
+            string saveFileName = "外观检查_ShouldSaveCorrectComponentInExcel.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary {
@@ -178,9 +181,9 @@ namespace AutoRegularInspectionTestProject.Services
             string expectedComponent = "其它部件"; string acturalComponent = string.Empty;
             //Act
 
-            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary);
+            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary, saveFileName);
 
-            var file = new FileInfo(FileName);
+            var file = new FileInfo(saveFileName);
 
             using (var excelPackage = new ExcelPackage(file))
             {
@@ -189,7 +192,10 @@ namespace AutoRegularInspectionTestProject.Services
                 var worksheet = excelPackage.Workbook.Worksheets["桥面系"];
                 acturalComponent = worksheet.Cells[2, 3].Value?.ToString() ?? string.Empty;
             }
-
+            if (File.Exists(saveFileName))
+            {
+                File.Delete(saveFileName);
+            }
             //Assert
             //桥面系
             Assert.Equal(expectedComponent, acturalComponent);
@@ -199,7 +205,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void SaveExcel_ShouldSaveCorrectSubComponentInExcel_WhileSubComponentIsNotOthers()
         {
             //Arrange
-            string FileName = "外观检查.xlsx";
+            string saveFileName = "外观检查_ShouldSaveCorrectSubComponentInExcel.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary {
@@ -234,9 +240,9 @@ namespace AutoRegularInspectionTestProject.Services
             string expectedDamage = "缝内沉积物阻塞"; string acturalDamage = string.Empty;
             //Act
 
-            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary);
+            SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary, saveFileName);
 
-            var file = new FileInfo(FileName);
+            var file = new FileInfo(saveFileName);
 
             using (var excelPackage = new ExcelPackage(file))
             {
@@ -249,6 +255,11 @@ namespace AutoRegularInspectionTestProject.Services
                 worksheet = excelPackage.Workbook.Worksheets["下部结构"];
             }
 
+
+            if (File.Exists(saveFileName))
+            {
+                File.Delete(saveFileName);
+            }
             //Assert
             //桥面系
             Assert.Equal(expectedDamage, acturalDamage);
@@ -259,7 +270,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void FindColumnIndexByName_ShouldReturnCorrectColumnIndex_WhileColumnExists()
         {
             //Arrange
-            string fileName = "列索引测试1.xlsx";
+            string fileName = "列索引测试_ShouldReturnCorrectColumnIndex.xlsx";
 
             //删除干扰文件
             if (File.Exists(fileName))
@@ -307,7 +318,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void FindColumnIndexByName_ShouldReturnZeroColumnIndex_WhileColumnNotExists()
         {
             //Arrange
-            string fileName = "列索引测试2.xlsx";
+            string fileName = "列索引测试_ShouldReturnZeroColumnIndex.xlsx";
 
             //删除干扰文件
             if (File.Exists(fileName))
