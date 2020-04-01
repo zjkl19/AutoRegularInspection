@@ -15,13 +15,16 @@ namespace AutoRegularInspectionTestProject.Services
         [Fact]
         public void SaveExcel_ShouldSaveVarInExcel()
         {
+            //GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].DamageComboBox[bridgeDeckListDamageSummary[i].DamageValue].Title
             //Arrange
             string saveFileName = "外观检查_ShouldSaveVarInExcel.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
-                new DamageSummary { 
+                new DamageSummary {
                     Position = "第1跨"
+                    , ComponentValue=GlobalData.ComponentComboBox.Where(x=>x.Title=="伸缩缝").FirstOrDefault().Idx
                     , Component = string.Empty
+                    ,DamageValue=GlobalData.ComponentComboBox.Where(x=>x.Title=="伸缩缝").FirstOrDefault().DamageComboBox.Where(p=>p.Title=="缝内沉积物阻塞").FirstOrDefault().Idx    //若节约时间不写复杂表达式，直接填1（仅对本次测试有效）
                     ,Damage="缝内沉积物阻塞"
                     ,DamageDescription="左幅0#伸缩缝沉积物阻塞"
                 }
@@ -61,8 +64,8 @@ namespace AutoRegularInspectionTestProject.Services
             {
                 // 检查"桥面系"Worksheets
                 var worksheet = excelPackage.Workbook.Worksheets["桥面系"];
-                acturalDamage = worksheet.Cells[2, 4].Value?.ToString() ?? string.Empty;
-                acturalDamageDescription = worksheet.Cells[2, 5].Value?.ToString() ?? string.Empty;
+                acturalDamage = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
+                acturalDamageDescription = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损描述")].Value?.ToString() ?? string.Empty;
                 // 检查"上部结构"Worksheets
                 worksheet = excelPackage.Workbook.Worksheets["上部结构"];
                 acturalDamageInSuperStructure = worksheet.Cells[2, 4].Value?.ToString() ?? string.Empty;
@@ -202,17 +205,17 @@ namespace AutoRegularInspectionTestProject.Services
         }
 
         [Fact]
-        public void SaveExcel_ShouldSaveCorrectSubComponentInExcel_WhileSubComponentIsNotOthers()
+        public void SaveExcel_ShouldSaveCorrectDamageInExcel_WhileDamageIsNotOthers()
         {
             //Arrange
-            string saveFileName = "外观检查_ShouldSaveCorrectSubComponentInExcel.xlsx";
+            string saveFileName = "外观检查_ShouldSaveCorrectDamageInExcel.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary {
                     Position = "第1跨"
                     ,ComponentValue=2    //"伸缩缝"
                     , Component = string.Empty
-                    ,SubComponentValue=1
+                    ,DamageValue=1
                     ,Damage="缝内沉积物阻塞"
                     ,DamageDescription="左幅0#伸缩缝沉积物阻塞"
                 }

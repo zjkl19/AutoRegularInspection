@@ -25,26 +25,26 @@ namespace AutoRegularInspection.Models
 
 
 
-        private BindingList<BridgeDeck> _SubComponentComboBox;
+        private BindingList<BridgeDeck> _DamageComboBox;
 
-        public BindingList<BridgeDeck> SubComponentComboBox
+        public BindingList<BridgeDeck> DamageComboBox
         {
-            get { return _SubComponentComboBox; }
+            get { return _DamageComboBox; }
             set
             {
-                _SubComponentComboBox = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubComponentComboBox)));
+                _DamageComboBox = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DamageComboBox)));
             }
         }
-        private int _SubComponentValue { set; get; }
-        public int SubComponentValue
+        private int _DamageValue { set; get; }
+        public int DamageValue
         {
-            get { return _SubComponentValue; }
+            get { return _DamageValue; }
             set
             {
-                _SubComponentValue = value;
+                _DamageValue = value;
 
-                OnPropertyChanged(nameof(SubComponentValue));
+                OnPropertyChanged(nameof(DamageValue));
             }
         }
         /// <summary>

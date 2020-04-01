@@ -178,9 +178,9 @@
                                     <DataTemplate>
                                         <ComboBox 
                                             Name="LinkComboBox"
-                                            ItemsSource="{Binding SubComponentComboBox,Mode=TwoWay}"
+                                            ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding SubComponentValue,Mode=TwoWay,Converter={StaticResource cConverter}}"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter}}"
                                             DropDownClosed="SubComboBox_DropDownClosed"
                                             />
                                     </DataTemplate>

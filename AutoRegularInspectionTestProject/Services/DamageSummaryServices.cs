@@ -71,10 +71,10 @@ namespace AutoRegularInspectionTestProject.Services
             Assert.Equal(2, bridgeDeckListDamageSummary[0].ComponentValue);
         }
         /// <summary>
-        /// WhileSubComponentFound指的是在非“其它”的“枚举”中找到
+        /// WhileDamageFound指的是在非“其它”的“枚举”中找到
         /// </summary>
         [Fact]
-        public void SetComboBox_ShouldSetCorrectSubComponentAndSubComponentValue_WhileSubComponentFound()
+        public void SetComboBox_ShouldSetCorrectDamageAndDamageValue_WhileDamageFound()
         {
             //Arrange
             var bridgeDeckListDamageSummary = new List<DamageSummary>
@@ -91,14 +91,14 @@ namespace AutoRegularInspectionTestProject.Services
 
             AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
             //Assert
-            Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].SubComponentComboBox[0].Title);
-            Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].SubComponentComboBox[1].Title);
-            Assert.Equal(1, bridgeDeckListDamageSummary[0].SubComponentValue);
+            Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].DamageComboBox[0].Title);
+            Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].DamageComboBox[1].Title);
+            Assert.Equal(1, bridgeDeckListDamageSummary[0].DamageValue);
         }
 
   
         [Fact]
-        public void SetComboBox_ShouldSetCorrectSubComponentAndSubComponentValue_WhileSubComponentNotFound()
+        public void SetComboBox_ShouldSetCorrectDamageAndDamageValue_WhileDamageNotFound()
         {
             //Arrange
             var bridgeDeckListDamageSummary = new List<DamageSummary>
@@ -115,9 +115,9 @@ namespace AutoRegularInspectionTestProject.Services
 
             AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
             //Assert
-            Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].SubComponentComboBox[0].Title);
-            Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].SubComponentComboBox[1].Title);
-            Assert.Equal(10, bridgeDeckListDamageSummary[0].SubComponentValue);
+            Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].DamageComboBox[0].Title);
+            Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].DamageComboBox[1].Title);
+            Assert.Equal(10, bridgeDeckListDamageSummary[0].DamageValue);
         }
     }
 }

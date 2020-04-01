@@ -52,34 +52,34 @@ namespace AutoRegularInspection.Services
                 {
                     listDamageSummary[i].ComponentValue = componentFound.FirstOrDefault().Idx;
 
-                    var subComponentFound = componentFound.FirstOrDefault().SubComponentComboBox.Where(x => x.Title == listDamageSummary[i].Damage);
+                    var subComponentFound = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == listDamageSummary[i].Damage);
 
                     //if (subComponentFound.Any())
                     //{
-                    //    listDamageSummary[i].TestComboBox1 = subComponentFound.FirstOrDefault().SubComponentComboBox;
+                    //    listDamageSummary[i].TestComboBox1 = subComponentFound.FirstOrDefault().DamageComboBox;
 
-                    //    listDamageSummary[i].TestValue1 = subComponentFound.FirstOrDefault().SubComponentComboBox.FirstOrDefault().Idx;
+                    //    listDamageSummary[i].TestValue1 = subComponentFound.FirstOrDefault().DamageComboBox.FirstOrDefault().Idx;
                     //}
 
                     if (subComponentFound.Any())
                     {
                         //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
-                        listDamageSummary[i].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
+                        listDamageSummary[i].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
-                        listDamageSummary[i].SubComponentValue = subComponentFound.FirstOrDefault().Idx;
+                        listDamageSummary[i].DamageValue = subComponentFound.FirstOrDefault().Idx;
                     }
                     else
                     {
-                        listDamageSummary[i].SubComponentComboBox = componentFound.FirstOrDefault().SubComponentComboBox;
+                        listDamageSummary[i].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
-                        listDamageSummary[i].SubComponentValue = componentFound.FirstOrDefault().SubComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+                        listDamageSummary[i].DamageValue = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                     }
 
                 }
                 else
                 {
 
-                    listDamageSummary[i].SubComponentComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().SubComponentComboBox;
+                    listDamageSummary[i].DamageComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
                     listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                 }
 

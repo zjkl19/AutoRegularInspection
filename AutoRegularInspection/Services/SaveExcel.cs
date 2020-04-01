@@ -64,9 +64,9 @@ namespace AutoRegularInspection.Services
                             worksheet.Cells[i + 2, 3].Value = bridgeDeckListDamageSummary[i].Component;
                         }
 
-                        if (GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].SubComponentComboBox[bridgeDeckListDamageSummary[i].SubComponentValue].Title != "其它")
+                        if (GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].DamageComboBox[bridgeDeckListDamageSummary[i].DamageValue].Title != "其它")
                         {
-                            worksheet.Cells[i + 2, 4].Value = GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].SubComponentComboBox[bridgeDeckListDamageSummary[i].SubComponentValue].Title;
+                            worksheet.Cells[i + 2, 4].Value = GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].DamageComboBox[bridgeDeckListDamageSummary[i].DamageValue].Title;
                         }
                         else    //TODO:考虑"其它"输入为空的情况
                         {

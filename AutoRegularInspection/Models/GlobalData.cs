@@ -11,7 +11,7 @@ namespace AutoRegularInspection.Models
     {
         public static BindingList<BridgeDeck> ComponentComboBox { get; } = new BindingList<BridgeDeck>() {
                     new BridgeDeck{ Idx=0, Id=1,Title="桥面铺装"
-                        ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                        ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=1,Title="网裂"}
                             ,new BridgeDeck{ Idx=1, Id=2,Title="龟裂"}
                             ,new BridgeDeck{ Idx=2, Id=3,Title="波浪"}
@@ -26,14 +26,14 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDeck{ Idx=1, Id=2,Title="桥头平顺"
-                            ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=1,Title="桥头沉降"}
                             ,new BridgeDeck{ Idx=1, Id=2,Title="台背下沉"}
                             ,new BridgeDeck{ Idx=2, Id=99,Title="其它"}
                         }
                     }
                     ,new BridgeDeck{  Idx=2,Id=3,Title="伸缩缝"
-                            ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=1,Title="螺帽松动"}
                             ,new BridgeDeck{ Idx=1, Id=2,Title="缝内沉积物阻塞"}
                             ,new BridgeDeck{ Idx=2, Id=3,Title="止水带破损"}
@@ -47,7 +47,7 @@ namespace AutoRegularInspection.Models
                             ,new BridgeDeck{ Idx=10, Id=99,Title="其它"}
                         }}
                     ,new BridgeDeck{  Idx=3,Id=4,Title="排水系统"
-                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                    ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=1,Title="泄水管阻塞"}
                             ,new BridgeDeck{ Idx=1, Id=2,Title="残缺脱落"}
                             ,new BridgeDeck{ Idx=2, Id=3,Title="桥面积水"}
@@ -55,28 +55,28 @@ namespace AutoRegularInspection.Models
                             ,new BridgeDeck{ Idx=4, Id=99,Title="其它"}
                         }}
                     ,new BridgeDeck{  Idx=4,Id=5,Title="栏杆"
-                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                    ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=1,Title="露筋锈蚀"}
                             ,new BridgeDeck{ Idx=1, Id=2,Title="松动错位"}
                             ,new BridgeDeck{ Idx=2, Id=3,Title="丢失残缺"}
                             ,new BridgeDeck{ Idx=3, Id=99,Title="其它"}
                         }}
                     ,new BridgeDeck{  Idx=5,Id=6,Title="护栏"
-                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                    ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=1,Title="露筋锈蚀"}
                             ,new BridgeDeck{ Idx=1, Id=2,Title="松动错位"}
                             ,new BridgeDeck{ Idx=2, Id=3,Title="丢失残缺"}
                             ,new BridgeDeck{ Idx=3, Id=99,Title="其它"}
                         }}
                     ,new BridgeDeck{  Idx=6,Id=7,Title="人行道块件"
-                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                    ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=1,Title="网裂"}
                             ,new BridgeDeck{ Idx=1, Id=2,Title="松动或变形"}
                             ,new BridgeDeck{ Idx=2, Id=3,Title="残缺"}
                             ,new BridgeDeck{ Idx=3, Id=99,Title="其它"}
                         }}
                     ,new BridgeDeck{  Idx=7,Id=99,Title="其它"
-                    ,SubComponentComboBox=new BindingList<BridgeDeck>() {
+                    ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=99,Title="其它"}
                         }}
 
