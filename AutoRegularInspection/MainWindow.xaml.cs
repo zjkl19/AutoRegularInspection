@@ -423,7 +423,7 @@ namespace AutoRegularInspection
 
         }
 
-        private void SubComboBox_DropDownClosed(object sender, EventArgs e)
+        private void DamageComboBox_DropDownClosed(object sender, EventArgs e)
         {
             ComboBox curComboBox = sender as ComboBox;
 

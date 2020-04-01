@@ -173,15 +173,14 @@
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>-->
                             
-                            <DataGridTemplateColumn Header="缺损类型（ComboBox）" Width="Auto" x:Name="lbt">
+                            <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
-                                            Name="LinkComboBox"
                                             ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter}}"
-                                            DropDownClosed="SubComboBox_DropDownClosed"
+                                            DropDownClosed="DamageComboBox_DropDownClosed"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

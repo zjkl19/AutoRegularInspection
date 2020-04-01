@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using System.Linq;
+using AutoRegularInspection.Services;
 
 namespace AutoRegularInspectionTestProject.Services
 {
-    public class DamageSummaryServices
+    public class DamageSummaryServicesTests
     {
         [Fact]
         public void SetPictureCounts_ShouldSetCorretPictureCounts()
@@ -22,7 +23,7 @@ namespace AutoRegularInspectionTestProject.Services
 
             //Act
 
-            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+            DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
 
             //Assert
             Assert.Equal(3, bridgeDeckListDamageSummary[0].PictureCounts);
@@ -66,7 +67,7 @@ namespace AutoRegularInspectionTestProject.Services
 
             //Act
 
-            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+            DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
             //Assert
             Assert.Equal(2, bridgeDeckListDamageSummary[0].ComponentValue);
         }

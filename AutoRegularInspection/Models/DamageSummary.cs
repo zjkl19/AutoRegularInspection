@@ -23,8 +23,6 @@ namespace AutoRegularInspection.Models
 
         public BridgeDeckEnum TestEnum { set; get; }
 
-
-
         private BindingList<BridgeDeck> _DamageComboBox;
 
         public BindingList<BridgeDeck> DamageComboBox
@@ -152,6 +150,36 @@ namespace AutoRegularInspection.Models
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        /// <summary>
+        /// 直接获取部位名
+        /// </summary>
+        /// <returns></returns>
+        public string GetComponentName()
+        {
+            if (GlobalData.ComponentComboBox[ComponentValue].Title != "其它")
+            {
+                return(GlobalData.ComponentComboBox[ComponentValue].Title);
+            }
+            else    //TODO:考虑"其它"输入为空的情况
+            {
+                return Component;
+            }
+        }
+        /// <summary>
+        /// 直接获取病害名
+        /// </summary>
+        /// <returns></returns>
+        public string GetDamageName()
+        {
+            if (GlobalData.ComponentComboBox[ComponentValue].DamageComboBox[DamageValue].Title != "其它")
+            {
+                return (GlobalData.ComponentComboBox[ComponentValue].DamageComboBox[DamageValue].Title);
+            }
+            else    //TODO:考虑"其它"输入为空的情况
+            {
+                return Damage;
+            }
         }
     }
 }

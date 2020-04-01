@@ -25,7 +25,6 @@ namespace AutoRegularInspection.Services
             SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
             SetComboBox(listDamageSummary);
 
-
             //for (int i = 0; i < listDamageSummary.Count; i++)
             //{
             //    var img = System.Drawing.Image.FromFile($"PicturesOut/DSC00855.jpg");
@@ -52,21 +51,21 @@ namespace AutoRegularInspection.Services
                 {
                     listDamageSummary[i].ComponentValue = componentFound.FirstOrDefault().Idx;
 
-                    var subComponentFound = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == listDamageSummary[i].Damage);
+                    var damageFound = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == listDamageSummary[i].Damage);
 
-                    //if (subComponentFound.Any())
+                    //if (damageFound.Any())
                     //{
-                    //    listDamageSummary[i].TestComboBox1 = subComponentFound.FirstOrDefault().DamageComboBox;
+                    //    listDamageSummary[i].TestComboBox1 = damageFound.FirstOrDefault().DamageComboBox;
 
-                    //    listDamageSummary[i].TestValue1 = subComponentFound.FirstOrDefault().DamageComboBox.FirstOrDefault().Idx;
+                    //    listDamageSummary[i].TestValue1 = damageFound.FirstOrDefault().DamageComboBox.FirstOrDefault().Idx;
                     //}
 
-                    if (subComponentFound.Any())
+                    if (damageFound.Any())
                     {
-                        //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
+                        //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(damageFound.ToList());
                         listDamageSummary[i].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
-                        listDamageSummary[i].DamageValue = subComponentFound.FirstOrDefault().Idx;
+                        listDamageSummary[i].DamageValue = damageFound.FirstOrDefault().Idx;
                     }
                     else
                     {
