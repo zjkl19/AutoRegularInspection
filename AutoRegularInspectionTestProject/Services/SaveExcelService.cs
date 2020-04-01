@@ -199,7 +199,7 @@ namespace AutoRegularInspectionTestProject.Services
         public void SaveExcel_ShouldSaveCorrectSubComponentInExcel_WhileSubComponentIsNotOthers()
         {
             //Arrange
-            string FileName = "外观检查3.xlsx";
+            string FileName = "外观检查.xlsx";
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary {
