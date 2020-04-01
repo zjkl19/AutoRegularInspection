@@ -82,6 +82,39 @@ namespace AutoRegularInspection.Models
 
         };
 
+        public static BindingList<BridgeDeck> SuperSpaceComponentComboBox { get; } = new BindingList<BridgeDeck>() {
+                    new BridgeDeck{ Idx=0, Id=1,Title="主梁"
+                        ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="表面裂缝"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="混凝土剥离"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="露筋锈蚀"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="梁体下挠"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="结构裂缝"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="裂缝处渗水"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=8,Title="梁体位移"}
+                            ,new BridgeDeck{ Idx=8, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{ Idx=1, Id=2,Title="横向联系"
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="桥面贯通纵缝"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="连接件脱焊松动"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="连接件断裂"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="横隔板网裂"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="横隔板剥落露筋"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="梁体异常振动"}
+                            ,new BridgeDeck{ Idx=6, Id=99,Title="其它"}
+                        }
+                    }
+
+                    ,new BridgeDeck{  Idx=7,Id=99,Title="其它"
+                    ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=99,Title="其它"}
+                        }}
+
+        };
+
         //public static BindingList<BridgeDeck> ComponentComboBox { get; } = new BindingList<BridgeDeck>() {
         //            new BridgeDeck{  Id=1,Title="桥面铺装"}
         //            ,aa()

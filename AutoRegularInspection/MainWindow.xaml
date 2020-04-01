@@ -228,11 +228,39 @@
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
+                            
+                            <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.SuperSpaceComponentComboBox}}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay}"
+                                            SelectedValuePath = "Idx"
+                                            DropDownClosed="SuperSpaceComboBox_DropDownClosed"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"
                                 Header="构件类型" />
-
+                            
+                            <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter}}"
+                                            DropDownClosed="DamageComboBox_DropDownClosed"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Damage}"

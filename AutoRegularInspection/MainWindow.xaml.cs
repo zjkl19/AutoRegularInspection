@@ -47,11 +47,11 @@ namespace AutoRegularInspection
             BridgeDeckGrid.ItemsSource = lst;
 
             lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
-            DamageSummaryServices.InitListDamageSummary(lst, 2_000_000);
+            DamageSummaryServices.InitListDamageSummary(lst, 2_000_000,BridgePart.SuperSpace);
             SuperSpaceGrid.ItemsSource = lst;
 
             lst = dataRepository.ReadDamageData(BridgePart.SubSpace);
-            DamageSummaryServices.InitListDamageSummary(lst, 3_000_000);
+            DamageSummaryServices.InitListDamageSummary(lst, 3_000_000, BridgePart.SubSpace);
             SubSpaceGrid.ItemsSource = lst;
 
         }
@@ -420,6 +420,12 @@ namespace AutoRegularInspection
                 //}
             }
             
+
+        }
+
+        private void SuperSpaceComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+           
 
         }
 

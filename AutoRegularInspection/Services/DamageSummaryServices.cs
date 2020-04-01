@@ -19,11 +19,11 @@ namespace AutoRegularInspection.Services
         /// </summary>
         /// <param name="listDamageSummary"></param>
         /// <param name="firstIndex"></param>
-        public static void InitListDamageSummary(List<DamageSummary> listDamageSummary, int firstIndex = 1000000)
+        public static void InitListDamageSummary(List<DamageSummary> listDamageSummary, int firstIndex = 1000000,BridgePart bridgePart=BridgePart.BridgeDeck)
         {
             SetPictureCounts(listDamageSummary);
             SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
-            SetComboBox(listDamageSummary);
+            SetComboBox(listDamageSummary, bridgePart);
 
             //for (int i = 0; i < listDamageSummary.Count; i++)
             //{
@@ -34,7 +34,7 @@ namespace AutoRegularInspection.Services
             //}
         }
 
-        private static void SetComboBox(List<DamageSummary> listDamageSummary)
+        private static void SetComboBox(List<DamageSummary> listDamageSummary, BridgePart bridgePart = BridgePart.BridgeDeck)
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
@@ -46,7 +46,21 @@ namespace AutoRegularInspection.Services
 
                 //TODO：写单元测试
                 //创建映射
-                var componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
+                IEnumerable<BridgeDeck> componentFound = null;
+
+                if (bridgePart == BridgePart.BridgeDeck)
+                {
+                    componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
+                }
+                else if (bridgePart == BridgePart.SuperSpace)
+                {
+                    componentFound = GlobalData.SuperSpaceComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
+                }
+                else
+                {
+                    componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
+                }
+
                 if (componentFound.Any())
                 {
                     listDamageSummary[i].ComponentValue = componentFound.FirstOrDefault().Idx;
