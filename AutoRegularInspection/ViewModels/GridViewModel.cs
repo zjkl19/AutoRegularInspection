@@ -13,7 +13,7 @@ namespace AutoRegularInspection.ViewModels
 {
     public class GridViewModel
     {
-        public GridViewModel()
+        public GridViewModel(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
             GridSource = new GridModel();
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
@@ -22,8 +22,9 @@ namespace AutoRegularInspection.ViewModels
 
             List<DamageSummary> lst;
 
-            lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
-            DamageSummaryServices.InitListDamageSummary(lst);
+            lst = dataRepository.ReadDamageData(bridgePart);
+            
+            //DamageSummaryServices.InitListDamageSummary(lst);
 
             ObservableCollection<DamageSummary> oc = new ObservableCollection<DamageSummary>();
 

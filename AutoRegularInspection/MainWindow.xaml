@@ -216,7 +216,7 @@
             </TabItem>
             <TabItem Header="上部结构">
                 <Grid>
-                    <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False">
+                    <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False"  ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="Auto"
@@ -288,7 +288,7 @@
             </TabItem>
             <TabItem Header="下部结构">
                 <Grid>
-                    <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False">
+                    <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False"  ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="Auto"
