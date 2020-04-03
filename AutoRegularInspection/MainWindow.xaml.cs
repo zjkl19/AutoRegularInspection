@@ -457,10 +457,64 @@ namespace AutoRegularInspection
             //_bridgeDeckListDamageSummary[2].DamageValue = 2;
             //MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
 
-            MessageBox.Show(_bridgeDeckListDamageSummary[5].DamageValue.ToString());
-            MessageBox.Show(_bridgeDeckListDamageSummary[5].Component.ToString());
+            try
+            {
+
+                MessageBox.Show(_bridgeDeckListDamageSummary[5].ComponentValue.ToString());
+                MessageBox.Show(_bridgeDeckListDamageSummary[5].DamageValue.ToString());
+                MessageBox.Show(_bridgeDeckListDamageSummary[5].Component.ToString());
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message.ToString());
+            }
         }
 
+        private void DamageComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+            var curComboBox = sender as ComboBox;
 
+            int rowIndex = 0;
+            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            if (_cells.Any())
+            {
+
+                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+            }
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var m = curComboBox.SelectedIndex;
+            BridgeDeck componentFoundBefore = null;
+            //if (rowIndex < _bridgeDeckListDamageSummary.Count)
+            //{
+            //    componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
+
+            //    var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
+
+            //    if (componentFound.Title != componentFoundBefore.Title)
+            //    {
+            //        _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
+
+            //        _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
+
+            //    }
+            //}
+
+            if(_bridgeDeckListDamageSummary[rowIndex].DamageComboBox==null)
+            {
+                _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue].DamageComboBox;
+            }
+            //componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
+
+            //var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
+
+            //if (componentFound.Title != componentFoundBefore.Title)
+            //{
+            //    _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
+
+            //    _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
+
+            //}
+        }
     }
 }

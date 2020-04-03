@@ -180,6 +180,7 @@
                                             ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter}}"
+                                            DropDownOpened="DamageComboBox_DropDownOpened"
                                             DropDownClosed="DamageComboBox_DropDownClosed"
                                             />
                                     </DataTemplate>
