@@ -58,7 +58,7 @@ namespace AutoRegularInspection.Services
                 }
                 else
                 {
-                    componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
+                    componentFound = GlobalData.SubSpaceComponentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
                 }
 
                 if (componentFound.Any())
@@ -91,7 +91,7 @@ namespace AutoRegularInspection.Services
                 }
                 else
                 {
-
+                    //TODO：修改
                     listDamageSummary[i].DamageComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
                     listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                 }

@@ -68,7 +68,7 @@ namespace AutoRegularInspection.Models
         /// <summary>
         /// 构件类型
         /// </summary>
-        public string Component { set; get; }
+        public string Component { set; get; } = string.Empty;
 
         /// <summary>
         /// 损坏类型

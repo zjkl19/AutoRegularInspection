@@ -24,6 +24,7 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using AutoRegularInspection.ViewModels;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 #endregion
 namespace AutoRegularInspection
 {
@@ -57,7 +58,7 @@ namespace AutoRegularInspection
 
 
             //lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
-            
+
             //生成报告的时候再调用该代码
             //DamageSummaryServices.InitListDamageSummary(lst, 2_000_000,BridgePart.SuperSpace);
             //SuperSpaceGrid.ItemsSource = lst;
@@ -146,7 +147,7 @@ namespace AutoRegularInspection
         #endregion
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
- 
+
             var config = XDocument.Load(@"Option.config");
             var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
             var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
@@ -257,7 +258,7 @@ namespace AutoRegularInspection
             {
                 Debug.Print($"备份Excel表格出错，错误信息：{ex.Message}");
             }
-            
+
         }
 
         private void SaveExcel_Click(object sender, RoutedEventArgs e)
@@ -269,7 +270,7 @@ namespace AutoRegularInspection
                 var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
                 if (SaveExcelService.SaveExcel(_bridgeDeckListDamageSummary
                     , _superSpaceListDamageSummary
-                    , _subSpaceListDamageSummary) ==1)
+                    , _subSpaceListDamageSummary) == 1)
                 {
                     MessageBox.Show("Excel保存成功！");
                 }
@@ -277,7 +278,7 @@ namespace AutoRegularInspection
                 {
                     MessageBox.Show("Excel保存失败！");
                 }
-                
+
             }
 
         }
@@ -295,43 +296,51 @@ namespace AutoRegularInspection
             MessageBox.Show("该功能开发中");
         }
 
+
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ComboBox curComboBox = sender as ComboBox;
 
-            
-            int rowIndex=0;
-            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            DataGrid dataGrid = BridgeDeckGrid;
+            ChangeDamageComboBox(dataGrid, BridgePart.BridgeDeck);
+
+        }
+
+        private static void ChangeDamageComboBox(DataGrid dataGrid, BridgePart bridgePart)
+        {
+            int rowIndex = 0;
+            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
             if (_cells.Any())
             {
 
-                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
                 //columnIndex = _cells.First().Column.DisplayIndex;
-                
-            }
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
-            var componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
+            }
+            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
+
+            IEnumerable<BridgeDeck> componentFound;
+            if (bridgePart==BridgePart.BridgeDeck)
+            {
+                componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
+            }
+            else if(bridgePart == BridgePart.SuperSpace)
+            {
+                componentFound = GlobalData.SuperSpaceComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
+            }
+            else
+            {
+                componentFound = GlobalData.SubSpaceComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
+            }
+
             if (componentFound.Any())
             {
-                //_bridgeDeckListDamageSummary[rowIndex].ComponentValue = componentFound.FirstOrDefault().Idx;
 
                 var subComponentFound = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Damage);
 
+                _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
-                //if (subComponentFound.Any())
-                //{
-                //    //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
-                //    _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
-
-                //    _bridgeDeckListDamageSummary[rowIndex].DamageValue = subComponentFound.FirstOrDefault().Idx;
-                //}
-                //else
-                //{
-                    _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
-
-                    _bridgeDeckListDamageSummary[rowIndex].DamageValue = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
-                //}
+                _bridgeDeckListDamageSummary[rowIndex].DamageValue = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
 
             }
             else
@@ -340,71 +349,63 @@ namespace AutoRegularInspection
                 _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
                 _bridgeDeckListDamageSummary[rowIndex].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
             }
-
-            //MessageBox.Show(rowIndex.ToString());
-
-
-            //var cb = (sender as ComboBox);
-            //if (cb == null || cb.Tag == null) return;
-            //int idx = int.Parse(cb.Tag.ToString());
-
-            //试试UpdateSourceTrigger??
-            //试试Trigger??
-
-            //var curComboBox = sender as ComboBox;
-            ////为下拉控件绑定数据源，并选择原选项为默认选项
-            //string text = curComboBox.Text;
-            ////去除重复项查找，跟数据库连接时可以让数据库来实现
-            //var query = GlobalData.ComponentComboBox.Select(p => new { Province = p.FirstOrDefault().Province });
-            //int itemcount = 0;
-            //curComboBox.SelectedIndex = itemcount;
-            //foreach (var item in query.ToList())
-            //{
-            //    if (item.Province == text)
-            //    {
-            //        curComboBox.SelectedIndex = itemcount;
-            //        break;
-            //    }
-            //    itemcount++;
-            //}
-            //curComboBox.ItemsSource = query;
-            //curComboBox.IsDropDownOpen = true;//获得焦点后下拉
-
         }
+
+
         private void ComboBox_DropDownClosed(object sender, EventArgs e)
         {
             ComboBox curComboBox = sender as ComboBox;
 
+            DataGrid dataGrid = BridgeDeckGrid;
 
+            UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.ComponentComboBox);
+
+        }
+        private void SuperSpaceComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+
+            ComboBox curComboBox = sender as ComboBox;
+
+            DataGrid dataGrid = SuperSpaceGrid;
+
+            UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.SuperSpaceComponentComboBox);
+        }
+        private void SubSpaceComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+
+            ComboBox curComboBox = sender as ComboBox;
+
+            DataGrid dataGrid = SubSpaceGrid;
+
+            UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.SubSpaceComponentComboBox);
+        }
+
+        private static void UIChangeDamageComboBox(ComboBox curComboBox, DataGrid dataGrid, BindingList<BridgeDeck> componentComboBox)
+        {
             int rowIndex = 0;
-            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
             if (_cells.Any())
             {
 
-                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
                 //columnIndex = _cells.First().Column.DisplayIndex;
 
             }
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
+
+            if (rowIndex >= _bridgeDeckListDamageSummary.Count)
+            {
+                return;
+            }
+
             var m = curComboBox.SelectedIndex;
             BridgeDeck componentFoundBefore = null;
-            //if (rowIndex < _bridgeDeckListDamageSummary.Count)
-            //{
-            //    componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
 
-            //    var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
 
-            //    if (componentFound.Title != componentFoundBefore.Title)
-            //    {
-            //        _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
+            componentFoundBefore = componentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
 
-            //        _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
+            var componentFound = componentComboBox[curComboBox.SelectedIndex];
 
-            //    }
-            //}
-            componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
-
-            var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
 
             if (componentFound.Title != componentFoundBefore.Title)
             {
@@ -413,41 +414,66 @@ namespace AutoRegularInspection
                 _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
 
             }
-
-
         }
 
-        private void SuperSpaceComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-           
-
-        }
+        
 
         private void DamageComboBox_DropDownClosed(object sender, EventArgs e)
         {
             ComboBox curComboBox = sender as ComboBox;
 
+            DataGrid dataGrid = BridgeDeckGrid;
 
+            ChangeDamageValue(curComboBox, dataGrid);
+
+        }
+        
+        private void SuperSpaceDamageComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            ComboBox curComboBox = sender as ComboBox;
+
+            DataGrid dataGrid = SuperSpaceGrid;
+
+            ChangeDamageValue(curComboBox, dataGrid);
+
+        }
+
+        private void SubSpaceDamageComboBox_DropDownClosed(object sender, EventArgs e)
+        {
+            ComboBox curComboBox = sender as ComboBox;
+
+            DataGrid dataGrid = SubSpaceGrid;
+
+            ChangeDamageValue(curComboBox, dataGrid);
+
+        }
+        private static void ChangeDamageValue(ComboBox curComboBox, DataGrid dataGrid)
+        {
             int rowIndex = 0;
-            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
             if (_cells.Any())
             {
 
-                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
                 //columnIndex = _cells.First().Column.DisplayIndex;
 
             }
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
+
+            if (rowIndex >= _bridgeDeckListDamageSummary.Count)
+            {
+                MessageBox.Show("请先双击序号一列以初始化改行");
+                return;
+            }
+
             var m = curComboBox.SelectedIndex;
             //var componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
             //var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
 
 
             _bridgeDeckListDamageSummary[rowIndex].DamageValue = curComboBox.SelectedIndex;
-
-
-
         }
+
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
@@ -473,48 +499,47 @@ namespace AutoRegularInspection
 
         private void DamageComboBox_DropDownOpened(object sender, EventArgs e)
         {
-            var curComboBox = sender as ComboBox;
 
+            DataGrid dataGrid = BridgeDeckGrid;
+
+            SetDamageDropDownItems(dataGrid);
+
+        }
+
+        private void SuperSpaceDamageComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+
+            DataGrid dataGrid = SuperSpaceGrid;
+
+            SetDamageDropDownItems(dataGrid);
+
+        }
+
+        private void SubSpaceDamageComboBox_DropDownOpened(object sender, EventArgs e)
+        {
+
+            DataGrid dataGrid = SubSpaceGrid;
+
+            SetDamageDropDownItems(dataGrid);
+
+        }
+
+        private static void SetDamageDropDownItems(DataGrid dataGrid)
+        {
             int rowIndex = 0;
-            var _cells = BridgeDeckGrid.SelectedCells;//获取选中单元格的列表
+            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
             if (_cells.Any())
             {
 
-                rowIndex = BridgeDeckGrid.Items.IndexOf(_cells.First().Item);
+                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
             }
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
-            var m = curComboBox.SelectedIndex;
-            BridgeDeck componentFoundBefore = null;
-            //if (rowIndex < _bridgeDeckListDamageSummary.Count)
-            //{
-            //    componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
+            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
-            //    var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
 
-            //    if (componentFound.Title != componentFoundBefore.Title)
-            //    {
-            //        _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
-
-            //        _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
-
-            //    }
-            //}
-
-            if(_bridgeDeckListDamageSummary[rowIndex].DamageComboBox==null)
+            if (_bridgeDeckListDamageSummary[rowIndex].DamageComboBox == null)
             {
                 _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue].DamageComboBox;
             }
-            //componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
-
-            //var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
-
-            //if (componentFound.Title != componentFoundBefore.Title)
-            //{
-            //    _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
-
-            //    _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
-
-            //}
         }
     }
 }

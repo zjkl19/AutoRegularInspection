@@ -108,7 +108,83 @@ namespace AutoRegularInspection.Models
                         }
                     }
 
-                    ,new BridgeDeck{  Idx=7,Id=99,Title="其它"
+                    ,new BridgeDeck{  Idx=2,Id=99,Title="其它"
+                    ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=99,Title="其它"}
+                        }}
+
+        };
+
+        public static BindingList<BridgeDeck> SubSpaceComponentComboBox { get; } = new BindingList<BridgeDeck>() {
+                    new BridgeDeck{ Idx=0, Id=1,Title="台帽"
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="表面裂缝"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="混凝土剥离"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="露筋锈蚀"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="结构裂缝"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="裂缝处渗水"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="墩台成块剥落"}
+                            ,new BridgeDeck{ Idx=6, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{ Idx=1, Id=2,Title="盖梁"
+                           ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="表面裂缝"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="混凝土剥离"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="露筋锈蚀"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="结构裂缝"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="裂缝处渗水"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="墩台成块剥落"}
+                            ,new BridgeDeck{ Idx=6, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{ Idx=2, Id=3,Title="墩身"
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="墩身水平裂缝"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="墩身纵向裂缝"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="框架式节点裂缝"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="露筋锈蚀"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="混凝土剥离"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="桥墩倾斜"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{ Idx=3, Id=4,Title="台身"
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="墩身水平裂缝"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="墩身纵向裂缝"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="框架式节点裂缝"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="露筋锈蚀"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="混凝土剥离"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="桥墩倾斜"}
+                            ,new BridgeDeck{ Idx=6, Id=7,Title="桥面贯通横缝"}
+                            ,new BridgeDeck{ Idx=7, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{ Idx=4, Id=5,Title="支座"
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="固定螺栓损坏"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="橡胶支座变形"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="钢支座损坏"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="支座底板混凝土破损"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="支座稳定性异常"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="钢垫板锈蚀"}
+                            ,new BridgeDeck{ Idx=6, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{ Idx=5, Id=6,Title="耳背翼墙"
+                            ,DamageComboBox=new BindingList<BridgeDeck>() {
+                            new BridgeDeck{ Idx=0, Id=1,Title="桥面贯通纵缝"}
+                            ,new BridgeDeck{ Idx=1, Id=2,Title="连接件脱焊松动"}
+                            ,new BridgeDeck{ Idx=2, Id=3,Title="连接件断裂"}
+                            ,new BridgeDeck{ Idx=3, Id=4,Title="横隔板网裂"}
+                            ,new BridgeDeck{ Idx=4, Id=5,Title="横隔板剥落露筋"}
+                            ,new BridgeDeck{ Idx=5, Id=6,Title="梁体异常振动"}
+                            ,new BridgeDeck{ Idx=6, Id=99,Title="其它"}
+                        }
+                    }
+                    ,new BridgeDeck{  Idx=6,Id=99,Title="其它"
                     ,DamageComboBox=new BindingList<BridgeDeck>() {
                             new BridgeDeck{ Idx=0, Id=99,Title="其它"}
                         }}
