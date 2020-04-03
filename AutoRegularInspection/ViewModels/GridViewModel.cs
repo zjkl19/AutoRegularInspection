@@ -24,8 +24,18 @@ namespace AutoRegularInspection.ViewModels
 
             lst = dataRepository.ReadDamageData(bridgePart);
             
-            //DamageSummaryServices.InitListDamageSummary(lst);
-
+            if(bridgePart==BridgePart.BridgeDeck)
+            { 
+                DamageSummaryServices.InitListDamageSummary(lst);
+            }
+            else if(bridgePart == BridgePart.SuperSpace)
+            {
+                DamageSummaryServices.InitListDamageSummary(lst, 2_000_000,bridgePart);
+            }
+            else
+            {
+                DamageSummaryServices.InitListDamageSummary(lst, 3_000_000, bridgePart);
+            }
             ObservableCollection<DamageSummary> oc = new ObservableCollection<DamageSummary>();
 
             lst.ForEach(x => oc.Add(x));
