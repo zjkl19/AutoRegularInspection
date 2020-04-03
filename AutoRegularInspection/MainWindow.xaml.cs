@@ -22,6 +22,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Threading;
+using AutoRegularInspection.ViewModels;
+using System.Collections.ObjectModel;
 #endregion
 namespace AutoRegularInspection
 {
@@ -39,13 +41,17 @@ namespace AutoRegularInspection
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
+            BridgeDeckGrid.DataContext = new GridViewModel();
+
             //TODO：Grid数据和Excel绑定
             List<DamageSummary> lst;
 
-            lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
-            DamageSummaryServices.InitListDamageSummary(lst);
-            BridgeDeckGrid.ItemsSource = lst;
+            //lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
+            //DamageSummaryServices.InitListDamageSummary(lst);
+            //BridgeDeckGrid.ItemsSource = lst;
             //BridgeDeckGrid.DataContext = lst;
+
+
 
             lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
             DamageSummaryServices.InitListDamageSummary(lst, 2_000_000,BridgePart.SuperSpace);
@@ -373,10 +379,10 @@ namespace AutoRegularInspection
                 //columnIndex = _cells.First().Column.DisplayIndex;
 
             }
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
-            var m=curComboBox.SelectedIndex;
-            BridgeDeck componentFoundBefore=null;
-            if (rowIndex<_bridgeDeckListDamageSummary.Count)
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var m = curComboBox.SelectedIndex;
+            BridgeDeck componentFoundBefore = null;
+            if (rowIndex < _bridgeDeckListDamageSummary.Count)
             {
                 componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
 
@@ -387,46 +393,11 @@ namespace AutoRegularInspection
                     _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
 
                     _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
-                    //if (componentFound.Title != "其它")
-                    //{
-                    //    //_bridgeDeckListDamageSummary[rowIndex].ComponentValue = componentFound.FirstOrDefault().Idx;
 
-
-
-
-                    //    var subComponentFound = componentFound.DamageComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Damage);
-
-
-                    //    //if (subComponentFound.Any())
-                    //    //{
-                    //    //    //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(subComponentFound.ToList());
-                    //    //    _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
-
-                    //    //    _bridgeDeckListDamageSummary[rowIndex].DamageValue = subComponentFound.FirstOrDefault().Idx;
-                    //    //}
-                    //    //else
-                    //    //{
-
-                    //    if (_bridgeDeckListDamageSummary[rowIndex].DamageComboBox != componentFound.DamageComboBox)
-                    //    {
-                    //        _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
-
-                    //        _bridgeDeckListDamageSummary[rowIndex].DamageValue = componentFound.DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
-                    //    }
-
-                    //    //}
-
-                    //}
-                    //else
-                    //{
-
-                    //    _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
-                    //    _bridgeDeckListDamageSummary[rowIndex].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
-                    //}
                 }
             }
-            
-            
+
+
 
         }
 
@@ -450,7 +421,7 @@ namespace AutoRegularInspection
                 //columnIndex = _cells.First().Column.DisplayIndex;
 
             }
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var m = curComboBox.SelectedIndex;
             //var componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
             //var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
@@ -463,14 +434,15 @@ namespace AutoRegularInspection
         }
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
             //_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
 
             //_bridgeDeckListDamageSummary[2].DamageComboBox = GlobalData.ComponentComboBox[5].DamageComboBox;
             //_bridgeDeckListDamageSummary[2].DamageValue = 2;
             //MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
 
-            MessageBox.Show(_bridgeDeckListDamageSummary[2].DamageValue.ToString());
+            MessageBox.Show(_bridgeDeckListDamageSummary[5].DamageValue.ToString());
+            MessageBox.Show(_bridgeDeckListDamageSummary[5].Component.ToString());
         }
 
 
