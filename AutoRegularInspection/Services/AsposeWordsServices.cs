@@ -35,12 +35,15 @@ namespace AutoRegularInspection.Services
             _subSpaceListDamageSummary = subSpaceListDamageSummary;
         }
 
-        public void GenerateSummaryTableAndPictureTable(double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateSummaryTableAndPictureTable(ref ProgressBarModel progressModel, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
 
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight);
+            progressModel.ProgressValue = 10;
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight);
+            progressModel.ProgressValue = 30;
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight);
+            progressModel.ProgressValue = 60;
         }
 
         private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight)

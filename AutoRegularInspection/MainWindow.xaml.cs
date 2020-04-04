@@ -158,22 +158,41 @@ namespace AutoRegularInspection
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
+
+
+            var w = new ProgressBarWindow();
+            w.Top = 0.4 * (App.ScreenHeight - w.Height);
+            w.Left = 0.4 * (App.ScreenWidth - w.Width);
+
+            var progressBarModel = new ProgressBarModel
+            {
+                ProgressValue = 0
+            };
+            w.progressBarNumberTextBlock.DataContext = progressBarModel;
+            w.progressBar.DataContext = progressBarModel;
+            w.progressBarContentTextBlock.DataContext = progressBarModel;
+
+            var progressSleepTime = 500;    //进度条停顿时间
+
             new Thread(() =>
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
                     try
                     {
+                        w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
+
 
                         var doc = new Document(templateFile);
-
                         var asposeService = new AsposeWordsServices(ref doc, _bridgeDeckListDamageSummary.ToList(), _superSpaceListDamageSummary.ToList(), _subSpaceListDamageSummary.ToList());
-                        asposeService.GenerateSummaryTableAndPictureTable(ImageWidth, ImageHeight, CompressImageFlag);
+                        asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, ImageWidth, ImageHeight, CompressImageFlag);
 
                         doc.UpdateFields();
                         doc.UpdateFields();
 
                         doc.Save(outputFile, SaveFormat.Docx);
+                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
+
                         MessageBox.Show("成功生成报告！");
                     }
                     catch (Exception ex)
