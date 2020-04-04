@@ -160,6 +160,29 @@ namespace AutoRegularInspection
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
 
+           
+            new Thread(() =>
+            {
+                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    try
+                    {
+                        GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                        
+
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }));
+            }).Start();
+
+
+        }
+
+        private static void GenerateReport(double ImageWidth, double ImageHeight, string templateFile, string outputFile, int CompressImageFlag, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
+        {
             var w = new ProgressBarWindow();
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
             w.Left = 0.4 * (App.ScreenWidth - w.Width);
@@ -174,33 +197,27 @@ namespace AutoRegularInspection
 
             var progressSleepTime = 500;    //进度条停顿时间
 
-            new Thread(() =>
+            
+
+            var thread = new Thread(new ThreadStart(() =>
             {
-                Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    try
-                    {
-                        w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
+                progressBarModel.ProgressValue = 10;
 
 
-                        var doc = new Document(templateFile);
-                        var asposeService = new AsposeWordsServices(ref doc, _bridgeDeckListDamageSummary.ToList(), _superSpaceListDamageSummary.ToList(), _subSpaceListDamageSummary.ToList());
-                        asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, ImageWidth, ImageHeight, CompressImageFlag);
+                var doc = new Document(templateFile);
+                var asposeService = new AsposeWordsServices(ref doc, _bridgeDeckListDamageSummary.ToList(), _superSpaceListDamageSummary.ToList(), _subSpaceListDamageSummary.ToList());
+                asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, ImageWidth, ImageHeight, CompressImageFlag);
 
-                        doc.UpdateFields();
-                        doc.UpdateFields();
+                doc.UpdateFields();
+                doc.UpdateFields();
 
-                        doc.Save(outputFile, SaveFormat.Docx);
-                        //w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
+                doc.Save(outputFile, SaveFormat.Docx);
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("成功生成报告！"); });
 
-                        MessageBox.Show("成功生成报告！");
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                }));
-            }).Start();
+            }));
+            thread.Start();
 
         }
 

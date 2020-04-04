@@ -34,16 +34,26 @@ namespace AutoRegularInspection.Services
             _superSpaceListDamageSummary = superSpaceListDamageSummary;
             _subSpaceListDamageSummary = subSpaceListDamageSummary;
         }
-
+        /// <summary>
+        /// 生成汇总表以及插入图片
+        /// </summary>
+        /// <param name="progressModel">进度条数据绑定模型</param>
+        /// <param name="ImageWidth"></param>
+        /// <param name="ImageHeight"></param>
+        /// <param name="CompressImageFlag"></param>
         public void GenerateSummaryTableAndPictureTable(ref ProgressBarModel progressModel, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
-
+            progressModel.ProgressValue = 0;
+            progressModel.Content = "正在处理桥面系……";
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight);
-            progressModel.ProgressValue = 10;
+            progressModel.Content = "正在处理上部结构……";
+            progressModel.ProgressValue = 33;
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight);
-            progressModel.ProgressValue = 30;
+            progressModel.Content = "正在处理下部结构……";
+            progressModel.ProgressValue = 66;
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight);
-            progressModel.ProgressValue = 60;
+            progressModel.ProgressValue = 100;
+            progressModel.Content = "正在完成……";
         }
 
         private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight)
