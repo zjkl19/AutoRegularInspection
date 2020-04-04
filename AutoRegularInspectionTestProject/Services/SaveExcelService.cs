@@ -33,7 +33,9 @@ namespace AutoRegularInspectionTestProject.Services
             {
                 new DamageSummary {
                     Position = "第1跨"
-                    , Component = "主梁"
+                    , ComponentValue=GlobalData.SuperSpaceComponentComboBox.Where(x=>x.Title=="主梁").FirstOrDefault().Idx
+                    , Component = string.Empty
+                    ,DamageValue=GlobalData.SuperSpaceComponentComboBox.Where(x=>x.Title=="主梁").FirstOrDefault().DamageComboBox.Where(p=>p.Title=="其它").FirstOrDefault().Idx
                     ,Damage="无"
                     ,DamageDescription="无"
                 }
@@ -42,7 +44,9 @@ namespace AutoRegularInspectionTestProject.Services
             {
                 new DamageSummary {
                     Position = "0#台"
+                    , ComponentValue=GlobalData.SubSpaceComponentComboBox.Where(x=>x.Title=="台身").FirstOrDefault().Idx
                     , Component = "台身"
+                    ,DamageValue=GlobalData.SubSpaceComponentComboBox.Where(x=>x.Title=="台身").FirstOrDefault().DamageComboBox.Where(p=>p.Title=="其它").FirstOrDefault().Idx
                     ,Damage="水蚀"
                     ,DamageDescription="右幅0#台台身水蚀"
                 }
@@ -68,10 +72,10 @@ namespace AutoRegularInspectionTestProject.Services
                 acturalDamageDescription = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损描述")].Value?.ToString() ?? string.Empty;
                 // 检查"上部结构"Worksheets
                 worksheet = excelPackage.Workbook.Worksheets["上部结构"];
-                acturalDamageInSuperStructure = worksheet.Cells[2, 4].Value?.ToString() ?? string.Empty;
+                acturalDamageInSuperStructure = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
 
                 worksheet = excelPackage.Workbook.Worksheets["下部结构"];
-                acturalDamageInSubStructure = worksheet.Cells[2, 4].Value?.ToString() ?? string.Empty;
+                acturalDamageInSubStructure = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
             }
 
             //Assert
