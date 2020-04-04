@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AutoRegularInspection.Services;
+using OfficeOpenXml;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -10,78 +12,7 @@ namespace AutoRegularInspection.Models
 {
     public class GlobalData
     {
-        public static BindingList<BridgeDamage> ComponentComboBox { get; } = new BindingList<BridgeDamage>() {
-                    new BridgeDamage{ Idx=0, Id=1,Title="桥面铺装"
-                        ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=1,Title="网裂"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="龟裂"}
-                            ,new BridgeDamage{ Idx=2, Id=3,Title="波浪"}
-                            ,new BridgeDamage{ Idx=3, Id=4,Title="车辙"}
-                            ,new BridgeDamage{ Idx=4, Id=5,Title="坑槽"}
-                            ,new BridgeDamage{ Idx=5, Id=6,Title="碎裂"}
-                            ,new BridgeDamage{ Idx=6, Id=7,Title="破碎"}
-                            ,new BridgeDamage{ Idx=7, Id=8,Title="坑洞"}
-                            ,new BridgeDamage{ Idx=8, Id=9,Title="桥面贯通横缝"}
-                            ,new BridgeDamage{ Idx=9, Id=10,Title="桥面贯通纵缝"}
-                            ,new BridgeDamage{ Idx=10, Id=99,Title="其它"}
-                        }
-                    }
-                    ,new BridgeDamage{ Idx=1, Id=2,Title="桥头平顺"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=1,Title="桥头沉降"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="台背下沉"}
-                            ,new BridgeDamage{ Idx=2, Id=99,Title="其它"}
-                        }
-                    }
-                    ,new BridgeDamage{  Idx=2,Id=3,Title="伸缩缝"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=1,Title="螺帽松动"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="缝内沉积物阻塞"}
-                            ,new BridgeDamage{ Idx=2, Id=3,Title="止水带破损"}
-                            ,new BridgeDamage{ Idx=3, Id=4,Title="止水带老化"}
-                            ,new BridgeDamage{ Idx=4, Id=5,Title="钢材料破损"}
-                            ,new BridgeDamage{ Idx=5, Id=6,Title="接缝处铺装碎边"}
-                            ,new BridgeDamage{ Idx=6, Id=7,Title="接缝处高差"}
-                            ,new BridgeDamage{ Idx=7, Id=8,Title="钢材料翘曲变形"}
-                            ,new BridgeDamage{ Idx=8, Id=9,Title="结构缝宽异常"}
-                            ,new BridgeDamage{ Idx=9, Id=10,Title="伸缩缝处异常声响"}
-                            ,new BridgeDamage{ Idx=10, Id=99,Title="其它"}
-                        }}
-                    ,new BridgeDamage{  Idx=3,Id=4,Title="排水系统"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=1,Title="泄水管阻塞"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="残缺脱落"}
-                            ,new BridgeDamage{ Idx=2, Id=3,Title="桥面积水"}
-                            ,new BridgeDamage{ Idx=3, Id=4,Title="防水层"}
-                            ,new BridgeDamage{ Idx=4, Id=99,Title="其它"}
-                        }}
-                    ,new BridgeDamage{  Idx=4,Id=5,Title="栏杆"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=1,Title="露筋锈蚀"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="松动错位"}
-                            ,new BridgeDamage{ Idx=2, Id=3,Title="丢失残缺"}
-                            ,new BridgeDamage{ Idx=3, Id=99,Title="其它"}
-                        }}
-                    ,new BridgeDamage{  Idx=5,Id=6,Title="护栏"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=1,Title="露筋锈蚀"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="松动错位"}
-                            ,new BridgeDamage{ Idx=2, Id=3,Title="丢失残缺"}
-                            ,new BridgeDamage{ Idx=3, Id=99,Title="其它"}
-                        }}
-                    ,new BridgeDamage{  Idx=6,Id=7,Title="人行道块件"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=1,Title="网裂"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="松动或变形"}
-                            ,new BridgeDamage{ Idx=2, Id=3,Title="残缺"}
-                            ,new BridgeDamage{ Idx=3, Id=99,Title="其它"}
-                        }}
-                    ,new BridgeDamage{  Idx=7,Id=99,Title="其它"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
-                            new BridgeDamage{ Idx=0, Id=99,Title="其它"}
-                        }}
-
-        };
+        public static BindingList<BridgeDamage> ComponentComboBox { get; } = LoadDataFromMemory();
 
         private static BindingList<BridgeDamage> LoadDataFromMemory()
         {
@@ -147,9 +78,10 @@ namespace AutoRegularInspection.Models
                     ,new BridgeDamage{  Idx=6,Id=7,Title="人行道块件"
                     ,DamageComboBox=new BindingList<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="网裂"}
-                            ,new BridgeDamage{ Idx=1, Id=2,Title="松动或变形"}
-                            ,new BridgeDamage{ Idx=2, Id=3,Title="残缺"}
-                            ,new BridgeDamage{ Idx=3, Id=99,Title="其它"}
+                            ,new BridgeDamage{ Idx=1, Id=2,Title="松动"}
+                            ,new BridgeDamage{ Idx=2, Id=3,Title="变形"}
+                            ,new BridgeDamage{ Idx=3, Id=4,Title="残缺"}
+                            ,new BridgeDamage{ Idx=4, Id=99,Title="其它"}
                         }}
                     ,new BridgeDamage{  Idx=7,Id=99,Title="其它"
                     ,DamageComboBox=new BindingList<BridgeDamage>() {
@@ -314,6 +246,99 @@ namespace AutoRegularInspection.Models
             if (!File.Exists(strFilePath))
             {
                 return new BindingList<BridgeDamage>(lst);
+            }
+
+            int currRow = 2;
+            string previousContent = string.Empty; string currContent = string.Empty;
+            var file = new FileInfo(strFilePath);
+            try
+            {
+                using (var package = new ExcelPackage(file))
+                {
+                    var worksheet = package.Workbook.Worksheets["桥面系"];
+
+                    currContent = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素名称")].Value?.ToString() ?? string.Empty).Trim();
+                    previousContent = currContent;
+
+                    if (!string.IsNullOrWhiteSpace(worksheet.Cells[2, 2].Value?.ToString() ?? string.Empty))
+                    {
+                        lst.Add(new BridgeDamage
+                        {
+                            Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,
+                            Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim())
+                            ,
+                            Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
+                            ,
+                            DamageComboBox = new BindingList<BridgeDamage> {
+                                new BridgeDamage
+                                {
+                                    Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
+                                    ,
+                                    Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
+                                    ,
+                                    Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim()),
+                                }
+                            }
+                        });
+                    }
+                    else
+                    {
+                        return new BindingList<BridgeDamage>(lst);
+                    }
+
+                    previousContent = currContent;
+
+                    currRow++;
+
+                    currContent = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素名称")].Value?.ToString() ?? string.Empty).Trim();
+
+                    while (!string.IsNullOrWhiteSpace(currContent))
+                    {
+                        if (previousContent != currContent)
+                        {
+                            lst.Add(new BridgeDamage
+                            {
+                                Title = currContent
+                                ,
+                                Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim())
+                                ,
+                                Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
+                                ,
+                                DamageComboBox = new BindingList<BridgeDamage> {
+                                new BridgeDamage
+                                {
+                                    Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
+                                    ,
+                                    Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
+                                    ,
+                                    Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim()),
+                                }
+                            }
+                            });
+                        }
+                        else
+                        {
+                            lst.Where(x => x.Title == currContent).FirstOrDefault().DamageComboBox.Add(new BridgeDamage
+                            {
+                                Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,
+                                Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
+                            ,
+                                Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim()),
+                            });
+                        }
+                        previousContent = currContent;
+                        currRow++;
+                        currContent = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素名称")].Value?.ToString() ?? string.Empty).Trim();
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
             }
 
             return new BindingList<BridgeDamage>(lst);
