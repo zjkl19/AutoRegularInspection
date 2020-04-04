@@ -155,9 +155,9 @@ namespace AutoRegularInspection
 
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
 
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
-            var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
-            var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
             new Thread(() =>
             {
                 Dispatcher.BeginInvoke(new Action(() =>
@@ -167,7 +167,7 @@ namespace AutoRegularInspection
 
                         var doc = new Document(templateFile);
 
-                        var asposeService = new AsposeWordsServices(ref doc, ref _bridgeDeckListDamageSummary, ref _superSpaceListDamageSummary, ref _subSpaceListDamageSummary);
+                        var asposeService = new AsposeWordsServices(ref doc, _bridgeDeckListDamageSummary.ToList(), _superSpaceListDamageSummary.ToList(), _subSpaceListDamageSummary.ToList());
                         asposeService.GenerateSummaryTableAndPictureTable(ImageWidth, ImageHeight, CompressImageFlag);
 
                         doc.UpdateFields();

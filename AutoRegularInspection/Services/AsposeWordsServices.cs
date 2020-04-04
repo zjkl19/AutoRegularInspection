@@ -25,9 +25,9 @@ namespace AutoRegularInspection.Services
         readonly string SubSpaceBookmarkStartName = "SubSpaceStart";
 
         public AsposeWordsServices(ref Document doc
-            , ref List<DamageSummary> bridgeDeckListDamageSummary
-            , ref List<DamageSummary> superSpaceListDamageSummary
-            , ref List<DamageSummary> subSpaceListDamageSummary)
+            , List<DamageSummary> bridgeDeckListDamageSummary
+            , List<DamageSummary> superSpaceListDamageSummary
+            , List<DamageSummary> subSpaceListDamageSummary)
         {
             _doc = doc;
             _bridgeDeckListDamageSummary = bridgeDeckListDamageSummary;
@@ -114,18 +114,23 @@ namespace AutoRegularInspection.Services
             builder.InsertCell(); builder.Write("位置");
             builder.InsertCell();
 
+            BridgePart bridgePart;
+
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
                 builder.Write("要素");
+                bridgePart = BridgePart.BridgeDeck;
 
             }
             else if (BookmarkStartName == SuperSpaceBookmarkStartName)
             {
                 builder.Write("构件类型");
+                bridgePart = BridgePart.SuperSpace;
             }
             else
             {
                 builder.Write("构件类型");
+                bridgePart = BridgePart.SubSpace;
             }
 
             builder.InsertCell(); builder.Write("缺损类型");
@@ -137,10 +142,11 @@ namespace AutoRegularInspection.Services
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
+
                 builder.InsertCell(); builder.Write($"{i + 1}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Component}");
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Damage.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetComponentName(bridgePart)}");
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetDamageName(bridgePart).Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamageDescription.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");
                 builder.InsertCell();
                 if (listDamageSummary[i].PictureCounts == 0)
