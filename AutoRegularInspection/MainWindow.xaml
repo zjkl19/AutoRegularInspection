@@ -362,8 +362,8 @@
 
 
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="0" Margin="10" Click="AutoReport_Click">自动生成报告</Button>
-        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="1" Margin="10" Click="SuggestionButton_Click">查看参考建议</Button>
-        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="2" Margin="10" Click="InstructionsButton_Click">使用说明</Button>
+        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="1" Margin="10" Click="OpenReport_Click">打开报告</Button>
+        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="2" Margin="10" Click="SuggestionButton_Click">查看参考建议</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="3" Margin="10" Click="CheckForUpdateButton_Click">检查更新</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="4" Margin="10" Click="DisclaimerButton_Click">免责声明</Button>
         <Label Grid.Row="{StaticResource CopyRightRowIndex}" Grid.Column="0" Grid.ColumnSpan="{StaticResource ColumnCounts}" Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020" VerticalAlignment="Center"/>

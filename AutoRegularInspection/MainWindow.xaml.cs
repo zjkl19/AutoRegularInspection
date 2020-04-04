@@ -293,6 +293,20 @@ namespace AutoRegularInspection
 
         }
 
+        private void OpenReport_Click(object sender, RoutedEventArgs e)
+        {
+            string reportFile = "自动生成的外观检查报告.docx";
+            if (File.Exists(reportFile))
+            {
+                Process.Start(reportFile);
+            }
+            else
+            {
+                MessageBox.Show($"请先生成报告。");
+            }
+
+        }
+
         private void DisclaimerButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("本软件计算结果及生成的报告等仅供参考，因本软件产生的计算错误、生成报告结果不正确的后果由软件使用者自行承担。");
