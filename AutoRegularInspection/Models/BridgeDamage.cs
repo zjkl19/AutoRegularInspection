@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Models
 {
-    public class BridgeDeck : INotifyPropertyChanged
+    public class BridgeDamage : INotifyPropertyChanged
     {
         /// <summary>
         /// 构造函数
@@ -16,7 +16,7 @@ namespace AutoRegularInspection.Models
         /// <param name="Idx">索引</param>
         /// <param name="Id">Id</param>
         /// <param name="Title">标题</param>
-        //public BridgeDeck(int Idx, int Id,string Title)
+        //public BridgeDamage(int Idx, int Id,string Title)
         //{
         //    _Idx = Idx;
         //    _Id = Id;
@@ -61,8 +61,8 @@ namespace AutoRegularInspection.Models
             }
         }
 
-        private BindingList<BridgeDeck>  _DamageComboBox;
-        public BindingList<BridgeDeck> DamageComboBox
+        private BindingList<BridgeDamage>  _DamageComboBox;
+        public BindingList<BridgeDamage> DamageComboBox
         {
             get { return _DamageComboBox; }
             set
@@ -71,7 +71,7 @@ namespace AutoRegularInspection.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DamageComboBox)));
             }
         }
-        //public BindingList<BridgeDeck> DamageComboBox { set; get; }
+        //public BindingList<BridgeDamage> DamageComboBox { set; get; }
     }
     
 }

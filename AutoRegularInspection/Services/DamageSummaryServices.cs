@@ -38,15 +38,15 @@ namespace AutoRegularInspection.Services
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                //listDamageSummary[i].ComponentComboBox = new BindingList<BridgeDeck>
+                //listDamageSummary[i].ComponentComboBox = new BindingList<BridgeDamage>
                 //{
-                //    new BridgeDeck{  Id=1,Title="桥面铺装"}
-                //    ,new BridgeDeck{  Id=2,Title="其它"}
+                //    new BridgeDamage{  Id=1,Title="桥面铺装"}
+                //    ,new BridgeDamage{  Id=2,Title="其它"}
                 //};
 
                 //TODO：写单元测试
                 //创建映射
-                IEnumerable<BridgeDeck> componentFound = null;
+                IEnumerable<BridgeDamage> componentFound = null;
 
                 if (bridgePart == BridgePart.BridgeDeck)
                 {
@@ -76,7 +76,7 @@ namespace AutoRegularInspection.Services
 
                     if (damageFound.Any())
                     {
-                        //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDeck>(damageFound.ToList());
+                        //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDamage>(damageFound.ToList());
                         listDamageSummary[i].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
                         listDamageSummary[i].DamageValue = damageFound.FirstOrDefault().Idx;

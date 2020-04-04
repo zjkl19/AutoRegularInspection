@@ -50,11 +50,7 @@ namespace AutoRegularInspection
             //TODO：Grid数据和Excel绑定
             //List<DamageSummary> lst;
 
-            //lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
-            //DamageSummaryServices.InitListDamageSummary(lst);
-            //BridgeDeckGrid.ItemsSource = lst;
-            //BridgeDeckGrid.DataContext = lst;
-
+         
 
 
             //lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
@@ -334,7 +330,7 @@ namespace AutoRegularInspection
             }
             var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
-            IEnumerable<BridgeDeck> componentFound;
+            IEnumerable<BridgeDamage> componentFound;
             if (bridgePart==BridgePart.BridgeDeck)
             {
                 componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
@@ -395,7 +391,7 @@ namespace AutoRegularInspection
             UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.SubSpaceComponentComboBox);
         }
 
-        private static void UIChangeDamageComboBox(ComboBox curComboBox, DataGrid dataGrid, BindingList<BridgeDeck> componentComboBox)
+        private static void UIChangeDamageComboBox(ComboBox curComboBox, DataGrid dataGrid, BindingList<BridgeDamage> componentComboBox)
         {
             int rowIndex = 0;
             var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
@@ -414,7 +410,7 @@ namespace AutoRegularInspection
             }
 
             var m = curComboBox.SelectedIndex;
-            BridgeDeck componentFoundBefore = null;
+            BridgeDamage componentFoundBefore = null;
 
 
             componentFoundBefore = componentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];

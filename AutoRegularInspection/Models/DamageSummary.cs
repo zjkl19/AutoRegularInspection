@@ -32,11 +32,10 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string Position { set; get; }
 
-        public BridgeDeckEnum TestEnum { set; get; }
 
-        private BindingList<BridgeDeck> _DamageComboBox;
+        private BindingList<BridgeDamage> _DamageComboBox;
 
-        public BindingList<BridgeDeck> DamageComboBox
+        public BindingList<BridgeDamage> DamageComboBox
         {
             get { return _DamageComboBox; }
             set
@@ -59,7 +58,7 @@ namespace AutoRegularInspection.Models
         /// <summary>
         /// 构件类型对应的Combobox
         /// </summary>
-        public BindingList<BridgeDeck> ComponentComboBox { set; get; }
+        public BindingList<BridgeDamage> ComponentComboBox { set; get; }
 
         private int _ComponentValue;
         /// <summary>
@@ -168,7 +167,7 @@ namespace AutoRegularInspection.Models
         /// <returns></returns>
         public string GetComponentName(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
-            BindingList<BridgeDeck> componentBox = GlobalData.ComponentComboBox;
+            BindingList<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
 
             if (bridgePart== BridgePart.BridgeDeck)
             {
@@ -199,7 +198,7 @@ namespace AutoRegularInspection.Models
         /// <returns></returns>
         public string GetDamageName(BridgePart bridgePart = BridgePart.BridgeDeck)
         {
-            BindingList<BridgeDeck> componentBox = GlobalData.ComponentComboBox;
+            BindingList<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
 
             if (bridgePart == BridgePart.BridgeDeck)
             {

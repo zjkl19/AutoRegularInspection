@@ -16,11 +16,6 @@
 
         <Grid.Resources>
             
-            <ObjectDataProvider x:Key="myEnum" MethodName="GetNames" ObjectType="{x:Type sys:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="local:BridgeDeckEnum"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
 
             <!--<Style TargetType="{x:Type DataGridCell}">
                 <EventSetter Event="PreviewMouseLeftButtonDown" Handler="DataGridCell_PreviewMouseLeftButtonDown" />
@@ -44,7 +39,7 @@
             <!--<local:EmailConverter x:Key="EmailConverter" />-->
             <!--<ObjectDataProvider x:Key="myComboBox" MethodName="GetValues" ObjectType="{x:Type core:Object}">
                 <ObjectDataProvider.MethodParameters>
-                    <x:Type Type="local:BridgeDeck"/>
+                    <x:Type Type="local:BridgeDamage"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>-->
             
