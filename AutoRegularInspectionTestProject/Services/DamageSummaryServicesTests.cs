@@ -71,6 +71,55 @@ namespace AutoRegularInspectionTestProject.Services
             //Assert
             Assert.Equal(2, bridgeDeckListDamageSummary[0].ComponentValue);
         }
+
+        [Fact]
+        public void SetComboBox_ShouldSetCorretComponentValue_WhileBridgePartIsSuperSpace()
+        {
+            //Arrange
+            var listDamageSummary = new List<DamageSummary>
+            {
+                new DamageSummary {
+
+                    Component="横向联系"
+                    ,Damage="连接件断裂"
+                    ,PictureNo="855,858,875"
+                }
+                ,new DamageSummary {
+
+                    Component="横向联系"
+                    ,Damage="横隔板网裂"
+                    ,PictureNo="900"
+                }
+            };
+
+            //Act
+
+            DamageSummaryServices.InitListDamageSummary(listDamageSummary,2_000_000,BridgePart.SuperSpace);
+            //Assert
+            Assert.Equal(1, listDamageSummary[0].ComponentValue);
+        }
+
+        [Fact]
+        public void SetComboBox_ShouldSetCorretComponentValue_WhileBridgePartIsSubSpace()
+        {
+            //Arrange
+            var listDamageSummary = new List<DamageSummary>
+            {
+                new DamageSummary {
+
+                    Component="台身"
+                    ,Damage="墩身水平裂缝"
+                    ,PictureNo="855,858,875"
+                }
+            };
+
+            //Act
+
+            DamageSummaryServices.InitListDamageSummary(listDamageSummary, 3_000_000, BridgePart.SubSpace);
+            //Assert
+            Assert.Equal(3, listDamageSummary[0].ComponentValue);
+        }
+
         /// <summary>
         /// WhileDamageFound指的是在非“其它”的“枚举”中找到
         /// </summary>

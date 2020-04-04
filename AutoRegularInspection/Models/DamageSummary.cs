@@ -83,7 +83,7 @@ namespace AutoRegularInspection.Models
         /// <summary>
         /// 损坏类型
         /// </summary>
-        public string Damage { set; get; }
+        public string Damage { set; get; } = string.Empty;
 
 
         private string damageDescription;

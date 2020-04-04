@@ -48,9 +48,13 @@ namespace AutoRegularInspection.Services
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight);
             progressModel.Content = "正在处理上部结构……";
             progressModel.ProgressValue = 33;
+            System.Threading.Thread.Sleep(500);
+
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight);
             progressModel.Content = "正在处理下部结构……";
             progressModel.ProgressValue = 66;
+            System.Threading.Thread.Sleep(500);
+
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight);
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";

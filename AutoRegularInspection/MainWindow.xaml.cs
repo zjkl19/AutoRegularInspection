@@ -50,7 +50,7 @@ namespace AutoRegularInspection
             //TODO：Grid数据和Excel绑定
             //List<DamageSummary> lst;
 
-         
+
 
 
             //lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
@@ -160,7 +160,7 @@ namespace AutoRegularInspection
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
 
-           
+
             new Thread(() =>
             {
                 Dispatcher.BeginInvoke(new Action(() =>
@@ -168,7 +168,7 @@ namespace AutoRegularInspection
                     try
                     {
                         GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
-                        
+
 
                     }
                     catch (Exception ex)
@@ -197,7 +197,29 @@ namespace AutoRegularInspection
 
             var progressSleepTime = 500;    //进度条停顿时间
 
+            List<DamageSummary> l1 = _bridgeDeckListDamageSummary.ToList();
+            List<DamageSummary> l2 = _superSpaceListDamageSummary.ToList();
+            List<DamageSummary> l3 = _subSpaceListDamageSummary.ToList();
+
+            //List<DamageSummary> lst1 = _bridgeDeckListDamageSummary.ToList();
+            //List<DamageSummary> lst2 = _superSpaceListDamageSummary.ToList();
+            //List<DamageSummary> lst3 = _subSpaceListDamageSummary.ToList();
+
+            //List<DamageSummary> l1 = new List<DamageSummary>();
+            //List<DamageSummary> l2 = new List<DamageSummary>();
+            //List<DamageSummary> l3 = new List<DamageSummary>();
+
+            //lst1.ForEach(i => l1.Add(i));
+            //lst2.ForEach(i => l3.Add(i));
+            //lst2.ForEach(i => l3.Add(i));
+
+
+
+            DamageSummaryServices.InitListDamageSummary1(l1);
+            DamageSummaryServices.InitListDamageSummary1(l2, 2_000_000);
+            DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
             
+
 
             var thread = new Thread(new ThreadStart(() =>
             {
@@ -206,7 +228,7 @@ namespace AutoRegularInspection
 
 
                 var doc = new Document(templateFile);
-                var asposeService = new AsposeWordsServices(ref doc, _bridgeDeckListDamageSummary.ToList(), _superSpaceListDamageSummary.ToList(), _subSpaceListDamageSummary.ToList());
+                var asposeService = new AsposeWordsServices(ref doc, l1, l2, l3);
                 asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, ImageWidth, ImageHeight, CompressImageFlag);
 
                 doc.UpdateFields();
@@ -381,11 +403,11 @@ namespace AutoRegularInspection
             var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
             IEnumerable<BridgeDamage> componentFound;
-            if (bridgePart==BridgePart.BridgeDeck)
+            if (bridgePart == BridgePart.BridgeDeck)
             {
                 componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
             }
-            else if(bridgePart == BridgePart.SuperSpace)
+            else if (bridgePart == BridgePart.SuperSpace)
             {
                 componentFound = GlobalData.SuperSpaceComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
             }
@@ -477,7 +499,7 @@ namespace AutoRegularInspection
             }
         }
 
-        
+
 
         private void DamageComboBox_DropDownClosed(object sender, EventArgs e)
         {
@@ -488,7 +510,7 @@ namespace AutoRegularInspection
             ChangeDamageValue(curComboBox, dataGrid);
 
         }
-        
+
         private void SuperSpaceDamageComboBox_DropDownClosed(object sender, EventArgs e)
         {
             ComboBox curComboBox = sender as ComboBox;
