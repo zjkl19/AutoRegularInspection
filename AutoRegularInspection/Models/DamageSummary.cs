@@ -12,6 +12,17 @@ namespace AutoRegularInspection.Models
     /// </summary>
     public class DamageSummary : INotifyPropertyChanged
     {
+        private BridgePart _BridgePartEnum { set; get; }
+
+        public BridgePart BridgePartEnum
+        {
+            get { return _BridgePartEnum; }
+            set
+            {
+                _BridgePartEnum = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BridgePartEnum)));
+            }
+        }
         /// <summary>
         /// 序号
         /// </summary>
@@ -155,26 +166,57 @@ namespace AutoRegularInspection.Models
         /// 直接获取部位名
         /// </summary>
         /// <returns></returns>
-        public string GetComponentName()
+        public string GetComponentName(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
-            if (GlobalData.ComponentComboBox[ComponentValue].Title != "其它")
+            BindingList<BridgeDeck> componentBox = GlobalData.ComponentComboBox;
+
+            if (bridgePart== BridgePart.BridgeDeck)
             {
-                return(GlobalData.ComponentComboBox[ComponentValue].Title);
+                componentBox = GlobalData.ComponentComboBox;
+            }
+            else if(bridgePart == BridgePart.SuperSpace)
+            {
+                componentBox = GlobalData.SuperSpaceComponentComboBox;
+            }
+            else
+            {
+                componentBox = GlobalData.SubSpaceComponentComboBox;
+            }
+
+            if (componentBox[ComponentValue].Title != "其它")
+            {
+                return (componentBox[ComponentValue].Title);
             }
             else    //TODO:考虑"其它"输入为空的情况
             {
                 return Component;
             }
+
         }
         /// <summary>
         /// 直接获取病害名
         /// </summary>
         /// <returns></returns>
-        public string GetDamageName()
+        public string GetDamageName(BridgePart bridgePart = BridgePart.BridgeDeck)
         {
-            if (GlobalData.ComponentComboBox[ComponentValue].DamageComboBox[DamageValue].Title != "其它")
+            BindingList<BridgeDeck> componentBox = GlobalData.ComponentComboBox;
+
+            if (bridgePart == BridgePart.BridgeDeck)
             {
-                return (GlobalData.ComponentComboBox[ComponentValue].DamageComboBox[DamageValue].Title);
+                componentBox = GlobalData.ComponentComboBox;
+            }
+            else if (bridgePart == BridgePart.SuperSpace)
+            {
+                componentBox = GlobalData.SuperSpaceComponentComboBox;
+            }
+            else
+            {
+                componentBox = GlobalData.SubSpaceComponentComboBox;
+            }
+
+            if (componentBox[ComponentValue].DamageComboBox[DamageValue].Title != "其它")
+            {
+                return (componentBox[ComponentValue].DamageComboBox[DamageValue].Title);
             }
             else    //TODO:考虑"其它"输入为空的情况
             {

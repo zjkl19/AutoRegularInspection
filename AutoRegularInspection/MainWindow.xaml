@@ -83,6 +83,7 @@
                 <Grid>
                     <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False"  ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
+
                             <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="30"
@@ -361,7 +362,8 @@
 
         <Button Grid.Row="{StaticResource OperationButtonRowIndex}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex}" Grid.Column="2" Margin="10" Click="Test_Click">自定义功能测试</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex}" Grid.Column="2" Margin="10" Click="OpenExcel_Click">打开Excel</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex}" Grid.Column="3" Margin="10" Click="Test_Click">自定义功能测试</Button>
 
 
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="0" Margin="10" Click="AutoReport_Click">自动生成报告</Button>

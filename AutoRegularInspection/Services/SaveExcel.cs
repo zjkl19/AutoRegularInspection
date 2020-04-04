@@ -61,7 +61,7 @@ namespace AutoRegularInspection.Services
                         }
                         else    //TODO:考虑"其它"输入为空的情况
                         {
-                            worksheet.Cells[i + 2, 3].Value = bridgeDeckListDamageSummary[i].Component;
+                            worksheet.Cells[i + 2, 3].Value = bridgeDeckListDamageSummary[i].GetComponentName();
                         }
 
                         if (GlobalData.ComponentComboBox[bridgeDeckListDamageSummary[i].ComponentValue].DamageComboBox[bridgeDeckListDamageSummary[i].DamageValue].Title != "其它")
@@ -93,8 +93,13 @@ namespace AutoRegularInspection.Services
                     {
                         worksheet.Cells[i + 2, 1].Value = i + 1;
                         worksheet.Cells[i + 2, 2].Value = superSpaceListDamageSummary[i].Position;
-                        worksheet.Cells[i + 2, 3].Value = superSpaceListDamageSummary[i].Component;
-                        worksheet.Cells[i + 2, 4].Value = superSpaceListDamageSummary[i].Damage;
+
+                        worksheet.Cells[i + 2, 3].Value = superSpaceListDamageSummary[i].GetComponentName(BridgePart.SuperSpace);
+                        //worksheet.Cells[i + 2, 3].Value = superSpaceListDamageSummary[i].Component;
+
+                        worksheet.Cells[i + 2, 4].Value = superSpaceListDamageSummary[i].GetDamageName(BridgePart.SuperSpace);
+                        //worksheet.Cells[i + 2, 4].Value = superSpaceListDamageSummary[i].Damage;
+                        
                         worksheet.Cells[i + 2, 5].Value = superSpaceListDamageSummary[i].DamageDescription;
                         worksheet.Cells[i + 2, 6].Value = superSpaceListDamageSummary[i].DamageDescriptionInPicture;
                         worksheet.Cells[i + 2, 7].Value = superSpaceListDamageSummary[i].PictureNo;
@@ -115,8 +120,12 @@ namespace AutoRegularInspection.Services
                     {
                         worksheet.Cells[i + 2, 1].Value = i + 1;
                         worksheet.Cells[i + 2, 2].Value = subSpaceListDamageSummary[i].Position;
-                        worksheet.Cells[i + 2, 3].Value = subSpaceListDamageSummary[i].Component;
-                        worksheet.Cells[i + 2, 4].Value = subSpaceListDamageSummary[i].Damage;
+
+                        worksheet.Cells[i + 2, 3].Value = subSpaceListDamageSummary[i].GetComponentName(BridgePart.SubSpace);
+                        //worksheet.Cells[i + 2, 3].Value = subSpaceListDamageSummary[i].Component;
+
+                        worksheet.Cells[i + 2, 4].Value = subSpaceListDamageSummary[i].GetDamageName(BridgePart.SubSpace);
+                        //worksheet.Cells[i + 2, 4].Value = subSpaceListDamageSummary[i].Damage;
                         worksheet.Cells[i + 2, 5].Value = subSpaceListDamageSummary[i].DamageDescription;
                         worksheet.Cells[i + 2, 6].Value = subSpaceListDamageSummary[i].DamageDescriptionInPicture;
                         worksheet.Cells[i + 2, 7].Value = subSpaceListDamageSummary[i].PictureNo;

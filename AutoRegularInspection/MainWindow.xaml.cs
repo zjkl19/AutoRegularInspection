@@ -265,12 +265,12 @@ namespace AutoRegularInspection
         {
             if (MessageBox.Show("保存后将会覆盖原来的Excel文件，你确定要继续吗？", "保存Excel", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
             {
-                var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
-                var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
-                var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
-                if (SaveExcelService.SaveExcel(_bridgeDeckListDamageSummary
-                    , _superSpaceListDamageSummary
-                    , _subSpaceListDamageSummary) == 1)
+                var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+                var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
+                var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
+                if (SaveExcelService.SaveExcel(_bridgeDeckListDamageSummary.ToList()
+                    , _superSpaceListDamageSummary.ToList()
+                    , _subSpaceListDamageSummary.ToList()) == 1)
                 {
                     MessageBox.Show("Excel保存成功！");
                 }
@@ -282,6 +282,21 @@ namespace AutoRegularInspection
             }
 
         }
+
+        private void OpenExcel_Click(object sender, RoutedEventArgs e)
+        {
+            string xlsxFile = "外观检查.xlsx";
+            if (File.Exists(xlsxFile))
+            {
+                Process.Start(xlsxFile);
+            }
+            else
+            {
+                MessageBox.Show($"未找到文件{xlsxFile}");
+            }
+
+        }
+
         private void DisclaimerButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("本软件计算结果及生成的报告等仅供参考，因本软件产生的计算错误、生成报告结果不正确的后果由软件使用者自行承担。");
