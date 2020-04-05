@@ -21,9 +21,7 @@ using System.Collections.ObjectModel;
 
 namespace AutoRegularInspection
 {
-    /// <summary>
-    /// MainWindow.xaml 的交互逻辑
-    /// </summary>
+
     public partial class MainWindow : Window
     {
 
@@ -141,24 +139,7 @@ namespace AutoRegularInspection
             w.Show();
         }
 
-        private void SuggestionButton_Click(object sender, RoutedEventArgs e)
-        {
-            var w = new SuggestionWindow();
-            w.Top = 0.4 * (App.ScreenHeight - w.Height);
-            w.Left = 0.5 * (App.ScreenWidth - w.Width);
-            w.Show();
 
-            var s = new SuggestionServices();
-
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as List<DamageSummary>;
-            var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as List<DamageSummary>;
-            var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as List<DamageSummary>;
-
-            var lst = _bridgeDeckListDamageSummary.Union(_superSpaceListDamageSummary).Union(_subSpaceListDamageSummary).ToList<DamageSummary>();
-
-            w.SuggestionTextBox.Text = s.MakeSuggestions(lst);
-
-        }
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
@@ -178,10 +159,15 @@ namespace AutoRegularInspection
             $"系统框架设计、编程及维护：路桥检测研究所林迪南等"
             , "关于");
         }
-
-        //算法：检测是否存在"外观检查 - 副本 (1).xlsx"，若不存在，则复制保存
-        //若存在，检测是否存在"外观检查 - 副本 (2).xlsx",若不存在，则复制保存，以此类推
-
+        /// <summary>
+        /// 备份excel
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        ///<remarks>
+        ///算法：检测是否存在"外观检查 - 副本 (1).xlsx"，若不存在，则复制保存。
+        ///若存在，检测是否存在"外观检查 - 副本 (2).xlsx",若不存在，则复制保存，以此类推。
+        ///</remarks>
         private void BackupExcel_Click(object sender, RoutedEventArgs e)
         {
             int i = 1;
@@ -335,7 +321,6 @@ namespace AutoRegularInspection
         }
         private void SuperSpaceComboBox_DropDownClosed(object sender, EventArgs e)
         {
-
             ComboBox curComboBox = sender as ComboBox;
 
             DataGrid dataGrid = SuperSpaceGrid;
@@ -387,7 +372,6 @@ namespace AutoRegularInspection
 
             }
         }
-
 
 
         private void DamageComboBox_DropDownClosed(object sender, EventArgs e)
@@ -446,28 +430,6 @@ namespace AutoRegularInspection
             _bridgeDeckListDamageSummary[rowIndex].DamageValue = curComboBox.SelectedIndex;
         }
 
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
-            //_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
-
-            //_bridgeDeckListDamageSummary[2].DamageComboBox = GlobalData.ComponentComboBox[5].DamageComboBox;
-            //_bridgeDeckListDamageSummary[2].DamageValue = 2;
-            //MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
-
-            try
-            {
-
-                MessageBox.Show(_bridgeDeckListDamageSummary[5].ComponentValue.ToString());
-                MessageBox.Show(_bridgeDeckListDamageSummary[5].DamageValue.ToString());
-                MessageBox.Show(_bridgeDeckListDamageSummary[5].Component.ToString());
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message.ToString());
-            }
-        }
 
         private void DamageComboBox_DropDownOpened(object sender, EventArgs e)
         {

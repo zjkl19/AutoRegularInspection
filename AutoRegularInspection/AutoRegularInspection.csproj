@@ -76,6 +76,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IRepository\IDataRepository.cs" />
+    <Compile Include="MainWindow\MainWindow.Suggestion.xaml.cs" />
+    <Compile Include="MainWindow\MainWindow.Test.xaml.cs" />
     <Compile Include="Models\BridgeDamage.cs" />
     <Compile Include="Models\BridgeDeckEnum.cs" />
     <Compile Include="Models\BridgePart.cs" />
@@ -147,9 +149,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="AsposeWordsNet\.gitignore" />
-    <None Include="default.docx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Option.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -158,7 +157,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="外观检查 - 副本.xlsx" />
     <None Include="外观检查.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
