@@ -463,7 +463,7 @@ namespace AutoRegularInspection
             UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.SubSpaceComponentComboBox);
         }
 
-        private static void UIChangeDamageComboBox(ComboBox curComboBox, DataGrid dataGrid, BindingList<BridgeDamage> componentComboBox)
+        private static void UIChangeDamageComboBox(ComboBox curComboBox, DataGrid dataGrid, ObservableCollection<BridgeDamage> componentComboBox)
         {
             int rowIndex = 0;
             var _cells = dataGrid.SelectedCells;//获取选中单元格的列表

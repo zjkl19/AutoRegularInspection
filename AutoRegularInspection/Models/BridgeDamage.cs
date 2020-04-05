@@ -61,8 +61,8 @@ namespace AutoRegularInspection.Models
             }
         }
 
-        private BindingList<BridgeDamage>  _DamageComboBox;
-        public BindingList<BridgeDamage> DamageComboBox
+        private ObservableCollection<BridgeDamage>  _DamageComboBox;
+        public ObservableCollection<BridgeDamage> DamageComboBox
         {
             get { return _DamageComboBox; }
             set
@@ -71,7 +71,7 @@ namespace AutoRegularInspection.Models
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DamageComboBox)));
             }
         }
-        //public BindingList<BridgeDamage> DamageComboBox { set; get; }
+        //public ObservableCollection<BridgeDamage> DamageComboBox { set; get; }
     }
     
 }

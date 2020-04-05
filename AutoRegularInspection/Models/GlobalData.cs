@@ -2,6 +2,7 @@
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -12,13 +13,13 @@ namespace AutoRegularInspection.Models
 {
     public class GlobalData
     {
-        public static BindingList<BridgeDamage> ComponentComboBox { get; } = LoadDataFromMemory();
+        public static ObservableCollection<BridgeDamage> ComponentComboBox { get; } = LoadDataFromMemory();
 
-        private static BindingList<BridgeDamage> LoadDataFromMemory()
+        private static ObservableCollection<BridgeDamage> LoadDataFromMemory()
         {
-            return new BindingList<BridgeDamage>() {
+            return new ObservableCollection<BridgeDamage>() {
                     new BridgeDamage{ Idx=0, Id=1,Title="桥面铺装"
-                        ,DamageComboBox=new BindingList<BridgeDamage>() {
+                        ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="网裂"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="龟裂"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="波浪"}
@@ -33,14 +34,14 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{ Idx=1, Id=2,Title="桥头平顺"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="桥头沉降"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="台背下沉"}
                             ,new BridgeDamage{ Idx=2, Id=99,Title="其它"}
                         }
                     }
                     ,new BridgeDamage{  Idx=2,Id=3,Title="伸缩缝"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="螺帽松动"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="缝内沉积物阻塞"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="止水带破损"}
@@ -54,7 +55,7 @@ namespace AutoRegularInspection.Models
                             ,new BridgeDamage{ Idx=10, Id=99,Title="其它"}
                         }}
                     ,new BridgeDamage{  Idx=3,Id=4,Title="排水系统"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
+                    ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="泄水管阻塞"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="残缺脱落"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="桥面积水"}
@@ -62,21 +63,21 @@ namespace AutoRegularInspection.Models
                             ,new BridgeDamage{ Idx=4, Id=99,Title="其它"}
                         }}
                     ,new BridgeDamage{  Idx=4,Id=5,Title="栏杆"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
+                    ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="露筋锈蚀"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="松动错位"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="丢失残缺"}
                             ,new BridgeDamage{ Idx=3, Id=99,Title="其它"}
                         }}
                     ,new BridgeDamage{  Idx=5,Id=6,Title="护栏"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
+                    ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="露筋锈蚀"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="松动错位"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="丢失残缺"}
                             ,new BridgeDamage{ Idx=3, Id=99,Title="其它"}
                         }}
                     ,new BridgeDamage{  Idx=6,Id=7,Title="人行道块件"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
+                    ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="网裂"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="松动"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="变形"}
@@ -84,7 +85,7 @@ namespace AutoRegularInspection.Models
                             ,new BridgeDamage{ Idx=4, Id=99,Title="其它"}
                         }}
                     ,new BridgeDamage{  Idx=7,Id=99,Title="其它"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
+                    ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=99,Title="其它"}
                         }}
 
@@ -92,9 +93,9 @@ namespace AutoRegularInspection.Models
         }
 
 
-        public static BindingList<BridgeDamage> SuperSpaceComponentComboBox { get; } = new BindingList<BridgeDamage>() {
+        public static ObservableCollection<BridgeDamage> SuperSpaceComponentComboBox { get; } = new ObservableCollection<BridgeDamage>() {
                     new BridgeDamage{ Idx=0, Id=1,Title="主梁"
-                        ,DamageComboBox=new BindingList<BridgeDamage>() {
+                        ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="表面裂缝"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="混凝土剥离"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="露筋锈蚀"}
@@ -107,7 +108,7 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{ Idx=1, Id=2,Title="横向联系"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="桥面贯通纵缝"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="连接件脱焊松动"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="连接件断裂"}
@@ -119,15 +120,15 @@ namespace AutoRegularInspection.Models
                     }
 
                     ,new BridgeDamage{  Idx=2,Id=99,Title="其它"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
+                    ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=99,Title="其它"}
                         }}
 
         };
 
-        public static BindingList<BridgeDamage> SubSpaceComponentComboBox { get; } = new BindingList<BridgeDamage>() {
+        public static ObservableCollection<BridgeDamage> SubSpaceComponentComboBox { get; } = new ObservableCollection<BridgeDamage>() {
                     new BridgeDamage{ Idx=0, Id=1,Title="台帽"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="表面裂缝"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="混凝土剥离"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="露筋锈蚀"}
@@ -138,7 +139,7 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{ Idx=1, Id=2,Title="盖梁"
-                           ,DamageComboBox=new BindingList<BridgeDamage>() {
+                           ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="表面裂缝"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="混凝土剥离"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="露筋锈蚀"}
@@ -149,7 +150,7 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{ Idx=2, Id=3,Title="墩身"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="墩身水平裂缝"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="墩身纵向裂缝"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="框架式节点裂缝"}
@@ -161,7 +162,7 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{ Idx=3, Id=4,Title="台身"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="墩身水平裂缝"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="墩身纵向裂缝"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="框架式节点裂缝"}
@@ -173,7 +174,7 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{ Idx=4, Id=5,Title="支座"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="固定螺栓损坏"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="橡胶支座变形"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="钢支座损坏"}
@@ -184,7 +185,7 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{ Idx=5, Id=6,Title="耳背翼墙"
-                            ,DamageComboBox=new BindingList<BridgeDamage>() {
+                            ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=1,Title="桥面贯通纵缝"}
                             ,new BridgeDamage{ Idx=1, Id=2,Title="连接件脱焊松动"}
                             ,new BridgeDamage{ Idx=2, Id=3,Title="连接件断裂"}
@@ -195,13 +196,13 @@ namespace AutoRegularInspection.Models
                         }
                     }
                     ,new BridgeDamage{  Idx=6,Id=99,Title="其它"
-                    ,DamageComboBox=new BindingList<BridgeDamage>() {
+                    ,DamageComboBox=new ObservableCollection<BridgeDamage>() {
                             new BridgeDamage{ Idx=0, Id=99,Title="其它"}
                         }}
 
         };
 
-        //public static BindingList<BridgeDamage> ComponentComboBox { get; } = new BindingList<BridgeDamage>() {
+        //public static ObservableCollection<BridgeDamage> ComponentComboBox { get; } = new ObservableCollection<BridgeDamage>() {
         //            new BridgeDamage{  Id=1,Title="桥面铺装"}
         //            ,aa()
         //            ,new BridgeDamage{  Id=2,Title="其它"}
@@ -226,26 +227,26 @@ namespace AutoRegularInspection.Models
             return new BridgeDamage { Id = 3, Title = r };
         }
 
-        public static BindingList<BridgeDamage> TestComboBox1 { get; } = new BindingList<BridgeDamage>() {
+        public static ObservableCollection<BridgeDamage> TestComboBox1 { get; } = new ObservableCollection<BridgeDamage>() {
                     new BridgeDamage{  Id=1,Title="阻塞"}
                     ,new BridgeDamage{  Id=2,Title="碎边"}
 
         };
 
-        public static BindingList<BridgeDamage> TestComboBox2 { get; } = new BindingList<BridgeDamage>() {
+        public static ObservableCollection<BridgeDamage> TestComboBox2 { get; } = new ObservableCollection<BridgeDamage>() {
                     new BridgeDamage{  Id=1,Title="残缺"}
                     ,new BridgeDamage{  Id=2,Title="锈蚀"}
 
         };
 
-        private static BindingList<BridgeDamage> LoadDataFromExcel()
+        private static ObservableCollection<BridgeDamage> LoadDataFromExcel()
         {
             string strFilePath = "桥梁病害汇总表.xlsx";
             var lst = new List<BridgeDamage>();
 
             if (!File.Exists(strFilePath))
             {
-                return new BindingList<BridgeDamage>(lst);
+                return new ObservableCollection<BridgeDamage>(lst);
             }
 
             int currRow = 2;
@@ -270,7 +271,7 @@ namespace AutoRegularInspection.Models
                             ,
                             Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
                             ,
-                            DamageComboBox = new BindingList<BridgeDamage> {
+                            DamageComboBox = new ObservableCollection<BridgeDamage> {
                                 new BridgeDamage
                                 {
                                     Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
@@ -284,7 +285,7 @@ namespace AutoRegularInspection.Models
                     }
                     else
                     {
-                        return new BindingList<BridgeDamage>(lst);
+                        return new ObservableCollection<BridgeDamage>(lst);
                     }
 
                     previousContent = currContent;
@@ -305,7 +306,7 @@ namespace AutoRegularInspection.Models
                                 ,
                                 Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
                                 ,
-                                DamageComboBox = new BindingList<BridgeDamage> {
+                                DamageComboBox = new ObservableCollection<BridgeDamage> {
                                 new BridgeDamage
                                 {
                                     Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
@@ -341,7 +342,7 @@ namespace AutoRegularInspection.Models
                 throw ex;
             }
 
-            return new BindingList<BridgeDamage>(lst);
+            return new ObservableCollection<BridgeDamage>(lst);
         }
     }
 }

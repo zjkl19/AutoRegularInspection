@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -33,9 +34,9 @@ namespace AutoRegularInspection.Models
         public string Position { set; get; }
 
 
-        private BindingList<BridgeDamage> _DamageComboBox;
+        private ObservableCollection<BridgeDamage> _DamageComboBox;
 
-        public BindingList<BridgeDamage> DamageComboBox
+        public ObservableCollection<BridgeDamage> DamageComboBox
         {
             get { return _DamageComboBox; }
             set
@@ -58,7 +59,7 @@ namespace AutoRegularInspection.Models
         /// <summary>
         /// 构件类型对应的Combobox
         /// </summary>
-        public BindingList<BridgeDamage> ComponentComboBox { set; get; }
+        public ObservableCollection<BridgeDamage> ComponentComboBox { set; get; }
 
         private int _ComponentValue;
         /// <summary>
@@ -167,7 +168,7 @@ namespace AutoRegularInspection.Models
         /// <returns></returns>
         public string GetComponentName(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
-            BindingList<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
+            ObservableCollection<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
 
             if (bridgePart== BridgePart.BridgeDeck)
             {
@@ -198,7 +199,7 @@ namespace AutoRegularInspection.Models
         /// <returns></returns>
         public string GetDamageName(BridgePart bridgePart = BridgePart.BridgeDeck)
         {
-            BindingList<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
+            ObservableCollection<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
 
             if (bridgePart == BridgePart.BridgeDeck)
             {

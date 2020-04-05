@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace AutoRegularInspection.Services
 {
@@ -45,7 +46,7 @@ namespace AutoRegularInspection.Services
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                //listDamageSummary[i].ComponentComboBox = new BindingList<BridgeDamage>
+                //listDamageSummary[i].ComponentComboBox = new ObservableCollection<BridgeDamage>
                 //{
                 //    new BridgeDamage{  Id=1,Title="桥面铺装"}
                 //    ,new BridgeDamage{  Id=2,Title="其它"}
@@ -54,7 +55,7 @@ namespace AutoRegularInspection.Services
                 //TODO：写单元测试
                 //创建映射
 
-                BindingList<BridgeDamage> componentComboBox = null;
+                ObservableCollection<BridgeDamage> componentComboBox = null;
                 IEnumerable<BridgeDamage> componentFound = null;
 
                 if (bridgePart == BridgePart.BridgeDeck)
@@ -101,7 +102,7 @@ namespace AutoRegularInspection.Services
 
                     if (damageFound.Any())
                     {
-                        //listDamageSummary[i].TestComboBox1 = new BindingList<BridgeDamage>(damageFound.ToList());
+                        //listDamageSummary[i].TestComboBox1 = new ObservableCollection<BridgeDamage>(damageFound.ToList());
                         listDamageSummary[i].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
                         listDamageSummary[i].DamageValue = damageFound.FirstOrDefault().Idx;
