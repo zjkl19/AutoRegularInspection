@@ -47,22 +47,6 @@ namespace AutoRegularInspection
             SuperSpaceGrid.DataContext = new GridViewModel(BridgePart.SuperSpace);
 
             SubSpaceGrid.DataContext = new GridViewModel(BridgePart.SubSpace);
-            //TODO：Grid数据和Excel绑定
-            //List<DamageSummary> lst;
-
-
-
-
-            //lst = dataRepository.ReadDamageData(BridgePart.SuperSpace);
-
-            //生成报告的时候再调用该代码
-            //DamageSummaryServices.InitListDamageSummary(lst, 2_000_000,BridgePart.SuperSpace);
-            //SuperSpaceGrid.ItemsSource = lst;
-
-            //lst = dataRepository.ReadDamageData(BridgePart.SubSpace);
-            //生成报告的时候再调用该代码
-            //DamageSummaryServices.InitListDamageSummary(lst, 3_000_000, BridgePart.SubSpace);
-            //SubSpaceGrid.ItemsSource = lst;
 
         }
 
