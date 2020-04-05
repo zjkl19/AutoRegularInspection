@@ -165,16 +165,18 @@ namespace AutoRegularInspection
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    try
-                    {
-                        GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                    GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+
+                    //try
+                    //{
+                    //    GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
 
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    throw ex;
+                    //}
                 }));
             }).Start();
 

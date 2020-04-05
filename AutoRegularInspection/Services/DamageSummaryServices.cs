@@ -130,7 +130,14 @@ namespace AutoRegularInspection.Services
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(',').Count();
+                if(string.IsNullOrWhiteSpace(listDamageSummary[i].PictureNo))
+                {
+                    listDamageSummary[i].PictureCounts = 0;
+                }
+                else
+                {
+                    listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(',').Count();
+                }
             }
         }
         /// <summary>

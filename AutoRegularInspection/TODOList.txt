@@ -51,3 +51,5 @@
 17、添加日志
 
 18、全局变量单例模式
+
+19、BUG:SetFirstAndLastPictureBookmark没有考虑没有照片的情况（要写测试）（2020.4.5）

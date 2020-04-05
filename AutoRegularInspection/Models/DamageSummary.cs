@@ -113,7 +113,7 @@ namespace AutoRegularInspection.Models
         /// <summary>
         /// 病害对应图片编号
         /// </summary>
-        public string PictureNo { set; get; }
+        public string PictureNo { set; get; } = string.Empty;
 
         //以下为扩展字段（根据其它已知信息可以推算出内容的字段）
 

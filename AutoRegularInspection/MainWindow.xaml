@@ -175,7 +175,7 @@
                                         <ComboBox 
                                             ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter}}"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter},UpdateSourceTrigger=PropertyChanged}"
                                             DropDownOpened="DamageComboBox_DropDownOpened"
                                             DropDownClosed="DamageComboBox_DropDownClosed"
                                             />
