@@ -23,7 +23,8 @@ namespace AutoRegularInspection.Models
         //    _Title = Title;
         //}
 
-        public event PropertyChangedEventHandler PropertyChanged;
+
+
         /// <summary>
         /// 实际为Index（命名为Idx防止和关键字重名）
         /// </summary>
@@ -34,7 +35,7 @@ namespace AutoRegularInspection.Models
             set
             {
                 _Idx = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Idx)));
+                OnPropertyChanged(nameof(Idx));
             }
         }
         /// <summary>
@@ -47,7 +48,7 @@ namespace AutoRegularInspection.Models
             set
             {
                 _Id = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Id)));
+                OnPropertyChanged(nameof(Id));
             }
         }
         private string _Title;
@@ -57,7 +58,7 @@ namespace AutoRegularInspection.Models
             set
             {
                 _Title = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Title)));
+                OnPropertyChanged(nameof(Title));
             }
         }
 
@@ -68,10 +69,17 @@ namespace AutoRegularInspection.Models
             set
             {
                 _DamageComboBox = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DamageComboBox)));
+                OnPropertyChanged(nameof(DamageComboBox));
             }
         }
         //public ObservableCollection<BridgeDamage> DamageComboBox { set; get; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
     
 }
