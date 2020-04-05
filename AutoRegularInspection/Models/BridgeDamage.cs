@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,8 +35,7 @@ namespace AutoRegularInspection.Models
             get { return _Idx; }
             set
             {
-                _Idx = value;
-                OnPropertyChanged(nameof(Idx));
+                UpdateProperty(ref _Idx, value);
             }
         }
         /// <summary>
@@ -47,8 +47,7 @@ namespace AutoRegularInspection.Models
             get { return _Id; }
             set
             {
-                _Id = value;
-                OnPropertyChanged(nameof(Id));
+                UpdateProperty(ref _Id, value);
             }
         }
         private string _Title;
@@ -57,8 +56,7 @@ namespace AutoRegularInspection.Models
             get { return _Title; }
             set
             {
-                _Title = value;
-                OnPropertyChanged(nameof(Title));
+                UpdateProperty(ref _Title, value);
             }
         }
 
@@ -68,15 +66,24 @@ namespace AutoRegularInspection.Models
             get { return _DamageComboBox; }
             set
             {
-                _DamageComboBox = value;
-                OnPropertyChanged(nameof(DamageComboBox));
+                UpdateProperty(ref _DamageComboBox, value);
             }
         }
         //public ObservableCollection<BridgeDamage> DamageComboBox { set; get; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        private void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string propertyName = "")
+        {
+            if (Equals(properValue, newValue))
+            {
+                return;
+            }
+            properValue = newValue;
 
-        protected void OnPropertyChanged(string propertyName)
+            OnPropertyChanged(propertyName);
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
