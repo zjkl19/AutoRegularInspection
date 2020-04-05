@@ -15,7 +15,6 @@ namespace AutoRegularInspection.Services
     /// </summary>
     public static class DamageSummaryServices
     {
-
         public static void InitListDamageSummary1(List<DamageSummary> listDamageSummary, int firstIndex = 1000000)
         {
             SetPictureCounts(listDamageSummary);
@@ -46,12 +45,6 @@ namespace AutoRegularInspection.Services
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                //listDamageSummary[i].ComponentComboBox = new ObservableCollection<BridgeDamage>
-                //{
-                //    new BridgeDamage{  Id=1,Title="桥面铺装"}
-                //    ,new BridgeDamage{  Id=2,Title="其它"}
-                //};
-
                 //TODO：写单元测试
                 //创建映射
 
@@ -72,16 +65,7 @@ namespace AutoRegularInspection.Services
                 }
 
 
-                componentFound = componentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
-                //if(!string.IsNullOrWhiteSpace(listDamageSummary[i].Component))
-                //{
-
-                //    componentFound = componentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
-                //}
-                //else
-                //{
-                //    componentFound = componentComboBox.Where(x => x.Title =="其它");
-                //}
+                componentFound = componentComboBox.Where(x => x.Title == listDamageSummary[i].Component);             
 
                 IEnumerable<BridgeDamage> damageFound = null;
 
@@ -89,20 +73,10 @@ namespace AutoRegularInspection.Services
                 {
                     listDamageSummary[i].ComponentValue = componentFound.FirstOrDefault().Idx;
 
-
                     damageFound = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == listDamageSummary[i].Damage);
-
-                    
-                    //if (damageFound.Any())
-                    //{
-                    //    listDamageSummary[i].TestComboBox1 = damageFound.FirstOrDefault().DamageComboBox;
-
-                    //    listDamageSummary[i].TestValue1 = damageFound.FirstOrDefault().DamageComboBox.FirstOrDefault().Idx;
-                    //}
 
                     if (damageFound.Any())
                     {
-                        //listDamageSummary[i].TestComboBox1 = new ObservableCollection<BridgeDamage>(damageFound.ToList());
                         listDamageSummary[i].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
                         listDamageSummary[i].DamageValue = damageFound.FirstOrDefault().Idx;
@@ -117,10 +91,8 @@ namespace AutoRegularInspection.Services
                 }
                 else
                 {
-                    //TODO：修改
                     listDamageSummary[i].DamageComboBox = componentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
                     listDamageSummary[i].ComponentValue = componentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
-                    //listDamageSummary[i].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
                 }
 
             }

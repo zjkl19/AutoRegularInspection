@@ -19,9 +19,9 @@ namespace AutoRegularInspection.Services
         /// <returns>1表示返回成功，0表示返回失败</returns>
         public static int SaveExcel(List<DamageSummary> bridgeDeckListDamageSummary
             , List<DamageSummary> superSpaceListDamageSummary
-            , List<DamageSummary> subSpaceListDamageSummary,string saveFileName="外观检查.xlsx")
+            , List<DamageSummary> subSpaceListDamageSummary,string saveFileName=App.DamageSummaryFileName)
         {
-            string tempFileName = "temp外观检查.xlsx";
+            string tempFileName = $"temp{App.DamageSummaryFileName}";
 
             if (File.Exists(tempFileName))
             {

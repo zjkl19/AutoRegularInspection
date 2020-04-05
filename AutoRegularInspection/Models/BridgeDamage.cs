@@ -11,20 +11,6 @@ namespace AutoRegularInspection.Models
 {
     public class BridgeDamage : INotifyPropertyChanged
     {
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="Idx">索引</param>
-        /// <param name="Id">Id</param>
-        /// <param name="Title">标题</param>
-        //public BridgeDamage(int Idx, int Id,string Title)
-        //{
-        //    _Idx = Idx;
-        //    _Id = Id;
-        //    _Title = Title;
-        //}
-
-
 
         /// <summary>
         /// 实际为Index（命名为Idx防止和关键字重名）

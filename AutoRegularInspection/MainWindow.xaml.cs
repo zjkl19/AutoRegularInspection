@@ -1,5 +1,4 @@
 ﻿using Aspose.Words;
-
 using AutoRegularInspection.Models;
 using System.Collections.Generic;
 
@@ -7,25 +6,19 @@ using System.IO;
 using System.Windows;
 using System.Linq;
 using AutoRegularInspection.Services;
-using OfficeOpenXml;
+
 using System;
 using System.Threading;
 
-using Ninject;
-using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Views;
 using System.Xml.Linq;
 using System.Diagnostics;
 
-#region DataGridSingleClick
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Controls;
 using System.Windows.Threading;
 using AutoRegularInspection.ViewModels;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-#endregion
+
 namespace AutoRegularInspection
 {
     /// <summary>
@@ -50,81 +43,6 @@ namespace AutoRegularInspection
 
         }
 
-        #region DataGridSingleClickCell
-        //private void DataGridCell_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        //{
-        //    DataGridCell cell = sender as DataGridCell;
-        //    GridColumnFastEdit(cell, e);
-        //}
-
-        //private void DataGridCell_PreviewTextInput(object sender, TextCompositionEventArgs e)
-        //{
-        //    DataGridCell cell = sender as DataGridCell;
-        //    GridColumnFastEdit(cell, e);
-        //}
-
-        //private static void GridColumnFastEdit(DataGridCell cell, RoutedEventArgs e)
-        //{
-        //    if (cell == null || cell.IsEditing || cell.IsReadOnly)
-        //        return;
-
-        //    DataGrid dataGrid = FindVisualParent<DataGrid>(cell);
-        //    if (dataGrid == null)
-        //        return;
-
-        //    if (!cell.IsFocused)
-        //    {
-        //        cell.Focus();
-        //    }
-
-        //    if (cell.Content is CheckBox)
-        //    {
-        //        if (dataGrid.SelectionUnit != DataGridSelectionUnit.FullRow)
-        //        {
-        //            if (!cell.IsSelected)
-        //                cell.IsSelected = true;
-        //        }
-        //        else
-        //        {
-        //            DataGridRow row = FindVisualParent<DataGridRow>(cell);
-        //            if (row != null && !row.IsSelected)
-        //            {
-        //                row.IsSelected = true;
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        ComboBox cb = cell.Content as ComboBox;
-        //        if (cb != null)
-        //        {
-        //            //DataGrid dataGrid = FindVisualParent<DataGrid>(cell);
-        //            dataGrid.BeginEdit(e);
-        //            cell.Dispatcher.Invoke(
-        //             DispatcherPriority.Background,
-        //             new Action(delegate { }));
-        //            cb.IsDropDownOpen = true;
-        //        }
-        //    }
-        //}
-
-
-        //private static T FindVisualParent<T>(UIElement element) where T : UIElement
-        //{
-        //    UIElement parent = element;
-        //    while (parent != null)
-        //    {
-        //        T correctlyTyped = parent as T;
-        //        if (correctlyTyped != null)
-        //        {
-        //            return correctlyTyped;
-        //        }
-
-        //        parent = VisualTreeHelper.GetParent(parent) as UIElement;
-        //    }
-        //    return null;
-        //}
-        #endregion
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
 
@@ -135,7 +53,7 @@ namespace AutoRegularInspection
             //double ImageWidth = 224.25; double ImageHeight = 168.75;
             double ImageWidth = Convert.ToDouble(pictureWidth.Value.ToString()); double ImageHeight = Convert.ToDouble(pictureHeight.Value.ToString());
 
-            string templateFile = "外观检查报告模板.docx"; string outputFile = "自动生成的外观检查报告.docx";
+            string templateFile = App.TemplateReportFileName; string outputFile = App.OutputReportFileName;
 
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
 
@@ -186,20 +104,6 @@ namespace AutoRegularInspection
             List<DamageSummary> l1 = _bridgeDeckListDamageSummary.ToList();
             List<DamageSummary> l2 = _superSpaceListDamageSummary.ToList();
             List<DamageSummary> l3 = _subSpaceListDamageSummary.ToList();
-
-            //List<DamageSummary> lst1 = _bridgeDeckListDamageSummary.ToList();
-            //List<DamageSummary> lst2 = _superSpaceListDamageSummary.ToList();
-            //List<DamageSummary> lst3 = _subSpaceListDamageSummary.ToList();
-
-            //List<DamageSummary> l1 = new List<DamageSummary>();
-            //List<DamageSummary> l2 = new List<DamageSummary>();
-            //List<DamageSummary> l3 = new List<DamageSummary>();
-
-            //lst1.ForEach(i => l1.Add(i));
-            //lst2.ForEach(i => l3.Add(i));
-            //lst2.ForEach(i => l3.Add(i));
-
-
 
             DamageSummaryServices.InitListDamageSummary1(l1);
             DamageSummaryServices.InitListDamageSummary1(l2, 2_000_000);
@@ -284,14 +188,14 @@ namespace AutoRegularInspection
             try
             {
 
-                while (File.Exists($"外观检查 - 副本 ({i}).xlsx"))
+                while (File.Exists($"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx"))
                 {
                     i++;
                 }
-                if (File.Exists($"外观检查.xlsx"))
+                if (File.Exists(App.DamageSummaryFileName))
                 {
-                    File.Copy($"外观检查.xlsx", $"外观检查 - 副本 ({i}).xlsx", true);
-                    MessageBox.Show($"成功备份文件\"外观检查 - 副本 ({i}).xlsx\"");
+                    File.Copy(App.DamageSummaryFileName, $"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx", true);
+                    MessageBox.Show($"成功备份文件\"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx\"");
                 }
             }
             catch (Exception ex)
@@ -325,21 +229,20 @@ namespace AutoRegularInspection
 
         private void OpenExcel_Click(object sender, RoutedEventArgs e)
         {
-            string xlsxFile = "外观检查.xlsx";
-            if (File.Exists(xlsxFile))
+            if (File.Exists(App.DamageSummaryFileName))
             {
-                Process.Start(xlsxFile);
+                Process.Start(App.DamageSummaryFileName);
             }
             else
             {
-                MessageBox.Show($"未找到文件{xlsxFile}");
+                MessageBox.Show($"未找到文件{App.DamageSummaryFileName}");
             }
 
         }
 
         private void OpenReport_Click(object sender, RoutedEventArgs e)
         {
-            string reportFile = "自动生成的外观检查报告.docx";
+            string reportFile = App.OutputReportFileName;
             if (File.Exists(reportFile))
             {
                 Process.Start(reportFile);

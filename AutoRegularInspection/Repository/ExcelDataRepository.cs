@@ -19,7 +19,7 @@ namespace AutoRegularInspection.Repository
         /// <returns></returns>
         public List<DamageSummary> ReadDamageData(BridgePart bridgePart)
         {
-            string strFilePath = "外观检查.xlsx";
+            string strFilePath = App.DamageSummaryFileName;
             var workSheetName = Services.EnumHelper.GetEnumDesc(bridgePart).ToString();
             var lst = new List<DamageSummary>();
 
