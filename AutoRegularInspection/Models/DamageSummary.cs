@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,15 +14,14 @@ namespace AutoRegularInspection.Models
     /// </summary>
     public class DamageSummary : INotifyPropertyChanged
     {
-        private BridgePart _BridgePartEnum { set; get; }
+        private BridgePart _BridgePartEnum;
 
         public BridgePart BridgePartEnum
         {
             get { return _BridgePartEnum; }
             set
             {
-                _BridgePartEnum = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(BridgePartEnum)));
+                UpdateProperty(ref _BridgePartEnum, value);
             }
         }
         /// <summary>
@@ -41,19 +41,16 @@ namespace AutoRegularInspection.Models
             get { return _DamageComboBox; }
             set
             {
-                _DamageComboBox = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DamageComboBox)));
+                UpdateProperty(ref _DamageComboBox, value);
             }
         }
-        private int _DamageValue { set; get; }
+        private int _DamageValue;
         public int DamageValue
         {
             get { return _DamageValue; }
             set
             {
-                _DamageValue = value;
-
-                OnPropertyChanged(nameof(DamageValue));
+                UpdateProperty(ref _DamageValue, value);
             }
         }
         /// <summary>
@@ -70,9 +67,7 @@ namespace AutoRegularInspection.Models
             get { return _ComponentValue; }
             set
             {
-                _ComponentValue = value;
-
-                OnPropertyChanged(nameof(ComponentValue));
+                UpdateProperty(ref _ComponentValue, value);
             }
         }
 
@@ -87,24 +82,22 @@ namespace AutoRegularInspection.Models
         public string Damage { set; get; } = string.Empty;
 
 
-        private string damageDescription;
+        private string _DamageDescription;
         /// <summary>
         /// 病害描述
         /// </summary>
         public string DamageDescription
 
         {
-            get { return damageDescription; }
+            get { return _DamageDescription; }
             set
             {
-                damageDescription = value;
-
-                OnPropertyChanged(nameof(DamageDescription));
+                UpdateProperty(ref _DamageDescription, value);
             }
         }
 
 
-        private string _DamageDescriptionInPicture { set; get; }
+        private string _DamageDescriptionInPicture;
         /// <summary>
         /// 病害对应图片描述
         /// </summary>
@@ -113,9 +106,8 @@ namespace AutoRegularInspection.Models
             get { return _DamageDescriptionInPicture; }
             set
             {
-                _DamageDescriptionInPicture = value;
 
-                OnPropertyChanged(nameof(DamageDescriptionInPicture));
+                UpdateProperty(ref _DamageDescriptionInPicture, value);
             }
         }
         /// <summary>
@@ -157,8 +149,19 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string LastPictureBookmark { set; get; }
 
+        private void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string propertyName = "")
+        {
+            if (Equals(properValue, newValue))
+            {
+                return;
+            }
+            properValue = newValue;
+
+            OnPropertyChanged(propertyName);
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
+        protected void OnPropertyChanged([CallerMemberName]string propertyName = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
