@@ -32,6 +32,8 @@ namespace AutoRegularInspection
 
             InitializeComponent();
 
+            Title = $"外观检查自动报告 v{Application.ResourceAssembly.GetName().Version.ToString()}";
+
             //TODO:考虑放到App.xaml中
             //IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             //var dataRepository = kernel.Get<IDataRepository>();
