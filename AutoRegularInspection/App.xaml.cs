@@ -19,6 +19,7 @@ namespace AutoRegularInspection
         public const string DamageSummaryFileName = "外观检查.xlsx";
         public const string TemplateReportFileName = "外观检查报告模板.docx";
         public const string OutputReportFileName = "自动生成的外观检查报告.docx";
+        public const string ConfigFileName = "Option.config";
 
         public App()
         {

@@ -44,7 +44,7 @@ namespace AutoRegularInspection
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
 
-            var config = XDocument.Load(@"Option.config");
+            var config = XDocument.Load(App.ConfigFileName);
             var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
             var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
 
