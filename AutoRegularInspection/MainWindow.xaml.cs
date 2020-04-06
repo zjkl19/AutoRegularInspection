@@ -253,11 +253,6 @@ namespace AutoRegularInspection
             MessageBox.Show("该功能开发中");
         }
 
-        private void CheckForUpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("该功能开发中");
-        }
-
         private void AutoCheckForUpdateCheckBox_Click(object sender, RoutedEventArgs e)
         {
 

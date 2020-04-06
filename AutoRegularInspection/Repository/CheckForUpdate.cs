@@ -75,7 +75,7 @@ namespace AutoRegularInspection.Repository
 
             var client = new RestClient(url);
 
-            var request = new RestRequest($"repos/zjkl19/WPFAIReportCheck/releases/latest", Method.GET);
+            var request = new RestRequest($"repos/zjkl19/AutoRegularInspection/releases/latest", Method.GET);
 
             try
             {
