@@ -18,15 +18,18 @@ using System.Windows.Controls;
 using System.Windows.Threading;
 using AutoRegularInspection.ViewModels;
 using System.Collections.ObjectModel;
+using System.Configuration;
+using System.ComponentModel;
 
 namespace AutoRegularInspection
 {
 
     public partial class MainWindow : Window
     {
-
+        BackgroundWorker worker = new BackgroundWorker();
         public MainWindow()
         {
+
             InitializeComponent();
 
             //TODO:考虑放到App.xaml中
@@ -39,6 +42,7 @@ namespace AutoRegularInspection
 
             SubSpaceGrid.DataContext = new GridViewModel(BridgePart.SubSpace);
 
+            CheckForUpdateInStarup();    //启动时检查更新
         }
 
         private void AutoReport_Click(object sender, RoutedEventArgs e)
@@ -254,226 +258,31 @@ namespace AutoRegularInspection
             MessageBox.Show("该功能开发中");
         }
 
-
-        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void AutoCheckForUpdateCheckBox_Click(object sender, RoutedEventArgs e)
         {
-            ComboBox curComboBox = sender as ComboBox;
 
-            DataGrid dataGrid = BridgeDeckGrid;
-            ChangeDamageComboBox(dataGrid, BridgePart.BridgeDeck);
-
-        }
-
-        private static void ChangeDamageComboBox(DataGrid dataGrid, BridgePart bridgePart)
-        {
-            int rowIndex = 0;
-            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
-            if (_cells.Any())
+            try
             {
+                var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                if (AutoCheckForUpdateCheckBox.IsChecked ?? false)
+                {
+                    appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value = "true";
+                }
+                else
+                {
+                    appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value = "false";
+                }
 
-                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
-                //columnIndex = _cells.First().Column.DisplayIndex;
+                appConfig.Save(ConfigurationSaveMode.Modified);
 
+                ConfigurationManager.RefreshSection("appSettings");
             }
-            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
-
-            IEnumerable<BridgeDamage> componentFound;
-            if (bridgePart == BridgePart.BridgeDeck)
+            catch (Exception ex)
             {
-                componentFound = GlobalData.ComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
-            }
-            else if (bridgePart == BridgePart.SuperSpace)
-            {
-                componentFound = GlobalData.SuperSpaceComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
-            }
-            else
-            {
-                componentFound = GlobalData.SubSpaceComponentComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Component);
+                Debug.Print(ex.Message);
             }
 
-            if (componentFound.Any())
-            {
-
-                var subComponentFound = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == _bridgeDeckListDamageSummary[rowIndex].Damage);
-
-                _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
-
-                _bridgeDeckListDamageSummary[rowIndex].DamageValue = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
-
-            }
-            else
-            {
-
-                _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
-                _bridgeDeckListDamageSummary[rowIndex].ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
-            }
         }
 
-
-        private void ComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-            ComboBox curComboBox = sender as ComboBox;
-
-            DataGrid dataGrid = BridgeDeckGrid;
-
-            UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.ComponentComboBox);
-
-        }
-        private void SuperSpaceComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-            ComboBox curComboBox = sender as ComboBox;
-
-            DataGrid dataGrid = SuperSpaceGrid;
-
-            UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.SuperSpaceComponentComboBox);
-        }
-        private void SubSpaceComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-
-            ComboBox curComboBox = sender as ComboBox;
-
-            DataGrid dataGrid = SubSpaceGrid;
-
-            UIChangeDamageComboBox(curComboBox, dataGrid, GlobalData.SubSpaceComponentComboBox);
-        }
-
-        private static void UIChangeDamageComboBox(ComboBox curComboBox, DataGrid dataGrid, ObservableCollection<BridgeDamage> componentComboBox)
-        {
-            int rowIndex = 0;
-            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
-            if (_cells.Any())
-            {
-
-                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
-                //columnIndex = _cells.First().Column.DisplayIndex;
-
-            }
-            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
-
-            if (rowIndex >= _bridgeDeckListDamageSummary.Count)
-            {
-                return;
-            }
-
-            var m = curComboBox.SelectedIndex;
-            BridgeDamage componentFoundBefore = null;
-
-
-            componentFoundBefore = componentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
-
-            var componentFound = componentComboBox[curComboBox.SelectedIndex];
-
-
-            if (componentFound.Title != componentFoundBefore.Title)
-            {
-                _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = componentFound.DamageComboBox;
-
-                _bridgeDeckListDamageSummary[rowIndex].DamageValue = 0;
-
-            }
-        }
-
-
-        private void DamageComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-            ComboBox curComboBox = sender as ComboBox;
-
-            DataGrid dataGrid = BridgeDeckGrid;
-
-            ChangeDamageValue(curComboBox, dataGrid);
-
-        }
-
-        private void SuperSpaceDamageComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-            ComboBox curComboBox = sender as ComboBox;
-
-            DataGrid dataGrid = SuperSpaceGrid;
-
-            ChangeDamageValue(curComboBox, dataGrid);
-
-        }
-
-        private void SubSpaceDamageComboBox_DropDownClosed(object sender, EventArgs e)
-        {
-            ComboBox curComboBox = sender as ComboBox;
-
-            DataGrid dataGrid = SubSpaceGrid;
-
-            ChangeDamageValue(curComboBox, dataGrid);
-
-        }
-        private static void ChangeDamageValue(ComboBox curComboBox, DataGrid dataGrid)
-        {
-            int rowIndex = 0;
-            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
-            if (_cells.Any())
-            {
-
-                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
-                //columnIndex = _cells.First().Column.DisplayIndex;
-
-            }
-            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
-
-            if (rowIndex >= _bridgeDeckListDamageSummary.Count)
-            {
-                MessageBox.Show("请先双击序号一列以初始化改行");
-                return;
-            }
-
-            var m = curComboBox.SelectedIndex;
-            //var componentFoundBefore = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue];
-            //var componentFound = GlobalData.ComponentComboBox[curComboBox.SelectedIndex];
-
-
-            _bridgeDeckListDamageSummary[rowIndex].DamageValue = curComboBox.SelectedIndex;
-        }
-
-
-        private void DamageComboBox_DropDownOpened(object sender, EventArgs e)
-        {
-
-            DataGrid dataGrid = BridgeDeckGrid;
-
-            SetDamageDropDownItems(dataGrid);
-
-        }
-
-        private void SuperSpaceDamageComboBox_DropDownOpened(object sender, EventArgs e)
-        {
-
-            DataGrid dataGrid = SuperSpaceGrid;
-
-            SetDamageDropDownItems(dataGrid);
-
-        }
-
-        private void SubSpaceDamageComboBox_DropDownOpened(object sender, EventArgs e)
-        {
-
-            DataGrid dataGrid = SubSpaceGrid;
-
-            SetDamageDropDownItems(dataGrid);
-
-        }
-
-        private static void SetDamageDropDownItems(DataGrid dataGrid)
-        {
-            int rowIndex = 0;
-            var _cells = dataGrid.SelectedCells;//获取选中单元格的列表
-            if (_cells.Any())
-            {
-
-                rowIndex = dataGrid.Items.IndexOf(_cells.First().Item);
-            }
-            var _bridgeDeckListDamageSummary = dataGrid.ItemsSource as ObservableCollection<DamageSummary>;
-
-
-            if (_bridgeDeckListDamageSummary[rowIndex].DamageComboBox == null)
-            {
-                _bridgeDeckListDamageSummary[rowIndex].DamageComboBox = GlobalData.ComponentComboBox[_bridgeDeckListDamageSummary[rowIndex].ComponentValue].DamageComboBox;
-            }
-        }
     }
 }

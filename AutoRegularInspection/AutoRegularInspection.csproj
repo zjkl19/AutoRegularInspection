@@ -49,8 +49,14 @@
     <Reference Include="EPPlus, Version=4.5.3.2, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL">
       <HintPath>..\packages\EPPlus.4.5.3.2\lib\net40\EPPlus.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -64,6 +70,7 @@
       <HintPath>..\packages\System.Drawing.Common.4.5.1\lib\net461\System.Drawing.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Security" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -83,6 +90,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="IRepository\IDataRepository.cs" />
+    <Compile Include="MainWindow\MainWindow.CheckForUpdateInStarup.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.Suggestion.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.Test.xaml.cs" />
     <Compile Include="Models\BridgeDamage.cs" />
@@ -91,12 +99,14 @@
     <Compile Include="Models\ComponentValueConverter.cs" />
     <Compile Include="Models\DamageComboBoxConverter.cs" />
     <Compile Include="Models\EnumConverter.cs" />
+    <Compile Include="Models\GitHubLatestReleaseInfo.cs" />
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="Models\ProgressBarModel.cs" />
     <Compile Include="ProgressBarWindow.xaml.cs">
       <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Repository\CheckForUpdate.cs" />
     <Compile Include="Repository\ExcelDataRepository.cs" />
     <Compile Include="Services\AsposeWordsServices.cs" />
     <Compile Include="Services\DamageSummaryServices.cs" />
@@ -181,7 +191,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AsposeWordsNet\Aspose.Words.dll" />
