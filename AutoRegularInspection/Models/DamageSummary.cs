@@ -217,6 +217,11 @@ namespace AutoRegularInspection.Models
                 componentBox = GlobalData.SubSpaceComponentComboBox;
             }
 
+            if(DamageValue<0)
+            {
+                return Damage;
+            }
+
             if (componentBox[ComponentValue].DamageComboBox[DamageValue].Title != "其它")
             {
                 return (componentBox[ComponentValue].DamageComboBox[DamageValue].Title);

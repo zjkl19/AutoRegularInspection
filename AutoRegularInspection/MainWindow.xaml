@@ -93,20 +93,6 @@
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
-                            
-                            <!--<DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox 
-                                            ItemsSource="{Binding Source={x:Static local:GlobalData.ComponentComboBox}}"
-                                            DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay}"
-                                            SelectedValuePath = "Idx"
-                                            DropDownClosed="ComboBox_DropDownClosed"
-                                            />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>-->
 
                             <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
@@ -125,20 +111,6 @@
                                 Binding="{Binding Component}"
                                 Header="要素" />
 
-                            <!--<DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <ComboBox 
-                                            ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
-                                            DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter},UpdateSourceTrigger=PropertyChanged}"
-                                            DropDownOpened="DamageComboBox_DropDownOpened"
-                                            DropDownClosed="DamageComboBox_DropDownClosed"
-                                            />
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>-->
-                            
                             <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -201,9 +173,7 @@
                                         <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.SuperSpaceComponentComboBox}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay}"
-                                            SelectedValuePath = "Idx"
-                                            DropDownClosed="SuperSpaceComboBox_DropDownClosed"
+                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -218,11 +188,10 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
-                                            ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
+                                            ItemsSource="{Binding ComponentValue
+                                            ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource SuperSpaceEnum}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter},UpdateSourceTrigger=PropertyChanged}"
-                                            DropDownOpened="SuperSpaceDamageComboBox_DropDownOpened"
-                                            DropDownClosed="SuperSpaceDamageComboBox_DropDownClosed"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -274,9 +243,7 @@
                                         <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.SubSpaceComponentComboBox}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay}"
-                                            SelectedValuePath = "Idx"
-                                            DropDownClosed="SubSpaceComboBox_DropDownClosed"
+                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -291,11 +258,10 @@
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
-                                            ItemsSource="{Binding DamageComboBox,Mode=TwoWay}"
+                                            ItemsSource="{Binding ComponentValue
+                                            ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource SubSpaceEnum}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,Converter={StaticResource cConverter},UpdateSourceTrigger=PropertyChanged}"
-                                            DropDownOpened="SubSpaceDamageComboBox_DropDownOpened"
-                                            DropDownClosed="SubSpaceDamageComboBox_DropDownClosed"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>

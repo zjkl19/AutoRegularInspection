@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Services
 {
-    public class SaveExcelService
+    public static class SaveExcelService
     {
         /// <summary>
         /// 新建一个临时excel，然后把原来excel覆盖掉，最后删掉原来的临时文件
