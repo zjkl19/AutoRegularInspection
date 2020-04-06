@@ -10,6 +10,7 @@
     <Window.Resources>
         <local:EnumConverter x:Key="eConverter"/>
         <local:ComponentValueConverter x:Key="cConverter"/>
+        <local:DamageComboBoxConverter x:Key="damageComboBoxConverter"/>
     </Window.Resources>
     
     <Grid>
@@ -21,6 +22,10 @@
                 <EventSetter Event="PreviewTextInput" Handler="DataGridCell_PreviewTextInput" />
             </Style>-->
 
+            <local:BridgePart x:Key="BridgeDeckEnum">BridgeDeck</local:BridgePart>
+            <local:BridgePart x:Key="SuperSpaceEnum">SuperSpace</local:BridgePart>
+            <local:BridgePart x:Key="SubSpaceEnum">SubSpace</local:BridgePart>
+            
             <sys:Int32 x:Key="ColumnCounts">5</sys:Int32>
             <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
             <sys:Int32 x:Key="OperationButtonRowIndex">2</sys:Int32>
@@ -89,7 +94,7 @@
                                 Binding="{Binding Position}"
                                 Header="位置" />
                             
-                            <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
+                            <!--<DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
@@ -101,6 +106,18 @@
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>-->
+
+                            <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.ComponentComboBox}}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding ComponentValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
 
                             <DataGridTextColumn
@@ -108,7 +125,7 @@
                                 Binding="{Binding Component}"
                                 Header="要素" />
 
-                            <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
+                            <!--<DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <ComboBox 
@@ -120,8 +137,21 @@
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>-->
+                            
+                            <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding ComponentValue
+                                            ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource BridgeDeckEnum}}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
+                            
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Damage}"

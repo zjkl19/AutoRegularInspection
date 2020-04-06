@@ -89,7 +89,7 @@
     <Compile Include="Models\BridgeDeckEnum.cs" />
     <Compile Include="Models\BridgePart.cs" />
     <Compile Include="Models\ComponentValueConverter.cs" />
-    <Compile Include="Models\DamageValueConverter.cs" />
+    <Compile Include="Models\DamageComboBoxConverter.cs" />
     <Compile Include="Models\EnumConverter.cs" />
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\GridModel.cs" />
