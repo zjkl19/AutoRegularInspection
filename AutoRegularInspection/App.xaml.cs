@@ -20,7 +20,6 @@ namespace AutoRegularInspection
         public const string TemplateReportFileName = "外观检查报告模板.docx";
         public const string OutputReportFileName = "自动生成的外观检查报告.docx";
 
-
         public App()
         {
             //IOC，依赖注入
