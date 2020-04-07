@@ -21,7 +21,7 @@ namespace AutoRegularInspectionTestProject
             //Arrange
             //string fileName = @"..\..\..\TestFiles\FindUnitError.doc";
             string templateFile = @"..\..\..\..\AutoRegularInspectionTestProject\TestFiles\外观检查报告模板.docx";
-            string outputFile = @"..\..\..\..\AutoRegularInspectionTestProject\TestFiles\外观检查报告1.docx";
+            string outputFile = @"..\..\..\..\AutoRegularInspectionTestProject\TestFiles\外观检查报告.docx";
             double ImageWidth = 224.25; double ImageHeight = 168.75; int CompressImageFlag = 80;
 
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
@@ -79,10 +79,13 @@ namespace AutoRegularInspectionTestProject
                 }
             }
 
-            doc.Save(outputFile, SaveFormat.Docx);
+            doc.UnlinkFields();   //看情况决定是否要解除链接
+            doc.Save(outputFile, SaveFormat.Docx);   //如果需要查看生成的文件，则加上这句
 
             //Assert
-            Assert.True(bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText().IndexOf("缝内沉积物阻塞")>=0);
+            Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.CurrentCulture);
+            Assert.Contains("接缝处铺装碎边", bridgeDeckDamageSummaryTable.Rows[2].Cells[3].GetText(), StringComparison.CurrentCulture);
+            Assert.Contains("图 2-3",bridgeDeckDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(),StringComparison.CurrentCulture);
         }
     }
 }

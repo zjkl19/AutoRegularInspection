@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="TestFiles\外观检查报告.docx" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.3.2" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
       <PrivateAssets>all</PrivateAssets>
@@ -29,10 +33,6 @@
       <HintPath>AsposeWordsNetCore\Aspose.Words.dll</HintPath>
       <Private>true</Private>
     </Reference>
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="TestFiles\" />
   </ItemGroup>
   
   <ItemGroup>
