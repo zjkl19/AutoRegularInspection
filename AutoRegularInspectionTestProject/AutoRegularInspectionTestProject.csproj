@@ -8,6 +8,10 @@
 
   <ItemGroup>
     <PackageReference Include="EPPlus" Version="4.5.3.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
@@ -23,6 +27,16 @@
       <HintPath>AsposeWordsNetCore\Aspose.Words.dll</HintPath>
       <Private>true</Private>
     </Reference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="TestFiles\" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="外观检查.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   
 </Project>
