@@ -60,7 +60,7 @@ namespace AutoRegularInspectionTestProject
             //        break;
             //    }
             //}
-            Table bridgeDeckDamageSummaryTable=null;
+            Table bridgeDeckDamageSummaryTable=null; Table bridgeDeckDamagePictureTable = null;
             int bridgeDeckDamageSummaryTableIndex = 0;
             NodeCollection allTables = doc.GetChildNodes(NodeType.Table, true);
             for (int i = 0; i < allTables.Count; i++)
@@ -75,6 +75,7 @@ namespace AutoRegularInspectionTestProject
                 if (bridgeDeckDamageSummaryTable.Rows[0].Cells[2].GetText().IndexOf("要素") >= 0)    //先找到桥面系病害的汇总表
                 {
                     bridgeDeckDamageSummaryTableIndex = i;
+                    bridgeDeckDamagePictureTable= doc.GetChildNodes(NodeType.Table, true)[i+1] as Table;
                     break;
                 }
             }
@@ -83,9 +84,18 @@ namespace AutoRegularInspectionTestProject
             doc.Save(outputFile, SaveFormat.Docx);   //如果需要查看生成的文件，则加上这句
 
             //Assert
+            
+            //TODO:测试插入的图片是否正确
+
+            //测试汇总表
             Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.CurrentCulture);
             Assert.Contains("接缝处铺装碎边", bridgeDeckDamageSummaryTable.Rows[2].Cells[3].GetText(), StringComparison.CurrentCulture);
             Assert.Contains("图 2-3",bridgeDeckDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(),StringComparison.CurrentCulture);
+
+            //测试汇总图片表  
+            Assert.Contains("图 2-1 左幅0#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.CurrentCulture);
+            Assert.Contains("图 2-4 右幅1#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[3].Cells[1].GetText().Trim(), StringComparison.CurrentCulture);
+
         }
     }
 }
