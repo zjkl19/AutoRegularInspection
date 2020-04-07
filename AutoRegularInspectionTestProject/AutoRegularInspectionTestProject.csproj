@@ -17,5 +17,12 @@
   <ItemGroup>
     <ProjectReference Include="..\AutoRegularInspection\AutoRegularInspection.csproj" />
   </ItemGroup>
-
+  
+  <ItemGroup>
+    <Reference Include="Aspose.Words">
+      <HintPath>AsposeWordsNetCore\Aspose.Words.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+  </ItemGroup>
+  
 </Project>
