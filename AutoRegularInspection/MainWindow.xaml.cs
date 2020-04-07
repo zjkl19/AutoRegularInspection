@@ -20,6 +20,7 @@ using AutoRegularInspection.ViewModels;
 using System.Collections.ObjectModel;
 using System.Configuration;
 using System.ComponentModel;
+using NLog;
 
 namespace AutoRegularInspection
 {
@@ -27,6 +28,7 @@ namespace AutoRegularInspection
     public partial class MainWindow : Window
     {
         BackgroundWorker worker = new BackgroundWorker();
+        public ILogger log;
         public MainWindow()
         {
 
@@ -34,6 +36,23 @@ namespace AutoRegularInspection
 
             Title = $"外观检查自动报告 v{Application.ResourceAssembly.GetName().Version.ToString()}";
 
+            //Nlog
+            var config = new NLog.Config.LoggingConfiguration();
+
+            // Targets where to log to: File and Console
+            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
+            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+
+            // Rules for mapping loggers to targets            
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+
+            // Apply config           
+            LogManager.Configuration = config;
+
+            log = LogManager.GetCurrentClassLogger();
+
+            
             //TODO:考虑放到App.xaml中
             //IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             //var dataRepository = kernel.Get<IDataRepository>();
@@ -257,7 +276,6 @@ namespace AutoRegularInspection
 
         private void AutoCheckForUpdateCheckBox_Click(object sender, RoutedEventArgs e)
         {
-
             try
             {
                 var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);

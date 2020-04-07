@@ -21,8 +21,10 @@ namespace AutoRegularInspection.Repository
         public static void CheckByRestClient()
         {
             //参考https://blog.csdn.net/Cjiaocsda1127/article/details/82765423
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             var client = new RestClient(url);
 

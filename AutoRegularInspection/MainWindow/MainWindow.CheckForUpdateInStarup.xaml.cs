@@ -33,18 +33,17 @@ namespace AutoRegularInspection
             catch (Exception ex)
             {
 
-                Debug.Print($"后台自动检查更新出错，错误信息：{ ex.Message.ToString()}");
+#if DEBUG
+                throw ex;
+
+#else
+                log.Error(ex, $"后台自动检查更新出错，错误信息：{ ex.Message.ToString()}");
                 autoApdate = false;
+#endif
 
             }
 
-//#if DEBUG
-//                throw ex;
 
-//#else
-//            log.Error(ex, $"后台自动检查更新出错，错误信息：{ ex.Message.ToString()}");
-//            autoApdate = false;
-//#endif
             if (autoApdate)
             {
                 AutoCheckForUpdateCheckBox.IsChecked = true;
