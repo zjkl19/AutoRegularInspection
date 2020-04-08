@@ -83,8 +83,10 @@ namespace AutoRegularInspectionTestProject
             doc.UnlinkFields();   //看情况决定是否要解除链接
             doc.Save(outputFile, SaveFormat.Docx);   //如果需要查看生成的文件，则加上这句
 
+            AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(outputFile);
+
             //Assert
-            
+
             //TODO:测试插入的图片是否正确
 
             //测试汇总表
