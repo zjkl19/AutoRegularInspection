@@ -41,34 +41,34 @@ namespace AutoRegularInspection.Services
         /// <param name="ImageWidth"></param>
         /// <param name="ImageHeight"></param>
         /// <param name="CompressImageFlag"></param>
-        public void GenerateSummaryTableAndPictureTable(ref ProgressBarModel progressModel, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateSummaryTableAndPictureTable(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
             progressModel.ProgressValue = 0;
             progressModel.Content = "正在处理桥面系……";
-            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight);
+            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             progressModel.Content = "正在处理上部结构……";
             progressModel.ProgressValue = 33;
             System.Threading.Thread.Sleep(500);
 
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             progressModel.Content = "正在处理下部结构……";
             progressModel.ProgressValue = 66;
             System.Threading.Thread.Sleep(500);
 
-            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight);
+            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";
         }
 
-        public void GenerateSummaryTableAndPictureTable(double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateSummaryTableAndPictureTable(bool CommentColumnInsertTable,double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
            
-            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight);
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight);
-            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight);
+            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
         }
 
-        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight)
+        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight,bool CommentColumnInsertTable)
         {
 
             var builder = new DocumentBuilder(_doc);
@@ -161,6 +161,11 @@ namespace AutoRegularInspection.Services
             builder.InsertCell(); builder.Write("缺损描述");
             builder.InsertCell(); builder.Write("图示编号");
 
+            if(CommentColumnInsertTable)
+            {
+                builder.InsertCell(); builder.Write("备注");
+            }
+
             builder.Font.Bold = false;
             builder.EndRow();
 
@@ -201,6 +206,10 @@ namespace AutoRegularInspection.Services
 
                     pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + listDamageSummary[i].PictureCounts - 1}", "", "");
                     pictureRefField.InsertHyperlink = true;
+                }
+                if (CommentColumnInsertTable)
+                {
+                    builder.InsertCell(); builder.Write($"{listDamageSummary[i].Comment}");
                 }
                 builder.EndRow();
             }

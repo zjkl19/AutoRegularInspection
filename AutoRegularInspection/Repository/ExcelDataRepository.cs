@@ -1,5 +1,6 @@
 ﻿using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Models;
+using AutoRegularInspection.Services;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace AutoRegularInspection.Repository
         public List<DamageSummary> ReadDamageData(BridgePart bridgePart)
         {
             string strFilePath = App.DamageSummaryFileName;
-            var workSheetName = Services.EnumHelper.GetEnumDesc(bridgePart).ToString();
+            var workSheetName = EnumHelper.GetEnumDesc(bridgePart).ToString();
             var lst = new List<DamageSummary>();
 
             if (!File.Exists(strFilePath))
@@ -81,6 +82,7 @@ namespace AutoRegularInspection.Repository
                             DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty,
                             DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty,
                             PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty,
+                            Comment = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet,"备注")].Value?.ToString() ?? string.Empty,
                         });
 
                     }

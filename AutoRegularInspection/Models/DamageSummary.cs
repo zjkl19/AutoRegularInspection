@@ -115,6 +115,20 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string PictureNo { set; get; } = string.Empty;
 
+        private string _Comment;
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Comment
+
+        {
+            get { return _Comment; }
+            set
+            {
+                UpdateProperty(ref _Comment, value);
+            }
+        }
+
         //以下为扩展字段（根据其它已知信息可以推算出内容的字段）
 
         /// <summary>

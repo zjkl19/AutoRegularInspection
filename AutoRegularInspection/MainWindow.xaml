@@ -149,7 +149,10 @@
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Comment}"
+                                Header="备注" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -219,7 +222,10 @@
                                 Width="Auto"
                                 Binding="{Binding PicturePreview}"
                                 Header="照片预览" />
-
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Comment}"
+                                Header="备注" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -285,6 +291,10 @@
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Comment}"
+                                Header="备注" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
