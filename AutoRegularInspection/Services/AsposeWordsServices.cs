@@ -62,7 +62,6 @@ namespace AutoRegularInspection.Services
 
         public void GenerateSummaryTableAndPictureTable(bool CommentColumnInsertTable,double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
-           
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
