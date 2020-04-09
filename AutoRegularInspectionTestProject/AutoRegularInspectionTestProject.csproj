@@ -36,6 +36,9 @@
   </ItemGroup>
   
   <ItemGroup>
+    <None Update="TestFiles\外观检查报告模板.docx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="外观检查.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

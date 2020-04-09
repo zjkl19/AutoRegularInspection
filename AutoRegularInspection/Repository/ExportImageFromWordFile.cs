@@ -28,16 +28,31 @@ namespace AutoRegularInspection.Repository
             Document doc = new Document(filePath);
             NodeCollection shapes = doc.GetChildNodes(NodeType.Shape, true);
             int imageIndex = 0;
-            var k = shapes.Count;
-            foreach (Shape shape in shapes)
+            //foreach (Shape shape in shapes)
+            //{
+            //    if (shape.HasImage)
+            //    {
+            //        string time = DateTime.Now.ToString("HHmmssfff");
+            //        //扩展名
+            //        string ex = FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType);
+            //        //文件名
+            //        string fileName = string.Format("{0}_{1}{2}", time, imageIndex, ex);
+            //        shape.ImageData.Save(savePath + fileName);
+            //        //添加文件到集合
+            //        list.Add(fileName);
+            //        imageIndex++;
+            //    }
+            //}
+            Shape shape;
+            for (int i=0;i<shapes.Count;i++)
             {
+                shape = shapes[i] as Shape;
                 if (shape.HasImage)
                 {
-                    string time = DateTime.Now.ToString("HHmmssfff");
                     //扩展名
                     string ex = FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType);
                     //文件名
-                    string fileName = string.Format("{0}_{1}{2}", time, imageIndex, ex);
+                    string fileName = $"{imageIndex}{ex}";
                     shape.ImageData.Save(savePath + fileName);
                     //添加文件到集合
                     list.Add(fileName);
@@ -45,6 +60,43 @@ namespace AutoRegularInspection.Repository
                 }
             }
             return list;
+        }
+
+        /// <summary>
+        /// 提取word中的图片
+        /// </summary>
+        /// <param name="skipBefore">跳过之前的图片数量（要测试，因为有的Shape的HasImage属性为false）</param>
+        /// <param name="skipAfter">跳过之后的图片数量（要测试，因为有的Shape的HasImage属性为false）</param>
+        /// <param name="filePath"></param>
+        /// <param name="savePath"></param>
+        /// <returns></returns>
+        public static IEnumerable<string> ExportImageFromWordFile(int skipBefore,int skipAfter,string filePath, string savePath = "")
+        {
+            if (!File.Exists(filePath)) yield return string.Empty;
+            if (string.IsNullOrEmpty(savePath)) savePath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Temp\\";
+
+            //加载word
+            Document doc = new Document(filePath);
+            NodeCollection shapes = doc.GetChildNodes(NodeType.Shape, true);
+            int imageIndex = 0;
+
+            Shape shape;
+            for (int i = skipBefore; i < shapes.Count-skipAfter; i++)
+            {
+                shape = shapes[i] as Shape;
+                if (shape.HasImage)
+                {
+                    //扩展名
+                    string ex = FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType);
+                    //文件名
+                    string fileName = $"{imageIndex+1}{ex}";
+                    shape.ImageData.Save(savePath + fileName);
+
+                    yield return fileName;
+                    imageIndex++;
+                }
+            }
+            //return list;
         }
     }
 }

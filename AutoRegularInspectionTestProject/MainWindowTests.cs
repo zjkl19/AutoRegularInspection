@@ -9,6 +9,9 @@ using AutoRegularInspection.IRepository;
 using Ninject;
 using System.Collections.Generic;
 using Aspose.Words.Tables;
+using System.IO;
+using System.Text;
+using System.Security.Cryptography;
 
 namespace AutoRegularInspectionTestProject
 {
@@ -19,9 +22,12 @@ namespace AutoRegularInspectionTestProject
         public void GenerateReport_Test()
         {
             //Arrange
-            //string fileName = @"..\..\..\TestFiles\FindUnitError.doc";
-            string templateFile = @"..\..\..\..\AutoRegularInspectionTestProject\TestFiles\外观检查报告模板.docx";
-            string outputFile = @"..\..\..\..\AutoRegularInspectionTestProject\TestFiles\外观检查报告.docx";
+
+            const string tempPath = "Temp";
+            string templateFile = @"TestFiles\外观检查报告模板.docx";
+            string outputFile = @"TestFiles\外观检查报告.docx";
+
+
             double ImageWidth = 224.25; double ImageHeight = 168.75; int CompressImageFlag = 80;
 
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
@@ -89,11 +95,11 @@ namespace AutoRegularInspectionTestProject
             doc.UnlinkFields();   //看情况决定是否要解除链接
             doc.Save(outputFile, SaveFormat.Docx);   //如果需要查看生成的文件，则加上这句
 
-            //AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(outputFile);
+
+            int skipBefore = 22; int skipAfter = 28;    //该数据要手动测试出来
+            List<string> fileNameList = AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(skipBefore, skipAfter,outputFile, @$"{tempPath}\").ToList();
 
             //Assert
-
-            //TODO:测试插入的图片是否正确
 
             //测试汇总表（桥面系）
             Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
@@ -102,6 +108,9 @@ namespace AutoRegularInspectionTestProject
             //测试汇总图片表（桥面系）
             Assert.Contains("图 2-1 左幅0#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-4 右幅1#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[3].Cells[1].GetText().Trim(), StringComparison.Ordinal);
+            //测试图片md5（桥面系）
+            Assert.Equal("589279c71781666ad3adf2c76a71c9e7", GetFileMD5(@$"{tempPath}\{fileNameList[0]}"),true);
+            Assert.Equal("8ec8d8aa1883810e1c4141066b67ca0d", GetFileMD5(@$"{tempPath}\{fileNameList[1]}"), true);
 
             //测试汇总表（上部结构）
             Assert.Contains("无", superSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
@@ -109,6 +118,9 @@ namespace AutoRegularInspectionTestProject
             //测试汇总图片表（上部结构）
             Assert.Contains("图 2-9 左幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-10 右幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[1].GetText().Trim(), StringComparison.Ordinal);
+            //测试图片md5（上部结构）
+            Assert.Equal("589279c71781666ad3adf2c76a71c9e7", GetFileMD5(@$"{tempPath}\{fileNameList[8]}"), true);
+            Assert.Equal("22afdccd0a7b3334c8b3ab811ce5c192", GetFileMD5(@$"{tempPath}\{fileNameList[9]}"), true);
 
             //测试汇总表（下部结构）
             Assert.Contains("水蚀", subSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
@@ -116,7 +128,46 @@ namespace AutoRegularInspectionTestProject
             //测试汇总图片表（下部结构）
             Assert.Contains("图 2-13 左幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1+2].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-14 右幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1+2].Cells[1].GetText().Trim(), StringComparison.Ordinal);
+            //测试图片md5（下部结构）
+            Assert.Equal("8ec8d8aa1883810e1c4141066b67ca0d", GetFileMD5(@$"{tempPath}\{fileNameList[12]}"), true);
+            Assert.Equal("4f23222732ec6519c38713614379ae11", GetFileMD5(@$"{tempPath}\{fileNameList[13]}"), true);
+        }
 
+        public static string GetFileMD5(string filepath)
+        {
+            FileStream fs = new FileStream(filepath, FileMode.Open, FileAccess.Read, FileShare.Read);
+            int bufferSize = 1048576;
+            byte[] buff = new byte[bufferSize];
+            MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
+            md5.Initialize();
+            long offset = 0;
+            while (offset < fs.Length)
+            {
+                long readSize = bufferSize;
+                if (offset + readSize > fs.Length)
+                    readSize = fs.Length - offset;
+                fs.Read(buff, 0, Convert.ToInt32(readSize));
+                if (offset + readSize < fs.Length)
+                    md5.TransformBlock(buff, 0, Convert.ToInt32(readSize), buff, 0);
+                else
+                    md5.TransformFinalBlock(buff, 0, Convert.ToInt32(readSize));
+                offset += bufferSize;
+            }
+            if (offset >= fs.Length)
+            {
+                fs.Close();
+                byte[] result = md5.Hash;
+                md5.Clear();
+                StringBuilder sb = new StringBuilder(32);
+                for (int i = 0; i < result.Length; i++)
+                    sb.Append(result[i].ToString("X2"));
+                return sb.ToString();
+            }
+            else
+            {
+                fs.Close();
+                return null;
+            }
         }
     }
 }
