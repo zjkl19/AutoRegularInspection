@@ -83,7 +83,7 @@
         <TabControl Grid.Row="{StaticResource TabControlRowIndex}" Grid.Column="0" Grid.ColumnSpan="{StaticResource ColumnCounts}" FontSize="{StaticResource DataGridFontSize}">
             <TabItem Header="桥面系">
                 <Grid>
-                    <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False" FontSize="{StaticResource DataGridFontSize}" ItemsSource="{Binding GridSource.GridData}">
+                    <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
 
                             <DataGridTextColumn

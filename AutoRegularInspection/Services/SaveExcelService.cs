@@ -49,6 +49,7 @@ namespace AutoRegularInspection.Services
                     worksheet.Cells[1, 5].Value = "缺损描述";
                     worksheet.Cells[1, 6].Value = "图片描述";
                     worksheet.Cells[1, 7].Value = "照片编号";
+                    worksheet.Cells[1, 8].Value = "备注";
 
                     //添加值
                     for (int i = 0; i < bridgeDeckListDamageSummary.Count; i++)
@@ -76,6 +77,7 @@ namespace AutoRegularInspection.Services
                         worksheet.Cells[i + 2, 5].Value = bridgeDeckListDamageSummary[i].DamageDescription;
                         worksheet.Cells[i + 2, 6].Value = bridgeDeckListDamageSummary[i].DamageDescriptionInPicture;
                         worksheet.Cells[i + 2, 7].Value = bridgeDeckListDamageSummary[i].PictureNo;
+                        worksheet.Cells[i + 2, FindColumnIndexByName(worksheet,"备注")].Value = bridgeDeckListDamageSummary[i].Comment;
                     }
 
                     worksheet = excelPackage.Workbook.Worksheets.Add("上部结构");
@@ -87,6 +89,7 @@ namespace AutoRegularInspection.Services
                     worksheet.Cells[1, 5].Value = "缺损描述";
                     worksheet.Cells[1, 6].Value = "图片描述";
                     worksheet.Cells[1, 7].Value = "照片编号";
+                    worksheet.Cells[1, 8].Value = "备注";
 
                     //添加值
                     for (int i = 0; i < superSpaceListDamageSummary.Count; i++)
@@ -103,6 +106,7 @@ namespace AutoRegularInspection.Services
                         worksheet.Cells[i + 2, 5].Value = superSpaceListDamageSummary[i].DamageDescription;
                         worksheet.Cells[i + 2, 6].Value = superSpaceListDamageSummary[i].DamageDescriptionInPicture;
                         worksheet.Cells[i + 2, 7].Value = superSpaceListDamageSummary[i].PictureNo;
+                        worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "备注")].Value = superSpaceListDamageSummary[i].Comment;
                     }
 
                     worksheet = excelPackage.Workbook.Worksheets.Add("下部结构");
@@ -114,6 +118,7 @@ namespace AutoRegularInspection.Services
                     worksheet.Cells[1, 5].Value = "缺损描述";
                     worksheet.Cells[1, 6].Value = "图片描述";
                     worksheet.Cells[1, 7].Value = "照片编号";
+                    worksheet.Cells[1, 8].Value = "备注";
 
                     //添加值
                     for (int i = 0; i < subSpaceListDamageSummary.Count; i++)
@@ -129,6 +134,7 @@ namespace AutoRegularInspection.Services
                         worksheet.Cells[i + 2, 5].Value = subSpaceListDamageSummary[i].DamageDescription;
                         worksheet.Cells[i + 2, 6].Value = subSpaceListDamageSummary[i].DamageDescriptionInPicture;
                         worksheet.Cells[i + 2, 7].Value = subSpaceListDamageSummary[i].PictureNo;
+                        worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "备注")].Value = subSpaceListDamageSummary[i].Comment;
                     }
 
                     excelPackage.Save();

@@ -27,6 +27,7 @@ namespace AutoRegularInspectionTestProject.Services
                     ,DamageValue=GlobalData.ComponentComboBox.Where(x=>x.Title=="伸缩缝").FirstOrDefault().DamageComboBox.Where(p=>p.Title=="缝内沉积物阻塞").FirstOrDefault().Idx    //若节约时间不写复杂表达式，直接填1（仅对本次测试有效）
                     ,Damage="缝内沉积物阻塞"
                     ,DamageDescription="左幅0#伸缩缝沉积物阻塞"
+                    ,Comment="新增"
                 }
             };
             var superSpaceListDamageSummary = new List<DamageSummary>
@@ -55,6 +56,7 @@ namespace AutoRegularInspectionTestProject.Services
             //默认测试桥面系标签
             string expectedDamage = bridgeDeckListDamageSummary[0].Damage; string acturalDamage = string.Empty;
             string expectedDamageDescription = bridgeDeckListDamageSummary[0].DamageDescription; string acturalDamageDescription = string.Empty;
+            string expectedComment = bridgeDeckListDamageSummary[0].Comment; string acturalComment = string.Empty;
 
             string expectedDamageInSuperStructure = "无"; string acturalDamageInSuperStructure = string.Empty;
             string expectedDamageInSubStructure = "水蚀"; string acturalDamageInSubStructure = string.Empty;
@@ -70,6 +72,8 @@ namespace AutoRegularInspectionTestProject.Services
                 var worksheet = excelPackage.Workbook.Worksheets["桥面系"];
                 acturalDamage = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
                 acturalDamageDescription = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损描述")].Value?.ToString() ?? string.Empty;
+                acturalComment = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "备注")].Value?.ToString() ?? string.Empty;
+
                 // 检查"上部结构"Worksheets
                 worksheet = excelPackage.Workbook.Worksheets["上部结构"];
                 acturalDamageInSuperStructure = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
@@ -82,6 +86,7 @@ namespace AutoRegularInspectionTestProject.Services
             //桥面系
             Assert.Equal(expectedDamage, acturalDamage);
             Assert.Equal(expectedDamageDescription, acturalDamageDescription);
+            Assert.Equal(expectedComment, acturalComment);
             //上部结构
             Assert.Equal(expectedDamageInSuperStructure, acturalDamageInSuperStructure);
             //下部结构

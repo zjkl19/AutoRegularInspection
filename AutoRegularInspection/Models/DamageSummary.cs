@@ -129,6 +129,59 @@ namespace AutoRegularInspection.Models
             }
         }
 
+        private int _Unit1Value;
+        public int Unit1Value
+        {
+            get { return _Unit1Value; }
+            set
+            {
+                UpdateProperty(ref _Unit1Value, value);
+            }
+        }
+
+        private bool _UseCustomedUnit;
+        public bool UseCustomedUnit
+        {
+            get { return _UseCustomedUnit; }
+            set
+            {
+                UpdateProperty(ref _UseCustomedUnit, value);
+            }
+        }
+        public string Unit1 { set; get; } = string.Empty;
+
+        private int _Unit1Counts;
+        public int Unit1Counts
+        {
+            get { return _Unit1Counts; }
+            set
+            {
+                UpdateProperty(ref _Unit1Counts, value);
+            }
+        }
+
+        private int _Unit2Value;
+        public int Unit2Value
+        {
+            get { return _Unit2Value; }
+            set
+            {
+                UpdateProperty(ref _Unit2Value, value);
+            }
+        }
+
+        public string Unit2 { set; get; } = string.Empty;
+
+        private int _Unit2Counts;
+        public int Unit2Counts
+        {
+            get { return _Unit2Counts; }
+            set
+            {
+                UpdateProperty(ref _Unit2Counts, value);
+            }
+        }
+
         //以下为扩展字段（根据其它已知信息可以推算出内容的字段）
 
         /// <summary>

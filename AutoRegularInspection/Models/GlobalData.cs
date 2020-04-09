@@ -17,6 +17,16 @@ namespace AutoRegularInspection.Models
 
         public static ObservableCollection<BridgeDamage> SubSpaceComponentComboBox { get; } = LoadDataFromExcel(BridgePart.SubSpace);
 
+        public static ObservableCollection<string> Unit1ComboBox { get; } = new ObservableCollection<string>()
+        {
+            "处","条","个"
+        };
+
+        public static ObservableCollection<string> Unit2ComboBox { get; } = new ObservableCollection<string>()
+        {
+            "平方米","米"
+        };
+
         private static ObservableCollection<BridgeDamage> LoadDataFromExcel(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
             string workSheetName = "桥面系";
