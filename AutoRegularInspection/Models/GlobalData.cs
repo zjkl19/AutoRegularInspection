@@ -18,7 +18,6 @@ namespace AutoRegularInspection.Models
         public static ObservableCollection<BridgeDamage> SubSpaceComponentComboBox { get; } = LoadDataFromExcel(BridgePart.SubSpace);
 
         private static ObservableCollection<BridgeDamage> LoadDataFromExcel(BridgePart bridgePart=BridgePart.BridgeDeck)
-
         {
             string workSheetName = "桥面系";
             if (bridgePart==BridgePart.BridgeDeck)

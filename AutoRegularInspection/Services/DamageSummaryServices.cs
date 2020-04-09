@@ -64,7 +64,6 @@ namespace AutoRegularInspection.Services
                     componentComboBox = GlobalData.SubSpaceComponentComboBox;
                 }
 
-
                 componentFound = componentComboBox.Where(x => x.Title == listDamageSummary[i].Component);             
 
                 IEnumerable<BridgeDamage> damageFound = null;

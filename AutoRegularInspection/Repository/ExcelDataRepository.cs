@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Repository
 {
-    public class ExcelDataRepository:IDataRepository
+    public class ExcelDataRepository : IDataRepository
     {
         /// <summary>
         /// 读取病害数据
@@ -51,7 +51,7 @@ namespace AutoRegularInspection.Repository
                                 rowCur = false;
                             }
                         }
-                        catch (Exception)   //读取异常则终止
+                        catch (Exception ex)   //读取异常则终止
                         {
                             rowCur = false;
                         }
@@ -72,23 +72,17 @@ namespace AutoRegularInspection.Repository
                         //1、处理excel数据导入;
                         //2、验证"视图模型";
                         //3、验证业务模型;
-                        try
+
+                        lst.Add(new DamageSummary
                         {
-                            lst.Add(new DamageSummary
-                            {
-                                No = row - 1,
-                                Position = worksheet.Cells[row, 2].Value?.ToString() ?? string.Empty,
-                                Component = worksheet.Cells[row, 3].Value?.ToString() ?? string.Empty,
-                                Damage = worksheet.Cells[row, 4].Value?.ToString() ?? string.Empty,
-                                DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty,
-                                DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty,
-                                PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty,
-                            });
-                        }
-                        catch (Exception)
-                        {
-                            continue;
-                        }
+                            No = row - 1,
+                            Position = worksheet.Cells[row, 2].Value?.ToString() ?? string.Empty,
+                            Component = worksheet.Cells[row, 3].Value?.ToString() ?? string.Empty,
+                            Damage = worksheet.Cells[row, 4].Value?.ToString() ?? string.Empty,
+                            DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty,
+                            DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty,
+                            PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty,
+                        });
 
                     }
                 }
