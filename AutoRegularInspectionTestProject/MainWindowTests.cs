@@ -27,7 +27,7 @@ namespace AutoRegularInspectionTestProject
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
-            List<DamageSummary> l1,l2,l3;
+            List<DamageSummary> l1, l2, l3;
 
             l1 = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
             DamageSummaryServices.InitListDamageSummary(l1);
@@ -60,43 +60,62 @@ namespace AutoRegularInspectionTestProject
             //        break;
             //    }
             //}
-            Table bridgeDeckDamageSummaryTable=null; Table bridgeDeckDamagePictureTable = null;
+            Table bridgeDeckDamageSummaryTable = null; Table bridgeDeckDamagePictureTable = null;
             int bridgeDeckDamageSummaryTableIndex = 0;
             NodeCollection allTables = doc.GetChildNodes(NodeType.Table, true);
             for (int i = 0; i < allTables.Count; i++)
             {
                 bridgeDeckDamageSummaryTable = doc.GetChildNodes(NodeType.Table, true)[i] as Table;
-                
-                if(bridgeDeckDamageSummaryTable.Rows[0].Cells.Count<3)    //防止越界
+
+                if (bridgeDeckDamageSummaryTable.Rows[0].Cells.Count < 3)    //防止越界
                 {
                     continue;
                 }
 
-                if (bridgeDeckDamageSummaryTable.Rows[0].Cells[2].GetText().IndexOf("要素") >= 0)    //先找到桥面系病害的汇总表
+                if (bridgeDeckDamageSummaryTable.Rows[0].Cells[2].GetText().IndexOf("要素", StringComparison.Ordinal) >= 0)    //先找到桥面系病害的汇总表
                 {
                     bridgeDeckDamageSummaryTableIndex = i;
-                    bridgeDeckDamagePictureTable= doc.GetChildNodes(NodeType.Table, true)[i+1] as Table;
+                    bridgeDeckDamagePictureTable = doc.GetChildNodes(NodeType.Table, true)[i + 1] as Table;
                     break;
                 }
             }
 
+            Table superSpaceDamageSummaryTable = doc.GetChildNodes(NodeType.Table, true)[bridgeDeckDamageSummaryTableIndex + 2] as Table;
+            Table superSpaceDamagePictureTable = doc.GetChildNodes(NodeType.Table, true)[bridgeDeckDamageSummaryTableIndex + 2 + 1] as Table;
+
+            Table subSpaceDamageSummaryTable = doc.GetChildNodes(NodeType.Table, true)[bridgeDeckDamageSummaryTableIndex + 2 * 2] as Table;
+            Table subSpaceDamagePictureTable = doc.GetChildNodes(NodeType.Table, true)[bridgeDeckDamageSummaryTableIndex + 2 * 2 + 1] as Table;
+
             doc.UnlinkFields();   //看情况决定是否要解除链接
             doc.Save(outputFile, SaveFormat.Docx);   //如果需要查看生成的文件，则加上这句
 
-            AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(outputFile);
+            //AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(outputFile);
 
             //Assert
 
             //TODO:测试插入的图片是否正确
 
-            //测试汇总表
-            Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.CurrentCulture);
-            Assert.Contains("接缝处铺装碎边", bridgeDeckDamageSummaryTable.Rows[2].Cells[3].GetText(), StringComparison.CurrentCulture);
-            Assert.Contains("图 2-3",bridgeDeckDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(),StringComparison.CurrentCulture);
+            //测试汇总表（桥面系）
+            Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
+            Assert.Contains("接缝处铺装碎边", bridgeDeckDamageSummaryTable.Rows[2].Cells[3].GetText(), StringComparison.Ordinal);
+            Assert.Contains("图 2-3", bridgeDeckDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(), StringComparison.Ordinal);
+            //测试汇总图片表（桥面系）
+            Assert.Contains("图 2-1 左幅0#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-4 右幅1#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[3].Cells[1].GetText().Trim(), StringComparison.Ordinal);
 
-            //测试汇总图片表  
-            Assert.Contains("图 2-1 左幅0#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.CurrentCulture);
-            Assert.Contains("图 2-4 右幅1#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[3].Cells[1].GetText().Trim(), StringComparison.CurrentCulture);
+            //测试汇总表（上部结构）
+            Assert.Contains("无", superSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
+            Assert.Contains("图 2-10", superSpaceDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(), StringComparison.Ordinal);
+            //测试汇总图片表（上部结构）
+            Assert.Contains("图 2-9 左幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-10 右幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[1].GetText().Trim(), StringComparison.Ordinal);
+
+            //测试汇总表（下部结构）
+            Assert.Contains("水蚀", subSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
+            Assert.Contains("图 2-12", subSpaceDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(), StringComparison.Ordinal);
+            //测试汇总图片表（下部结构）
+            Assert.Contains("图 2-13 左幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1+2].Cells[0].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-14 右幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1+2].Cells[1].GetText().Trim(), StringComparison.Ordinal);
 
         }
     }
