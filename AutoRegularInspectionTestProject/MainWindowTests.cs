@@ -47,7 +47,7 @@ namespace AutoRegularInspectionTestProject
             //Act
             var doc = new Document(templateFile);
             var asposeService = new AsposeWordsServices(ref doc, l1, l2, l3);
-            asposeService.GenerateSummaryTableAndPictureTable(ImageWidth, ImageHeight, CompressImageFlag);
+            asposeService.GenerateSummaryTableAndPictureTable(false,ImageWidth, ImageHeight, CompressImageFlag);
 
             doc.UpdateFields();
             doc.UpdateFields();
