@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:AutoRegularInspection.Models"
         mc:Ignorable="d"
-        Title="外观检查自动报告" Height="500" Width="1000">
+        Title="外观检查自动报告" Height="500" Width="1100">
     <Window.Resources>
         <local:EnumConverter x:Key="eConverter"/>
         <local:ComponentValueConverter x:Key="cConverter"/>
@@ -25,7 +25,8 @@
             <local:BridgePart x:Key="BridgeDeckEnum">BridgeDeck</local:BridgePart>
             <local:BridgePart x:Key="SuperSpaceEnum">SuperSpace</local:BridgePart>
             <local:BridgePart x:Key="SubSpaceEnum">SubSpace</local:BridgePart>
-            
+
+            <sys:Double x:Key="DataGridFontSize">13</sys:Double>
             <sys:Int32 x:Key="ColumnCounts">5</sys:Int32>
             <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
             <sys:Int32 x:Key="OperationButtonRowIndex1">2</sys:Int32>
@@ -66,7 +67,7 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Menu Grid.ColumnSpan="{StaticResource ColumnCounts}">
+        <Menu Grid.ColumnSpan="{StaticResource ColumnCounts}" FontSize="{StaticResource DataGridFontSize}">
             <!-- 参考 https://www.cnblogs.com/lk-kk/p/4609026.html-->
             <MenuItem Header="文件">
                 <MenuItem Header="退出" Click="MenuItem_Exit_Click" ></MenuItem>
@@ -79,10 +80,10 @@
                 <MenuItem Header="关于" Click="MenuItem_About_Click" ></MenuItem>
             </MenuItem>
         </Menu>
-        <TabControl Grid.Row="{StaticResource TabControlRowIndex}" Grid.Column="0" Grid.ColumnSpan="{StaticResource ColumnCounts}">
+        <TabControl Grid.Row="{StaticResource TabControlRowIndex}" Grid.Column="0" Grid.ColumnSpan="{StaticResource ColumnCounts}" FontSize="{StaticResource DataGridFontSize}">
             <TabItem Header="桥面系">
                 <Grid>
-                    <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False"  ItemsSource="{Binding GridSource.GridData}">
+                    <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False" FontSize="{StaticResource DataGridFontSize}" ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
 
                             <DataGridTextColumn
@@ -142,7 +143,7 @@
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
-                            <DataGridTemplateColumn Width="50" Header="照片预览">
+                            <DataGridTemplateColumn Width="Auto" Header="照片预览">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Image Source="{Binding PicturePreview}" />
@@ -157,9 +158,9 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="上部结构">
+            <TabItem Header="上部结构" FontSize="{StaticResource DataGridFontSize}">
                 <Grid>
-                    <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False"  ItemsSource="{Binding GridSource.GridData}">
+                    <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="Auto"
@@ -230,9 +231,9 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="下部结构">
+            <TabItem Header="下部结构" FontSize="{StaticResource DataGridFontSize}">
                 <Grid>
-                    <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False"  ItemsSource="{Binding GridSource.GridData}">
+                    <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
                             <DataGridTextColumn
                                 Width="Auto"
