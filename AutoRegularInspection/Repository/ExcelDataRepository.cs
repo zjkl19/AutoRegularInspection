@@ -32,7 +32,6 @@ namespace AutoRegularInspection.Repository
             {
 
                 FileInfo file = new FileInfo(strFilePath);
-
                 using (ExcelPackage package = new ExcelPackage(file))
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[workSheetName];

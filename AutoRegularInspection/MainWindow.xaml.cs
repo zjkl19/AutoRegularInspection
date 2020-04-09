@@ -63,6 +63,19 @@ namespace AutoRegularInspection
 
             SubSpaceGrid.DataContext = new GridViewModel(BridgePart.SubSpace);
 
+            var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            bool commentColumnInsertTable;
+            commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value);
+
+            if (commentColumnInsertTable)
+            {
+                CommentColumnInsertTableCheckBox.IsChecked = true;
+            }
+            else
+            {
+                CommentColumnInsertTableCheckBox.IsChecked = false;
+            }
+
             CheckForUpdateInStarup();    //启动时检查更新
         }
 
