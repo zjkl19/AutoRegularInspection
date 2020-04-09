@@ -41,6 +41,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>lightning.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Aspose.Words, Version=18.7.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -214,6 +217,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AsposeWordsNet\Aspose.Words.dll" />
+    <Resource Include="lightning.ico" />
     <Resource Include="TODOList.txt" />
     <Resource Include="Pictures\DSC00855.JPG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
