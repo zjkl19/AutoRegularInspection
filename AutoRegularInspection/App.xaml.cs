@@ -20,6 +20,7 @@ namespace AutoRegularInspection
         public const string StatisticsUnitFileName = "统计单位表.xlsx";
         public const string TemplateReportFileName = "外观检查报告模板.docx";
         public const string OutputReportFileName = "自动生成的外观检查报告.docx";
+        public const string OutputDamageStatisticsFileName = "桥梁检测病害统计汇总表.xlsx";
         public const string ConfigFileName = "Option.config";
 
         public App()

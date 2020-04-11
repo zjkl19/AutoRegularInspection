@@ -116,6 +116,7 @@
     <Compile Include="MainWindow\MainWindow.CheckForUpdate.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CheckForUpdateInStarup.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CommentColumnInsertTableCheckBox.xaml.cs" />
+    <Compile Include="MainWindow\MainWindow.OpenDamageStatisticsTable.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.Suggestion.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.GenerateDamageStatisticsTable.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.Test.xaml.cs" />

@@ -167,11 +167,21 @@ namespace AutoRegularInspection.Services
             }
         }
 
-        public static void GenerateDamageStatisticsTable(ObservableCollection<DamageSummary> bridgeDeckListDamageSummary)
+        public static void GenerateDamageStatisticsTable(ObservableCollection<DamageSummary> bridgeDeckListDamageSummary
+            , ObservableCollection<DamageSummary> superSpaceListDamageSummary, ObservableCollection<DamageSummary> subSpaceListDamageSummary)
         {
-            var damageStatistics = bridgeDeckListDamageSummary.GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
+            var damageStatistics = bridgeDeckListDamageSummary.Where(x=>x.GetUnit2()!="无").GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
+            var superSpaceDamageStatistics = superSpaceListDamageSummary.Where(x => x.GetUnit2() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
+            var subSpaceDamageStatistics = subSpaceListDamageSummary.Where(x => x.GetUnit2() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
+
             string saveFileName = $"桥梁检测病害统计汇总表.xlsx";
             string tempFileName = $"temp{saveFileName}";
+
+            if(File.Exists(tempFileName))
+            {
+                File.Delete(tempFileName);
+            }
+
             string sheetName = string.Empty;
             var file = new FileInfo(tempFileName);
 
@@ -181,6 +191,7 @@ namespace AutoRegularInspection.Services
             {
                 // 添加worksheet
                 var worksheet = excelPackage.Workbook.Worksheets.Add("桥面系病害统计汇总表");
+                rowIndex = 2;
                 //添加表头
                 worksheet.Cells[1, 1].Value = "序号";
                 worksheet.Cells[1, 2].Value = "要素";
@@ -203,6 +214,51 @@ namespace AutoRegularInspection.Services
                 }
 
                 worksheet = excelPackage.Workbook.Worksheets.Add("上部结构");
+                rowIndex = 2;
+                //添加表头
+                worksheet.Cells[1, 1].Value = "序号";
+                worksheet.Cells[1, 2].Value = "构件类型";
+                worksheet.Cells[1, 3].Value = "病害类型";
+                worksheet.Cells[1, 4].Value = "单位1";
+                worksheet.Cells[1, 5].Value = "单位1数量";
+                worksheet.Cells[1, 6].Value = "单位2";
+                worksheet.Cells[1, 7].Value = "单位2数量";
+
+                foreach (var v1 in superSpaceDamageStatistics)
+                {
+                    worksheet.Cells[rowIndex, 1].Value = rowIndex - 1;
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "构件类型")].Value = $"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "病害类型")].Value = $"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value = $"{v1.FirstOrDefault().GetDisplayUnit1()}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value = $"{v1.Sum(x => x.Unit1Counts)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value = $"{v1.FirstOrDefault().GetDisplayUnit2()}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value = $"{v1.Sum(x => x.Unit2Counts)}";
+                    rowIndex++;
+                }
+
+                worksheet = excelPackage.Workbook.Worksheets.Add("下部结构");
+                rowIndex = 2;
+                //添加表头
+                worksheet.Cells[1, 1].Value = "序号";
+                worksheet.Cells[1, 2].Value = "构件类型";
+                worksheet.Cells[1, 3].Value = "病害类型";
+                worksheet.Cells[1, 4].Value = "单位1";
+                worksheet.Cells[1, 5].Value = "单位1数量";
+                worksheet.Cells[1, 6].Value = "单位2";
+                worksheet.Cells[1, 7].Value = "单位2数量";
+
+                foreach (var v1 in subSpaceDamageStatistics)
+                {
+                    worksheet.Cells[rowIndex, 1].Value = rowIndex - 1;
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "构件类型")].Value = $"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "病害类型")].Value = $"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value = $"{v1.FirstOrDefault().GetDisplayUnit1()}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value = $"{v1.Sum(x => x.Unit1Counts)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value = $"{v1.FirstOrDefault().GetDisplayUnit2()}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value = $"{v1.Sum(x => x.Unit2Counts)}";
+                    rowIndex++;
+                }
+
                 excelPackage.Save();
             }
             File.Copy(tempFileName, saveFileName, true);

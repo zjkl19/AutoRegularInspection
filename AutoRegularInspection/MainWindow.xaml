@@ -261,6 +261,39 @@
                                 Width="Auto"
                                 Binding="{Binding Comment}"
                                 Header="备注" />
+                            <DataGridTemplateColumn Header="单位1" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.Unit1ComboBox}}"
+                                            DisplayMemberPath="DisplayTitle"
+                                            SelectedIndex="{Binding Unit1Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit1Counts}"
+                                Header="单位1数量" />
+
+                            <DataGridTemplateColumn Header="单位2" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.Unit2ComboBox}}"
+                                            DisplayMemberPath="DisplayTitle"
+                                            SelectedIndex="{Binding Unit2Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit2Counts}"
+                                Header="单位2数量" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -330,6 +363,39 @@
                                 Width="Auto"
                                 Binding="{Binding Comment}"
                                 Header="备注" />
+                            <DataGridTemplateColumn Header="单位1" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.Unit1ComboBox}}"
+                                            DisplayMemberPath="DisplayTitle"
+                                            SelectedIndex="{Binding Unit1Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit1Counts}"
+                                Header="单位1数量" />
+
+                            <DataGridTemplateColumn Header="单位2" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.Unit2ComboBox}}"
+                                            DisplayMemberPath="DisplayTitle"
+                                            SelectedIndex="{Binding Unit2Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit2Counts}"
+                                Header="单位2数量" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -339,13 +405,15 @@
 
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="0" Margin="10" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="1" Margin="10" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
-
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="2" Margin="10" Click="Test_Click">自定义功能测试</Button>
+        
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="2" Margin="10" Click="OpenExcel_Click">打开Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="3" Margin="10" Click="GenerateDamageStatisticsTable_Click">生成病害统计汇总表</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="4" Margin="10" Click="Test_Click">自定义功能测试</Button>
-        
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="4" Margin="10" Click="OpenDamageStatisticsTable_Click">打开病害统计汇总表</Button>
+
+
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="0" Margin="10" Click="AutoReport_Click">自动生成报告</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="1" Margin="10" Click="OpenReport_Click">打开报告</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="2" Margin="10" Click="SuggestionButton_Click">查看参考建议</Button>

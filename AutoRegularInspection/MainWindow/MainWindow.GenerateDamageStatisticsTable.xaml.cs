@@ -16,15 +16,17 @@ namespace AutoRegularInspection
         {
 
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            var _SubSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
             try
             {
-                DamageSummaryServices.GenerateDamageStatisticsTable(_bridgeDeckListDamageSummary);
+                DamageSummaryServices.GenerateDamageStatisticsTable(_bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _SubSpaceListDamageSummary);
                 MessageBox.Show("成功生成桥梁检测病害统计汇总表！");
             }
             catch (Exception ex)
             {
-                Debug.Print($"保存excel出错，错误信息：{ex.Message}");
+                MessageBox.Show($"保存excel出错，错误信息：{ex.Message}");
             }
 
         }
