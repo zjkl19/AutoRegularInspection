@@ -170,9 +170,9 @@ namespace AutoRegularInspection.Services
         public static void GenerateDamageStatisticsTable(ObservableCollection<DamageSummary> bridgeDeckListDamageSummary
             , ObservableCollection<DamageSummary> superSpaceListDamageSummary, ObservableCollection<DamageSummary> subSpaceListDamageSummary)
         {
-            var damageStatistics = bridgeDeckListDamageSummary.Where(x=>x.GetUnit2()!="无").GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
-            var superSpaceDamageStatistics = superSpaceListDamageSummary.Where(x => x.GetUnit2() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
-            var subSpaceDamageStatistics = subSpaceListDamageSummary.Where(x => x.GetUnit2() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
+            var damageStatistics = bridgeDeckListDamageSummary.Where(x=>x.GetUnit1()!="无").GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
+            var superSpaceDamageStatistics = superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
+            var subSpaceDamageStatistics = subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
 
             string saveFileName = $"桥梁检测病害统计汇总表.xlsx";
             string tempFileName = $"temp{saveFileName}";
