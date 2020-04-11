@@ -20,6 +20,7 @@ namespace AutoRegularInspection
             try
             {
                 DamageSummaryServices.GenerateDamageStatisticsTable(_bridgeDeckListDamageSummary);
+                MessageBox.Show("成功生成桥梁检测病害统计汇总表！");
             }
             catch (Exception ex)
             {

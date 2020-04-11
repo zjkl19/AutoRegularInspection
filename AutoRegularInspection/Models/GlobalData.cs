@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -17,15 +18,9 @@ namespace AutoRegularInspection.Models
 
         public static ObservableCollection<BridgeDamage> SubSpaceComponentComboBox { get; } = LoadDataFromExcel(BridgePart.SubSpace);
 
-        public static ObservableCollection<string> Unit1ComboBox { get; } = new ObservableCollection<string>()
-        {
-            "处","条","个"
-        };
+        public static ObservableCollection<StatisticsUnit> Unit1ComboBox { get; } = LoadUnitDataFromExcel("单位1");
 
-        public static ObservableCollection<string> Unit2ComboBox { get; } = new ObservableCollection<string>()
-        {
-            "平方米","米"
-        };
+        public static ObservableCollection<StatisticsUnit> Unit2ComboBox { get; } = LoadUnitDataFromExcel("单位2");
 
         private static ObservableCollection<BridgeDamage> LoadDataFromExcel(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
@@ -145,6 +140,69 @@ namespace AutoRegularInspection.Models
             }
 
             return new ObservableCollection<BridgeDamage>(lst);
+        }
+
+        private static ObservableCollection<StatisticsUnit> LoadUnitDataFromExcel(string workSheetName)
+        {
+            string strFilePath = App.StatisticsUnitFileName;
+            var lst = new List<StatisticsUnit>();
+
+            if (!File.Exists(strFilePath))
+            {
+                return new ObservableCollection<StatisticsUnit>(lst);
+            }
+
+            int currRow = 2;
+            string currContent = string.Empty;
+            var file = new FileInfo(strFilePath);
+            try
+            {
+                using (var package = new ExcelPackage(file))
+                {
+                    var worksheet = package.Workbook.Worksheets[workSheetName];
+
+                    currContent = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim();
+
+                    if (!string.IsNullOrWhiteSpace(worksheet.Cells[2, 2].Value?.ToString() ?? string.Empty))
+                    {
+                        lst.Add(new StatisticsUnit
+                        {
+                            Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,DisplayTitle= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture)
+                        });
+                    }
+                    else
+                    {
+                        return new ObservableCollection<StatisticsUnit>(lst);
+                    }
+
+
+                    currRow++;
+
+                    while (!string.IsNullOrWhiteSpace(currContent))
+                    {
+                        lst.Add(new StatisticsUnit
+                        {
+                            Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,
+                            DisplayTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,
+                            Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
+                        });
+                        currRow++;
+                        currContent = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim();
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return new ObservableCollection<StatisticsUnit>(lst);
         }
 
         private static ObservableCollection<BridgeDamage> LoadDataFromMemory()

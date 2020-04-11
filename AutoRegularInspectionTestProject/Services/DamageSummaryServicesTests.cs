@@ -167,8 +167,8 @@ namespace AutoRegularInspectionTestProject.Services
             };
 
             //Act
-
             DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+
             //Assert
             Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].DamageComboBox[0].Title);
             Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].DamageComboBox[1].Title);
@@ -181,7 +181,6 @@ namespace AutoRegularInspectionTestProject.Services
             //Arrange
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
-
 
             string saveFileName = "桥梁检测病害统计汇总表.xlsx";
             List<DamageSummary> lst;

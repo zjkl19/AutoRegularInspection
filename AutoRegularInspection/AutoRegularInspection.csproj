@@ -129,6 +129,7 @@
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="Models\ProgressBarModel.cs" />
+    <Compile Include="Models\StatisticsUnit.cs" />
     <Compile Include="ProgressBarWindow.xaml.cs">
       <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
     </Compile>
@@ -222,6 +223,9 @@
     </None>
     <None Include="病害处理建议库.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="统计单位表.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>

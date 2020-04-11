@@ -154,18 +154,36 @@
                                 Width="Auto"
                                 Binding="{Binding Comment}"
                                 Header="备注" />
-                            <DataGridTextColumn
-                                Width="Auto"
-                                Binding="{Binding Unit1}"
-                                Header="单位1" />
+                            
+                            <DataGridTemplateColumn Header="单位1" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.Unit1ComboBox}}"
+                                            DisplayMemberPath="DisplayTitle"
+                                            SelectedIndex="{Binding Unit1Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit1Counts}"
                                 Header="单位1数量" />
-                            <DataGridTextColumn
-                                Width="Auto"
-                                Binding="{Binding Unit2}"
-                                Header="单位2" />
+                            
+                            <DataGridTemplateColumn Header="单位2" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.Unit2ComboBox}}"
+                                            DisplayMemberPath="DisplayTitle"
+                                            SelectedIndex="{Binding Unit2Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
