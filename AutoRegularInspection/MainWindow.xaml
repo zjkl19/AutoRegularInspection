@@ -6,7 +6,7 @@
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:AutoRegularInspection.Models"
         mc:Ignorable="d"
-        Title="外观检查自动报告" Height="500" Width="1100">
+        Title="外观检查自动报告" Height="550" Width="1300">
     <Window.Resources>
         <local:EnumConverter x:Key="eConverter"/>
         <local:ComponentValueConverter x:Key="cConverter"/>
@@ -154,6 +154,22 @@
                                 Width="Auto"
                                 Binding="{Binding Comment}"
                                 Header="备注" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit1}"
+                                Header="单位1" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit1Counts}"
+                                Header="单位1数量" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit2}"
+                                Header="单位2" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding Unit2Counts}"
+                                Header="单位2数量" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>

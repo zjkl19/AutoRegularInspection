@@ -4,6 +4,7 @@ using AutoRegularInspection.Services;
 using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -75,14 +76,18 @@ namespace AutoRegularInspection.Repository
 
                         lst.Add(new DamageSummary
                         {
-                            No = row - 1,
-                            Position = worksheet.Cells[row, 2].Value?.ToString() ?? string.Empty,
-                            Component = worksheet.Cells[row, 3].Value?.ToString() ?? string.Empty,
-                            Damage = worksheet.Cells[row, 4].Value?.ToString() ?? string.Empty,
-                            DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty,
-                            DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty,
-                            PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty,
-                            Comment = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet,"备注")].Value?.ToString() ?? string.Empty,
+                            No = row - 1
+                            ,Position = worksheet.Cells[row, 2].Value?.ToString() ?? string.Empty
+                            ,Component = worksheet.Cells[row, 3].Value?.ToString() ?? string.Empty
+                            ,Damage = worksheet.Cells[row, 4].Value?.ToString() ?? string.Empty
+                            ,DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty
+                            ,DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty
+                            ,PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty
+                            ,Comment = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet,"备注")].Value?.ToString() ?? string.Empty
+                            ,Unit1 = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value?.ToString() ?? string.Empty
+                            ,Unit1Counts = GetUnit1Counts(worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value?.ToString() ?? string.Empty)
+                            ,Unit2 = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value?.ToString() ?? string.Empty
+                            ,Unit2Counts = GetUnit2Counts(worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value?.ToString() ?? string.Empty)
                         });
 
                     }
@@ -95,5 +100,31 @@ namespace AutoRegularInspection.Repository
                 throw ex;
             }
         }
+
+        private int GetUnit1Counts(string unitCountsString)
+        {
+            if(string.IsNullOrWhiteSpace(unitCountsString))
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToInt32(unitCountsString, CultureInfo.InvariantCulture);
+            }
+        }
+
+        private decimal GetUnit2Counts(string unitCountsString)
+        {
+            if (string.IsNullOrWhiteSpace(unitCountsString))
+            {
+                return 0;
+            }
+            else
+            {
+                return Convert.ToDecimal(unitCountsString, CultureInfo.InvariantCulture);
+            }
+        }
+
+
     }
 }

@@ -87,7 +87,6 @@ namespace AutoRegularInspection.Models
         /// 病害描述
         /// </summary>
         public string DamageDescription
-
         {
             get { return _DamageDescription; }
             set
@@ -172,8 +171,8 @@ namespace AutoRegularInspection.Models
 
         public string Unit2 { set; get; } = string.Empty;
 
-        private int _Unit2Counts;
-        public int Unit2Counts
+        private decimal _Unit2Counts;
+        public decimal Unit2Counts
         {
             get { return _Unit2Counts; }
             set
@@ -298,5 +297,6 @@ namespace AutoRegularInspection.Models
                 return Damage;
             }
         }
+
     }
 }
