@@ -33,7 +33,7 @@ namespace AutoRegularInspection.Services
             SetPictureCounts(listDamageSummary);
             SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
             SetComboBox(listDamageSummary, bridgePart);
-
+            SetStatisticsUnitComboBox(listDamageSummary);
             //for (int i = 0; i < listDamageSummary.Count; i++)
             //{
             //    var img = System.Drawing.Image.FromFile($"PicturesOut/DSC00855.jpg");
@@ -94,6 +94,38 @@ namespace AutoRegularInspection.Services
                 {
                     listDamageSummary[i].DamageComboBox = componentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
                     listDamageSummary[i].ComponentValue = componentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+                }
+
+            }
+        }
+
+        private static void SetStatisticsUnitComboBox(List<DamageSummary> listDamageSummary)
+        {
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                ObservableCollection<StatisticsUnit> unit1ComboBox = GlobalData.Unit1ComboBox; 
+                ObservableCollection<StatisticsUnit> unit2ComboBox = GlobalData.Unit2ComboBox;
+                IEnumerable<StatisticsUnit> unit1Found,unit2Found = null;
+
+                unit1Found = unit1ComboBox.Where(x => x.DisplayTitle == listDamageSummary[i].Unit1);
+                unit2Found = unit2ComboBox.Where(x => x.DisplayTitle == listDamageSummary[i].Unit2);
+
+                if (unit1Found.Any())
+                {
+                    listDamageSummary[i].Unit1Value = unit1Found.FirstOrDefault().Idx;
+                }
+                else
+                {
+                    listDamageSummary[i].Unit1Value = unit1ComboBox.Where(x => x.DisplayTitle == "无").FirstOrDefault().Idx;
+                }
+
+                if (unit2Found.Any())
+                {
+                    listDamageSummary[i].Unit2Value = unit2Found.FirstOrDefault().Idx;
+                }
+                else
+                {
+                    listDamageSummary[i].Unit2Value = unit2ComboBox.Where(x => x.DisplayTitle == "无").FirstOrDefault().Idx;
                 }
 
             }
@@ -160,14 +192,14 @@ namespace AutoRegularInspection.Services
 
                 foreach (var v1 in damageStatistics)
                 {
-
                     worksheet.Cells[rowIndex, 1].Value = rowIndex - 1;
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "要素")].Value = $"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}";
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "病害类型")].Value = $"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value = $"{v1.FirstOrDefault().GetUnit1()}";
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value = $"{v1.Sum(x => x.Unit1Counts)}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value = $"{v1.FirstOrDefault().GetUnit2()}";
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value = $"{v1.Sum(x => x.Unit2Counts)}";
                     rowIndex++;
-
                 }
 
                 worksheet = excelPackage.Workbook.Worksheets.Add("上部结构");

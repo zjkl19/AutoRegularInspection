@@ -298,5 +298,17 @@ namespace AutoRegularInspection.Models
             }
         }
 
+        public string GetUnit1()
+        {
+            ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit1ComboBox;
+            return (unitBox[Unit1Value].Title);
+        }
+
+        public string GetUnit2()
+        {
+            ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit2ComboBox;
+            return (unitBox[Unit2Value].Title);
+        }
+
     }
 }
