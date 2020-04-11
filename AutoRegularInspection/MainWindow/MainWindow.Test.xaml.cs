@@ -1,6 +1,7 @@
 ﻿using AutoRegularInspection.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 
 namespace AutoRegularInspection
@@ -19,15 +20,14 @@ namespace AutoRegularInspection
 
             try
             {
-
-                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].ComponentValue.ToString());
-                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString());
-                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].Component.ToString());
+                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].ComponentValue.ToString(CultureInfo.InvariantCulture));
+                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString(CultureInfo.InvariantCulture));
+                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].Component.ToString(CultureInfo.InvariantCulture));
             }
             catch (Exception ex)
             {
 
-                MessageBox.Show(ex.Message.ToString());
+                MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture));
             }
         }
     }
