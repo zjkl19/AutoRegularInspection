@@ -5,6 +5,12 @@ using System.Text;
 using Xunit;
 using System.Linq;
 using AutoRegularInspection.Services;
+using System.Collections.ObjectModel;
+using Ninject;
+using AutoRegularInspection.IRepository;
+using System.IO;
+using OfficeOpenXml;
+using System.Globalization;
 
 namespace AutoRegularInspectionTestProject.Services
 {
@@ -43,7 +49,7 @@ namespace AutoRegularInspectionTestProject.Services
            
             //Act
 
-            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+            DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
 
             //Assert
             Assert.Equal(1000000, bridgeDeckListDamageSummary[0].FirstPictureBookmarkIndex);
@@ -146,7 +152,6 @@ namespace AutoRegularInspectionTestProject.Services
             Assert.Equal(1, bridgeDeckListDamageSummary[0].DamageValue);
         }
 
-  
         [Fact]
         public void SetComboBox_ShouldSetCorrectDamageAndDamageValue_WhileDamageNotFound()
         {
@@ -163,11 +168,48 @@ namespace AutoRegularInspectionTestProject.Services
 
             //Act
 
-            AutoRegularInspection.Services.DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
+            DamageSummaryServices.InitListDamageSummary(bridgeDeckListDamageSummary);
             //Assert
             Assert.Equal("螺帽松动", bridgeDeckListDamageSummary[0].DamageComboBox[0].Title);
             Assert.Equal("缝内沉积物阻塞", bridgeDeckListDamageSummary[0].DamageComboBox[1].Title);
             Assert.Equal(10, bridgeDeckListDamageSummary[0].DamageValue);
+        }
+
+        [Fact]
+        public void GenerateDamageStatisticsTableShouldSetCorrectStatisticsData()
+        {
+            //Arrange
+            IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
+            var dataRepository = kernel.Get<IDataRepository>();
+
+
+            string saveFileName = "桥梁检测病害统计汇总表.xlsx";
+            List<DamageSummary> lst;
+            
+            lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
+            DamageSummaryServices.InitListDamageSummary(lst);
+
+            ObservableCollection<DamageSummary> oc = new ObservableCollection<DamageSummary>();
+
+            lst.ForEach(x => oc.Add(x));
+
+            int expectedUnit1TotalCounts = 3; int acturalUnit1TotalCounts = 0;
+            decimal expectedUnit2TotalCounts = 29.8m; decimal acturalUnit2TotalCounts = 0.0m;
+
+            //Act
+            DamageSummaryServices.GenerateDamageStatisticsTable(oc);
+            var file = new FileInfo(saveFileName);
+            using (var excelPackage = new ExcelPackage(file))
+            {
+                // 检查"桥面系"Worksheets
+                var worksheet = excelPackage.Workbook.Worksheets["桥面系病害统计汇总表"];
+                acturalUnit1TotalCounts = Convert.ToInt32(worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value?.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
+                acturalUnit2TotalCounts = Convert.ToDecimal(worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value?.ToString() ?? string.Empty,CultureInfo.InvariantCulture);
+            }
+
+            //Assert
+            Assert.Equal(expectedUnit1TotalCounts, acturalUnit1TotalCounts);
+            Assert.Equal(expectedUnit2TotalCounts, acturalUnit2TotalCounts);
         }
     }
 }
