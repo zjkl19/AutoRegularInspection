@@ -3,10 +3,10 @@ using OfficeOpenXml;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace AutoRegularInspection.Models
 {
@@ -155,6 +155,9 @@ namespace AutoRegularInspection.Models
             int currRow = 2;
             string currContent = string.Empty;
             var file = new FileInfo(strFilePath);
+
+            
+
             try
             {
                 using (var package = new ExcelPackage(file))
@@ -165,10 +168,13 @@ namespace AutoRegularInspection.Models
 
                     if (!string.IsNullOrWhiteSpace(worksheet.Cells[2, 2].Value?.ToString() ?? string.Empty))
                     {
+                       
                         lst.Add(new StatisticsUnit
                         {
-                            Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim()
-                            ,DisplayTitle= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
+
+                            Title = Regex.Unescape((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim())
+                            ,
+                            DisplayTitle= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture)
                         });
                     }
@@ -182,9 +188,10 @@ namespace AutoRegularInspection.Models
 
                     while (!string.IsNullOrWhiteSpace(currContent))
                     {
+                      
                         lst.Add(new StatisticsUnit
                         {
-                            Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim()
+                            Title = Regex.Unescape((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim())
                             ,
                             DisplayTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,
@@ -204,6 +211,7 @@ namespace AutoRegularInspection.Models
 
             return new ObservableCollection<StatisticsUnit>(lst);
         }
+
 
         private static ObservableCollection<BridgeDamage> LoadDataFromMemory()
         {

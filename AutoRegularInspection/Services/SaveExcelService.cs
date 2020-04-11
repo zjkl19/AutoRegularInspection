@@ -114,9 +114,9 @@ namespace AutoRegularInspection.Services
                 worksheet.Cells[i + 2, 6].Value = listDamageSummary[i].DamageDescriptionInPicture;
                 worksheet.Cells[i + 2, 7].Value = listDamageSummary[i].PictureNo;
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "备注")].Value = listDamageSummary[i].Comment;
-                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位1")].Value = listDamageSummary[i].GetUnit1();
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位1")].Value = listDamageSummary[i].GetDisplayUnit1();
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位1数量")].Value = listDamageSummary[i].Unit1Counts;
-                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位2")].Value = listDamageSummary[i].GetUnit2();
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位2")].Value = listDamageSummary[i].GetDisplayUnit2();
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位2数量")].Value = listDamageSummary[i].Unit2Counts;
             }
         }

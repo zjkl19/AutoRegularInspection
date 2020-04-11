@@ -195,9 +195,9 @@ namespace AutoRegularInspection.Services
                     worksheet.Cells[rowIndex, 1].Value = rowIndex - 1;
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "要素")].Value = $"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}";
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "病害类型")].Value = $"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}";
-                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value = $"{v1.FirstOrDefault().GetUnit1()}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value = $"{v1.FirstOrDefault().GetDisplayUnit1()}";
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value = $"{v1.Sum(x => x.Unit1Counts)}";
-                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value = $"{v1.FirstOrDefault().GetUnit2()}";
+                    worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value = $"{v1.FirstOrDefault().GetDisplayUnit2()}";
                     worksheet.Cells[rowIndex, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value = $"{v1.Sum(x => x.Unit2Counts)}";
                     rowIndex++;
                 }

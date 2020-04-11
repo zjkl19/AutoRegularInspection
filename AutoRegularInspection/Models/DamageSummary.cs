@@ -304,10 +304,22 @@ namespace AutoRegularInspection.Models
             return (unitBox[Unit1Value].Title);
         }
 
+        public string GetDisplayUnit1()
+        {
+            ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit1ComboBox;
+            return (unitBox[Unit1Value].DisplayTitle);
+        }
+
         public string GetUnit2()
         {
             ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit2ComboBox;
             return (unitBox[Unit2Value].Title);
+        }
+
+        public string GetDisplayUnit2()
+        {
+            ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit2ComboBox;
+            return (unitBox[Unit2Value].DisplayTitle);
         }
 
     }

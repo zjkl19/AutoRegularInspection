@@ -28,6 +28,7 @@ namespace AutoRegularInspectionTestProject.Services
                     ,Damage="缝内沉积物阻塞"
                     ,DamageDescription="左幅0#伸缩缝沉积物阻塞"
                     ,Comment="新增"
+                    
                 }
             };
             var superSpaceListDamageSummary = new List<DamageSummary>
