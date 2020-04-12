@@ -183,20 +183,26 @@ namespace AutoRegularInspectionTestProject.Services
             var dataRepository = kernel.Get<IDataRepository>();
 
             string saveFileName = "桥梁检测病害统计汇总表.xlsx";
-            List<DamageSummary> lst;
+            List<DamageSummary> lst1,lst2,lst3;
             
-            lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
-            DamageSummaryServices.InitListDamageSummary(lst);
+            lst1 = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
+            lst2 = dataRepository.ReadDamageData(BridgePart.SuperSpace);
+            lst3 = dataRepository.ReadDamageData(BridgePart.SubSpace);
+            DamageSummaryServices.InitListDamageSummary(lst1);
+            DamageSummaryServices.InitListDamageSummary(lst2, 2_000_000, BridgePart.SuperSpace);
+            DamageSummaryServices.InitListDamageSummary(lst3, 3_000_000, BridgePart.SubSpace);
 
-            ObservableCollection<DamageSummary> oc = new ObservableCollection<DamageSummary>();
+            ObservableCollection<DamageSummary> oc1 = new ObservableCollection<DamageSummary>();
+            ObservableCollection<DamageSummary> oc2 = new ObservableCollection<DamageSummary>();
+            ObservableCollection<DamageSummary> oc3 = new ObservableCollection<DamageSummary>();
 
-            lst.ForEach(x => oc.Add(x));
+            lst1.ForEach(x => oc1.Add(x)); lst2.ForEach(x => oc2.Add(x)); lst3.ForEach(x => oc3.Add(x));
 
             int expectedUnit1TotalCounts = 3; int acturalUnit1TotalCounts = 0;
             decimal expectedUnit2TotalCounts = 29.8m; decimal acturalUnit2TotalCounts = 0.0m;
 
             //Act
-            DamageSummaryServices.GenerateDamageStatisticsTable(oc);
+            DamageSummaryServices.GenerateDamageStatisticsTable(oc1,oc2,oc3);
             var file = new FileInfo(saveFileName);
             using (var excelPackage = new ExcelPackage(file))
             {

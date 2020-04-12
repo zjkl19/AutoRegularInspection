@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace AutoRegularInspection.Models
 {
-    public class GlobalData
+    public static class GlobalData
     {
         public static ObservableCollection<BridgeDamage> ComponentComboBox { get; } = LoadDataFromExcel();
 
@@ -173,9 +173,9 @@ namespace AutoRegularInspection.Models
                         {
 
                             Title = Regex.Unescape((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim())
-                            ,
-                            DisplayTitle= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,DisplayTitle= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture)
+                            ,PhysicalItem= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "物理量")].Value?.ToString() ?? string.Empty).Trim()
                         });
                     }
                     else
@@ -192,10 +192,9 @@ namespace AutoRegularInspection.Models
                         lst.Add(new StatisticsUnit
                         {
                             Title = Regex.Unescape((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim())
-                            ,
-                            DisplayTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
-                            ,
-                            Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
+                            ,DisplayTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
+                            ,Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
+                            ,PhysicalItem = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "物理量")].Value?.ToString() ?? string.Empty).Trim()
                         });
                         currRow++;
                         currContent = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim();

@@ -65,6 +65,7 @@ namespace AutoRegularInspection.Services
 
         public void GenerateSummaryTableAndPictureTable(bool CommentColumnInsertTable,double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
+            InsertSummaryWords();
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
@@ -72,63 +73,85 @@ namespace AutoRegularInspection.Services
 
         private void InsertSummaryWords()
         {
-            var damageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
-            var superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
+            //IEnumerable<IGrouping<ComponentDamageGroup,DamageSummary>> bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x =>new ComponentDamageGroup { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
+            //IEnumerable<IGrouping<ComponentDamageGroup, DamageSummary>> superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new ComponentDamageGroup { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
+            //IEnumerable<IGrouping<ComponentDamageGroup, DamageSummary>> subSpaceDamageStatistics = _subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new ComponentDamageGroup  { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
+
+            var bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new  { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
+            var superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new  { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
             var subSpaceDamageStatistics = _subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
 
-            string insertText = string.Empty;
-            string previousComponent = string.Empty;string currComponent = string.Empty;
-            if(damageStatistics.Any())
-            {
-                
-                foreach (var v1 in damageStatistics)
-                {
-                    currComponent = v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture);
-                    if (currComponent != previousComponent)
-                    {
-                        if (v1.FirstOrDefault().GetUnit2() != "无")
-                        {
-                            insertText = $"{insertText}\n{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}：共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName()}，{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetDisplayUnit2()}。";
-                        }
-                        else
-                        {
-                            insertText = $"{insertText}\n{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}：共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName()}。";
-                        }
-
-                    }
-                    else
-                    {
-                        if (v1.FirstOrDefault().GetUnit2() != "无")
-                        {
-                            insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName()}，{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetDisplayUnit2()}。";
-                        }
-                        else
-                        {
-                            insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName()}。";
-                        }
-                    }
-                    previousComponent = currComponent;
-                }
-            }
-            
 
             var builder = new DocumentBuilder(_doc);
             var bookmark = _doc.Range.Bookmarks["BridgeDeckSummaryStart"];
 
             builder.MoveTo(bookmark.BookmarkStart);
-            builder.Write(insertText);
+            builder.Write(GenerateInsertText(bridgeDeckDamageStatistics,BridgePart.BridgeDeck));
             builder.Writeln();
 
             bookmark = _doc.Range.Bookmarks["SuperSpaceSummaryStart"];
             builder.MoveTo(bookmark.BookmarkStart);
-            builder.Write("");
+            builder.Write(GenerateInsertText(superSpaceDamageStatistics,BridgePart.SuperSpace));
             builder.Writeln();
 
             bookmark = _doc.Range.Bookmarks["SubSpaceSummaryStart"];
             builder.MoveTo(bookmark.BookmarkStart);
-            builder.Write("");
+            builder.Write(GenerateInsertText(subSpaceDamageStatistics,BridgePart.SubSpace));
             builder.Writeln();
 
+            string GenerateInsertText(IEnumerable<IGrouping<dynamic, DamageSummary>> damageStatistics, BridgePart bridgePart)
+            {
+                int i = 0;
+                string insertText = string.Empty;
+                string previousComponent = string.Empty; string currComponent = string.Empty;
+                if (damageStatistics.Any())
+                {
+
+                    foreach (var v1 in damageStatistics)
+                    {
+                        currComponent = v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture);
+                        if (currComponent != previousComponent)
+                        {
+                            if (i != 0)
+                            {
+                                insertText = $"{insertText}。";
+                            }
+                            if (v1.FirstOrDefault().GetUnit2() != "无")
+                            {
+                                insertText = $"{insertText}\n{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}：共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}，{v1.FirstOrDefault().GetPhysicalItem()}{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetDisplayUnit2()}";
+                            }
+                            else
+                            {
+                                insertText = $"{insertText}\n{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}：共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}";
+                            }
+
+                        }
+                        else
+                        {
+                            insertText = $"{insertText}；";
+                            if (v1.FirstOrDefault().GetUnit2() != "无")
+                            {
+                                insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}，{v1.FirstOrDefault().GetPhysicalItem()}{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetDisplayUnit2()}";
+                            }
+                            else
+                            {
+                                insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}";
+                            }
+                        }
+
+
+
+                        if (i == damageStatistics.Count() - 1)
+                        {
+                            insertText = $"{insertText}。";
+                        }
+
+                        previousComponent = currComponent;
+                        i++;
+                    }
+                }
+                return insertText;
+            }
 
         }
 

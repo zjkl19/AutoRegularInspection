@@ -123,6 +123,7 @@
     <Compile Include="Models\BridgeDamage.cs" />
     <Compile Include="Models\BridgeDeckEnum.cs" />
     <Compile Include="Models\BridgePart.cs" />
+    <Compile Include="Models\ComponentDamageGroup.cs" />
     <Compile Include="Models\ComponentValueConverter.cs" />
     <Compile Include="Models\DamageComboBoxConverter.cs" />
     <Compile Include="Models\EnumConverter.cs" />

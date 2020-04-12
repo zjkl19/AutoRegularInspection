@@ -12,6 +12,7 @@ using Aspose.Words.Tables;
 using System.IO;
 using System.Text;
 using System.Security.Cryptography;
+using System.Globalization;
 
 namespace AutoRegularInspectionTestProject
 {
@@ -19,7 +20,7 @@ namespace AutoRegularInspectionTestProject
     {
         //相当于集成测试
         [Fact]
-        public void GenerateReport_Test()
+        public void GenerateReportIntegratedTest()
         {
             //Arrange
 
@@ -100,6 +101,9 @@ namespace AutoRegularInspectionTestProject
             List<string> fileNameList = AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(skipBefore, skipAfter,outputFile, @$"{tempPath}\").ToList();
 
             //Assert
+            //测试汇总内容
+            Assert.Contains("伸缩缝：共3条缝内沉积物阻塞，长度29.8米；共1处接缝处铺装碎边，面积0.6平方米。\r栏杆：共1处丢失残缺。", doc.Range.Text,StringComparison.Ordinal);
+            Assert.Contains("台身：共3处露筋锈蚀，面积0.48平方米", doc.Range.Text, StringComparison.Ordinal);
 
             //测试汇总表（桥面系）
             Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);

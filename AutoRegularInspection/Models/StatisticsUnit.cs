@@ -40,7 +40,15 @@ namespace AutoRegularInspection.Models
             }
         }
 
-
+        private string _PhysicalItem;
+        public string PhysicalItem
+        {
+            get { return _PhysicalItem; }
+            set
+            {
+                UpdateProperty(ref _PhysicalItem, value);
+            }
+        }
 
         private void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string propertyName = "")
         {

@@ -322,5 +322,11 @@ namespace AutoRegularInspection.Models
             return (unitBox[Unit2Value].DisplayTitle);
         }
 
+        public string GetPhysicalItem()
+        {
+            ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit2ComboBox;
+            return (unitBox[Unit2Value].PhysicalItem);
+        }
+
     }
 }
