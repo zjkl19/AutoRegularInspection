@@ -172,7 +172,7 @@ namespace AutoRegularInspection.Models
                         lst.Add(new StatisticsUnit
                         {
 
-                            Title = Regex.Unescape((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim())
+                            Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,DisplayTitle= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture)
                             ,PhysicalItem= (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "物理量")].Value?.ToString() ?? string.Empty).Trim()
@@ -191,7 +191,7 @@ namespace AutoRegularInspection.Models
                       
                         lst.Add(new StatisticsUnit
                         {
-                            Title = Regex.Unescape((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim())
+                            Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,DisplayTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "显示名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "索引")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
                             ,PhysicalItem = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "物理量")].Value?.ToString() ?? string.Empty).Trim()

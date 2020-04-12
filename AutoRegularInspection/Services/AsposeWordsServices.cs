@@ -118,7 +118,7 @@ namespace AutoRegularInspection.Services
                             }
                             if (v1.FirstOrDefault().GetUnit2() != "无")
                             {
-                                insertText = $"{insertText}\n{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}：共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}，{v1.FirstOrDefault().GetPhysicalItem()}{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetDisplayUnit2()}";
+                                insertText = $"{insertText}\n{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}：共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}，{v1.FirstOrDefault().GetPhysicalItem()}{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetUnit2()}";
                             }
                             else
                             {
@@ -131,7 +131,7 @@ namespace AutoRegularInspection.Services
                             insertText = $"{insertText}；";
                             if (v1.FirstOrDefault().GetUnit2() != "无")
                             {
-                                insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}，{v1.FirstOrDefault().GetPhysicalItem()}{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetDisplayUnit2()}";
+                                insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}，{v1.FirstOrDefault().GetPhysicalItem()}{v1.Sum(x => x.Unit2Counts)}{v1.FirstOrDefault().GetUnit2()}";
                             }
                             else
                             {

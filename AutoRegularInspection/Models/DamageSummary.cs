@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Models
@@ -313,7 +314,7 @@ namespace AutoRegularInspection.Models
         public string GetUnit2()
         {
             ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit2ComboBox;
-            return (unitBox[Unit2Value].Title);
+            return Regex.Unescape((unitBox[Unit2Value].Title));
         }
 
         public string GetDisplayUnit2()
