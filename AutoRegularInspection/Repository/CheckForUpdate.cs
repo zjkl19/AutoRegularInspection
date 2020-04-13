@@ -72,9 +72,7 @@ namespace AutoRegularInspection.Repository
         public static IRestResponse GetRestResponse()
         {
             //参考https://blog.csdn.net/Cjiaocsda1127/article/details/82765423
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
-
+            ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             var client = new RestClient(url);
 
             var request = new RestRequest($"repos/zjkl19/AutoRegularInspection/releases/latest", Method.GET);

@@ -141,7 +141,7 @@ namespace AutoRegularInspection.Services
                 }
                 else
                 {
-                    listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(',').Count();
+                    listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(',').Length;
                 }
             }
         }
