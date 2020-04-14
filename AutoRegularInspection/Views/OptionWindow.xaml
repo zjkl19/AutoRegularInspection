@@ -18,24 +18,29 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TreeView x:Name="OptionView" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TreeViewItem Header="开发中" >
-                <TreeViewItem Header="开发中"/>
-                <TreeViewItem Header="开发中"/>
+            <TreeViewItem Header="常规" >
+            </TreeViewItem>
+            <TreeViewItem Header="报告" >
+                <TreeViewItem Header="书签"/>
+                <TreeViewItem Header="图片"/>
             </TreeViewItem>
             <TreeViewItem Header="开发中" >
                 <TreeViewItem Header="开发中"/>
                 <TreeViewItem Header="开发中"/>
             </TreeViewItem>
         </TreeView>
+
         <GridSplitter Grid.Column="1" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="DarkGray">
             
         </GridSplitter>
         <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
+            <ContentControl x:Name="TestContentControl"></ContentControl>
             <Label Content="图片宽度（像素）" ></Label>
             <TextBox x:Name="PictureWidth" Width="200"></TextBox>
             <Label Content="图片高度（像素）" ></Label>
             <TextBox x:Name="PictureHeight" Width="200"></TextBox>
         </StackPanel>
+        <Button Grid.Row="1" Grid.Column="1" Margin="10" Click="TestButton_Click">自定义测试</Button>
         <Button Grid.Row="1" Grid.Column="2" Margin="10" Click="ConfirmButton_Click">确认</Button>
         <Button Grid.Row="1" Grid.Column="3" Margin="10" Click="CancelButton_Click">取消</Button>
     </Grid>

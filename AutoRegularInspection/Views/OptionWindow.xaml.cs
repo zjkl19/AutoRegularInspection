@@ -24,6 +24,11 @@ namespace AutoRegularInspection.Views
         {
             InitializeComponent();
 
+            TestContentControl.Content = new Frame
+            {
+                Content = new Page1()
+            };
+
             var config = XDocument.Load(@"Option.config");
             try
             {
@@ -64,6 +69,13 @@ namespace AutoRegularInspection.Views
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void TestButton_Click(object sender, RoutedEventArgs e)
+        {
+            var k = (Frame)TestContentControl.Content;
+            var m = (Page1)k.Content;
+            MessageBox.Show($"{m.TxtInfo.Text}");
         }
     }
 }
