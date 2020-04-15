@@ -24,11 +24,6 @@ namespace AutoRegularInspection.Views
         {
             InitializeComponent();
 
-            TestContentControl.Content = new Frame
-            {
-                Content = new Page1()
-            };
-
             var config = XDocument.Load(@"Option.config");
             try
             {
@@ -76,6 +71,23 @@ namespace AutoRegularInspection.Views
             var k = (Frame)TestContentControl.Content;
             var m = (Page1)k.Content;
             MessageBox.Show($"{m.TxtInfo.Text}");
+        }
+
+        private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
+        {
+            TestContentControl.Content = new Frame
+            {
+                Content = new Page1()
+                ,h
+            };
+        }
+
+        private void TreeViewItem_Selected_1(object sender, RoutedEventArgs e)
+        {
+            TestContentControl.Content = new Frame
+            {
+                Content = new Page2()
+            };
         }
     }
 }
