@@ -24,7 +24,7 @@
                 <TreeViewItem Header="书签"/>
                 <TreeViewItem Header="图片"/>
             </TreeViewItem>
-            <TreeViewItem Header="开发中" >
+            <TreeViewItem Header="开发中">
                 <TreeViewItem Header="开发中1" Selected="TreeViewItem_Selected_1"/>
                 <TreeViewItem Header="开发中2"/>
             </TreeViewItem>
@@ -34,7 +34,9 @@
             
         </GridSplitter>
         <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
-            <ContentControl x:Name="TestContentControl"></ContentControl>
+            <ContentControl x:Name="TestContentControl">
+                <Frame Content="{Binding SubPage}"></Frame>
+            </ContentControl>
             <Label Content="图片宽度（像素）" ></Label>
             <TextBox x:Name="PictureWidth" Width="200"></TextBox>
             <Label Content="图片高度（像素）" ></Label>

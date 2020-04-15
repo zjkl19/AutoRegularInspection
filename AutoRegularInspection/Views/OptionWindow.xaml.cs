@@ -68,36 +68,37 @@ namespace AutoRegularInspection.Views
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame fr = (Frame)TestContentControl.Content;
-            if((string)fr.Tag=="Page1")
-            {
-                var m = (Page1)fr.Content;
-                MessageBox.Show($"{m.TxtInfo.Text}");
-            }
-            else if((string)fr.Tag == "Page2")
-            {
-                var n = (Page2)fr.Content;
-                MessageBox.Show($"{n.InfoTxt.Text}");
-            }
-            
+            //Frame fr = (Frame)TestContentControl.Content;
+            //if((string)fr.Tag=="Page1")
+            //{
+            //    var m = (Page1)fr.Content;
+            //    MessageBox.Show($"{m.TxtInfo.Text}");
+            //}
+            //else if((string)fr.Tag == "Page2")
+            //{
+            //    var n = (Page2)fr.Content;
+            //    MessageBox.Show($"{n.InfoTxt.Text}");
+            //}
         }
 
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
-            TestContentControl.Content = new Frame
-            {
-                Content = new Page1()
-                ,Tag="Page1"
-            };
+            TestContentControl.DataContext = new { SubPage= new Page1() };
+            //TestContentControl.Content = new Frame
+            //{
+            //    Content = new Page1()
+            //    ,Tag="Page1"
+            //};
         }
 
         private void TreeViewItem_Selected_1(object sender, RoutedEventArgs e)
         {
-            TestContentControl.Content = new Frame
-            {
-                Content = new Page2()
-                ,Tag = "Page2"
-            };
+            TestContentControl.DataContext = new { SubPage = new Page2() };
+            //TestContentControl.Content = new Frame
+            //{
+            //    Content = new Page2()
+            //    ,Tag = "Page2"
+            //};
         }
     }
 }
