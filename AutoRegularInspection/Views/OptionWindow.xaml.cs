@@ -68,9 +68,18 @@ namespace AutoRegularInspection.Views
 
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            var k = (Frame)TestContentControl.Content;
-            var m = (Page1)k.Content;
-            MessageBox.Show($"{m.TxtInfo.Text}");
+            Frame fr = (Frame)TestContentControl.Content;
+            if((string)fr.Tag=="Page1")
+            {
+                var m = (Page1)fr.Content;
+                MessageBox.Show($"{m.TxtInfo.Text}");
+            }
+            else if((string)fr.Tag == "Page2")
+            {
+                var n = (Page2)fr.Content;
+                MessageBox.Show($"{n.InfoTxt.Text}");
+            }
+            
         }
 
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
@@ -78,7 +87,7 @@ namespace AutoRegularInspection.Views
             TestContentControl.Content = new Frame
             {
                 Content = new Page1()
-                ,h
+                ,Tag="Page1"
             };
         }
 
@@ -87,6 +96,7 @@ namespace AutoRegularInspection.Views
             TestContentControl.Content = new Frame
             {
                 Content = new Page2()
+                ,Tag = "Page2"
             };
         }
     }

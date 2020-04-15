@@ -24,9 +24,9 @@
                 <TreeViewItem Header="书签"/>
                 <TreeViewItem Header="图片"/>
             </TreeViewItem>
-            <TreeViewItem Header="开发中"  Selected="TreeViewItem_Selected_1">
-                <TreeViewItem Header="开发中"/>
-                <TreeViewItem Header="开发中"/>
+            <TreeViewItem Header="开发中" >
+                <TreeViewItem Header="开发中1" Selected="TreeViewItem_Selected_1"/>
+                <TreeViewItem Header="开发中2"/>
             </TreeViewItem>
         </TreeView>
 
