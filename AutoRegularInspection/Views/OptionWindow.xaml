@@ -25,7 +25,7 @@
                 <TreeViewItem Header="图片"/>
             </TreeViewItem>
             <TreeViewItem Header="开发中">
-                <TreeViewItem Header="开发中1" Selected="TreeViewItem_Selected_1"/>
+                <TreeViewItem Header="开发中1" Selected="TreeViewItem_Selected_1" IsSelected="{Binding lbt}"/>
                 <TreeViewItem Header="开发中2"/>
             </TreeViewItem>
         </TreeView>
@@ -35,7 +35,7 @@
         </GridSplitter>
         <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
             <ContentControl x:Name="TestContentControl">
-                <Frame Content="{Binding SubPage}"></Frame>
+                <Frame Content="{Binding SubPage}" NavigationUIVisibility="Hidden"></Frame>
             </ContentControl>
             <Label Content="图片宽度（像素）" ></Label>
             <TextBox x:Name="PictureWidth" Width="200"></TextBox>

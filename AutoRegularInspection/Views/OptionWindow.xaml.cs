@@ -79,15 +79,18 @@ namespace AutoRegularInspection.Views
             //    var n = (Page2)fr.Content;
             //    MessageBox.Show($"{n.InfoTxt.Text}");
             //}
+            var k = new TreeViewItem { };
         }
 
         private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
         {
             TestContentControl.DataContext = new { SubPage= new Page1() };
+    
             //TestContentControl.Content = new Frame
             //{
             //    Content = new Page1()
-            //    ,Tag="Page1"
+            //    ,
+            //    Tag = "Page1"
             //};
         }
 
