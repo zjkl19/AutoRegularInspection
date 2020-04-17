@@ -28,41 +28,58 @@ namespace AutoRegularInspection.Views
             OptionFrame.Tag = "Page1";
             OptionContentControl.DataContext = new { SubPage = new Page1() };
 
-            var config = XDocument.Load(@"Option.config");
-            try
-            {
-                var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-                PictureWidth.Text = pictureWidth.Value.ToString(CultureInfo.InvariantCulture);
-                var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-                PictureHeight.Text = pictureHeight.Value.ToString(CultureInfo.InvariantCulture);
-            }
-            catch (Exception ex)
-            {
-                //TODO:数据格式不正确时的异常处理
-                throw ex;
-            }
-
         }
 
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            var frame = OptionContentControl.Content as Frame;
+
+            var config = XDocument.Load(@"Option.config");
+
+            if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
             {
+                var frameContent = (OptionPicturePage)frame.Content;
+                var model = (frameContent.DataContext) as OptionModel;
 
-                var config = XDocument.Load(@"Option.config");
-
+                
                 var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-                pictureWidth.Value = PictureWidth.Text;
+                pictureWidth.Value = model.PictureWidth;
                 var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-                pictureHeight.Value = PictureHeight.Text;
-                config.Save(@"Option.config");
+                pictureHeight.Value = model.PictureHeight;
 
-                MessageBox.Show("保存设置成功！");
             }
-            catch (Exception ex)
+            else if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
             {
-                throw ex;
+                var frameContent = (OptionBookmarkPage)frame.Content;
+                var model = (frameContent.DataContext) as OptionModel;
+                var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault();
+                var SuperSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault();
+                var SubSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault();
+
+                BridgeDeckBookmarkStartNo.Value = model.BridgeDeckBookmarkStartNo;
+                SuperSpaceBookmarkStartNo.Value = model.SuperSpaceBookmarkStartNo;
+                SubSpaceBookmarkStartNo.Value = model.SubSpaceBookmarkStartNo;
             }
+
+            config.Save(@"Option.config");
+            MessageBox.Show("保存设置成功！");
+            //try
+            //{
+
+            //    var config = XDocument.Load(@"Option.config");
+
+            //    var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
+            //    pictureWidth.Value = PictureWidth.Text;
+            //    var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+            //    pictureHeight.Value = PictureHeight.Text;
+            //    config.Save(@"Option.config");
+
+            //    MessageBox.Show("保存设置成功！");
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw ex;
+            //}
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -78,7 +95,11 @@ namespace AutoRegularInspection.Views
 
             //var m = (Page1)frame.Content;
 
-            MessageBox.Show((string)frame.Tag);
+            //MessageBox.Show((string)frame.Tag);
+
+            var m = (OptionPicturePage)frame.Content;
+            var m1 = (m.DataContext) as OptionModel;
+            MessageBox.Show(m1.PictureHeight);
 
             //if((string)fr.Tag=="Page1")
             //{
@@ -89,14 +110,67 @@ namespace AutoRegularInspection.Views
 
         private void Picture_General_Selected(object sender, RoutedEventArgs e)
         {
-            OptionFrame.Tag = nameof(Page2);
-            OptionContentControl.DataContext = new { SubPage = new Page2() };
+            if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
+            {
+                return;
+            }
+
+            OptionFrame.Tag = nameof(OptionPicturePage);
+
+            var config = XDocument.Load(@"Option.config");
+
+            var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
+            var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+
+            OptionContentControl.DataContext = new
+            {
+                SubPage = new OptionPicturePage
+                {
+                    DataContext = new OptionModel
+                    {
+                        PictureWidth = pictureWidth.Value.ToString(CultureInfo.InvariantCulture)
+                        ,
+                        PictureHeight = pictureHeight.Value.ToString(CultureInfo.InvariantCulture)
+                    }
+                }
+            };
+        }
+
+        private void Report_Bookmark_Selected(object sender, RoutedEventArgs e)
+        {
+            if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
+            {
+                return;
+            }
+
+            OptionFrame.Tag = nameof(OptionBookmarkPage);
+
+            var config = XDocument.Load(@"Option.config");
+
+            var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault();
+            var SuperSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault();
+            var SubSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault();
+
+            OptionContentControl.DataContext = new
+            {
+                SubPage = new OptionBookmarkPage
+                {
+                    DataContext = new OptionModel
+                    {
+                        BridgeDeckBookmarkStartNo = BridgeDeckBookmarkStartNo.Value.ToString(CultureInfo.InvariantCulture)
+                        ,
+                        SuperSpaceBookmarkStartNo = SuperSpaceBookmarkStartNo.Value.ToString(CultureInfo.InvariantCulture)
+                        ,
+                        SubSpaceBookmarkStartNo = SubSpaceBookmarkStartNo.Value.ToString(CultureInfo.InvariantCulture)
+                    }
+                }
+            };
         }
 
         private void TreeViewItem_Selected_1(object sender, RoutedEventArgs e)
         {
             OptionFrame.Tag = "Page1";
-            OptionContentControl.DataContext = new { SubPage= new Page1 () };
+            OptionContentControl.DataContext = new { SubPage = new Page1() };
 
             //TestContentControl.Content = new Frame
             //{

@@ -9,47 +9,67 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Models
 {
-    public class OptionModel
+    public class OptionModel : INotifyPropertyChanged
     {
-        private int _Option;
-        public int Option
+        private string _PictureWidth;
+        public string PictureWidth
         {
-            get { return _Option; }
+            get { return _PictureWidth; }
             set
             {
-                UpdateProperty(ref _Option, value);
+                UpdateProperty(ref _PictureWidth, value);
             }
         }
 
-        private bool _Option1;
-        public bool Option1
+        private string _PictureHeight;
+        public string PictureHeight
         {
-            get { return _Option1; }
+            get { return _PictureHeight; }
             set
             {
-                UpdateProperty(ref _Option1, value);
+                UpdateProperty(ref _PictureHeight, value);
             }
         }
 
-        private bool _Option2;
-        public bool Option2
+        private string _BridgeDeckBookmarkStartNo;
+        public string BridgeDeckBookmarkStartNo
         {
-            get { return _Option2; }
+            get { return _BridgeDeckBookmarkStartNo; }
             set
             {
-                UpdateProperty(ref _Option2, value);
+                UpdateProperty(ref _BridgeDeckBookmarkStartNo, value);
             }
         }
 
-        private object _SubPage;
-        public object SubPage
+        private string _SuperSpaceBookmarkStartNo;
+        public string SuperSpaceBookmarkStartNo
         {
-            get { return _SubPage; }
+            get { return _SuperSpaceBookmarkStartNo; }
             set
             {
-                UpdateProperty(ref _SubPage, value);
+                UpdateProperty(ref _SuperSpaceBookmarkStartNo, value);
             }
         }
+
+        private string _SubSpaceBookmarkStartNo;
+        public string SubSpaceBookmarkStartNo
+        {
+            get { return _SubSpaceBookmarkStartNo; }
+            set
+            {
+                UpdateProperty(ref _SubSpaceBookmarkStartNo, value);
+            }
+        }
+
+        //private object _SubPage;
+        //public object SubPage
+        //{
+        //    get { return _SubPage; }
+        //    set
+        //    {
+        //        UpdateProperty(ref _SubPage, value);
+        //    }
+        //}
 
         private void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string propertyName = "")
         {
