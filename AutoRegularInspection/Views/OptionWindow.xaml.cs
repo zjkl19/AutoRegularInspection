@@ -1,5 +1,7 @@
-﻿using System;
+﻿using AutoRegularInspection.Models;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,14 +25,16 @@ namespace AutoRegularInspection.Views
         public OptionWindow()
         {
             InitializeComponent();
+            OptionFrame.Tag = "Page1";
+            OptionContentControl.DataContext = new { SubPage = new Page1() };
 
             var config = XDocument.Load(@"Option.config");
             try
             {
                 var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-                PictureWidth.Text = pictureWidth.Value.ToString();
+                PictureWidth.Text = pictureWidth.Value.ToString(CultureInfo.InvariantCulture);
                 var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-                PictureHeight.Text = pictureHeight.Value.ToString();
+                PictureHeight.Text = pictureHeight.Value.ToString(CultureInfo.InvariantCulture);
             }
             catch (Exception ex)
             {
@@ -66,26 +70,34 @@ namespace AutoRegularInspection.Views
             Close();
         }
 
+
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            //Frame fr = (Frame)TestContentControl.Content;
+            var frame = OptionContentControl.Content as Frame;
+
+
+            //var m = (Page1)frame.Content;
+
+            MessageBox.Show((string)frame.Tag);
+
             //if((string)fr.Tag=="Page1")
             //{
             //    var m = (Page1)fr.Content;
             //    MessageBox.Show($"{m.TxtInfo.Text}");
             //}
-            //else if((string)fr.Tag == "Page2")
-            //{
-            //    var n = (Page2)fr.Content;
-            //    MessageBox.Show($"{n.InfoTxt.Text}");
-            //}
-            var k = new TreeViewItem { };
         }
 
-        private void TreeViewItem_Selected(object sender, RoutedEventArgs e)
+        private void Picture_General_Selected(object sender, RoutedEventArgs e)
         {
-            TestContentControl.DataContext = new { SubPage= new Page1() };
-    
+            OptionFrame.Tag = nameof(Page2);
+            OptionContentControl.DataContext = new { SubPage = new Page2() };
+        }
+
+        private void TreeViewItem_Selected_1(object sender, RoutedEventArgs e)
+        {
+            OptionFrame.Tag = "Page1";
+            OptionContentControl.DataContext = new { SubPage= new Page1 () };
+
             //TestContentControl.Content = new Frame
             //{
             //    Content = new Page1()
@@ -94,9 +106,11 @@ namespace AutoRegularInspection.Views
             //};
         }
 
-        private void TreeViewItem_Selected_1(object sender, RoutedEventArgs e)
+        private void TreeViewItem_Selected_2(object sender, RoutedEventArgs e)
         {
-            TestContentControl.DataContext = new { SubPage = new Page2() };
+            OptionFrame.Tag = nameof(Page2);
+            OptionContentControl.DataContext = new { SubPage = new Page2() };
+
             //TestContentControl.Content = new Frame
             //{
             //    Content = new Page2()

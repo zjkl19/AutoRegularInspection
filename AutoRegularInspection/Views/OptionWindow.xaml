@@ -4,8 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AutoRegularInspection.Views"
+        xmlns:converters="clr-namespace:AutoRegularInspection.Converters"
         mc:Ignorable="d"
         Title="选项"  Height="280" Width="430">
+
+    <Window.Resources>
+        <converters:OptionConverter x:Key="optionConverter"/>
+        <converters:SubPageConverter x:Key="subPageConverter"/>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition></RowDefinition>
@@ -18,15 +25,17 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TreeView x:Name="OptionView" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <TreeViewItem Header="常规" >
+            <TreeViewItem Header="图片">
+                <TreeViewItem Header="常规" Selected="Picture_General_Selected"/>
             </TreeViewItem>
-            <TreeViewItem Header="报告" Selected="TreeViewItem_Selected">
-                <TreeViewItem Header="书签"/>
+            <TreeViewItem Header="报告">
+                <!--<TreeViewItem Header="书签"  IsSelected="{Binding Option,Converter={StaticResource optionConverter},ConverterParameter=1,UpdateSourceTrigger=PropertyChanged}"/>-->
                 <TreeViewItem Header="图片"/>
             </TreeViewItem>
             <TreeViewItem Header="开发中">
-                <TreeViewItem Header="开发中1" Selected="TreeViewItem_Selected_1" IsSelected="{Binding lbt}"/>
-                <TreeViewItem Header="开发中2"/>
+                <TreeViewItem Header="开发中1" Selected="TreeViewItem_Selected_1"/>
+                <TreeViewItem Header="开发中2" Selected="TreeViewItem_Selected_2"/>
+                <!--<TreeViewItem Header="开发中2" IsSelected="{Binding Option2,UpdateSourceTrigger=PropertyChanged}"/>-->
             </TreeViewItem>
         </TreeView>
 
@@ -34,8 +43,8 @@
             
         </GridSplitter>
         <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
-            <ContentControl x:Name="TestContentControl">
-                <Frame Content="{Binding SubPage}" NavigationUIVisibility="Hidden"></Frame>
+            <ContentControl x:Name="OptionContentControl">
+                <Frame Name="OptionFrame" Content="{Binding SubPage}" NavigationUIVisibility="Hidden"></Frame>
             </ContentControl>
             <Label Content="图片宽度（像素）" ></Label>
             <TextBox x:Name="PictureWidth" Width="200"></TextBox>

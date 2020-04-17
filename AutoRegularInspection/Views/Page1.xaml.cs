@@ -23,6 +23,8 @@ namespace AutoRegularInspection.Views
         public Page1()
         {
             InitializeComponent();
+            
         }
+
     }
 }
