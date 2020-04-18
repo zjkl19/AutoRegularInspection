@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
 
 namespace AutoRegularInspection.Models
 {
@@ -182,12 +183,51 @@ namespace AutoRegularInspection.Models
             }
         }
 
+        private double _PictureHeight;
+        public double PictureHeight
+        {
+            get { return _PictureHeight; }
+            set
+            {
+                UpdateProperty(ref _PictureHeight, value);
+            }
+        }
+
         //以下为扩展字段（根据其它已知信息可以推算出内容的字段）
 
+        private BitmapImage _PicturePreview;
         /// <summary>
         /// 病害对应图片编号
         /// </summary>
-        public System.Windows.Media.Imaging.BitmapImage PicturePreview { get; set; }
+        public BitmapImage PicturePreview
+        {
+            get { return _PicturePreview; }
+            set
+            {
+
+                UpdateProperty(ref _PicturePreview, value);
+            }
+        }
+        private BitmapImage _PicturePreview1;
+        public BitmapImage PicturePreview1
+        {
+            get { return _PicturePreview1; }
+            set
+            {
+
+                UpdateProperty(ref _PicturePreview1, value);
+            }
+        }
+        private BitmapImage _PicturePreview2;
+        public BitmapImage PicturePreview2
+        {
+            get { return _PicturePreview2; }
+            set
+            {
+
+                UpdateProperty(ref _PicturePreview2, value);
+            }
+        }
 
         /// <summary>
         /// 图片数量
