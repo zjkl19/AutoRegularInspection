@@ -263,10 +263,23 @@
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
-                            <DataGridTextColumn
-                                Width="Auto"
-                                Binding="{Binding PicturePreview}"
-                                Header="照片预览" />
+                            <DataGridTemplateColumn Width="Auto" Header="照片预览1">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                               Height="{Binding PictureHeight}"
+                                               />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="Auto" Header="照片预览2">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                               Height="{Binding PictureHeight}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Comment}"
@@ -369,6 +382,23 @@
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
+                            <DataGridTemplateColumn Width="Auto" Header="照片预览1">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                               Height="{Binding PictureHeight}"
+                                               />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Width="Auto" Header="照片预览2">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                               Height="{Binding PictureHeight}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                             <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Comment}"
@@ -416,7 +446,8 @@
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="0" Margin="10" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="1" Margin="10" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="2" Margin="10" Click="PicturePreview_Click">照片预览</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="3" Margin="10" Click="Test_Click">自定义功能测试</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="3" Margin="10" Click="ClosePicturePreview_Click">关闭照片预览</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="4" Margin="10" Click="Test_Click">自定义功能测试</Button>
         
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
