@@ -102,8 +102,8 @@ namespace AutoRegularInspectionTestProject
 
             //Assert
             //测试汇总内容
-            Assert.Contains("伸缩缝：共3条缝内沉积物阻塞，长度29.8米；共1处接缝处铺装碎边，面积0.6平方米。\r栏杆：共1处丢失残缺。", doc.Range.Text,StringComparison.Ordinal);
-            Assert.Contains("台身：共3处露筋锈蚀，面积0.48平方米", doc.Range.Text, StringComparison.Ordinal);
+            Assert.Contains("伸缩缝：共3条缝内沉积物阻塞，长度29.8m；共1处接缝处铺装碎边，面积0.6m²。\r栏杆：共1处丢失残缺。", doc.Range.Text,StringComparison.Ordinal);
+            Assert.Contains("台身：共3处露筋锈蚀，面积0.48m²。", doc.Range.Text, StringComparison.Ordinal);
 
             //测试汇总表（桥面系）
             Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
