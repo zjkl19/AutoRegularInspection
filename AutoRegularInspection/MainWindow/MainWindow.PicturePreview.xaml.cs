@@ -28,6 +28,7 @@ namespace AutoRegularInspection
             DamageSummaryServices.InitListDamageSummary1(l2, 2_000_000);
             DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
             Image image = null; Bitmap bitmap = null;
+            ImageClass imageClass = null;
             string picture1 = string.Empty; string picture2 = string.Empty;
 
 
@@ -44,26 +45,34 @@ namespace AutoRegularInspection
                     }
                     else if (lst[i].PictureCounts == 1)
                     {
-                        img = Image.FromFile($"{Directory.GetFiles(@"PicturesOut/", $"*{lst[i].PictureNo}*")[0]}");
+                        imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{lst[i].PictureNo}*")[0]);
+                        img = imageClass.GetReducedImage(0.2);
+                        //img = Image.FromFile($"{Directory.GetFiles(@"PicturesOut/", $"*{lst[i].PictureNo}*")[0]}");
                         map = new Bitmap(img);
 
-                        listDamageSummary[i].PictureHeight = 100;
+                        listDamageSummary[i].PictureHeight = 60;
                         listDamageSummary[i].PicturePreview1 = ConvertBitmap(map);
                     }
                     else if (lst[i].PictureCounts >= 2)
                     {
                         var pictures = lst[i].PictureNo.Split(',');
 
-                        img = Image.FromFile($"{Directory.GetFiles(@"PicturesOut/", $"*{pictures[0]}*")[0]}");
+                        imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]);
+                        img = imageClass.GetReducedImage(0.2);
+
+                        //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]}");
                         map = new Bitmap(img);
 
 
                         listDamageSummary[i].PicturePreview1 = ConvertBitmap(map);
 
-                        img = Image.FromFile($"{Directory.GetFiles(@"PicturesOut/", $"*{pictures[1]}*")[0]}");
+                        imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]);
+                        img = imageClass.GetReducedImage(0.2);
+
+                        //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]}");
                         map = new Bitmap(img);
                         listDamageSummary[i].PicturePreview2 = ConvertBitmap(map);
-                        listDamageSummary[i].PictureHeight = 100;
+                        listDamageSummary[i].PictureHeight = 60;
                     }
                     else    //异常、负数等情况
                     {
