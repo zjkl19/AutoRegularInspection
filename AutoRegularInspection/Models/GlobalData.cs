@@ -64,6 +64,8 @@ namespace AutoRegularInspection.Models
                         {
                             Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,
+                            CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素分类")].Value?.ToString() ?? string.Empty).Trim()
+                            ,
                             Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim())
                             ,
                             Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
@@ -72,6 +74,8 @@ namespace AutoRegularInspection.Models
                                 new BridgeDamage
                                 {
                                     Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
+                                    ,
+                                    CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害分类")].Value?.ToString() ?? string.Empty).Trim()
                                     ,
                                     Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
                                     ,
@@ -99,6 +103,8 @@ namespace AutoRegularInspection.Models
                             {
                                 Title = currContent
                                 ,
+                                CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素分类")].Value?.ToString() ?? string.Empty).Trim()
+                                ,
                                 Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim())
                                 ,
                                 Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
@@ -107,6 +113,8 @@ namespace AutoRegularInspection.Models
                                 new BridgeDamage
                                 {
                                     Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
+                                    ,
+                                    CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害分类")].Value?.ToString() ?? string.Empty).Trim()
                                     ,
                                     Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
                                     ,
@@ -121,6 +129,8 @@ namespace AutoRegularInspection.Models
                             {
                                 Title = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害名称")].Value?.ToString() ?? string.Empty).Trim()
                             ,
+                                CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害分类")].Value?.ToString() ?? string.Empty).Trim()
+                                    ,
                                 Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
                             ,
                                 Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim()),

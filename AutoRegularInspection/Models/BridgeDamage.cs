@@ -46,6 +46,19 @@ namespace AutoRegularInspection.Models
             }
         }
 
+        private string _CategoryTitle;
+        /// <summary>
+        /// 分类名
+        /// </summary>
+        public string CategoryTitle
+        {
+            get { return _CategoryTitle; }
+            set
+            {
+                UpdateProperty(ref _CategoryTitle, value);
+            }
+        }
+
         private ObservableCollection<BridgeDamage>  _DamageComboBox;
         public ObservableCollection<BridgeDamage> DamageComboBox
         {

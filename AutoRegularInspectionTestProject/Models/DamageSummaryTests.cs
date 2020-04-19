@@ -34,6 +34,40 @@ namespace AutoRegularInspectionTestProject.Models
         }
 
         [Fact]
+        public void GetComponentCategoryName()
+        {
+            //Arrange
+
+            var damage1 = new DamageSummary
+            {
+                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().Idx
+            };    //Component!=其它
+
+            var damage2 = new DamageSummary
+            {
+                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx
+                ,
+                Component = "其它部件"
+            };    //Component只有1个分类，属于其它
+
+            var damage3 = new DamageSummary
+            {
+                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "护栏").FirstOrDefault().Idx
+                ,
+            };    //Component有2个在同一个分类下面
+            string resultExpected1 = "伸缩缝"; string resultExpected2 = "其它部件"; string resultExpected3 = "栏杆或护栏";
+            //Act
+
+            string auturalResult1 = damage1.GetComponentCategoryName(); string auturalResult2 = damage2.GetComponentCategoryName();
+            string auturalResult3 = damage3.GetComponentCategoryName();
+
+            //Assert
+            Assert.Equal(resultExpected1, auturalResult1);
+            Assert.Equal(resultExpected2, auturalResult2);
+            Assert.Equal(resultExpected3, auturalResult3);
+        }
+
+        [Fact]
         public void GetDamageName()
         {
             //Arrange

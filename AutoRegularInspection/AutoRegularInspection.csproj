@@ -139,6 +139,7 @@
     <Compile Include="ProgressBarWindow.xaml.cs">
       <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Repository\BCIRepository.cs" />
     <Compile Include="Repository\CheckForUpdate.cs" />
     <Compile Include="Repository\ExcelDataRepository.cs" />
     <Compile Include="Repository\AsposeWordsImage.cs" />

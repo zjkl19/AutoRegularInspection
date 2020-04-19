@@ -129,6 +129,18 @@ namespace AutoRegularInspection.Models
                 UpdateProperty(ref _Comment, value);
             }
         }
+        /// <summary>
+        /// 严重程度
+        /// </summary>
+        private decimal _Severity;
+        public decimal Severity
+        {
+            get { return _Severity; }
+            set
+            {
+                UpdateProperty(ref _Severity, value);
+            }
+        }
 
         private int _Unit1Value;
         public int Unit1Value
@@ -296,6 +308,38 @@ namespace AutoRegularInspection.Models
             if (componentBox[ComponentValue].Title != "其它")
             {
                 return (componentBox[ComponentValue].Title);
+            }
+            else    //TODO:考虑"其它"输入为空的情况
+            {
+                return Component;
+            }
+
+        }
+
+        /// <summary>
+        /// 直接获取部位分类名
+        /// </summary>
+        /// <returns></returns>
+        public string GetComponentCategoryName(BridgePart bridgePart = BridgePart.BridgeDeck)
+        {
+            ObservableCollection<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
+
+            if (bridgePart == BridgePart.BridgeDeck)
+            {
+                componentBox = GlobalData.ComponentComboBox;
+            }
+            else if (bridgePart == BridgePart.SuperSpace)
+            {
+                componentBox = GlobalData.SuperSpaceComponentComboBox;
+            }
+            else
+            {
+                componentBox = GlobalData.SubSpaceComponentComboBox;
+            }
+
+            if (componentBox[ComponentValue].CategoryTitle != "其它")
+            {
+                return (componentBox[ComponentValue].CategoryTitle);
             }
             else    //TODO:考虑"其它"输入为空的情况
             {
