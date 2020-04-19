@@ -94,5 +94,47 @@ namespace AutoRegularInspectionTestProject.Models
             Assert.Equal(resultExpected1, auturalResult1);
             Assert.Equal(resultExpected2, auturalResult2);
         }
+
+        [Fact]
+        public void GetDamageCategoryName()
+        {
+            //Arrange
+
+            var damage1 = new DamageSummary
+            {
+                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().Idx
+                ,
+                DamageValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().DamageComboBox.Where(x => x.Title == "缝内沉积物阻塞").FirstOrDefault().Idx
+            };    //Damage!=其它
+
+            var damage2 = new DamageSummary
+            {
+                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().Idx
+                ,
+                DamageValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx
+                ,
+                Damage = "其它病害"
+            };    //Damage==其它
+
+            var damage3 = new DamageSummary
+            {
+                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx
+    ,
+                DamageValue = GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "龟裂").FirstOrDefault().Idx
+    ,
+                Damage = "其它病害"
+            };    //Damage==其它
+
+            string resultExpected1 = "缝内沉积物阻塞"; string resultExpected2 = "其它病害"; string resultExpected3 = "网裂或龟裂";
+            //Act
+
+            string auturalResult1 = damage1.GetDamageCategoryName(); string auturalResult2 = damage2.GetDamageCategoryName();
+            string auturalResult3 = damage3.GetDamageCategoryName();
+
+            //Assert
+            Assert.Equal(resultExpected1, auturalResult1);
+            Assert.Equal(resultExpected2, auturalResult2);
+            Assert.Equal(resultExpected3, auturalResult3);
+        }
     }
 }

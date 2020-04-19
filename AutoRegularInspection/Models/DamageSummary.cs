@@ -291,7 +291,6 @@ namespace AutoRegularInspection.Models
         public string GetComponentName(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
             ObservableCollection<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
-
             if (bridgePart== BridgePart.BridgeDeck)
             {
                 componentBox = GlobalData.ComponentComboBox;
@@ -313,7 +312,6 @@ namespace AutoRegularInspection.Models
             {
                 return Component;
             }
-
         }
 
         /// <summary>
@@ -323,7 +321,6 @@ namespace AutoRegularInspection.Models
         public string GetComponentCategoryName(BridgePart bridgePart = BridgePart.BridgeDeck)
         {
             ObservableCollection<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
-
             if (bridgePart == BridgePart.BridgeDeck)
             {
                 componentBox = GlobalData.ComponentComboBox;
@@ -345,7 +342,6 @@ namespace AutoRegularInspection.Models
             {
                 return Component;
             }
-
         }
         /// <summary>
         /// 直接获取病害名
@@ -376,6 +372,42 @@ namespace AutoRegularInspection.Models
             if (componentBox[ComponentValue].DamageComboBox[DamageValue].Title != "其它")
             {
                 return (componentBox[ComponentValue].DamageComboBox[DamageValue].Title);
+            }
+            else    //TODO:考虑"其它"输入为空的情况
+            {
+                return Damage;
+            }
+        }
+
+        /// <summary>
+        /// 获取病害分类名
+        /// </summary>
+        /// <returns></returns>
+        public string GetDamageCategoryName(BridgePart bridgePart = BridgePart.BridgeDeck)
+        {
+            ObservableCollection<BridgeDamage> componentBox = GlobalData.ComponentComboBox;
+
+            if (bridgePart == BridgePart.BridgeDeck)
+            {
+                componentBox = GlobalData.ComponentComboBox;
+            }
+            else if (bridgePart == BridgePart.SuperSpace)
+            {
+                componentBox = GlobalData.SuperSpaceComponentComboBox;
+            }
+            else
+            {
+                componentBox = GlobalData.SubSpaceComponentComboBox;
+            }
+
+            if (DamageValue < 0)
+            {
+                return Damage;
+            }
+
+            if (componentBox[ComponentValue].DamageComboBox[DamageValue].CategoryTitle != "其它")
+            {
+                return (componentBox[ComponentValue].DamageComboBox[DamageValue].CategoryTitle);
             }
             else    //TODO:考虑"其它"输入为空的情况
             {
