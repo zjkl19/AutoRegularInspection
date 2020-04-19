@@ -134,6 +134,7 @@
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="Models\OptionModel.cs" />
+    <Compile Include="Models\PointPenalty.cs" />
     <Compile Include="Models\ProgressBarModel.cs" />
     <Compile Include="Models\StatisticsUnit.cs" />
     <Compile Include="ProgressBarWindow.xaml.cs">
