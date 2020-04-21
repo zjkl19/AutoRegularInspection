@@ -142,6 +142,19 @@ namespace AutoRegularInspection.Models
             }
         }
 
+        /// <summary>
+        /// 严重程度值（取最大值）
+        /// </summary>
+        private int _SeverityValue;
+        public int SeverityValue
+        {
+            get { return _SeverityValue; }
+            set
+            {
+                UpdateProperty(ref _SeverityValue, value);
+            }
+        }
+
         private int _Unit1Value;
         public int Unit1Value
         {

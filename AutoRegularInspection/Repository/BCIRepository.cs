@@ -35,11 +35,13 @@ namespace AutoRegularInspection.Repository
                             DamageCategory = p.GetDamageCategoryName()
                         }
                         into s
+                        let cc= s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
                         select new PointPenalty
                         {
-                            ComponentCategory = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First(),
-                            DamageCategory = s.Select(r => r.GetDamageCategoryName()).First(),
-                            Severity = s.Sum(r => r.Severity)
+                            ComponentCategory = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
+                            ,DamageCategory = s.Select(r => r.GetDamageCategoryName()).First()
+                            ,Severity = s.Sum(r => r.Severity)
+                            ,Penalty=0
                         };
 
             return query.ToList();
@@ -52,6 +54,38 @@ namespace AutoRegularInspection.Repository
 
 
             //return new List<PointPenalty>();
+        }
+        /// <summary>
+        /// 获取扣分总表（一般用来写计算书用）
+        /// </summary>
+        /// <returns></returns>
+        public List<PointPenalty> GetSumPenalityTable()
+        {
+            var pointPenalty = _listDamageSummary.GroupBy(x => new {
+                ComponentCategory = x.GetComponentCategoryName(_bridgePart),
+                DamageCategory = x.GetDamageCategoryName()
+            }).Sum(x => x.FirstOrDefault().Severity);
+
+            var query = from p in _listDamageSummary
+                        group p by new
+                        {
+                            ComponentCategory = p.GetComponentCategoryName(_bridgePart),
+                            DamageCategory = p.GetDamageCategoryName()
+                        }
+                        into s
+                        let cc = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
+                        select new PointPenalty
+                        {
+                            ComponentCategory = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
+                            ,
+                            DamageCategory = s.Select(r => r.GetDamageCategoryName()).First()
+                            ,
+                            Severity = s.Sum(r => r.Severity)
+                            ,
+                            Penalty = 0
+                        };
+
+            return query.ToList();
         }
     }
 }
