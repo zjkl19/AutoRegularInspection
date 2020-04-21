@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:AutoRegularInspection.Models"
+        xmlns:converters="clr-namespace:AutoRegularInspection.Converters"
         mc:Ignorable="d"
         Title="外观检查自动报告" Height="550" Width="1300">
     <Window.Resources>
@@ -198,7 +199,24 @@
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
                                 Header="单位2数量" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding SeverityQuantity}"
+                                Header="严重程度（定量）" />
+
+                            <DataGridTemplateColumn Header="严重程度（定性）" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <ComboBox 
+                                            ItemsSource="{Binding Source={x:Static local:GlobalData.SeverityQualityLevelComboBox}}"
+                                            DisplayMemberPath="Title"
+                                            SelectedIndex="{Binding SeverityQuality,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
                         </DataGrid.Columns>
+                        
                     </DataGrid>
                 </Grid>
             </TabItem>

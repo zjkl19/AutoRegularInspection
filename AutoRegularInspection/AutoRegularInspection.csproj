@@ -113,6 +113,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\OptionConverter.cs" />
+    <Compile Include="Converters\SeverityQualityConverter.cs" />
     <Compile Include="Converters\SubPageConverter.cs" />
     <Compile Include="IRepository\IDataRepository.cs" />
     <Compile Include="MainWindow\MainWindow.CheckForUpdate.xaml.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Models\OptionModel.cs" />
     <Compile Include="Models\PointPenalty.cs" />
     <Compile Include="Models\ProgressBarModel.cs" />
+    <Compile Include="Models\SeverityQualityLevel.cs" />
     <Compile Include="Models\StatisticsUnit.cs" />
     <Compile Include="ProgressBarWindow.xaml.cs">
       <DependentUpon>ProgressBarWindow.xaml</DependentUpon>

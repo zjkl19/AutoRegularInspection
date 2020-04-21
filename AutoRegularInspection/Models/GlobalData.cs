@@ -22,6 +22,9 @@ namespace AutoRegularInspection.Models
 
         public static ObservableCollection<StatisticsUnit> Unit2ComboBox { get; } = LoadUnitDataFromExcel("单位2");
 
+        public static ObservableCollection<SeverityQualityLevel> SeverityQualityLevelComboBox { get; } = new ObservableCollection<SeverityQualityLevel> { new SeverityQualityLevel { Idx=0,Title="无",DisplayTitle="无"},new SeverityQualityLevel { Idx=1,Title="轻微",DisplayTitle="轻微"},new SeverityQualityLevel { Idx=2,Title="中等",DisplayTitle="中等"},new SeverityQualityLevel { Idx=3,Title="严重",DisplayTitle="严重"}};
+
+
         private static ObservableCollection<BridgeDamage> LoadDataFromExcel(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
             string workSheetName = "桥面系";

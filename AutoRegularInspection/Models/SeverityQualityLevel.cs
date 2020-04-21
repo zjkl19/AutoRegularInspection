@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Models
 {
-    public class StatisticsUnit : INotifyPropertyChanged
+    public class SeverityQualityLevel : INotifyPropertyChanged
     {
         private int _Idx;
         public int Idx
@@ -40,15 +40,6 @@ namespace AutoRegularInspection.Models
             }
         }
 
-        private string _PhysicalItem;
-        public string PhysicalItem
-        {
-            get { return _PhysicalItem; }
-            set
-            {
-                UpdateProperty(ref _PhysicalItem, value);
-            }
-        }
 
         private void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string propertyName = "")
         {

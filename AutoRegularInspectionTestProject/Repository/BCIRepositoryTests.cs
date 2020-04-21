@@ -26,32 +26,32 @@ namespace AutoRegularInspectionTestProject.Repository
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "龟裂").FirstOrDefault().Idx,
-                    Severity=0.02m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.02m,
+                    SeverityQuality=0,
                 }
                 ,
                 new DamageSummary
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "网裂").FirstOrDefault().Idx,
-                    Severity=0.04m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.04m,
+                    SeverityQuality=0,
                 }
                 ,
                 new DamageSummary
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "波浪").FirstOrDefault().Idx,
-                    Severity=0.02m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.02m,
+                    SeverityQuality=0,
                 }
                 ,
                 new DamageSummary
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "碎裂").FirstOrDefault().Idx,
-                    Severity=0.04m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.04m,
+                    SeverityQuality=0,
                 }
             };
 
@@ -75,32 +75,32 @@ namespace AutoRegularInspectionTestProject.Repository
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "龟裂").FirstOrDefault().Idx,
-                    Severity=0.02m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.02m,
+                    SeverityQuality=0,
                 }
                 ,
                 new DamageSummary
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "网裂").FirstOrDefault().Idx,
-                    Severity=0.04m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.04m,
+                    SeverityQuality=0,
                 }
                 ,
                 new DamageSummary
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "波浪").FirstOrDefault().Idx,
-                    Severity=0.02m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.02m,
+                    SeverityQuality=0,
                 }
                 ,
                 new DamageSummary
                 {
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "碎裂").FirstOrDefault().Idx,
-                    Severity=0.04m,
-                    SeverityValue=0,
+                    SeverityQuantity=0.04m,
+                    SeverityQuality=0,
                 }
             };
 

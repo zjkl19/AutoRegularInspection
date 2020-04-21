@@ -26,7 +26,7 @@ namespace AutoRegularInspection.Repository
         {
             var pointPenalty = _listDamageSummary.GroupBy(x => new {
                 ComponentCategory=x.GetComponentCategoryName(_bridgePart), DamageCategory = x.GetDamageCategoryName()
-            }).Sum(x=>x.FirstOrDefault().Severity);
+            }).Sum(x=>x.FirstOrDefault().SeverityQuantity);
 
             var query = from p in _listDamageSummary
                         group p by new
@@ -40,7 +40,7 @@ namespace AutoRegularInspection.Repository
                         {
                             ComponentCategory = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
                             ,DamageCategory = s.Select(r => r.GetDamageCategoryName()).First()
-                            ,Severity = s.Sum(r => r.Severity)
+                            ,Severity = s.Sum(r => r.SeverityQuantity)
                             ,Penalty=0
                         };
 
@@ -64,7 +64,7 @@ namespace AutoRegularInspection.Repository
             var pointPenalty = _listDamageSummary.GroupBy(x => new {
                 ComponentCategory = x.GetComponentCategoryName(_bridgePart),
                 DamageCategory = x.GetDamageCategoryName()
-            }).Sum(x => x.FirstOrDefault().Severity);
+            }).Sum(x => x.FirstOrDefault().SeverityQuantity);
 
             var query = from p in _listDamageSummary
                         group p by new
@@ -80,7 +80,7 @@ namespace AutoRegularInspection.Repository
                             ,
                             DamageCategory = s.Select(r => r.GetDamageCategoryName()).First()
                             ,
-                            Severity = s.Sum(r => r.Severity)
+                            Severity = s.Sum(r => r.SeverityQuantity)
                             ,
                             Penalty = 0
                         };

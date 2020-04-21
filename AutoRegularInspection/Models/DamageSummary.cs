@@ -130,28 +130,28 @@ namespace AutoRegularInspection.Models
             }
         }
         /// <summary>
-        /// 严重程度
+        /// 严重程度（定量）
         /// </summary>
-        private decimal _Severity;
-        public decimal Severity
+        private decimal _SeverityQuantity;
+        public decimal SeverityQuantity
         {
-            get { return _Severity; }
+            get { return _SeverityQuantity; }
             set
             {
-                UpdateProperty(ref _Severity, value);
+                UpdateProperty(ref _SeverityQuantity, value);
             }
         }
 
         /// <summary>
-        /// 严重程度值（取最大值）
+        /// 严重程度（定性）
         /// </summary>
-        private int _SeverityValue;
-        public int SeverityValue
+        private int _SeverityQuality;
+        public int SeverityQuality
         {
-            get { return _SeverityValue; }
+            get { return _SeverityQuality; }
             set
             {
-                UpdateProperty(ref _SeverityValue, value);
+                UpdateProperty(ref _SeverityQuality, value);
             }
         }
 
