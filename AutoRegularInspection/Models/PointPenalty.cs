@@ -19,7 +19,13 @@ namespace AutoRegularInspection.Models
         /// <summary>
         /// 严重程度
         /// </summary>
-        public decimal Severity { get; set; }
+        //public decimal Severity { get; set; }
+
+        public decimal SeverityQuantity { get; set; }
+
+        public int SeverityQuality { get; set; }
+
+
         /// <summary>
         /// 单项扣分
         /// </summary>

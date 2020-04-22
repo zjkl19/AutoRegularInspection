@@ -76,7 +76,7 @@ namespace AutoRegularInspectionTestProject.Repository
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "龟裂").FirstOrDefault().Idx,
                     SeverityQuantity=0.02m,
-                    SeverityQuality=0,
+                    SeverityQuality=1,
                 }
                 ,
                 new DamageSummary
@@ -84,7 +84,7 @@ namespace AutoRegularInspectionTestProject.Repository
                     ComponentValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().Idx,
                     DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "桥面铺装").FirstOrDefault().DamageComboBox.Where(x => x.Title == "网裂").FirstOrDefault().Idx,
                     SeverityQuantity=0.04m,
-                    SeverityQuality=0,
+                    SeverityQuality=2,
                 }
                 ,
                 new DamageSummary
@@ -109,11 +109,13 @@ namespace AutoRegularInspectionTestProject.Repository
             List<PointPenalty> t = bci.GetSumPenalityTable();
             //Assert
             //查看读取的单位是否有误
-            Assert.Equal(0.06m, t.Where(x=>x.DamageCategory== "网裂或龟裂").FirstOrDefault().Severity);
+            Assert.Equal(0.06m, t.Where(x=>x.DamageCategory== "网裂或龟裂").FirstOrDefault().SeverityQuantity);
+            Assert.Equal(2, t.Where(x => x.DamageCategory == "网裂或龟裂").FirstOrDefault().SeverityQuality);
+            
             Assert.Equal(15.00m, t.Where(x => x.DamageCategory == "网裂或龟裂").FirstOrDefault().Penalty);
 
-            Assert.Equal(0.02m, t.Where(x => x.DamageCategory == "波浪及车辙").FirstOrDefault().Severity);
-            Assert.Equal(0.04m, t.Where(x => x.DamageCategory == "碎裂或破碎").FirstOrDefault().Severity);
+            Assert.Equal(0.02m, t.Where(x => x.DamageCategory == "波浪及车辙").FirstOrDefault().SeverityQuantity);
+            Assert.Equal(0.04m, t.Where(x => x.DamageCategory == "碎裂或破碎").FirstOrDefault().SeverityQuantity);
         }
     }
 }

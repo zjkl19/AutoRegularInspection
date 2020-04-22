@@ -69,9 +69,9 @@ namespace AutoRegularInspection.Models
                             ,
                             CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素分类")].Value?.ToString() ?? string.Empty).Trim()
                             ,
-                            Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim())
+                            Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture)
                             ,
-                            Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
+                            Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
                             ,
                             DamageComboBox = new ObservableCollection<BridgeDamage> {
                                 new BridgeDamage
@@ -80,9 +80,9 @@ namespace AutoRegularInspection.Models
                                     ,
                                     CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害分类")].Value?.ToString() ?? string.Empty).Trim()
                                     ,
-                                    Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
+                                    Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture)
                                     ,
-                                    Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim()),
+                                    Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture),
                                 }
                             }
                         });
@@ -108,9 +108,9 @@ namespace AutoRegularInspection.Models
                                 ,
                                 CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素分类")].Value?.ToString() ?? string.Empty).Trim()
                                 ,
-                                Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim())
+                                Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素索引")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
                                 ,
-                                Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim())
+                                Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "要素值")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
                                 ,
                                 DamageComboBox = new ObservableCollection<BridgeDamage> {
                                 new BridgeDamage
@@ -119,9 +119,9 @@ namespace AutoRegularInspection.Models
                                     ,
                                     CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害分类")].Value?.ToString() ?? string.Empty).Trim()
                                     ,
-                                    Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
+                                    Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture)
                                     ,
-                                    Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim()),
+                                    Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim(),CultureInfo.InvariantCulture),
                                 }
                             }
                             });
@@ -134,9 +134,9 @@ namespace AutoRegularInspection.Models
                             ,
                                 CategoryTitle = (worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害分类")].Value?.ToString() ?? string.Empty).Trim()
                                     ,
-                                Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim())
+                                Idx = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害索引")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture)
                             ,
-                                Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim()),
+                                Id = Convert.ToInt32((worksheet.Cells[currRow, SaveExcelService.FindColumnIndexByName(worksheet, "病害值")].Value?.ToString() ?? string.Empty).Trim(), CultureInfo.InvariantCulture),
                             });
                         }
                         previousContent = currContent;

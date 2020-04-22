@@ -40,7 +40,8 @@ namespace AutoRegularInspection.Repository
                         {
                             ComponentCategory = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
                             ,DamageCategory = s.Select(r => r.GetDamageCategoryName()).First()
-                            ,Severity = s.Sum(r => r.SeverityQuantity)
+                            ,SeverityQuantity = s.Sum(r => r.SeverityQuantity)
+                            ,SeverityQuality=s.Max(r=>r.SeverityQuality)
                             ,Penalty=0
                         };
 
@@ -80,7 +81,9 @@ namespace AutoRegularInspection.Repository
                             ,
                             DamageCategory = s.Select(r => r.GetDamageCategoryName()).First()
                             ,
-                            Severity = s.Sum(r => r.SeverityQuantity)
+                            SeverityQuantity = s.Sum(r => r.SeverityQuantity)
+                            ,
+                            SeverityQuality = s.Max(r => r.SeverityQuality)
                             ,
                             Penalty = 0
                         };
