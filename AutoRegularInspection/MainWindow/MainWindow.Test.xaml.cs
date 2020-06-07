@@ -10,7 +10,7 @@ namespace AutoRegularInspection
     {
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            int testRow = 4;
+            int testRow = 2;
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
             //_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
 
@@ -21,9 +21,9 @@ namespace AutoRegularInspection
             try
             {
                 //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].ComponentValue.ToString(CultureInfo.InvariantCulture));
-                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString(CultureInfo.InvariantCulture));
+                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString(CultureInfo.InvariantCulture));
                 //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].Component.ToString(CultureInfo.InvariantCulture));
-                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].SeverityQuality.ToString(CultureInfo.InvariantCulture));
+                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].SeverityQuality.ToString(CultureInfo.InvariantCulture));
             }
             catch (Exception ex)
             {

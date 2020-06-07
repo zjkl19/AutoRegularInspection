@@ -135,7 +135,7 @@ namespace AutoRegularInspection.Services
                             }
                             else
                             {
-                                insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}";
+                                insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}";
                             }
                         }
 
