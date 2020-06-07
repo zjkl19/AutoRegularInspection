@@ -67,6 +67,10 @@ namespace AutoRegularInspection.Repository
                 DamageCategory = x.GetDamageCategoryName()
             }).Sum(x => x.FirstOrDefault().SeverityQuantity);
 
+            var students =new Dictionary<string, BridgeDamage>
+            {
+                { "lbt",new BridgeDamage{ Id=198} }
+            };
             var query = from p in _listDamageSummary
                         group p by new
                         {
@@ -75,6 +79,9 @@ namespace AutoRegularInspection.Repository
                         }
                         into s
                         let cc = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
+                        let dc = s.Select(r => r.GetDamageCategoryName()).First()
+                        let sQuantity = s.Sum(r => r.SeverityQuantity)
+                        let sQuality = s.Max(r => r.SeverityQuality)
                         select new PointPenalty
                         {
                             ComponentCategory = s.Select(r => r.GetComponentCategoryName(_bridgePart)).First()
@@ -85,10 +92,15 @@ namespace AutoRegularInspection.Repository
                             ,
                             SeverityQuality = s.Max(r => r.SeverityQuality)
                             ,
-                            Penalty = 0
+                            Penalty = GetPoint(cc, dc, sQuantity, sQuality)
                         };
 
             return query.ToList();
+        }
+
+        private decimal GetPoint(string cc, string dc, decimal sQuantity, int sQuality)
+        {
+            throw new NotImplementedException();
         }
     }
 }

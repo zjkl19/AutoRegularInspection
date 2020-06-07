@@ -98,7 +98,7 @@ namespace AutoRegularInspection.Services
                 }
                 else    //TODO:考虑"其它"输入为空的情况
                 {
-                    worksheet.Cells[i + 2, 3].Value = listDamageSummary[i].GetComponentName();
+                    worksheet.Cells[i + 2, 3].Value = listDamageSummary[i].GetComponentName(bridgePart);
                 }
 
                 if (componentComboBox[listDamageSummary[i].ComponentValue].DamageComboBox[listDamageSummary[i].DamageValue].Title != "其它")
