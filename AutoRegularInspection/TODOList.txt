@@ -115,4 +115,4 @@
 
 46、增加复制选中列的功能（2020.6.7）
 
-47、AsposeWordsServices/InsertSummaryWords方法提取出来，因为该方法可能经常修改
+47、AsposeWordsServices/InsertSummaryWords方法提取出来，因为该方法可能经常修改（2020.6.7）

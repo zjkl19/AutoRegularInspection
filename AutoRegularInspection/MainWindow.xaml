@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:AutoRegularInspection.Models"
         xmlns:converters="clr-namespace:AutoRegularInspection.Converters"
         mc:Ignorable="d"
-        Title="外观检查自动报告" Height="550" Width="1300">
+        Title="外观检查自动报告" Height="650" Width="1500">
     <Window.Resources>
         <local:EnumConverter x:Key="eConverter"/>
         <local:ComponentValueConverter x:Key="cConverter"/>
