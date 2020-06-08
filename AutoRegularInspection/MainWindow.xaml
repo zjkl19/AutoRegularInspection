@@ -468,14 +468,15 @@
         <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="2" Margin="10" Click="PicturePreview_Click">照片预览</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="3" Margin="10" Click="ClosePicturePreview_Click">关闭照片预览</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="4" Margin="10" Click="CopyRow_Click">复制选中行</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="5" Margin="10" Click="Test_Click">自定义功能测试</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="5" Margin="10" Click="MoveRowUp_Click">上移选中行</Button>
+
 
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="2" Margin="10" Click="OpenExcel_Click">打开Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="3" Margin="10" Click="GenerateDamageStatisticsTable_Click">生成病害统计汇总表</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="4" Margin="10" Click="OpenDamageStatisticsTable_Click">打开病害统计汇总表</Button>
-
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="5" Margin="10" Click="Test_Click">自定义功能测试</Button>
 
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="0" Margin="10" Click="AutoReport_Click">自动生成报告</Button>
         <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="1" Margin="10" Click="OpenReport_Click">打开报告</Button>

@@ -10,13 +10,14 @@ namespace AutoRegularInspection
     public partial class MainWindow : Window
     {
         /// <summary>
-        /// 复制选中行
+        /// 上移选中行一行
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void CopyRow_Click(object sender, RoutedEventArgs e)
+        private void MoveRowUp_Click(object sender, RoutedEventArgs e)
         {
             DataGrid dg = BridgeDeckGrid;
+
             if (BridgeDeckTabItem.IsSelected)
             {
                 dg = BridgeDeckGrid;
@@ -29,13 +30,16 @@ namespace AutoRegularInspection
             {
                 dg = SubSpaceGrid;
             }
+            DamageSummary temp;
             int selectedIndex = dg.SelectedIndex;
-            if (selectedIndex >= 0)    //判断是否有选中的行
+            if (selectedIndex >= 1)
             {
                 ObservableCollection<DamageSummary> listDamageSummary = dg.ItemsSource as ObservableCollection<DamageSummary>;
-                listDamageSummary.Add(listDamageSummary[selectedIndex]);
-            }
+                temp = listDamageSummary[selectedIndex - 1];
+                listDamageSummary[selectedIndex - 1] = listDamageSummary[selectedIndex];
+                listDamageSummary[selectedIndex] = temp;
 
+            }
 
 
         }

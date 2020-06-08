@@ -11,28 +11,30 @@ namespace AutoRegularInspection
     {
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            int testRow = 2;
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
-            //_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
+            //int testRow = 2;
+            //var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            ////_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
 
-            //_bridgeDeckListDamageSummary[2].DamageComboBox = GlobalData.ComponentComboBox[5].DamageComboBox;
-            //_bridgeDeckListDamageSummary[2].DamageValue = 2;
-            //MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
+            ////_bridgeDeckListDamageSummary[2].DamageComboBox = GlobalData.ComponentComboBox[5].DamageComboBox;
+            ////_bridgeDeckListDamageSummary[2].DamageValue = 2;
+            ////MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
 
-            try
-            {
-                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].ComponentValue.ToString(CultureInfo.InvariantCulture));
-                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString(CultureInfo.InvariantCulture));
-                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].Component.ToString(CultureInfo.InvariantCulture));
-                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].SeverityQuality.ToString(CultureInfo.InvariantCulture));
-            }
-            catch (Exception ex)
-            {
+            //try
+            //{
+            //    //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].ComponentValue.ToString(CultureInfo.InvariantCulture));
+            //    MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString(CultureInfo.InvariantCulture));
+            //    //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].Component.ToString(CultureInfo.InvariantCulture));
+            //    //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].SeverityQuality.ToString(CultureInfo.InvariantCulture));
+            //}
+            //catch (Exception ex)
+            //{
 
-                MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture));
-            }
+            //    MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture));
+            //}
 
             DataGrid dg = BridgeDeckGrid;
+
+   
             if (BridgeDeckTabItem.IsSelected)
             {
                 dg = BridgeDeckGrid;
@@ -45,13 +47,17 @@ namespace AutoRegularInspection
             {
                 dg = SubSpaceGrid;
             }
+            DamageSummary temp;
             int selectedIndex = dg.SelectedIndex;
-            if (selectedIndex>=0)
+            if (selectedIndex>=1)
             {
                 ObservableCollection<DamageSummary> listDamageSummary = dg.ItemsSource as ObservableCollection<DamageSummary>;
-                listDamageSummary.Add(listDamageSummary[selectedIndex]);
+                temp = listDamageSummary[selectedIndex - 1];
+                listDamageSummary[selectedIndex - 1] = listDamageSummary[selectedIndex];
+                listDamageSummary[selectedIndex] = temp;
+                
             }
-            
+
 
         }
 
