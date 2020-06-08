@@ -116,6 +116,7 @@
     <Compile Include="Converters\SeverityQualityConverter.cs" />
     <Compile Include="Converters\SubPageConverter.cs" />
     <Compile Include="IRepository\IDataRepository.cs" />
+    <Compile Include="MainWindow\MainWindow.CopyRow.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CheckForUpdate.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CheckForUpdateInStarup.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CommentColumnInsertTableCheckBox.xaml.cs" />

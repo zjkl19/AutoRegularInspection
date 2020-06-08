@@ -3,6 +3,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace AutoRegularInspection
 {
@@ -30,6 +31,30 @@ namespace AutoRegularInspection
 
                 MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture));
             }
+
+            DataGrid dg = BridgeDeckGrid;
+            if (BridgeDeckTabItem.IsSelected)
+            {
+                dg = BridgeDeckGrid;
+            }
+            else if(SuperSpaceTabItem.IsSelected)
+            {
+                dg = SuperSpaceGrid;
+            }
+            else if(SubSpaceTabItem.IsSelected)
+            {
+                dg = SubSpaceGrid;
+            }
+            int selectedIndex = dg.SelectedIndex;
+            if (selectedIndex>=0)
+            {
+                ObservableCollection<DamageSummary> listDamageSummary = dg.ItemsSource as ObservableCollection<DamageSummary>;
+                listDamageSummary.Add(listDamageSummary[selectedIndex]);
+            }
+            
+
         }
+
+
     }
 }

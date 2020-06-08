@@ -28,7 +28,7 @@
             <local:BridgePart x:Key="SubSpaceEnum">SubSpace</local:BridgePart>
 
             <sys:Double x:Key="DataGridFontSize">13</sys:Double>
-            <sys:Int32 x:Key="ColumnCounts">5</sys:Int32>
+            <sys:Int32 x:Key="ColumnCounts">6</sys:Int32>
             <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
             <sys:Int32 x:Key="OperationButtonRowIndex1">2</sys:Int32>
             <sys:Int32 x:Key="OperationButtonRowIndex2">3</sys:Int32>
@@ -67,6 +67,8 @@
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            
         </Grid.ColumnDefinitions>
         <Menu Grid.ColumnSpan="{StaticResource ColumnCounts}" FontSize="{StaticResource DataGridFontSize}">
             <!-- 参考 https://www.cnblogs.com/lk-kk/p/4609026.html-->
@@ -82,7 +84,7 @@
             </MenuItem>
         </Menu>
         <TabControl Grid.Row="{StaticResource TabControlRowIndex}" Grid.Column="0" Grid.ColumnSpan="{StaticResource ColumnCounts}" FontSize="{StaticResource DataGridFontSize}">
-            <TabItem Header="桥面系">
+            <TabItem Header="桥面系" Name="BridgeDeckTabItem">
                 <Grid>
                     <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
@@ -220,7 +222,7 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="上部结构" FontSize="{StaticResource DataGridFontSize}">
+            <TabItem Header="上部结构" FontSize="{StaticResource DataGridFontSize}"  Name="SuperSpaceTabItem">
                 <Grid>
                     <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
@@ -339,7 +341,7 @@
                     </DataGrid>
                 </Grid>
             </TabItem>
-            <TabItem Header="下部结构" FontSize="{StaticResource DataGridFontSize}">
+            <TabItem Header="下部结构" FontSize="{StaticResource DataGridFontSize}"  Name="SubSpaceTabItem">
                 <Grid>
                     <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
                         <DataGrid.Columns>
@@ -465,8 +467,9 @@
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="1" Margin="10" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="2" Margin="10" Click="PicturePreview_Click">照片预览</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="3" Margin="10" Click="ClosePicturePreview_Click">关闭照片预览</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="4" Margin="10" Click="Test_Click">自定义功能测试</Button>
-        
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="4" Margin="10" Click="CopyRow_Click">复制选中行</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="5" Margin="10" Click="Test_Click">自定义功能测试</Button>
+
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="2" Margin="10" Click="OpenExcel_Click">打开Excel</Button>
