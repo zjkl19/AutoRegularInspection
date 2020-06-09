@@ -40,7 +40,7 @@ namespace AutoRegularInspection
                 listDamageSummary[selectedIndex] = temp;
 
             }
-
+      
 
         }
     }
