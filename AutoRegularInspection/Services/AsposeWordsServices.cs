@@ -185,6 +185,31 @@ namespace AutoRegularInspection.Services
 
             builder.MoveTo(bookmark.BookmarkStart);
 
+            //TODO：考虑一下具体的缩进值
+            //builder.ParagraphFormat.FirstLineIndent = 8;
+            
+            //要点1：判断是否有照片
+            if (BookmarkStartName == BridgeDeckBookmarkStartName)
+            {
+                builder.Write("桥面系检查结果详见");
+            }
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
+            {
+                builder.Write("上部结构检查结果详见");
+            }
+            else
+            {
+                builder.Write("下部结构检查结果详见");
+            }
+            //TODO：考虑表格第1行和最后1行可能没有照片
+            pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[0].FirstPictureBookmarkIndex}", "", "");
+            pictureRefField.InsertHyperlink = true;
+            builder.Write("～");
+            pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary.Last().FirstPictureBookmarkIndex + listDamageSummary.Last().PictureCounts - 1}", "", "");
+            pictureRefField.InsertHyperlink = true;
+            builder.Write("。");
+            builder.Writeln();
+
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
 
             builder.Write("表 ");
