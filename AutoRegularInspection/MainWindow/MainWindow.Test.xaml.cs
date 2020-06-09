@@ -11,52 +11,34 @@ namespace AutoRegularInspection
     {
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            //int testRow = 2;
+            int testRow = 1;
+            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            //_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
+
+            //_bridgeDeckListDamageSummary[2].DamageComboBox = GlobalData.ComponentComboBox[5].DamageComboBox;
+            //_bridgeDeckListDamageSummary[2].DamageValue = 2;
+            //MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
+
+            try
+            {
+                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].ComponentValue.ToString(CultureInfo.InvariantCulture));
+                MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString(CultureInfo.InvariantCulture));
+                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].Component.ToString(CultureInfo.InvariantCulture));
+                //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].SeverityQuality.ToString(CultureInfo.InvariantCulture));
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture));
+            }
+
+
+            _bridgeDeckListDamageSummary[1].DamageValue = 9;
             //var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
-            ////_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
+            //_bridgeDeckListDamageSummary[0].DamageDescription = "lbt";
 
-            ////_bridgeDeckListDamageSummary[2].DamageComboBox = GlobalData.ComponentComboBox[5].DamageComboBox;
-            ////_bridgeDeckListDamageSummary[2].DamageValue = 2;
-            ////MessageBox.Show(_bridgeDeckListDamageSummary[2].Component);
-
-            //try
-            //{
-            //    //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].ComponentValue.ToString(CultureInfo.InvariantCulture));
-            //    MessageBox.Show(_bridgeDeckListDamageSummary[testRow].DamageValue.ToString(CultureInfo.InvariantCulture));
-            //    //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].Component.ToString(CultureInfo.InvariantCulture));
-            //    //MessageBox.Show(_bridgeDeckListDamageSummary[testRow].SeverityQuality.ToString(CultureInfo.InvariantCulture));
-            //}
-            //catch (Exception ex)
-            //{
-
-            //    MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture));
-            //}
-
-            DataGrid dg = BridgeDeckGrid;
-
-   
-            if (BridgeDeckTabItem.IsSelected)
-            {
-                dg = BridgeDeckGrid;
-            }
-            else if(SuperSpaceTabItem.IsSelected)
-            {
-                dg = SuperSpaceGrid;
-            }
-            else if(SubSpaceTabItem.IsSelected)
-            {
-                dg = SubSpaceGrid;
-            }
-            DamageSummary temp;
-            int selectedIndex = dg.SelectedIndex;
-            if (selectedIndex>=1)
-            {
-                ObservableCollection<DamageSummary> listDamageSummary = dg.ItemsSource as ObservableCollection<DamageSummary>;
-                temp = listDamageSummary[selectedIndex - 1];
-                listDamageSummary[selectedIndex - 1] = listDamageSummary[selectedIndex];
-                listDamageSummary[selectedIndex] = temp;
-                
-            }
+            //_bridgeDeckListDamageSummary[2].DamageComboBox = GlobalData.ComponentComboBox[5].DamageComboBox;
+            //_bridgeDeckListDamageSummary[2].DamageValue = 2;
 
 
         }

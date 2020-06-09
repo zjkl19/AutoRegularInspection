@@ -124,7 +124,7 @@
                                             ItemsSource="{Binding ComponentValue
                                             ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource BridgeDeckEnum}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay}"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -261,7 +261,7 @@
                                             ItemsSource="{Binding ComponentValue
                                             ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource SuperSpaceEnum}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay}"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -380,7 +380,7 @@
                                             ItemsSource="{Binding ComponentValue
                                             ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource SubSpaceEnum}}"
                                             DisplayMemberPath="Title"
-                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay}"
+                                            SelectedIndex="{Binding DamageValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
