@@ -188,7 +188,7 @@ namespace AutoRegularInspection.Services
             //TODO：考虑一下具体的缩进值
             //builder.ParagraphFormat.FirstLineIndent = 8;
             
-            //要点1：判断是否有照片
+            //要求：至少要有2张照片
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
                 builder.Write("桥面系检查结果详见");
@@ -201,6 +201,19 @@ namespace AutoRegularInspection.Services
             {
                 builder.Write("下部结构检查结果详见");
             }
+            int firstIndex = 0;int lastIndex = listDamageSummary.Count-1;
+            //查找第一张
+            while(listDamageSummary[firstIndex].PictureCounts==0 && firstIndex< listDamageSummary.Count - 1)
+            {
+                firstIndex++;
+            }
+            //查找最后一张
+            while (listDamageSummary[lastIndex].PictureCounts == 0 && lastIndex >0)
+            {
+                lastIndex--;
+            }
+
+
             //TODO：考虑表格第1行和最后1行可能没有照片
             pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[0].FirstPictureBookmarkIndex}", "", "");
             pictureRefField.InsertHyperlink = true;
