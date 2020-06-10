@@ -70,7 +70,9 @@ namespace AutoRegularInspection.Services
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
         }
-
+        /// <summary>
+        /// 插入总结描述，一般插入点在文档开头，统计病害数量等
+        /// </summary>
         private void InsertSummaryWords()
         {
             //IEnumerable<IGrouping<ComponentDamageGroup,DamageSummary>> bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x =>new ComponentDamageGroup { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
@@ -138,8 +140,6 @@ namespace AutoRegularInspection.Services
                                 insertText = $"{insertText}共{v1.Sum(x => x.Unit1Counts)}{v1.FirstOrDefault().GetDisplayUnit1()}{v1.FirstOrDefault().GetDamageName(bridgePart)}";
                             }
                         }
-
-
 
                         if (i == damageStatistics.Count() - 1)
                         {
@@ -212,7 +212,6 @@ namespace AutoRegularInspection.Services
             {
                 lastIndex--;
             }
-
 
             //TODO：考虑表格第1行和最后1行可能没有照片
             pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[0].FirstPictureBookmarkIndex}", "", "");
@@ -296,7 +295,6 @@ namespace AutoRegularInspection.Services
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-
                 builder.InsertCell(); builder.Write($"{i + 1}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetComponentName(bridgePart)}");

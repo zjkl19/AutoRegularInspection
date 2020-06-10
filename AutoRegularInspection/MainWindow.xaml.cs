@@ -153,13 +153,13 @@ namespace AutoRegularInspection
             var thread = new Thread(new ThreadStart(() =>
             {
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
-                progressBarModel.ProgressValue = 10;
-
+                //progressBarModel.ProgressValue = 0;    //测试数据
 
                 var doc = new Document(templateFile);
                 var asposeService = new AsposeWordsServices(ref doc, l1, l2, l3);
                 asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
 
+                //两次更新域，1次更新序号，1次更新序号对应的交叉引用
                 doc.UpdateFields();
                 doc.UpdateFields();
 
