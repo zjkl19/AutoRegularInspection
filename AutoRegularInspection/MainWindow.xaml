@@ -32,9 +32,10 @@
             <sys:Int32 x:Key="TabControlRowIndex">1</sys:Int32>
             <sys:Int32 x:Key="OperationButtonRowIndex1">2</sys:Int32>
             <sys:Int32 x:Key="OperationButtonRowIndex2">3</sys:Int32>
-            <sys:Int32 x:Key="CommonButtonRowIndex">4</sys:Int32>
-            <sys:Int32 x:Key="CopyRightRowIndex">5</sys:Int32>
-            <sys:Int32 x:Key="StatusBarRowIndex">6</sys:Int32>
+            <sys:Int32 x:Key="OperationButtonRowIndex3">4</sys:Int32>
+            <sys:Int32 x:Key="OperationButtonRowIndex4">5</sys:Int32>
+            <sys:Int32 x:Key="CopyRightRowIndex">6</sys:Int32>
+            <sys:Int32 x:Key="StatusBarRowIndex">7</sys:Int32>
             <GridLength x:Key="OperationButtonRowHeight">50</GridLength>
             <GridLength x:Key="CommonButtonRowHeight">50</GridLength>
             <GridLength x:Key="CopyRightRowHeight">30</GridLength>
@@ -57,7 +58,8 @@
             <RowDefinition></RowDefinition>
             <RowDefinition Height="{StaticResource OperationButtonRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource OperationButtonRowHeight}"></RowDefinition>
-            <RowDefinition Height="{StaticResource CommonButtonRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource OperationButtonRowHeight}"></RowDefinition>
+            <RowDefinition Height="{StaticResource OperationButtonRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource CopyRightRowHeight}"></RowDefinition>
             <RowDefinition Height="{StaticResource StatusBarRowHeight}"></RowDefinition>
         </Grid.RowDefinitions>
@@ -465,24 +467,25 @@
 
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="0" Margin="10" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="1" Margin="10" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="2" Margin="10" Click="PicturePreview_Click">照片预览</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="3" Margin="10" Click="ClosePicturePreview_Click">关闭照片预览</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="4" Margin="10" Click="CopyRow_Click">复制选中行</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="5" Margin="10" Click="MoveRowUp_Click">上移选中行</Button>
+        
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="0" Margin="10" Click="PicturePreview_Click">照片预览</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="1" Margin="10" Click="ClosePicturePreview_Click">关闭照片预览</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="2" Margin="10" Click="CopyRow_Click">复制选中行</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="3" Margin="10" Click="MoveRowUp_Click">上移选中行</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="4" Margin="10" Click="MoveRowDown_Click">下移选中行</Button>
 
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="2" Margin="10" Click="OpenExcel_Click">打开Excel</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="3" Margin="10" Click="GenerateDamageStatisticsTable_Click">生成病害统计汇总表</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="4" Margin="10" Click="OpenDamageStatisticsTable_Click">打开病害统计汇总表</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="5" Margin="10" Click="Test_Click">自定义功能测试</Button>
 
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="2" Margin="10" Click="OpenExcel_Click">打开Excel</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="3" Margin="10" Click="GenerateDamageStatisticsTable_Click">生成病害统计汇总表</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="4" Margin="10" Click="OpenDamageStatisticsTable_Click">打开病害统计汇总表</Button>
-        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="5" Margin="10" Click="Test_Click">自定义功能测试</Button>
-
-        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="0" Margin="10" Click="AutoReport_Click">自动生成报告</Button>
-        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="1" Margin="10" Click="OpenReport_Click">打开报告</Button>
-        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="2" Margin="10" Click="SuggestionButton_Click">查看参考建议</Button>
-        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="3" Margin="10" Click="CheckForUpdateButton_Click">检查更新</Button>
-        <Button Grid.Row="{StaticResource CommonButtonRowIndex}" Grid.Column="4" Margin="10" Click="DisclaimerButton_Click">免责声明</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex4}" Grid.Column="0" Margin="10" Click="AutoReport_Click">自动生成报告</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex4}" Grid.Column="1" Margin="10" Click="OpenReport_Click">打开报告</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex4}" Grid.Column="2" Margin="10" Click="SuggestionButton_Click">查看参考建议</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex4}" Grid.Column="3" Margin="10" Click="CheckForUpdateButton_Click">检查更新</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex4}" Grid.Column="4" Margin="10" Click="DisclaimerButton_Click">免责声明</Button>
         <Label Grid.Row="{StaticResource CopyRightRowIndex}" Grid.Column="0" Grid.ColumnSpan="{StaticResource ColumnCounts}" Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020" VerticalAlignment="Center"/>
         <StatusBar  Grid.Row="{StaticResource StatusBarRowIndex}" Grid.Column="0" Grid.ColumnSpan="{StaticResource ColumnCounts}">
             <StatusBarItem>
