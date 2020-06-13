@@ -47,7 +47,7 @@ namespace AutoRegularInspection.Repository
                         try
                         {
                             //跳过表头
-                            if (string.IsNullOrWhiteSpace(worksheet.Cells[rowCount + 1, 1].Value.ToString()))
+                            if (string.IsNullOrWhiteSpace(worksheet.Cells[rowCount + 1, 1].Value?.ToString()))
                             {
                                 rowCur = false;
                             }
