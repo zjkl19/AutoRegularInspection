@@ -45,7 +45,10 @@ namespace AutoRegularInspection
                     }
                     else if (lst[i].PictureCounts == 1)
                     {
-                        imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{lst[i].PictureNo}*")[0]);
+                        //已被重构
+                        //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{lst[i].PictureNo}*")[0]);
+                        
+                        imageClass = new ImageClass(FileService.GetFileName(@"Pictures", lst[i].PictureNo));
                         img = imageClass.GetReducedImage(0.2);
                         //img = Image.FromFile($"{Directory.GetFiles(@"PicturesOut/", $"*{lst[i].PictureNo}*")[0]}");
                         map = new Bitmap(img);
@@ -57,7 +60,8 @@ namespace AutoRegularInspection
                     {
                         var pictures = lst[i].PictureNo.Split(',');
 
-                        imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]);
+                        //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]);
+                        imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[0]));
                         img = imageClass.GetReducedImage(0.2);
 
                         //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]}");
@@ -66,7 +70,8 @@ namespace AutoRegularInspection
 
                         listDamageSummary[i].PicturePreview1 = ConvertBitmap(map);
 
-                        imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]);
+                        //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]);
+                        imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[1]));
                         img = imageClass.GetReducedImage(0.2);
 
                         //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]}");
