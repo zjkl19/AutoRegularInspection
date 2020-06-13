@@ -152,6 +152,7 @@
     <Compile Include="Services\AsposeWordsServices.cs" />
     <Compile Include="Services\DamageSummaryServices.cs" />
     <Compile Include="Services\EnumHelper.cs" />
+    <Compile Include="Services\FileService.cs" />
     <Compile Include="Services\ImageClass.cs" />
     <Compile Include="Services\ImageServices.cs" />
     <Compile Include="Services\NinjectDependencyResolver.cs" />

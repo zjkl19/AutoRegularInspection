@@ -392,7 +392,6 @@ namespace AutoRegularInspection.Services
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
 
                         var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
-
                         //TODO：检测文件是否重复，若重复不需要再压缩（MD5校验）
                         //(暂时用文件名校验)
                         if (!File.Exists($"PicturesOut/{Path.GetFileName(dirs[0])}"))
