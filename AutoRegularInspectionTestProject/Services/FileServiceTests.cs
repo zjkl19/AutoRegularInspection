@@ -15,7 +15,7 @@ namespace AutoRegularInspectionTestProject.Services
 
             string folderName = @"Pictures";
             string pictureNo = @"2732";
-            string expectedFullName = "DSC02732.JPG";
+            string expectedFullName = @"Pictures/DSC02732.JPG";
 
             //Act
             string fullName=FileService.GetFileName(folderName, pictureNo);
