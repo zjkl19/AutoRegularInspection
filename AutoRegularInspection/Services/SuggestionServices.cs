@@ -50,7 +50,7 @@ namespace AutoRegularInspection.Services
                         try
                         {
                             //跳过表头
-                            if (string.IsNullOrWhiteSpace(worksheet.Cells[rowCount + 1, 1].Value.ToString()))
+                            if (string.IsNullOrWhiteSpace(worksheet.Cells[rowCount + 1, 1]?.Value?.ToString()))
                             {
                                 rowCur = false;
                             }
@@ -73,7 +73,7 @@ namespace AutoRegularInspection.Services
                     {
                         try
                         {
-                            regexList.Add(new Regex($"{ worksheet.Cells[row, 2].Value.ToString() }"));
+                            regexList.Add(new Regex($"{ worksheet.Cells[row, 2]?.Value?.ToString() }"));
                             suggestionList.Add(worksheet.Cells[row, 3].Value.ToString());
                         }
                         catch (Exception)
