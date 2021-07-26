@@ -47,8 +47,28 @@ namespace AutoRegularInspection
                     {
                         //已被重构
                         //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{lst[i].PictureNo}*")[0]);
-                        
-                        imageClass = new ImageClass(FileService.GetFileName(@"Pictures", lst[i].PictureNo));
+
+                        try
+                        {
+                            imageClass = new ImageClass(FileService.GetFileName(@"Pictures", lst[i].PictureNo));
+                        }
+                        catch (System.Exception ex)
+                        {
+                            imageClass = new ImageClass("ErrorPic.jpg");
+
+                            if (!File.Exists(@"日志.txt"))
+                            {
+                                _ = File.Create(@"日志.txt");
+                            }
+
+                            var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
+                            StreamWriter writer = new StreamWriter(stream);
+                            writer.WriteLine($"警告：{lst[i].PictureNo}不存在！错误信息：{ex.Message}");
+                            writer.Close();
+                            stream.Close();
+                            
+                        }
+
                         img = imageClass.GetReducedImage(0.2);
                         //img = Image.FromFile($"{Directory.GetFiles(@"PicturesOut/", $"*{lst[i].PictureNo}*")[0]}");
                         map = new Bitmap(img);

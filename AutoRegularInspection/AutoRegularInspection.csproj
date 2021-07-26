@@ -278,6 +278,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AsposeWordsNet\Aspose.Words.dll" />
+    <Resource Include="ErrorPic.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Pictures\DSC02858.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
