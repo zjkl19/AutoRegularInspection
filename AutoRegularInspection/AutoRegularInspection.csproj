@@ -120,6 +120,7 @@
     <Compile Include="MainWindow\MainWindow.CheckForUpdate.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CheckForUpdateInStarup.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CommentColumnInsertTableCheckBox.xaml.cs" />
+    <Compile Include="MainWindow\MainWindow.AutoReport.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.MoveRowDown.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.MoveRowUp.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.OpenDamageStatisticsTable.xaml.cs" />
