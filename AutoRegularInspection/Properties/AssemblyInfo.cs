@@ -10,7 +10,7 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("AutoRegularInspection")]
-[assembly: AssemblyCopyright("Copyright © 福建省建筑科学研究院有限责任公司 福建省建筑工程质量检测中心有限公司 2019-2020")]
+[assembly: AssemblyCopyright("Copyright © 福建省建筑科学研究院有限责任公司 福建省建筑工程质量检测中心有限公司 2019-2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -55,5 +55,5 @@ using System.Windows;
 //新增方法或其他较为重要的功能增加：次版本号+1，最多加到9，再加则主版本号+1
 //原有方法改进或其他功能进行了改进：生成号+1
 //bug修复，小的重构：修订号+1
-[assembly: AssemblyVersion("0.2.0.2")]
+[assembly: AssemblyVersion("0.2.1.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

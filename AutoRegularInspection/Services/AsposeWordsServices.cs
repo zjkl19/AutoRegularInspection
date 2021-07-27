@@ -256,6 +256,9 @@ namespace AutoRegularInspection.Services
 
             builder.InsertCell();
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+
+            builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+
             builder.Font.Bold = true;
 
             builder.Write("序号");
@@ -299,8 +302,12 @@ namespace AutoRegularInspection.Services
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetComponentName(bridgePart)}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetDamageName(bridgePart).Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
-                builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamageDescription.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");
+
                 builder.InsertCell();
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+                builder.Write($"{listDamageSummary[i].DamageDescription.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");
+                builder.InsertCell();
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                 if (listDamageSummary[i].PictureCounts == 0)
                 {
                     builder.Write("/");
@@ -350,6 +357,9 @@ namespace AutoRegularInspection.Services
             summaryTable.SetBorder(BorderType.Right, LineStyle.Single, 1.5, Color.Black, true);
             summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, Color.Black, true);
             summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
+
+            //根据内容自动调整表格
+            //summaryTable.AutoFit(AutoFitBehavior.AutoFitToContents);
 
             builder.Writeln();
 
