@@ -38,6 +38,7 @@ namespace AutoRegularInspection.ViewModels
             }
             ObservableCollection<DamageSummary> oc = new ObservableCollection<DamageSummary>();
 
+            //List转ObservableCollection
             lst.ForEach(x => oc.Add(x));
             foreach(var k in oc)
             {

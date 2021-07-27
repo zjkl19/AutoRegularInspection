@@ -83,7 +83,9 @@ namespace AutoRegularInspection.Repository
                             ,DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty
                             ,DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty
                             ,PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty
-                            ,Comment = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet,"备注")].Value?.ToString() ?? string.Empty
+                            ,CustomPictureNo = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "自定义照片编号")].Value?.ToString() ?? string.Empty
+                            ,
+                            Comment = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet,"备注")].Value?.ToString() ?? string.Empty
                             ,Unit1 = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value?.ToString() ?? string.Empty
                             ,Unit1Counts = GetUnit1Counts(worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value?.ToString() ?? string.Empty)
                             ,Unit2 = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value?.ToString() ?? string.Empty

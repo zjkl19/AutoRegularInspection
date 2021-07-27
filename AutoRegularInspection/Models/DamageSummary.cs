@@ -21,10 +21,7 @@ namespace AutoRegularInspection.Models
         public BridgePart BridgePartEnum
         {
             get { return _BridgePartEnum; }
-            set
-            {
-                UpdateProperty(ref _BridgePartEnum, value);
-            }
+            set => UpdateProperty(ref _BridgePartEnum, value);
         }
         /// <summary>
         /// 序号
@@ -41,15 +38,12 @@ namespace AutoRegularInspection.Models
         public ObservableCollection<BridgeDamage> DamageComboBox
         {
             get { return _DamageComboBox; }
-            set
-            {
-                UpdateProperty(ref _DamageComboBox, value);
-            }
+            set => UpdateProperty(ref _DamageComboBox, value);
         }
         private int _DamageValue;
         public int DamageValue
         {
-            get { return _DamageValue; }
+            get => _DamageValue;
             set
             {
                 UpdateProperty(ref _DamageValue, value);
@@ -115,6 +109,11 @@ namespace AutoRegularInspection.Models
         /// 病害对应图片编号
         /// </summary>
         public string PictureNo { set; get; } = string.Empty;
+
+        /// <summary>
+        /// 自定义照片编号（图示编号一栏使用自定义文字，但如果照片一栏有文字，则忽略该栏）
+        /// </summary>
+        public string CustomPictureNo { set; get; }
 
         private string _Comment;
         /// <summary>

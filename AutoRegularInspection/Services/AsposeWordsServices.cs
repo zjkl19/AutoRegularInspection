@@ -310,7 +310,14 @@ namespace AutoRegularInspection.Services
                 builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                 if (listDamageSummary[i].PictureCounts == 0)
                 {
-                    builder.Write("/");
+                    if(string.IsNullOrWhiteSpace(listDamageSummary[i].CustomPictureNo))
+                    {
+                        builder.Write("/");
+                    }
+                    else
+                    {
+                        builder.Write(listDamageSummary[i].CustomPictureNo);
+                    }
                 }
                 else if (listDamageSummary[i].PictureCounts == 1)
                 {

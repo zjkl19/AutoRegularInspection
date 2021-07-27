@@ -148,6 +148,10 @@
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding CustomPictureNo}"
+                                Header="自定义照片编号" />
                             <DataGridTemplateColumn Width="Auto" Header="照片预览1">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -285,6 +289,10 @@
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding CustomPictureNo}"
+                                Header="自定义照片编号" />
                             <DataGridTemplateColumn Width="Auto" Header="照片预览1">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
@@ -404,6 +412,10 @@
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
+                            <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding CustomPictureNo}"
+                                Header="自定义照片编号" />
                             <DataGridTemplateColumn Width="Auto" Header="照片预览1">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
