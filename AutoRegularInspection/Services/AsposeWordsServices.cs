@@ -88,7 +88,7 @@ namespace AutoRegularInspection.Services
             var bookmark = _doc.Range.Bookmarks["BridgeDeckSummaryStart"];
 
             builder.MoveTo(bookmark.BookmarkStart);
-            builder.Write(GenerateInsertText(bridgeDeckDamageStatistics,BridgePart.BridgeDeck));
+            builder.Write(GenerateInsertText(bridgeDeckDamageStatistics, BridgePart.BridgeDeck));
             builder.Writeln();
 
             bookmark = _doc.Range.Bookmarks["SuperSpaceSummaryStart"];
