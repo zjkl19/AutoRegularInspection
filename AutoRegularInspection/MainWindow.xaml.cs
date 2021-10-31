@@ -76,6 +76,18 @@ namespace AutoRegularInspection
                 CommentColumnInsertTableCheckBox.IsChecked = false;
             }
 
+            bool deletePositionInBridgeDeck;
+            deletePositionInBridgeDeck = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value);
+
+            if (deletePositionInBridgeDeck)
+            {
+                DeletePositionInBridgeDeckCheckBox.IsChecked = true;
+            }
+            else
+            {
+                DeletePositionInBridgeDeckCheckBox.IsChecked = false;
+            }
+
             CheckForUpdateInStarup();    //启动时检查更新
         }
 
@@ -105,7 +117,7 @@ namespace AutoRegularInspection
         {
             //TODO：通过反射读取 AssemblyCopyright
             MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version.ToString()}\r" +
-            $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020\r" +
+            $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2021\r" +
             $"系统框架设计、编程及维护：路桥检测研究所林迪南等"
             , "关于");
         }

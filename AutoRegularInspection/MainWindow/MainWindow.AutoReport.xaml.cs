@@ -38,13 +38,13 @@ namespace AutoRegularInspection
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
-
+            var generateReportSettings = new GenerateReportSettings { DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value) };
 
             new Thread(() =>
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    GenerateReport(commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                    GenerateReport(generateReportSettings,commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
                     //try
                     //{
@@ -62,7 +62,7 @@ namespace AutoRegularInspection
 
         }
 
-        private static void GenerateReport(bool CommentColumnInsertTable, double ImageWidth, double ImageHeight, string templateFile, string outputFile, int CompressImageFlag, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
+        private static void GenerateReport(GenerateReportSettings generateReportSettings,bool CommentColumnInsertTable, double ImageWidth, double ImageHeight, string templateFile, string outputFile, int CompressImageFlag, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
         {
             var w = new ProgressBarWindow();
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
@@ -95,7 +95,7 @@ namespace AutoRegularInspection
 
                 var doc = new Document(templateFile);
                 var asposeService = new AsposeWordsServices(ref doc, l1, l2, l3);
-                asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
+                asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, generateReportSettings, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
 
                 //两次更新域，1次更新序号，1次更新序号对应的交叉引用
                 doc.UpdateFields();

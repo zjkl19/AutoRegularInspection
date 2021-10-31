@@ -121,6 +121,7 @@
     <Compile Include="MainWindow\MainWindow.CheckForUpdateInStarup.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CommentColumnInsertTableCheckBox.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.AutoReport.xaml.cs" />
+    <Compile Include="MainWindow\MainWindow.DeletePositionInBridgeDeck.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.MoveRowDown.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.MoveRowUp.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.OpenDamageStatisticsTable.xaml.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Models\ComponentValueConverter.cs" />
     <Compile Include="Models\DamageComboBoxConverter.cs" />
     <Compile Include="Models\EnumConverter.cs" />
+    <Compile Include="Models\GenerateReportSettings.cs" />
     <Compile Include="Models\GitHubLatestReleaseInfo.cs" />
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\GridModel.cs" />

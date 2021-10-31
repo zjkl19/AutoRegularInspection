@@ -4,6 +4,7 @@ using Aspose.Words.Fields;
 using Aspose.Words.Tables;
 using AutoRegularInspection.Models;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -11,7 +12,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 
 namespace AutoRegularInspection.Services
 {
@@ -42,33 +42,33 @@ namespace AutoRegularInspection.Services
         /// <param name="ImageWidth"></param>
         /// <param name="ImageHeight"></param>
         /// <param name="CompressImageFlag"></param>
-        public void GenerateSummaryTableAndPictureTable(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateSummaryTableAndPictureTable(ref ProgressBarModel progressModel, GenerateReportSettings generateReportSettings, bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
             progressModel.ProgressValue = 0;
 
             InsertSummaryWords();
             progressModel.Content = "正在处理桥面系……";
-            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, generateReportSettings, CommentColumnInsertTable);
             progressModel.Content = "正在处理上部结构……";
             progressModel.ProgressValue = 33;
             System.Threading.Thread.Sleep(500);
 
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, generateReportSettings,CommentColumnInsertTable);
             progressModel.Content = "正在处理下部结构……";
             progressModel.ProgressValue = 66;
             System.Threading.Thread.Sleep(500);
 
-            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, generateReportSettings, CommentColumnInsertTable);
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";
         }
 
-        public void GenerateSummaryTableAndPictureTable(bool CommentColumnInsertTable,double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateSummaryTableAndPictureTable(bool CommentColumnInsertTable, GenerateReportSettings generateReportSettings, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
             InsertSummaryWords();
-            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
-            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, generateReportSettings, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, generateReportSettings, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, generateReportSettings, CommentColumnInsertTable);
         }
         /// <summary>
         /// 插入总结描述，一般插入点在文档开头，统计病害数量等
@@ -155,7 +155,7 @@ namespace AutoRegularInspection.Services
 
         }
 
-        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight,bool CommentColumnInsertTable)
+        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight,GenerateReportSettings generateReportSettings, bool CommentColumnInsertTable)
         {
 
             var builder = new DocumentBuilder(_doc);
@@ -354,6 +354,8 @@ namespace AutoRegularInspection.Services
 
             builder.EndTable();
 
+
+
             //TODO:用建造者模式重构
             MergeDamageColumn(listDamageSummary,summaryTable);
             MergeComponentColumn(listDamageSummary, summaryTable);
@@ -364,6 +366,14 @@ namespace AutoRegularInspection.Services
             summaryTable.SetBorder(BorderType.Right, LineStyle.Single, 1.5, Color.Black, true);
             summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, Color.Black, true);
             summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
+
+
+
+            if (BookmarkStartName == BridgeDeckBookmarkStartName && generateReportSettings.DeletePositionInBridgeDeckCheckBox==true)
+            {
+                Column column = Column.FromIndex(summaryTable, 1);
+                column.Remove();
+            }
 
             //根据内容自动调整表格
             //summaryTable.AutoFit(AutoFitBehavior.AutoFitToContents);
@@ -445,6 +455,119 @@ namespace AutoRegularInspection.Services
 
             pictureTable.ClearBorders();
         }
+
+        // ExStart:ColumnClass
+        /// <summary>
+        /// Represents a facade object for a column of a table in a Microsoft Word document.
+        /// </summary>
+        internal class Column
+        {
+            private Column(Table table, int columnIndex)
+            {
+                if (table == null)
+                    throw new ArgumentException("table");
+
+                mTable = table;
+                mColumnIndex = columnIndex;
+            }
+
+            /// <summary>
+            /// Returns a new column facade from the table and supplied zero-based index.
+            /// </summary>
+            public static Column FromIndex(Table table, int columnIndex)
+            {
+                return new Column(table, columnIndex);
+            }
+
+            /// <summary>
+            /// Returns the cells which make up the column.
+            /// </summary>
+            public Cell[] Cells
+            {
+                get
+                {
+                    return (Cell[])GetColumnCells().ToArray(typeof(Cell));
+                }
+            }
+
+            /// <summary>
+            /// Returns the index of the given cell in the column.
+            /// </summary>
+            public int IndexOf(Cell cell)
+            {
+                return GetColumnCells().IndexOf(cell);
+            }
+
+            /// <summary>
+            /// Inserts a brand new column before this column into the table.
+            /// </summary>
+            public Column InsertColumnBefore()
+            {
+                Cell[] columnCells = Cells;
+
+                if (columnCells.Length == 0)
+                    throw new ArgumentException("Column must not be empty");
+
+                // Create a clone of this column.
+                foreach (Cell cell in columnCells)
+                    cell.ParentRow.InsertBefore(cell.Clone(false), cell);
+
+                // This is the new column.
+                Column column = new Column(columnCells[0].ParentRow.ParentTable, mColumnIndex);
+
+                // We want to make sure that the cells are all valid to work with (have at least one paragraph).
+                foreach (Cell cell in column.Cells)
+                    cell.EnsureMinimum();
+
+                // Increase the index which this column represents since there is now one extra column infront.
+                mColumnIndex++;
+
+                return column;
+            }
+
+            /// <summary>
+            /// Removes the column from the table.
+            /// </summary>
+            public void Remove()
+            {
+                foreach (Cell cell in Cells)
+                    cell.Remove();
+            }
+
+            /// <summary>
+            /// Returns the text of the column. 
+            /// </summary>
+            public string ToTxt()
+            {
+                StringBuilder builder = new StringBuilder();
+
+                foreach (Cell cell in Cells)
+                    builder.Append(cell.ToString(SaveFormat.Text));
+
+                return builder.ToString();
+            }
+
+            /// <summary>
+            /// Provides an up-to-date collection of cells which make up the column represented by this facade.
+            /// </summary>
+            private ArrayList GetColumnCells()
+            {
+                ArrayList columnCells = new ArrayList();
+
+                foreach (Row row in mTable.Rows)
+                {
+                    Cell cell = row.Cells[mColumnIndex];
+                    if (cell != null)
+                        columnCells.Add(cell);
+                }
+
+                return columnCells;
+            }
+
+            private int mColumnIndex;
+            private Table mTable;
+        }
+        // ExEnd:ColumnClass
 
         /// <summary>
         /// 合并缺损类型1列
