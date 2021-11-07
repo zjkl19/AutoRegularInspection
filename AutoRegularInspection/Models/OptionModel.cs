@@ -61,6 +61,26 @@ namespace AutoRegularInspection.Models
             }
         }
 
+        private string _BridgeDeckNoWidth;
+        public string BridgeDeckNoWidth
+        {
+            get { return _BridgeDeckNoWidth; }
+            set
+            {
+                UpdateProperty(ref _BridgeDeckNoWidth, value);
+            }
+        }
+
+        private string _BridgeDeckPositionWidth;
+        public string BridgeDeckPositionWidth
+        {
+            get { return _BridgeDeckPositionWidth; }
+            set
+            {
+                UpdateProperty(ref _BridgeDeckPositionWidth, value);
+            }
+        }
+
         //private object _SubPage;
         //public object SubPage
         //{

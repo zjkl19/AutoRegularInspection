@@ -255,6 +255,10 @@ namespace AutoRegularInspection.Services
             var summaryTable = builder.StartTable();
 
             builder.InsertCell();
+            //CellFormat cellFormat = builder.CellFormat;
+            //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.No;
+
+
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
 
             builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
@@ -262,7 +266,10 @@ namespace AutoRegularInspection.Services
             builder.Font.Bold = true;
 
             builder.Write("序号");
-            builder.InsertCell(); builder.Write("位置");
+            builder.InsertCell();
+            //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.Position;
+
+            builder.Write("位置");
             builder.InsertCell();
 
             BridgePart bridgePart;
@@ -299,7 +306,9 @@ namespace AutoRegularInspection.Services
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 builder.InsertCell(); builder.Write($"{i + 1}");
+                //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.No;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
+                //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.Position;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetComponentName(bridgePart)}");
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetDamageName(bridgePart).Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
 

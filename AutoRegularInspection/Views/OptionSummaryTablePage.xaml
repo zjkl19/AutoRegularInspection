@@ -1,0 +1,61 @@
+﻿<Page x:Class="AutoRegularInspection.Views.OptionSummaryTablePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+      xmlns:sys1="clr-namespace:System;assembly=mscorlib"
+      xmlns:local="clr-namespace:AutoRegularInspection.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="200" d:DesignWidth="400"
+      Title="OptionSummaryTablePage">
+    <StackPanel >
+        <StackPanel.Resources>
+            <sys:Thickness x:Key="defaultMargin">5</sys:Thickness>
+            <sys1:Double x:Key="defaultWidth">40</sys1:Double>
+        </StackPanel.Resources>
+        <StackPanel  Orientation="Horizontal" >
+            <Label Content="桥面系" ></Label>
+        </StackPanel>
+        
+        <StackPanel Name="BridgeDeckStackPanel" Orientation="Horizontal">
+            <Label Content="序号"  Margin="{StaticResource defaultMargin}"></Label>
+            <!--使用DataContext-->
+            <TextBox Text="{Binding No,UpdateSourceTrigger=PropertyChanged}" Width="{StaticResource defaultWidth}" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding Position,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="要       素"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+
+        </StackPanel>
+        <StackPanel  Orientation="Horizontal" >
+            <Label Content="上部结构" ></Label>
+        </StackPanel>
+        <StackPanel  Orientation="Horizontal" >
+            <Label Content="序号"  Margin="{StaticResource defaultMargin}" Focusable="True"></Label>
+            <TextBox  Text="2" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="构件类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="1" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+
+        </StackPanel>
+    </StackPanel >
+
+</Page>

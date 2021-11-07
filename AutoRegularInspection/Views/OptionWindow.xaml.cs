@@ -13,8 +13,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Xml;
 using System.Xml.Linq;
-
 namespace AutoRegularInspection.Views
 {
     /// <summary>
@@ -39,9 +39,9 @@ namespace AutoRegularInspection.Views
             if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
             {
                 var frameContent = (OptionPicturePage)frame.Content;
-                var model = (frameContent.DataContext) as OptionModel;
+                var model = frameContent.DataContext as OptionModel;
 
-                
+
                 var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
                 pictureWidth.Value = model.PictureWidth;
                 var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
@@ -51,7 +51,7 @@ namespace AutoRegularInspection.Views
             else if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
             {
                 var frameContent = (OptionBookmarkPage)frame.Content;
-                var model = (frameContent.DataContext) as OptionModel;
+                var model = frameContent.DataContext as OptionModel;
                 var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault();
                 var SuperSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault();
                 var SubSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault();
@@ -107,6 +107,62 @@ namespace AutoRegularInspection.Views
             //    MessageBox.Show($"{m.TxtInfo.Text}");
             //}
         }
+
+        /// <summary>
+        /// 选项=>报告=>汇总表格
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SummaryTable_Selected(object sender, RoutedEventArgs e)
+        {
+            if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
+            {
+                return;
+            }
+
+            OptionFrame.Tag = nameof(OptionBookmarkPage);
+
+            var config = XDocument.Load(@"Option.config");
+
+
+            //var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("BridgeDeckSummaryTable").GetAtt;
+
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.Load(@"Option.config");
+            XmlNodeList grouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("BridgeDeckSummaryTable").ChildNodes;
+            foreach (XmlNode xng in grouplist)
+            {
+                XmlElement xeg = (XmlElement)xng;
+                string width = xeg.GetAttribute("value");
+            }
+
+            OptionContentControl.DataContext = new
+            {
+                SubPage = new OptionSummaryTablePage(grouplist)
+            };
+
+            //OptionContentControl.DataContext = new
+            //{
+            //    SubPage = new OptionSummaryTablePage
+            //    {
+
+            //        DataContext = new BridgeDeckDamageSummaryTableWidth
+            //        {
+            //            No = Convert.ToInt32(grouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
+            //,
+            //            Position = Convert.ToInt32(grouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
+            //        }
+
+            //        //DataContext = new OptionModel
+            //        //{
+            //        //    BridgeDeckNoWidth = grouplist[0].Attributes["value"].Value.ToString(CultureInfo.InvariantCulture)
+            //        //    ,
+            //        //    BridgeDeckPositionWidth = grouplist[1].Attributes["value"].Value.ToString(CultureInfo.InvariantCulture)
+            //        //}
+            //    }
+            //};
+        }
+
 
         private void Picture_General_Selected(object sender, RoutedEventArgs e)
         {

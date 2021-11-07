@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:AutoRegularInspection.Views"
         xmlns:converters="clr-namespace:AutoRegularInspection.Converters"
         mc:Ignorable="d"
-        Title="选项"  Height="280" Width="430">
+        Title="选项"  Height="380" Width="1000">
 
     <Window.Resources>
         <converters:OptionConverter x:Key="optionConverter"/>
@@ -19,12 +19,14 @@
             <RowDefinition Height="50"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="50"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <TreeView x:Name="OptionView" HorizontalAlignment="Left" VerticalAlignment="Top">
+
             <TreeViewItem Header="图片" Selected="Picture_General_Selected">
                 <TreeViewItem Header="常规" Selected="Picture_General_Selected"/>
             </TreeViewItem>
@@ -32,6 +34,7 @@
                 <TreeViewItem Header="常规"/>
                 <TreeViewItem Header="书签" Selected="Report_Bookmark_Selected"/>
                 <TreeViewItem Header="图片"/>
+                <TreeViewItem Header="汇总表格" Selected="SummaryTable_Selected"/>
             </TreeViewItem>
             <TreeViewItem Header="开发中">
                 <TreeViewItem Header="开发中1" Selected="TreeViewItem_Selected_1"/>
@@ -43,7 +46,7 @@
         <GridSplitter Grid.Column="1" Width="2" VerticalAlignment="Stretch" HorizontalAlignment="Center" Background="DarkGray">
             
         </GridSplitter>
-        <StackPanel Grid.Column="2" Grid.ColumnSpan="2">
+        <StackPanel Grid.Column="2" Grid.ColumnSpan="3">
             <ContentControl x:Name="OptionContentControl">
                 <Frame Name="OptionFrame" Content="{Binding SubPage}" NavigationUIVisibility="Hidden"></Frame>
             </ContentControl>

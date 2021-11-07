@@ -130,6 +130,8 @@
     <Compile Include="MainWindow\MainWindow.GenerateDamageStatisticsTable.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.Test.xaml.cs" />
     <Compile Include="Models\BridgeDamage.cs" />
+    <Compile Include="Models\BridgeDamageSummaryTableWidth.cs" />
+    <Compile Include="Models\BridgeDeckDamageSummaryTableWidth.cs" />
     <Compile Include="Models\BridgeDeckEnum.cs" />
     <Compile Include="Models\BridgePart.cs" />
     <Compile Include="Models\ComponentDamageGroup.cs" />
@@ -169,6 +171,9 @@
     <Compile Include="Views\OptionPicturePage.xaml.cs">
       <DependentUpon>OptionPicturePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OptionSummaryTablePage.xaml.cs">
+      <DependentUpon>OptionSummaryTablePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
@@ -202,6 +207,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OptionPicturePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionSummaryTablePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

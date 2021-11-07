@@ -38,7 +38,14 @@ namespace AutoRegularInspection
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
-            var generateReportSettings = new GenerateReportSettings { DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value) };
+            var generateReportSettings = new GenerateReportSettings {
+                DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value)
+                ,
+                BridgeDeckTableCellWidth=new TableCellWidth { No=10,Position=20,Component=20,Damage=20,DamageDescription=40,PictureNo=30, Comment =20}
+                ,SuperSpaceTableCellWidth = new TableCellWidth { No = 10, Position = 20, Component = 20, Damage = 20, DamageDescription = 40, PictureNo = 30, Comment = 20 }
+                ,
+                SubSpaceTableCellWidth = new TableCellWidth { No = 10, Position = 20, Component = 20, Damage = 20, DamageDescription = 40, PictureNo = 30, Comment = 20 }
+            };
 
             new Thread(() =>
             {
@@ -85,8 +92,6 @@ namespace AutoRegularInspection
             DamageSummaryServices.InitListDamageSummary1(l1);
             DamageSummaryServices.InitListDamageSummary1(l2, 2_000_000);
             DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
-
-
 
             var thread = new Thread(new ThreadStart(() =>
             {
