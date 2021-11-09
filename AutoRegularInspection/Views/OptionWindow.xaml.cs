@@ -27,64 +27,6 @@ namespace AutoRegularInspection.Views
             InitializeComponent();
             OptionFrame.Tag = "Page1";
             OptionContentControl.DataContext = new { SubPage = new Page1() };
-
-        }
-
-        private void ConfirmButton_Click(object sender, RoutedEventArgs e)
-        {
-            var frame = OptionContentControl.Content as Frame;
-
-            var config = XDocument.Load(@"Option.config");
-
-            if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
-            {
-                var frameContent = (OptionPicturePage)frame.Content;
-                var model = frameContent.DataContext as OptionModel;
-
-
-                var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-                pictureWidth.Value = model.PictureWidth;
-                var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-                pictureHeight.Value = model.PictureHeight;
-
-            }
-            else if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
-            {
-                var frameContent = (OptionBookmarkPage)frame.Content;
-                var model = frameContent.DataContext as OptionModel;
-                var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault();
-                var SuperSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault();
-                var SubSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault();
-
-                BridgeDeckBookmarkStartNo.Value = model.BridgeDeckBookmarkStartNo;
-                SuperSpaceBookmarkStartNo.Value = model.SuperSpaceBookmarkStartNo;
-                SubSpaceBookmarkStartNo.Value = model.SubSpaceBookmarkStartNo;
-            }
-
-            config.Save(@"Option.config");
-            MessageBox.Show("保存设置成功！");
-            //try
-            //{
-
-            //    var config = XDocument.Load(@"Option.config");
-
-            //    var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-            //    pictureWidth.Value = PictureWidth.Text;
-            //    var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-            //    pictureHeight.Value = PictureHeight.Text;
-            //    config.Save(@"Option.config");
-
-            //    MessageBox.Show("保存设置成功！");
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-        }
-
-        private void CancelButton_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
 
@@ -115,12 +57,12 @@ namespace AutoRegularInspection.Views
         /// <param name="e"></param>
         private void SummaryTable_Selected(object sender, RoutedEventArgs e)
         {
-            if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
+            if ((string)OptionFrame.Tag == nameof(OptionSummaryTablePage))
             {
                 return;
             }
 
-            OptionFrame.Tag = nameof(OptionBookmarkPage);
+            OptionFrame.Tag = nameof(OptionSummaryTablePage);
 
             var config = XDocument.Load(@"Option.config");
 
@@ -129,16 +71,20 @@ namespace AutoRegularInspection.Views
 
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load(@"Option.config");
-            XmlNodeList grouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("BridgeDeckSummaryTable").ChildNodes;
-            foreach (XmlNode xng in grouplist)
-            {
-                XmlElement xeg = (XmlElement)xng;
-                string width = xeg.GetAttribute("value");
-            }
+            XmlNodeList bridgeDeckGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("BridgeDeckSummaryTable").ChildNodes;
+            XmlNodeList superSpaceGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("SuperSpaceSummaryTable").ChildNodes;
+            XmlNodeList subSpaceGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("SubSpaceSummaryTable").ChildNodes;
+
+            //TODO:研究以下几行
+            //foreach (XmlNode xng in bridgeDeckGrouplist)
+            //{
+            //    XmlElement xeg = (XmlElement)xng;
+            //    string width = xeg.GetAttribute("value");
+            //}
 
             OptionContentControl.DataContext = new
             {
-                SubPage = new OptionSummaryTablePage(grouplist)
+                SubPage = new OptionSummaryTablePage(bridgeDeckGrouplist, superSpaceGrouplist, subSpaceGrouplist)
             };
 
             //OptionContentControl.DataContext = new

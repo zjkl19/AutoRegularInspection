@@ -147,6 +147,8 @@
     <Compile Include="Models\ProgressBarModel.cs" />
     <Compile Include="Models\SeverityQualityLevel.cs" />
     <Compile Include="Models\StatisticsUnit.cs" />
+    <Compile Include="Models\SubSpaceDamageSummaryTableWidth.cs" />
+    <Compile Include="Models\SuperSpaceDamageSummaryTableWidth.cs" />
     <Compile Include="ProgressBarWindow.xaml.cs">
       <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
     </Compile>
@@ -177,6 +179,8 @@
     <Compile Include="Views\OptionWindow.xaml.cs">
       <DependentUpon>OptionWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OptionWindow\OptionWindow.Cancel.xaml.cs" />
+    <Compile Include="Views\OptionWindow\OptionWindow.Confirm.xaml.cs" />
     <Compile Include="Views\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>
     </Compile>

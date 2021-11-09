@@ -27,11 +27,11 @@ namespace AutoRegularInspection.Views
         {
             InitializeComponent();
         }
-        public OptionSummaryTablePage(XmlNodeList grouplist)
+        public OptionSummaryTablePage(XmlNodeList bridgeDeckGrouplist, XmlNodeList superSpaceGrouplist,XmlNodeList subSpaceGrouplist)
         {
-            if (grouplist is null)
+            if (bridgeDeckGrouplist is null)
             {
-                throw new ArgumentNullException(nameof(grouplist));
+                throw new ArgumentNullException(nameof(bridgeDeckGrouplist));
             }
 
             InitializeComponent();
@@ -39,9 +39,19 @@ namespace AutoRegularInspection.Views
             BridgeDeckStackPanel.DataContext = new BridgeDeckDamageSummaryTableWidth
             {
 
-                No = Convert.ToInt32(grouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Position = Convert.ToInt32(grouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Component = Convert.ToInt32(grouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                No = Convert.ToInt32(bridgeDeckGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Position = Convert.ToInt32(bridgeDeckGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Component = Convert.ToInt32(bridgeDeckGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
+            };
+
+            SuperSpaceStackPanel.DataContext = new BridgeDeckDamageSummaryTableWidth
+            {
+
+                No = Convert.ToInt32(superSpaceGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,
+                Position = Convert.ToInt32(superSpaceGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,
+                Component = Convert.ToInt32(superSpaceGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
             };
         }
     }

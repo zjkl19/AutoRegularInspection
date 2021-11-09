@@ -39,13 +39,13 @@
         <StackPanel  Orientation="Horizontal" >
             <Label Content="上部结构" ></Label>
         </StackPanel>
-        <StackPanel  Orientation="Horizontal" >
+        <StackPanel Name="SuperSpaceStackPanel"   Orientation="Horizontal" >
             <Label Content="序号"  Margin="{StaticResource defaultMargin}" Focusable="True"></Label>
-            <TextBox  Text="2" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding No,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding Position,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="构件类型"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="1" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
