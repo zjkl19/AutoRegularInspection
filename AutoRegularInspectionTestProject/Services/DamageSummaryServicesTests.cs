@@ -183,7 +183,7 @@ namespace AutoRegularInspectionTestProject.Services
             var dataRepository = kernel.Get<IDataRepository>();
 
             string saveFileName = "桥梁检测病害统计汇总表.xlsx";
-            List<DamageSummary> lst1,lst2,lst3;
+            List<DamageSummary> lst1, lst2, lst3;
             
             lst1 = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
             lst2 = dataRepository.ReadDamageData(BridgePart.SuperSpace);

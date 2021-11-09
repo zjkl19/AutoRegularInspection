@@ -74,15 +74,16 @@ namespace AutoRegularInspectionTestProject.Models
 
             var damage1 = new DamageSummary
             {
-                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().Idx
-                ,DamageValue=GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().DamageComboBox.Where(x=>x.Title=="缝内沉积物阻塞").FirstOrDefault().Idx
+                ComponentValue = GlobalData.ComponentComboBox.FirstOrDefault(x => x.Title == "伸缩缝").Idx
+                ,DamageValue=GlobalData.ComponentComboBox.FirstOrDefault(x => x.Title == "伸缩缝").DamageComboBox.FirstOrDefault(x =>x.Title=="缝内沉积物阻塞").Idx
             };    //Damage!=其它
 
             var damage2 = new DamageSummary
             {
-                ComponentValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().Idx
-                ,DamageValue = GlobalData.ComponentComboBox.Where(x => x.Title == "伸缩缝").FirstOrDefault().DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx
-                ,Damage="其它病害"
+                ComponentValue = GlobalData.ComponentComboBox.FirstOrDefault(x => x.Title == "伸缩缝").Idx
+                ,DamageValue = GlobalData.ComponentComboBox.FirstOrDefault(x => x.Title == "伸缩缝").DamageComboBox.FirstOrDefault(x => x.Title == "其它").Idx
+                ,
+                Damage = "其它病害"
             };    //Damage==其它
 
             string resultExpected1 = "缝内沉积物阻塞"; string resultExpected2 = "其它病害";

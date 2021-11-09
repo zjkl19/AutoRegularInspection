@@ -376,7 +376,7 @@ namespace AutoRegularInspection.Models
                 componentBox = GlobalData.SubSpaceComponentComboBox;
             }
 
-            if(DamageValue<0)
+            if (DamageValue < 0)
             {
                 return Damage;
             }
