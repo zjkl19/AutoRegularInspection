@@ -1,9 +1,5 @@
 ﻿using AutoRegularInspection.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
@@ -12,6 +8,7 @@ namespace AutoRegularInspection.Views
 {
     public partial class OptionWindow : Window
     {
+
         private void ConfirmButton_Click(object sender, RoutedEventArgs e)
         {
             var frame = OptionContentControl.Content as Frame;
@@ -20,23 +17,22 @@ namespace AutoRegularInspection.Views
 
             if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
             {
-                var frameContent = (OptionPicturePage)frame.Content;
+                OptionPicturePage frameContent = (OptionPicturePage)frame.Content;
                 OptionModel model = frameContent.DataContext as OptionModel;
 
-
-                var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
+                XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
                 pictureWidth.Value = model.PictureWidth;
-                var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+                XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
                 pictureHeight.Value = model.PictureHeight;
 
             }
             else if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
             {
-                var frameContent = (OptionBookmarkPage)frame.Content;
+                OptionBookmarkPage frameContent = (OptionBookmarkPage)frame.Content;
                 OptionModel model = frameContent.DataContext as OptionModel;
                 XElement BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault();
-                var SuperSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault();
-                var SubSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault();
+                XElement SuperSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault();
+                XElement SubSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault();
 
                 BridgeDeckBookmarkStartNo.Value = model.BridgeDeckBookmarkStartNo;
                 SuperSpaceBookmarkStartNo.Value = model.SuperSpaceBookmarkStartNo;

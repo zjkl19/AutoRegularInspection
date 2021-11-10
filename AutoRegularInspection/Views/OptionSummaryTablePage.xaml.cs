@@ -29,6 +29,7 @@ namespace AutoRegularInspection.Views
         }
         public OptionSummaryTablePage(XmlNodeList bridgeDeckGrouplist, XmlNodeList superSpaceGrouplist,XmlNodeList subSpaceGrouplist)
         {
+            //TODO:增加校验
             if (bridgeDeckGrouplist is null)
             {
                 throw new ArgumentNullException(nameof(bridgeDeckGrouplist));

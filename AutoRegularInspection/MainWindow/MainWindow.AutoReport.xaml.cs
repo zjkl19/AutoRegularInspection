@@ -27,7 +27,6 @@ namespace AutoRegularInspection
             var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
             var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
 
-            //double ImageWidth = 224.25; double ImageHeight = 168.75;
             double ImageWidth = Convert.ToDouble(pictureWidth.Value.ToString()); double ImageHeight = Convert.ToDouble(pictureHeight.Value.ToString());
 
             string templateFile = App.TemplateReportFileName; string outputFile = App.OutputReportFileName;

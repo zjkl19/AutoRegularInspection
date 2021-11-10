@@ -21,6 +21,8 @@ using System.Collections.ObjectModel;
 using System.Configuration;
 using System.ComponentModel;
 using NLog;
+using NLog.Config;
+using NLog.Targets;
 
 namespace AutoRegularInspection
 {
@@ -37,11 +39,11 @@ namespace AutoRegularInspection
             Title = $"外观检查自动报告 v{Application.ResourceAssembly.GetName().Version.ToString()}";
 
             //Nlog
-            var config = new NLog.Config.LoggingConfiguration();
+            LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
 
             // Targets where to log to: File and Console
-            var logfile = new NLog.Targets.FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
-            var logconsole = new NLog.Targets.ConsoleTarget("logconsole");
+            var logfile = new FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
+            ConsoleTarget logconsole = new ConsoleTarget("logconsole");
 
             // Rules for mapping loggers to targets            
             config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
@@ -116,7 +118,7 @@ namespace AutoRegularInspection
         private void MenuItem_About_Click(object sender, RoutedEventArgs e)
         {
             //TODO：通过反射读取 AssemblyCopyright
-            MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version.ToString()}\r" +
+            _ = MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version.ToString()}\r" +
             $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2021\r" +
             $"系统框架设计、编程及维护：路桥检测研究所林迪南等"
             , "关于");
