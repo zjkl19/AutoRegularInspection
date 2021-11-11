@@ -13,7 +13,7 @@ namespace AutoRegularInspection.Views
         {
             var frame = OptionContentControl.Content as Frame;
 
-            var config = XDocument.Load(@"Option.config");
+            var config = XDocument.Load(App.ConfigFileName);
 
             if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
             {
@@ -42,11 +42,11 @@ namespace AutoRegularInspection.Views
             {
                 //TODO:修改
                 OptionSummaryTablePage frameContent = (OptionSummaryTablePage)frame.Content;
-                var bridgeDeckmodel = frameContent.BridgeDeckStackPanel.DataContext as BridgeDeckDamageSummaryTableWidth;
-
+                BridgeDeckDamageSummaryTableWidth bridgeDeckmodel = frameContent.BridgeDeckStackPanel.DataContext as BridgeDeckDamageSummaryTableWidth;
+                
             }
 
-            config.Save(@"Option.config");
+            config.Save(App.ConfigFileName);
             _ = MessageBox.Show("保存设置成功！");
             //try
             //{
