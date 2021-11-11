@@ -24,6 +24,7 @@ namespace AutoRegularInspection.Repository
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3;
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
 
+
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             var client = new RestClient(url);

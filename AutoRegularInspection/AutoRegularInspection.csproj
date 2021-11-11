@@ -181,6 +181,7 @@
     </Compile>
     <Compile Include="Views\OptionWindow\OptionWindow.Cancel.xaml.cs" />
     <Compile Include="Views\OptionWindow\OptionWindow.Confirm.xaml.cs" />
+    <Compile Include="Views\OptionWindow\OptionWindow.SummaryTable_Selected.cs" />
     <Compile Include="Views\OptionWindow\OptionWindow.Test.xaml.cs" />
     <Compile Include="Views\Page1.xaml.cs">
       <DependentUpon>Page1.xaml</DependentUpon>

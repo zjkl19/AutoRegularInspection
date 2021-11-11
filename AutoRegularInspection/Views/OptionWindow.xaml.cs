@@ -30,66 +30,6 @@ namespace AutoRegularInspection.Views
         }
 
 
-        /// <summary>
-        /// 选项=>报告=>汇总表格
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void SummaryTable_Selected(object sender, RoutedEventArgs e)
-        {
-            if ((string)OptionFrame.Tag == nameof(OptionSummaryTablePage))
-            {
-                return;
-            }
-
-            OptionFrame.Tag = nameof(OptionSummaryTablePage);
-
-            var config = XDocument.Load(@"Option.config");
-
-
-            //var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("BridgeDeckSummaryTable").GetAtt;
-
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(@"Option.config");
-            XmlNodeList bridgeDeckGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("BridgeDeckSummaryTable").ChildNodes;
-            XmlNodeList superSpaceGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("SuperSpaceSummaryTable").ChildNodes;
-            XmlNodeList subSpaceGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("SubSpaceSummaryTable").ChildNodes;
-
-            //TODO:研究以下几行
-            //foreach (XmlNode xng in bridgeDeckGrouplist)
-            //{
-            //    XmlElement xeg = (XmlElement)xng;
-            //    string width = xeg.GetAttribute("value");
-            //}
-
-            OptionContentControl.DataContext = new
-            {
-                SubPage = new OptionSummaryTablePage(bridgeDeckGrouplist, superSpaceGrouplist, subSpaceGrouplist)
-            };
-
-            //OptionContentControl.DataContext = new
-            //{
-            //    SubPage = new OptionSummaryTablePage
-            //    {
-
-            //        DataContext = new BridgeDeckDamageSummaryTableWidth
-            //        {
-            //            No = Convert.ToInt32(grouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
-            //,
-            //            Position = Convert.ToInt32(grouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
-            //        }
-
-            //        //DataContext = new OptionModel
-            //        //{
-            //        //    BridgeDeckNoWidth = grouplist[0].Attributes["value"].Value.ToString(CultureInfo.InvariantCulture)
-            //        //    ,
-            //        //    BridgeDeckPositionWidth = grouplist[1].Attributes["value"].Value.ToString(CultureInfo.InvariantCulture)
-            //        //}
-            //    }
-            //};
-        }
-
-
         private void Picture_General_Selected(object sender, RoutedEventArgs e)
         {
             if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
@@ -167,6 +107,7 @@ namespace AutoRegularInspection.Views
             OptionFrame.Tag = nameof(Page2);
             OptionContentControl.DataContext = new { SubPage = new Page2() };
 
+            
             //TestContentControl.Content = new Frame
             //{
             //    Content = new Page2()

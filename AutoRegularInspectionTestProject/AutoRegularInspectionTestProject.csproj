@@ -42,6 +42,9 @@
   </ItemGroup>
   
   <ItemGroup>
+    <None Update="Option.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Pictures\DSC02732.JPG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
