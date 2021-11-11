@@ -27,34 +27,53 @@
             <Label Content="要       素"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding Damage,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding DamageDescription,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding PictureNo,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding Comment,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
 
         </StackPanel>
         <StackPanel  Orientation="Horizontal" >
             <Label Content="上部结构" ></Label>
         </StackPanel>
-        <StackPanel Name="SuperSpaceStackPanel"   Orientation="Horizontal" >
-            <Label Content="序号"  Margin="{StaticResource defaultMargin}" Focusable="True"></Label>
-            <TextBox  Text="{Binding No,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+        <StackPanel Name="SuperSpaceStackPanel"  Orientation="Horizontal" >
+            <Label Content="序号"  Margin="{StaticResource defaultMargin}"></Label>
+            <TextBox Text="{Binding No,UpdateSourceTrigger=PropertyChanged}" Width="{StaticResource defaultWidth}" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding Position,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="构件类型"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="1" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding Damage,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding DamageDescription,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding PictureNo,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
-            <TextBox  Text="" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <TextBox  Text="{Binding Comment,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
 
+        </StackPanel>
+        <StackPanel  Orientation="Horizontal" >
+            <Label Content="下部结构" ></Label>
+        </StackPanel>
+        <StackPanel Name="SubSpaceStackPanel"  Orientation="Horizontal" >
+            <Label Content="序号"  Margin="{StaticResource defaultMargin}"></Label>
+            <TextBox Text="{Binding No,UpdateSourceTrigger=PropertyChanged}" Width="{StaticResource defaultWidth}" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding Position,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="构件类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding Damage,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding DamageDescription,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding PictureNo,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding Comment,UpdateSourceTrigger=PropertyChanged}" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
         </StackPanel>
     </StackPanel >
 

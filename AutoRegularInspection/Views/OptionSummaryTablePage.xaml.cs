@@ -43,16 +43,38 @@ namespace AutoRegularInspection.Views
                 No = Convert.ToInt32(bridgeDeckGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
                 ,Position = Convert.ToInt32(bridgeDeckGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
                 ,Component = Convert.ToInt32(bridgeDeckGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Damage = Convert.ToInt32(bridgeDeckGrouplist[3].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,DamageDescription = Convert.ToInt32(bridgeDeckGrouplist[4].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,PictureNo = Convert.ToInt32(bridgeDeckGrouplist[5].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Comment = Convert.ToInt32(bridgeDeckGrouplist[6].Attributes["value"].Value, CultureInfo.InvariantCulture)
             };
 
             SuperSpaceStackPanel.DataContext = new BridgeDeckDamageSummaryTableWidth
             {
 
                 No = Convert.ToInt32(superSpaceGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,
-                Position = Convert.ToInt32(superSpaceGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Position = Convert.ToInt32(superSpaceGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Component = Convert.ToInt32(superSpaceGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Damage = Convert.ToInt32(superSpaceGrouplist[3].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,DamageDescription = Convert.ToInt32(superSpaceGrouplist[4].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,PictureNo = Convert.ToInt32(superSpaceGrouplist[5].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Comment = Convert.ToInt32(superSpaceGrouplist[6].Attributes["value"].Value, CultureInfo.InvariantCulture)
+            };
+            SubSpaceStackPanel.DataContext = new BridgeDeckDamageSummaryTableWidth
+            {
+
+                No = Convert.ToInt32(superSpaceGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,Position = Convert.ToInt32(superSpaceGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
                 ,
                 Component = Convert.ToInt32(superSpaceGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,
+                Damage = Convert.ToInt32(superSpaceGrouplist[3].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,
+                DamageDescription = Convert.ToInt32(superSpaceGrouplist[4].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,
+                PictureNo = Convert.ToInt32(superSpaceGrouplist[5].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                ,
+                Comment = Convert.ToInt32(superSpaceGrouplist[6].Attributes["value"].Value, CultureInfo.InvariantCulture)
             };
         }
     }

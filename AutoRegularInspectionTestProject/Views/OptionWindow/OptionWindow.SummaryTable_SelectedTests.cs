@@ -25,6 +25,11 @@ namespace AutoRegularInspectionTestProject.Views
             Assert.Equal("Position", bridgeDeckGrouplist[1].Attributes["key"].Value);
             Assert.Equal("30", bridgeDeckGrouplist[1].Attributes["value"].Value);
             Assert.Equal("40", bridgeDeckGrouplist[2].Attributes["value"].Value);
+            Assert.Equal("40", bridgeDeckGrouplist[3].Attributes["value"].Value);
+            Assert.Equal("50", bridgeDeckGrouplist[4].Attributes["value"].Value);
+            Assert.Equal("20", bridgeDeckGrouplist[5].Attributes["value"].Value);
+            Assert.Equal("20", bridgeDeckGrouplist[6].Attributes["value"].Value);
+
 
         }
     }
