@@ -37,7 +37,7 @@ namespace AutoRegularInspection
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
-            var generateReportSettings = new GenerateReportSettings {
+            GenerateReportSettings generateReportSettings = new GenerateReportSettings {
                 DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value)
                 ,
                 BridgeDeckTableCellWidth=new TableCellWidth { No=10,Position=20,Component=20,Damage=20,DamageDescription=40,PictureNo=30, Comment =20}

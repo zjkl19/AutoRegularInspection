@@ -11,48 +11,48 @@ namespace AutoRegularInspection.Models
     /// </summary>
     public class BridgeDamageSummaryTableWidth
     {
-        private int _No;
-        public int No
+        private double _No;
+        public double No
         {
             get { return _No; }
             set => UpdateProperty(ref _No, value);
         }
 
-        private int _Position;
-        public int Position
+        private double _Position;
+        public double Position
         {
             get { return _Position; }
             set => UpdateProperty(ref _Position, value);
         }
-        private int _Component;
-        public int Component
+        private double _Component;
+        public double Component
         {
             get { return _Component; }
             set => UpdateProperty(ref _Component, value);
         }
-        private int _Damage;
-        public int Damage
+        private double _Damage;
+        public double Damage
         {
             get { return _Damage; }
             set => UpdateProperty(ref _Damage, value);
         }
-        private int _DamageDescription;
-        public int DamageDescription
+        private double _DamageDescription;
+        public double DamageDescription
         {
             get { return _DamageDescription; }
             set => UpdateProperty(ref _DamageDescription, value);
         }
-        private int _PictureNo;
-        public int PictureNo
+        private double _PictureNo;
+        public double PictureNo
         {
             get { return _PictureNo; }
             set => UpdateProperty(ref _PictureNo, value);
         }
 
 
-        private int _Comment;
+        private double _Comment;
 
-        public int Comment
+        public double Comment
         {
             get { return _Comment; }
             set => UpdateProperty(ref _Comment, value);

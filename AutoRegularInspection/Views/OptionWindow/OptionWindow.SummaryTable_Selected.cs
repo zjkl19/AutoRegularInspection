@@ -55,45 +55,45 @@ namespace AutoRegularInspection.Views
             //No="20" Position="30" Component="40" Damage="40" DamageDescription="50" PictureNo="20" Comment="20"
             bridgeDeckDamageSummaryTableWidth = new BridgeDeckDamageSummaryTableWidth
             {
-                No = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                No = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
-                Position = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Position = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
-                Component = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Component = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
-                Damage = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Damage = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
-                DamageDescription = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                DamageDescription = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
-                PictureNo = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                PictureNo = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
-                Comment = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Comment = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
             };
             superSpaceDamageSummaryTableWidth = new SuperSpaceDamageSummaryTableWidth
             {
-                No = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
-                ,Position = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
-                ,Component = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
-                ,Damage = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
-                ,DamageDescription = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
-                ,PictureNo = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
-                ,Comment = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                No = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Position = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Component = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Damage = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,DamageDescription = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,PictureNo = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Comment = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
             };
             subSpaceDamageSummaryTableWidth = new SubSpaceDamageSummaryTableWidth
             {
-                No = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                No = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
-                Position = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Position = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
-                Component = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Component = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
-                Damage = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Damage = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
-                DamageDescription = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                DamageDescription = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
-                PictureNo = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                PictureNo = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
-                Comment = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                Comment = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
             };
         }
     }
