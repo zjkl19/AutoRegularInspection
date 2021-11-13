@@ -1,4 +1,5 @@
 ﻿using AutoRegularInspection.Models;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -42,12 +43,27 @@ namespace AutoRegularInspection.Views
             {
                 //TODO:修改
                 OptionSummaryTablePage frameContent = (OptionSummaryTablePage)frame.Content;
-                BridgeDeckDamageSummaryTableWidth bridgeDeckmodel = frameContent.BridgeDeckStackPanel.DataContext as BridgeDeckDamageSummaryTableWidth;
-                
+                BridgeDeckDamageSummaryTableWidth bridgeDeckModel = frameContent.BridgeDeckStackPanel.DataContext as BridgeDeckDamageSummaryTableWidth;
+                SuperSpaceDamageSummaryTableWidth superSpaceModel = frameContent.SuperSpaceStackPanel.DataContext as SuperSpaceDamageSummaryTableWidth;
+                SubSpaceDamageSummaryTableWidth subSpaceModel = frameContent.SubSpaceStackPanel.DataContext as SubSpaceDamageSummaryTableWidth;
+                SetSummaryTableWidth(config, bridgeDeckModel, "BridgeDeckSummaryTable");
+                SetSummaryTableWidth(config, superSpaceModel, "SuperSpaceSummaryTable");
+                SetSummaryTableWidth(config, subSpaceModel, "SubSpaceSummaryTable");
             }
 
             config.Save(App.ConfigFileName);
             _ = MessageBox.Show("保存设置成功！");
+
+            void SetSummaryTableWidth(XDocument xDocument, BridgeDamageSummaryTableWidth model,string elementName)
+            {
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("No").Value = model.No.ToString(CultureInfo.InvariantCulture);
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Position").Value = model.Position.ToString(CultureInfo.InvariantCulture);
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Component").Value = model.Component.ToString(CultureInfo.InvariantCulture);
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Damage").Value = model.Damage.ToString(CultureInfo.InvariantCulture);
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("DamageDescription").Value = model.DamageDescription.ToString(CultureInfo.InvariantCulture);
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("PictureNo").Value = model.PictureNo.ToString(CultureInfo.InvariantCulture);
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Comment").Value = model.Comment.ToString(CultureInfo.InvariantCulture);
+            }
             //try
             //{
 

@@ -27,54 +27,62 @@ namespace AutoRegularInspection.Views
         {
             InitializeComponent();
         }
-        public OptionSummaryTablePage(XmlNodeList bridgeDeckGrouplist, XmlNodeList superSpaceGrouplist,XmlNodeList subSpaceGrouplist)
+        public OptionSummaryTablePage(BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth)
         {
             //TODO:增加校验
-            if (bridgeDeckGrouplist is null)
-            {
-                throw new ArgumentNullException(nameof(bridgeDeckGrouplist));
-            }
+            //if (bridgeDeckGrouplist is null)
+            //{
+            //    throw new ArgumentNullException(nameof(bridgeDeckGrouplist));
+            //}
 
             InitializeComponent();
 
             BridgeDeckStackPanel.DataContext = new BridgeDeckDamageSummaryTableWidth
             {
 
-                No = Convert.ToInt32(bridgeDeckGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Position = Convert.ToInt32(bridgeDeckGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Component = Convert.ToInt32(bridgeDeckGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Damage = Convert.ToInt32(bridgeDeckGrouplist[3].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,DamageDescription = Convert.ToInt32(bridgeDeckGrouplist[4].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,PictureNo = Convert.ToInt32(bridgeDeckGrouplist[5].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Comment = Convert.ToInt32(bridgeDeckGrouplist[6].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                No = bridgeDeckDamageSummaryTableWidth.No
+                ,Position = bridgeDeckDamageSummaryTableWidth.PictureNo
+                ,Component = bridgeDeckDamageSummaryTableWidth.Component
+                ,Damage = bridgeDeckDamageSummaryTableWidth.Damage
+                ,DamageDescription = bridgeDeckDamageSummaryTableWidth.DamageDescription
+                ,PictureNo = bridgeDeckDamageSummaryTableWidth.PictureNo
+                ,Comment = bridgeDeckDamageSummaryTableWidth.Comment
             };
 
-            SuperSpaceStackPanel.DataContext = new BridgeDeckDamageSummaryTableWidth
+            SuperSpaceStackPanel.DataContext = new SuperSpaceDamageSummaryTableWidth
             {
 
-                No = Convert.ToInt32(superSpaceGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Position = Convert.ToInt32(superSpaceGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Component = Convert.ToInt32(superSpaceGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Damage = Convert.ToInt32(superSpaceGrouplist[3].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,DamageDescription = Convert.ToInt32(superSpaceGrouplist[4].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,PictureNo = Convert.ToInt32(superSpaceGrouplist[5].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Comment = Convert.ToInt32(superSpaceGrouplist[6].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                No = superSpaceDamageSummaryTableWidth.No
+                ,
+                Position = superSpaceDamageSummaryTableWidth.PictureNo
+                ,
+                Component = superSpaceDamageSummaryTableWidth.Component
+                ,
+                Damage = superSpaceDamageSummaryTableWidth.Damage
+                ,
+                DamageDescription = superSpaceDamageSummaryTableWidth.DamageDescription
+                ,
+                PictureNo = superSpaceDamageSummaryTableWidth.PictureNo
+                ,
+                Comment = superSpaceDamageSummaryTableWidth.Comment
             };
-            SubSpaceStackPanel.DataContext = new BridgeDeckDamageSummaryTableWidth
+            SubSpaceStackPanel.DataContext = new SubSpaceDamageSummaryTableWidth
             {
 
-                No = Convert.ToInt32(superSpaceGrouplist[0].Attributes["value"].Value, CultureInfo.InvariantCulture)
-                ,Position = Convert.ToInt32(superSpaceGrouplist[1].Attributes["value"].Value, CultureInfo.InvariantCulture)
+
+                No = subSpaceDamageSummaryTableWidth.No
                 ,
-                Component = Convert.ToInt32(superSpaceGrouplist[2].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                Position = subSpaceDamageSummaryTableWidth.PictureNo
                 ,
-                Damage = Convert.ToInt32(superSpaceGrouplist[3].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                Component = subSpaceDamageSummaryTableWidth.Component
                 ,
-                DamageDescription = Convert.ToInt32(superSpaceGrouplist[4].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                Damage = subSpaceDamageSummaryTableWidth.Damage
                 ,
-                PictureNo = Convert.ToInt32(superSpaceGrouplist[5].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                DamageDescription = subSpaceDamageSummaryTableWidth.DamageDescription
                 ,
-                Comment = Convert.ToInt32(superSpaceGrouplist[6].Attributes["value"].Value, CultureInfo.InvariantCulture)
+                PictureNo = subSpaceDamageSummaryTableWidth.PictureNo
+                ,
+                Comment = subSpaceDamageSummaryTableWidth.Comment
             };
         }
     }

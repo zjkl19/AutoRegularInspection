@@ -4,6 +4,10 @@ using System.Linq;
 using System.Xml;
 using Xunit;
 using AutoRegularInspection.Views;
+using System.Xml.Linq;
+using AutoRegularInspection;
+using AutoRegularInspection.Models;
+
 namespace AutoRegularInspectionTestProject.Views
 {
     public partial class OptionWindowTests
@@ -13,26 +17,20 @@ namespace AutoRegularInspectionTestProject.Views
         {
 
             //Arrange
+            XDocument xDocument = XDocument.Load(App.ConfigFileName);
 
-            
             //Act
 
-            OptionWindowHelper.GetSummaryTableWidthXmlNodeList(out XmlNodeList bridgeDeckGrouplist, out XmlNodeList superSpaceGrouplist, out XmlNodeList subSpaceGrouplist);
+            OptionWindowHelper.ExtractSummaryTableWidth(xDocument, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
 
             //Assert
-            Assert.Equal("No", bridgeDeckGrouplist[0].Attributes["key"].Value);
-            Assert.Equal("20", bridgeDeckGrouplist[0].Attributes["value"].Value);
-            Assert.Equal("Position", bridgeDeckGrouplist[1].Attributes["key"].Value);
-            Assert.Equal("30", bridgeDeckGrouplist[1].Attributes["value"].Value);
-            Assert.Equal("40", bridgeDeckGrouplist[2].Attributes["value"].Value);
-            Assert.Equal("40", bridgeDeckGrouplist[3].Attributes["value"].Value);
-            Assert.Equal("50", bridgeDeckGrouplist[4].Attributes["value"].Value);
-            Assert.Equal("20", bridgeDeckGrouplist[5].Attributes["value"].Value);
-            Assert.Equal("20", bridgeDeckGrouplist[6].Attributes["value"].Value);
-
-
+            Assert.Equal(20, bridgeDeckDamageSummaryTableWidth.No);
+            Assert.Equal(30, bridgeDeckDamageSummaryTableWidth.Position);
+            Assert.Equal(40, bridgeDeckDamageSummaryTableWidth.Component);
+            Assert.Equal(40, bridgeDeckDamageSummaryTableWidth.Damage);
+            Assert.Equal(50, bridgeDeckDamageSummaryTableWidth.DamageDescription);
+            Assert.Equal(20, bridgeDeckDamageSummaryTableWidth.PictureNo);
+            Assert.Equal(20, bridgeDeckDamageSummaryTableWidth.Comment);
         }
     }
-
-
 }

@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using AutoRegularInspection.Models;
+using System;
+using System.Globalization;
+using System.Linq;
+using System.Windows;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -18,14 +22,15 @@ namespace AutoRegularInspection.Views
                 return;
             }
 
-            //OptionFrame.Tag = nameof(OptionSummaryTablePage);
+            OptionFrame.Tag = nameof(OptionSummaryTablePage);
 
             //var config = XDocument.Load(App.ConfigFileName);
 
 
             //var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("BridgeDeckSummaryTable").GetAtt;
 
-            OptionWindowHelper.GetSummaryTableWidthXmlNodeList(out XmlNodeList bridgeDeckGrouplist, out XmlNodeList superSpaceGrouplist, out XmlNodeList subSpaceGrouplist);
+            XDocument xDocument = XDocument.Load(App.ConfigFileName);
+            OptionWindowHelper.ExtractSummaryTableWidth(xDocument, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
 
             //TODO:研究以下几行
             //foreach (XmlNode xng in bridgeDeckGrouplist)
@@ -36,7 +41,7 @@ namespace AutoRegularInspection.Views
 
             OptionContentControl.DataContext = new
             {
-                SubPage = new OptionSummaryTablePage(bridgeDeckGrouplist, superSpaceGrouplist, subSpaceGrouplist)
+                SubPage = new OptionSummaryTablePage(bridgeDeckDamageSummaryTableWidth, superSpaceDamageSummaryTableWidth,subSpaceDamageSummaryTableWidth)
             };
 
 
@@ -45,13 +50,51 @@ namespace AutoRegularInspection.Views
 
     public static partial class OptionWindowHelper
     {
-        public static void GetSummaryTableWidthXmlNodeList(out XmlNodeList bridgeDeckGrouplist, out XmlNodeList superSpaceGrouplist, out XmlNodeList subSpaceGrouplist)
+        public static void ExtractSummaryTableWidth(XDocument xDocument,out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth,out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth,out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth)
         {
-            XmlDocument xmlDoc = new XmlDocument();
-            xmlDoc.Load(filename: App.ConfigFileName);
-            bridgeDeckGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("BridgeDeckSummaryTable").ChildNodes;
-            superSpaceGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("SuperSpaceSummaryTable").ChildNodes;
-            subSpaceGrouplist = xmlDoc.SelectSingleNode("configuration").SelectSingleNode("SubSpaceSummaryTable").ChildNodes;
+            //No="20" Position="30" Component="40" Damage="40" DamageDescription="50" PictureNo="20" Comment="20"
+            bridgeDeckDamageSummaryTableWidth = new BridgeDeckDamageSummaryTableWidth
+            {
+                No = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                Position = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                Component = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                Damage = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                DamageDescription = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                PictureNo = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                Comment = Convert.ToInt32(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+            };
+            superSpaceDamageSummaryTableWidth = new SuperSpaceDamageSummaryTableWidth
+            {
+                No = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Position = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Component = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Damage = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,DamageDescription = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,PictureNo = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,Comment = Convert.ToInt32(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+            };
+            subSpaceDamageSummaryTableWidth = new SubSpaceDamageSummaryTableWidth
+            {
+                No = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("No").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+    ,
+                Position = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+    ,
+                Component = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+    ,
+                Damage = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+    ,
+                DamageDescription = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+    ,
+                PictureNo = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+    ,
+                Comment = Convert.ToInt32(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+            };
         }
     }
 }
