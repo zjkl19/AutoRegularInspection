@@ -258,9 +258,14 @@ namespace AutoRegularInspection.Services
             //病害汇总表格
             var summaryTable = builder.StartTable();
 
+            
+
             builder.InsertCell();
 
+            
+
             CellFormat cellFormat = builder.CellFormat;
+            
             if (generateReportSettings.CustomTableCellWidth)
             {
                 cellFormat.Width = tableCellWidth.No;
@@ -402,6 +407,11 @@ namespace AutoRegularInspection.Services
 
             builder.EndTable();
 
+            if (generateReportSettings.CustomTableCellWidth)
+            {
+
+                summaryTable.AutoFit(AutoFitBehavior.FixedColumnWidths);
+            }
 
 
             //TODO:用建造者模式重构

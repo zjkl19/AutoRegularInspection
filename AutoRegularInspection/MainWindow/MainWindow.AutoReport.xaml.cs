@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
 using System.Globalization;
+using AutoRegularInspection.Views;
 
 namespace AutoRegularInspection
 {
@@ -38,15 +39,17 @@ namespace AutoRegularInspection
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
+
+            OptionWindowHelper.ExtractSummaryTableWidth(config, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
+
             GenerateReportSettings generateReportSettings = new GenerateReportSettings {
                 DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value,CultureInfo.InvariantCulture)
                 ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
                 ,
-                BridgeDeckTableCellWidth =new TableCellWidth { No=10,Position=20,Component=20,Damage=20,DamageDescription=40,PictureNo=30, Comment =20}
-                ,SuperSpaceTableCellWidth = new TableCellWidth { No = 10, Position = 20, Component = 20, Damage = 20, DamageDescription = 40, PictureNo = 30, Comment = 20 }
-                ,
-                SubSpaceTableCellWidth = new TableCellWidth { No = 10, Position = 20, Component = 20, Damage = 20, DamageDescription = 40, PictureNo = 30, Comment = 20 }
+                BridgeDeckTableCellWidth =new TableCellWidth { No= bridgeDeckDamageSummaryTableWidth.No, Position= bridgeDeckDamageSummaryTableWidth.Position, Component= bridgeDeckDamageSummaryTableWidth.Component, Damage= bridgeDeckDamageSummaryTableWidth.Damage, DamageDescription= bridgeDeckDamageSummaryTableWidth.DamageDescription, PictureNo= bridgeDeckDamageSummaryTableWidth.PictureNo, Comment = bridgeDeckDamageSummaryTableWidth.Comment}
+                ,SuperSpaceTableCellWidth = new TableCellWidth { No = superSpaceDamageSummaryTableWidth.No, Position = superSpaceDamageSummaryTableWidth.Position, Component = superSpaceDamageSummaryTableWidth.Component, Damage = superSpaceDamageSummaryTableWidth.Damage, DamageDescription = superSpaceDamageSummaryTableWidth.DamageDescription, PictureNo = superSpaceDamageSummaryTableWidth.PictureNo, Comment = superSpaceDamageSummaryTableWidth.Comment }
+                ,SubSpaceTableCellWidth = new TableCellWidth { No = subSpaceDamageSummaryTableWidth.No, Position = subSpaceDamageSummaryTableWidth.Position, Component = subSpaceDamageSummaryTableWidth.Component, Damage = subSpaceDamageSummaryTableWidth.Damage, DamageDescription = subSpaceDamageSummaryTableWidth.DamageDescription, PictureNo = subSpaceDamageSummaryTableWidth.PictureNo, Comment = subSpaceDamageSummaryTableWidth.Comment }
             };
 
             new Thread(() =>
