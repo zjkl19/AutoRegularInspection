@@ -409,7 +409,6 @@ namespace AutoRegularInspection.Services
 
             if (generateReportSettings.CustomTableCellWidth)
             {
-
                 summaryTable.AutoFit(AutoFitBehavior.FixedColumnWidths);
             }
 
@@ -471,7 +470,7 @@ namespace AutoRegularInspection.Services
             {
                 if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
                 {
-                    var p = listDamageSummary[i].PictureNo.Split(',');
+                    string[] p = listDamageSummary[i].PictureNo.Split(',');
                     for (int j = 0; j < p.Length; j++)
                     {
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
@@ -491,9 +490,9 @@ namespace AutoRegularInspection.Services
                         builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                         builder.StartBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
                         builder.Write("图 ");
-                        fieldStyleRefBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
+                        _ = fieldStyleRefBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[curr % 2].Paragraphs[0]);
                         builder.Write("-");
-                        pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
+                        _ = pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[curr % 2].Paragraphs[0]);
                         builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
 
                         if (listDamageSummary[i].PictureCounts > 1)

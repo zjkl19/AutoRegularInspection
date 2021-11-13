@@ -130,7 +130,7 @@ namespace AutoRegularInspection.Services
         /// <returns>找到则返回正确的列数（索引从1开始），否则返回0</returns>
         public static int FindColumnIndexByName(ExcelWorksheet workSheet,string keyWord,int maxSearchColumnCounts=100)
         {
-            for(int i=1;i<maxSearchColumnCounts;i++)
+            for (int i = 1; i < maxSearchColumnCounts; i++)
             {
                 if((workSheet.Cells[1, i].Value?.ToString() ?? string.Empty)  == keyWord)
                 {

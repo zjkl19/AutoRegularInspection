@@ -15,7 +15,7 @@ namespace AutoRegularInspection.Services
         }
         public override void Load()
         {
-            Bind<IDataRepository>().To<ExcelDataRepository>();     
+            _ = Bind<IDataRepository>().To<ExcelDataRepository>();
         }
     }
 }

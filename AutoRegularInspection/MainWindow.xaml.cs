@@ -43,7 +43,7 @@ namespace AutoRegularInspection
             LoggingConfiguration config = new LoggingConfiguration();
 
             // Targets where to log to: File and Console
-            var logfile = new FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
+            FileTarget logfile = new FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
             ConsoleTarget logconsole = new ConsoleTarget("logconsole");
 
             // Rules for mapping loggers to targets            
@@ -66,43 +66,19 @@ namespace AutoRegularInspection
 
             SubSpaceGrid.DataContext = new GridViewModel(BridgePart.SubSpace);
 
-            var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            Configuration appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             bool commentColumnInsertTable;
             commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value, CultureInfo.InvariantCulture);
 
-            if (commentColumnInsertTable)
-            {
-                CommentColumnInsertTableCheckBox.IsChecked = true;
-            }
-            else
-            {
-                CommentColumnInsertTableCheckBox.IsChecked = false;
-            }
+            CommentColumnInsertTableCheckBox.IsChecked = commentColumnInsertTable;
 
-            bool deletePositionInBridgeDeck;
-            deletePositionInBridgeDeck = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture);
+            bool deletePositionInBridgeDeck = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture);
 
-            if (deletePositionInBridgeDeck)
-            {
-                DeletePositionInBridgeDeckCheckBox.IsChecked = true;
-            }
-            else
-            {
-                DeletePositionInBridgeDeckCheckBox.IsChecked = false;
-            }
-            
+            DeletePositionInBridgeDeckCheckBox.IsChecked = deletePositionInBridgeDeck;
 
-            bool customSummaryTableWidth;
-            customSummaryTableWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value,CultureInfo.InvariantCulture);
+            bool customSummaryTableWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value,CultureInfo.InvariantCulture);
 
-            if (customSummaryTableWidth)
-            {
-                CustomSummaryTableWidthCheckBox.IsChecked = true;
-            }
-            else
-            {
-                CustomSummaryTableWidthCheckBox.IsChecked = false;
-            }
+            CustomSummaryTableWidthCheckBox.IsChecked = customSummaryTableWidth;
 
             CheckForUpdateInStarup();    //启动时检查更新
         }
@@ -111,12 +87,11 @@ namespace AutoRegularInspection
 
         private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
         {
-            var w = new OptionWindow();
+            OptionWindow w = new OptionWindow();
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
             w.Left = 0.5 * (App.ScreenWidth - w.Width);
             w.Show();
         }
-
 
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
@@ -132,9 +107,9 @@ namespace AutoRegularInspection
         private void MenuItem_About_Click(object sender, RoutedEventArgs e)
         {
             //TODO：通过反射读取 AssemblyCopyright
-            _ = MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version.ToString()}\r" +
+            _ = MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version}\r" +
             $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2021\r" +
-            $"系统框架设计、编程及维护：路桥检测研究所林迪南等"
+            "系统框架设计、编程及维护：路桥检测研究所林迪南等"
             , "关于");
         }
         /// <summary>

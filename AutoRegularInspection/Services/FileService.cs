@@ -16,7 +16,7 @@ namespace AutoRegularInspection.Services
         /// <returns></returns>
         public static string GetFileName(string folderName,string pictureNo)
         {
-            var dirs = Directory.GetFiles($@"{folderName}/", $"*{pictureNo}.*");    //结果含有路径
+            string[] dirs = Directory.GetFiles($@"{folderName}/", $"*{pictureNo}.*");    //结果含有路径
 
             return dirs[0];
         }

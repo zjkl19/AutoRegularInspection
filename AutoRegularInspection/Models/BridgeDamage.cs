@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Models
 {
-    public class BridgeDamage : INotifyPropertyChanged
+    public class BridgeDamage : UpdatePropertyAndOnPropertyChangedBase,INotifyPropertyChanged
     {
 
         /// <summary>
@@ -70,22 +70,22 @@ namespace AutoRegularInspection.Models
         }
         //public ObservableCollection<BridgeDamage> DamageComboBox { set; get; }
 
-        private void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string propertyName = "")
-        {
-            if (Equals(properValue, newValue))
-            {
-                return;
-            }
-            properValue = newValue;
+        //private void UpdateProperty<T>(ref T properValue, T newValue, [CallerMemberName] string propertyName = "")
+        //{
+        //    if (Equals(properValue, newValue))
+        //    {
+        //        return;
+        //    }
+        //    properValue = newValue;
 
-            OnPropertyChanged(propertyName);
-        }
+        //    OnPropertyChanged(propertyName);
+        //}
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        //public event PropertyChangedEventHandler PropertyChanged;
+        //protected void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        //{
+        //    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        //}
     }
     
 }

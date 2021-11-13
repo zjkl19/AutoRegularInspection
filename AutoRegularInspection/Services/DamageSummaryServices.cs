@@ -28,7 +28,7 @@ namespace AutoRegularInspection.Services
         /// </summary>
         /// <param name="listDamageSummary"></param>
         /// <param name="firstIndex"></param>
-        public static void InitListDamageSummary(List<DamageSummary> listDamageSummary, int firstIndex = 1000000,BridgePart bridgePart=BridgePart.BridgeDeck)
+        public static void InitListDamageSummary(List<DamageSummary> listDamageSummary, int firstIndex = 1000000, BridgePart bridgePart = BridgePart.BridgeDeck)
         {
             SetPictureCounts(listDamageSummary);
             SetFirstAndLastPictureBookmark(listDamageSummary, firstIndex);
@@ -66,7 +66,7 @@ namespace AutoRegularInspection.Services
                     componentComboBox = GlobalData.SubSpaceComponentComboBox;
                 }
 
-                componentFound = componentComboBox.Where(x => x.Title == listDamageSummary[i].Component);             
+                componentFound = componentComboBox.Where(x => x.Title == listDamageSummary[i].Component);
 
                 IEnumerable<BridgeDamage> damageFound = null;
 
@@ -86,14 +86,14 @@ namespace AutoRegularInspection.Services
                     {
                         listDamageSummary[i].DamageComboBox = componentFound.FirstOrDefault().DamageComboBox;
 
-                        listDamageSummary[i].DamageValue = componentFound.FirstOrDefault().DamageComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+                        listDamageSummary[i].DamageValue = componentFound.FirstOrDefault().DamageComboBox.FirstOrDefault(x => x.Title == "其它").Idx;
                     }
 
                 }
                 else
                 {
-                    listDamageSummary[i].DamageComboBox = componentComboBox.Where(x => x.Title == "其它").FirstOrDefault().DamageComboBox;
-                    listDamageSummary[i].ComponentValue = componentComboBox.Where(x => x.Title == "其它").FirstOrDefault().Idx;
+                    listDamageSummary[i].DamageComboBox = componentComboBox.FirstOrDefault(x => x.Title == "其它").DamageComboBox;
+                    listDamageSummary[i].ComponentValue = componentComboBox.FirstOrDefault(x => x.Title == "其它").Idx;
                 }
 
             }
@@ -267,9 +267,9 @@ namespace AutoRegularInspection.Services
 
         public static System.Windows.Media.Imaging.BitmapImage ConvertBitmap(System.Drawing.Bitmap bitmap)
         {
-            var ms = new MemoryStream();
+            MemoryStream ms = new MemoryStream();
             bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
-            var image = new System.Windows.Media.Imaging.BitmapImage();
+            System.Windows.Media.Imaging.BitmapImage image = new System.Windows.Media.Imaging.BitmapImage();
             image.BeginInit();
             ms.Seek(0, SeekOrigin.Begin);
             image.StreamSource = ms;

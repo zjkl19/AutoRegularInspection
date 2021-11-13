@@ -150,6 +150,7 @@
     <Compile Include="Models\StatisticsUnit.cs" />
     <Compile Include="Models\SubSpaceDamageSummaryTableWidth.cs" />
     <Compile Include="Models\SuperSpaceDamageSummaryTableWidth.cs" />
+    <Compile Include="Models\UpdatePropertyAndOnPropertyChangedBase.cs" />
     <Compile Include="ProgressBarWindow.xaml.cs">
       <DependentUpon>ProgressBarWindow.xaml</DependentUpon>
     </Compile>
