@@ -53,7 +53,7 @@ namespace AutoRegularInspection.Services
             progressModel.ProgressValue = 33;
             System.Threading.Thread.Sleep(500);
 
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, generateReportSettings,CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, generateReportSettings, CommentColumnInsertTable);
             progressModel.Content = "正在处理下部结构……";
             progressModel.ProgressValue = 66;
             System.Threading.Thread.Sleep(500);
@@ -79,8 +79,8 @@ namespace AutoRegularInspection.Services
             //IEnumerable<IGrouping<ComponentDamageGroup, DamageSummary>> superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new ComponentDamageGroup { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
             //IEnumerable<IGrouping<ComponentDamageGroup, DamageSummary>> subSpaceDamageStatistics = _subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new ComponentDamageGroup  { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
 
-            var bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new  { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
-            var superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new  { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
+            var bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
+            var superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
             var subSpaceDamageStatistics = _subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
 
 
@@ -93,12 +93,12 @@ namespace AutoRegularInspection.Services
 
             bookmark = _doc.Range.Bookmarks["SuperSpaceSummaryStart"];
             builder.MoveTo(bookmark.BookmarkStart);
-            builder.Write(GenerateInsertText(superSpaceDamageStatistics,BridgePart.SuperSpace));
+            builder.Write(GenerateInsertText(superSpaceDamageStatistics, BridgePart.SuperSpace));
             builder.Writeln();
 
             bookmark = _doc.Range.Bookmarks["SubSpaceSummaryStart"];
             builder.MoveTo(bookmark.BookmarkStart);
-            builder.Write(GenerateInsertText(subSpaceDamageStatistics,BridgePart.SubSpace));
+            builder.Write(GenerateInsertText(subSpaceDamageStatistics, BridgePart.SubSpace));
             builder.Writeln();
 
             string GenerateInsertText(IEnumerable<IGrouping<dynamic, DamageSummary>> damageStatistics, BridgePart bridgePart)
@@ -155,7 +155,7 @@ namespace AutoRegularInspection.Services
 
         }
 
-        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight,GenerateReportSettings generateReportSettings, bool CommentColumnInsertTable)
+        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, GenerateReportSettings generateReportSettings, bool CommentColumnInsertTable)
         {
 
             var builder = new DocumentBuilder(_doc);
@@ -187,28 +187,32 @@ namespace AutoRegularInspection.Services
 
             //TODO：考虑一下具体的缩进值
             //builder.ParagraphFormat.FirstLineIndent = 8;
-            
+
+            TableCellWidth tableCellWidth;
             //要求：至少要有2张照片
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
+                tableCellWidth = generateReportSettings.BridgeDeckTableCellWidth;
                 builder.Write("桥面系检查结果详见");
             }
             else if (BookmarkStartName == SuperSpaceBookmarkStartName)
             {
+                tableCellWidth = generateReportSettings.SuperSpaceTableCellWidth;
                 builder.Write("上部结构检查结果详见");
             }
             else
             {
+                tableCellWidth = generateReportSettings.SubSpaceTableCellWidth;
                 builder.Write("下部结构检查结果详见");
             }
-            int firstIndex = 0;int lastIndex = listDamageSummary.Count-1;
+            int firstIndex = 0; int lastIndex = listDamageSummary.Count - 1;
             //查找第一张
-            while(listDamageSummary[firstIndex].PictureCounts==0 && firstIndex< listDamageSummary.Count - 1)
+            while (listDamageSummary[firstIndex].PictureCounts == 0 && firstIndex < listDamageSummary.Count - 1)
             {
                 firstIndex++;
             }
             //查找最后一张
-            while (listDamageSummary[lastIndex].PictureCounts == 0 && lastIndex >0)
+            while (listDamageSummary[lastIndex].PictureCounts == 0 && lastIndex > 0)
             {
                 lastIndex--;
             }
@@ -255,9 +259,12 @@ namespace AutoRegularInspection.Services
             var summaryTable = builder.StartTable();
 
             builder.InsertCell();
-            //CellFormat cellFormat = builder.CellFormat;
-            //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.No;
 
+            CellFormat cellFormat = builder.CellFormat;
+            if (generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.No;
+            }
 
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
 
@@ -267,11 +274,19 @@ namespace AutoRegularInspection.Services
 
             builder.Write("序号");
             builder.InsertCell();
-            //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.Position;
+
+            if (generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.Position;
+            }
 
             builder.Write("位置");
             builder.InsertCell();
 
+            if (generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.Component;
+            }
             BridgePart bridgePart;
 
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
@@ -291,13 +306,33 @@ namespace AutoRegularInspection.Services
                 bridgePart = BridgePart.SubSpace;
             }
 
-            builder.InsertCell(); builder.Write("缺损类型");
-            builder.InsertCell(); builder.Write("缺损描述");
-            builder.InsertCell(); builder.Write("图示编号");
-
-            if(CommentColumnInsertTable)
+            builder.InsertCell();
+            if (generateReportSettings.CustomTableCellWidth)
             {
-                builder.InsertCell(); builder.Write("备注");
+                cellFormat.Width = tableCellWidth.Damage;
+            }
+            builder.Write("缺损类型");
+            builder.InsertCell();
+            if (generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.DamageDescription;
+            }
+            builder.Write("缺损描述");
+            builder.InsertCell();
+            if (generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.PictureNo;
+            }
+            builder.Write("图示编号");
+
+            if (CommentColumnInsertTable)
+            {
+                builder.InsertCell();
+                if (generateReportSettings.CustomTableCellWidth)
+                {
+                    cellFormat.Width = tableCellWidth.Comment;
+                }
+                builder.Write("备注");
             }
 
             builder.Font.Bold = false;
@@ -306,20 +341,23 @@ namespace AutoRegularInspection.Services
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 builder.InsertCell(); builder.Write($"{i + 1}");
-                //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.No;
+                cellFormat.Width = tableCellWidth.No;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
-                //cellFormat.Width = generateReportSettings.BridgeDeckTableCellWidth.Position;
+                cellFormat.Width = tableCellWidth.Position;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetComponentName(bridgePart)}");
+                cellFormat.Width = tableCellWidth.Component;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetDamageName(bridgePart).Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
-
+                cellFormat.Width = tableCellWidth.Damage;
                 builder.InsertCell();
                 builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
                 builder.Write($"{listDamageSummary[i].DamageDescription.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");
+                cellFormat.Width = tableCellWidth.DamageDescription;
                 builder.InsertCell();
+                cellFormat.Width = tableCellWidth.PictureNo;
                 builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                 if (listDamageSummary[i].PictureCounts == 0)
                 {
-                    if(string.IsNullOrWhiteSpace(listDamageSummary[i].CustomPictureNo))
+                    if (string.IsNullOrWhiteSpace(listDamageSummary[i].CustomPictureNo))
                     {
                         builder.Write("/");
                     }
@@ -356,6 +394,7 @@ namespace AutoRegularInspection.Services
                 if (CommentColumnInsertTable)
                 {
                     builder.InsertCell(); builder.Write($"{listDamageSummary[i].Comment}");
+                    cellFormat.Width = tableCellWidth.Comment;
                 }
                 builder.EndRow();
             }
@@ -366,9 +405,9 @@ namespace AutoRegularInspection.Services
 
 
             //TODO:用建造者模式重构
-            MergeDamageColumn(listDamageSummary,summaryTable);
+            MergeDamageColumn(listDamageSummary, summaryTable);
             MergeComponentColumn(listDamageSummary, summaryTable);
-            MergeTheSameColumn(listDamageSummary, summaryTable,1);
+            MergeTheSameColumn(listDamageSummary, summaryTable, 1);
 
             // Set a green border around the table but not inside. 
             summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, Color.Black, true);
@@ -378,7 +417,7 @@ namespace AutoRegularInspection.Services
 
 
 
-            if (BookmarkStartName == BridgeDeckBookmarkStartName && generateReportSettings.DeletePositionInBridgeDeckCheckBox==true)
+            if (BookmarkStartName == BridgeDeckBookmarkStartName && generateReportSettings.DeletePositionInBridgeDeckCheckBox == true)
             {
                 Column column = Column.FromIndex(summaryTable, 1);
                 column.Remove();
@@ -447,7 +486,7 @@ namespace AutoRegularInspection.Services
                         pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].Paragraphs[0]);
                         builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
 
-                        if(listDamageSummary[i].PictureCounts>1)
+                        if (listDamageSummary[i].PictureCounts > 1)
                         {
                             builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
                         }
@@ -592,12 +631,12 @@ namespace AutoRegularInspection.Services
             int mergeLength = 0;     //合并长度
 
             //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
-            for (int i = 0; i < listDamageSummary.Count-1; i++)
+            for (int i = 0; i < listDamageSummary.Count - 1; i++)
             {
-                for(int j=i+1;j<listDamageSummary.Count;j++)
+                for (int j = i + 1; j < listDamageSummary.Count; j++)
                 {
                     //缺损类型列相同并且构件类型相同
-                    if(listDamageSummary[i].Damage == listDamageSummary[j].Damage
+                    if (listDamageSummary[i].Damage == listDamageSummary[j].Damage
                         && listDamageSummary[i].Component == listDamageSummary[j].Component
                         && listDamageSummary[i].Position == listDamageSummary[j].Position)
                     {
@@ -608,14 +647,14 @@ namespace AutoRegularInspection.Services
                         break;
                     }
                 }
-                if(mergeLength>0)
+                if (mergeLength > 0)
                 {
-                    var cellStartRange = summaryTable.Rows[i+1].Cells[damageColumn];
-                    var cellEndRange = summaryTable.Rows[i+1+mergeLength].Cells[damageColumn];
+                    var cellStartRange = summaryTable.Rows[i + 1].Cells[damageColumn];
+                    var cellEndRange = summaryTable.Rows[i + 1 + mergeLength].Cells[damageColumn];
                     MergeCells(cellStartRange, cellEndRange);
                     i += mergeLength;    //i要跳过
                     mergeLength = 0;    //合并单元格后归0
-                   
+
                 }
             }
 
@@ -669,7 +708,7 @@ namespace AutoRegularInspection.Services
         /// <param name="listDamageSummary">病害列表</param>
         /// <param name="summaryTable">word中的汇总表（Aspose.words格式）</param>
         /// <param name="mergedColumn">word中的汇总表需要合并的列（Aspose.words格式）</param>
-        private void MergeTheSameColumn(List<DamageSummary> listDamageSummary, Table summaryTable ,int mergedColumn=1)
+        private void MergeTheSameColumn(List<DamageSummary> listDamageSummary, Table summaryTable, int mergedColumn = 1)
         {
             //合并算法：
             //1、先找出合并起始行和最后一行
@@ -739,7 +778,7 @@ namespace AutoRegularInspection.Services
                 }
             }
         }
-        
+
 
         /// <summary>
         /// Insert a sequence field with preceding text and a specified sequence identifier

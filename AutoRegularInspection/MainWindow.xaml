@@ -480,7 +480,8 @@
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="0" Margin="10" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="1" Margin="10" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
         <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="2" Margin="10" Content="删除桥面系检查结果汇总表&quot;位置&quot;一列" VerticalAlignment="Center" Name="DeletePositionInBridgeDeckCheckBox" Click="DeletePositionInBridgeDeckCheckBox_Click"/>
-        
+        <CheckBox Grid.Row="{StaticResource OperationButtonRowIndex1}" Grid.Column="3" Margin="10" Content="自定义汇总表格宽度" VerticalAlignment="Center" Name="CustomSummaryTableWidthCheckBox" Click="CustomSummaryTableWidthCheckBox_Click"/>
+
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="0" Margin="10" Click="PicturePreview_Click">照片预览</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="1" Margin="10" Click="ClosePicturePreview_Click">关闭照片预览</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="2" Margin="10" Click="CopyRow_Click">复制选中行</Button>

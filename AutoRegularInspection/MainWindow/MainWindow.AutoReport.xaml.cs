@@ -11,6 +11,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Xml.Linq;
+using System.Globalization;
 
 namespace AutoRegularInspection
 {
@@ -38,9 +39,11 @@ namespace AutoRegularInspection
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
             GenerateReportSettings generateReportSettings = new GenerateReportSettings {
-                DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value)
+                DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value,CultureInfo.InvariantCulture)
                 ,
-                BridgeDeckTableCellWidth=new TableCellWidth { No=10,Position=20,Component=20,Damage=20,DamageDescription=40,PictureNo=30, Comment =20}
+                CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
+                ,
+                BridgeDeckTableCellWidth =new TableCellWidth { No=10,Position=20,Component=20,Damage=20,DamageDescription=40,PictureNo=30, Comment =20}
                 ,SuperSpaceTableCellWidth = new TableCellWidth { No = 10, Position = 20, Component = 20, Damage = 20, DamageDescription = 40, PictureNo = 30, Comment = 20 }
                 ,
                 SubSpaceTableCellWidth = new TableCellWidth { No = 10, Position = 20, Component = 20, Damage = 20, DamageDescription = 40, PictureNo = 30, Comment = 20 }
@@ -97,7 +100,7 @@ namespace AutoRegularInspection
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
                 //progressBarModel.ProgressValue = 0;    //测试数据
 
-                var doc = new Document(templateFile);
+                Document doc = new Document(templateFile);
                 var asposeService = new AsposeWordsServices(ref doc, l1, l2, l3);
                 asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, generateReportSettings, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
 

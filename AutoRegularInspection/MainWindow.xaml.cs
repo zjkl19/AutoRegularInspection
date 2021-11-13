@@ -23,6 +23,7 @@ using System.ComponentModel;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
+using System.Globalization;
 
 namespace AutoRegularInspection
 {
@@ -39,7 +40,7 @@ namespace AutoRegularInspection
             Title = $"外观检查自动报告 v{Application.ResourceAssembly.GetName().Version.ToString()}";
 
             //Nlog
-            LoggingConfiguration config = new NLog.Config.LoggingConfiguration();
+            LoggingConfiguration config = new LoggingConfiguration();
 
             // Targets where to log to: File and Console
             var logfile = new FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
@@ -67,7 +68,7 @@ namespace AutoRegularInspection
 
             var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             bool commentColumnInsertTable;
-            commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value);
+            commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value, CultureInfo.InvariantCulture);
 
             if (commentColumnInsertTable)
             {
@@ -79,7 +80,7 @@ namespace AutoRegularInspection
             }
 
             bool deletePositionInBridgeDeck;
-            deletePositionInBridgeDeck = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value);
+            deletePositionInBridgeDeck = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture);
 
             if (deletePositionInBridgeDeck)
             {
@@ -88,6 +89,19 @@ namespace AutoRegularInspection
             else
             {
                 DeletePositionInBridgeDeckCheckBox.IsChecked = false;
+            }
+            
+
+            bool customSummaryTableWidth;
+            customSummaryTableWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value,CultureInfo.InvariantCulture);
+
+            if (customSummaryTableWidth)
+            {
+                CustomSummaryTableWidthCheckBox.IsChecked = true;
+            }
+            else
+            {
+                CustomSummaryTableWidthCheckBox.IsChecked = false;
             }
 
             CheckForUpdateInStarup();    //启动时检查更新

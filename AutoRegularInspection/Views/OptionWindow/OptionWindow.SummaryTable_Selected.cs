@@ -26,7 +26,6 @@ namespace AutoRegularInspection.Views
 
             //var config = XDocument.Load(App.ConfigFileName);
 
-
             //var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("BridgeDeckSummaryTable").GetAtt;
 
             XDocument xDocument = XDocument.Load(App.ConfigFileName);
@@ -43,7 +42,6 @@ namespace AutoRegularInspection.Views
             {
                 SubPage = new OptionSummaryTablePage(bridgeDeckDamageSummaryTableWidth, superSpaceDamageSummaryTableWidth,subSpaceDamageSummaryTableWidth)
             };
-
 
         }
     }
