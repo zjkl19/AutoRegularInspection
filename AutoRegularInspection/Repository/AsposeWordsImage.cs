@@ -60,7 +60,10 @@ namespace AutoRegularInspection.Repository
                 yield return string.Empty;
             }
 
-            if (string.IsNullOrEmpty(savePath)) savePath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Temp\\";
+            if (string.IsNullOrEmpty(savePath))
+            {
+                savePath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Temp\\";
+            }
 
             //加载word
             Document doc = new Document(filePath);
@@ -76,7 +79,7 @@ namespace AutoRegularInspection.Repository
                     //扩展名
                     string ex = FileFormatUtil.ImageTypeToExtension(shape.ImageData.ImageType);
                     //文件名
-                    string fileName = $"{imageIndex+1}{ex}";
+                    string fileName = $"{imageIndex + 1}{ex}";
                     shape.ImageData.Save(savePath + fileName);
 
                     yield return fileName;
