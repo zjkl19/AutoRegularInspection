@@ -21,15 +21,15 @@ namespace AutoRegularInspection
     {
         private void AutoReport_Click(object sender, RoutedEventArgs e)
         {
-            var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            Configuration appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             bool commentColumnInsertTable;
-            commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value);
+            commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value, CultureInfo.InvariantCulture);
 
-            var config = XDocument.Load(App.ConfigFileName);
-            var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-            var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+            XDocument config = XDocument.Load(App.ConfigFileName);
+            XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
+            XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
 
-            double ImageWidth = Convert.ToDouble(pictureWidth.Value.ToString()); double ImageHeight = Convert.ToDouble(pictureHeight.Value.ToString());
+            double ImageWidth = Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture); double ImageHeight = Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture);
 
             string templateFile = App.TemplateReportFileName; string outputFile = App.OutputReportFileName;
 
@@ -42,14 +42,17 @@ namespace AutoRegularInspection
 
             OptionWindowHelper.ExtractSummaryTableWidth(config, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
 
-            GenerateReportSettings generateReportSettings = new GenerateReportSettings {
-                DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value,CultureInfo.InvariantCulture)
+            GenerateReportSettings generateReportSettings = new GenerateReportSettings
+            {
+                DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture)
                 ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
                 ,
                 BridgeDeckTableCellWidth =new TableCellWidth { No= bridgeDeckDamageSummaryTableWidth.No, Position= bridgeDeckDamageSummaryTableWidth.Position, Component= bridgeDeckDamageSummaryTableWidth.Component, Damage= bridgeDeckDamageSummaryTableWidth.Damage, DamageDescription= bridgeDeckDamageSummaryTableWidth.DamageDescription, PictureNo= bridgeDeckDamageSummaryTableWidth.PictureNo, Comment = bridgeDeckDamageSummaryTableWidth.Comment}
-                ,SuperSpaceTableCellWidth = new TableCellWidth { No = superSpaceDamageSummaryTableWidth.No, Position = superSpaceDamageSummaryTableWidth.Position, Component = superSpaceDamageSummaryTableWidth.Component, Damage = superSpaceDamageSummaryTableWidth.Damage, DamageDescription = superSpaceDamageSummaryTableWidth.DamageDescription, PictureNo = superSpaceDamageSummaryTableWidth.PictureNo, Comment = superSpaceDamageSummaryTableWidth.Comment }
-                ,SubSpaceTableCellWidth = new TableCellWidth { No = subSpaceDamageSummaryTableWidth.No, Position = subSpaceDamageSummaryTableWidth.Position, Component = subSpaceDamageSummaryTableWidth.Component, Damage = subSpaceDamageSummaryTableWidth.Damage, DamageDescription = subSpaceDamageSummaryTableWidth.DamageDescription, PictureNo = subSpaceDamageSummaryTableWidth.PictureNo, Comment = subSpaceDamageSummaryTableWidth.Comment }
+                ,
+                SuperSpaceTableCellWidth = new TableCellWidth { No = superSpaceDamageSummaryTableWidth.No, Position = superSpaceDamageSummaryTableWidth.Position, Component = superSpaceDamageSummaryTableWidth.Component, Damage = superSpaceDamageSummaryTableWidth.Damage, DamageDescription = superSpaceDamageSummaryTableWidth.DamageDescription, PictureNo = superSpaceDamageSummaryTableWidth.PictureNo, Comment = superSpaceDamageSummaryTableWidth.Comment }
+                ,
+                SubSpaceTableCellWidth = new TableCellWidth { No = subSpaceDamageSummaryTableWidth.No, Position = subSpaceDamageSummaryTableWidth.Position, Component = subSpaceDamageSummaryTableWidth.Component, Damage = subSpaceDamageSummaryTableWidth.Damage, DamageDescription = subSpaceDamageSummaryTableWidth.DamageDescription, PictureNo = subSpaceDamageSummaryTableWidth.PictureNo, Comment = subSpaceDamageSummaryTableWidth.Comment }
             };
 
             new Thread(() =>
@@ -104,8 +107,8 @@ namespace AutoRegularInspection
                 //progressBarModel.ProgressValue = 0;    //测试数据
 
                 Document doc = new Document(templateFile);
-                var asposeService = new AsposeWordsServices(ref doc, l1, l2, l3);
-                asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, generateReportSettings, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
+                var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
+                asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
 
                 //两次更新域，1次更新序号，1次更新序号对应的交叉引用
                 doc.UpdateFields();

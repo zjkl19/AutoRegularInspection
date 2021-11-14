@@ -28,6 +28,8 @@ namespace AutoRegularInspection
             catch (Exception ex)
             {
                 Debug.Print(ex.Message);
+                _log.Error($"{nameof(CustomSummaryTableWidthCheckBox_Click)}:{ex.Message}");
+
             }
 
         }

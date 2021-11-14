@@ -31,7 +31,7 @@ namespace AutoRegularInspection
     public partial class MainWindow : Window
     {
         BackgroundWorker worker = new BackgroundWorker();
-        public ILogger log;
+        private readonly ILogger _log;
         public MainWindow()
         {
 
@@ -53,7 +53,7 @@ namespace AutoRegularInspection
             // Apply config           
             LogManager.Configuration = config;
 
-            log = LogManager.GetCurrentClassLogger();
+            _log = LogManager.GetCurrentClassLogger();
 
             
             //TODO:考虑放到App.xaml中
@@ -87,7 +87,7 @@ namespace AutoRegularInspection
 
         private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
         {
-            OptionWindow w = new OptionWindow();
+            OptionWindow w = new OptionWindow(_log);
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
             w.Left = 0.5 * (App.ScreenWidth - w.Width);
             w.Show();
@@ -134,12 +134,13 @@ namespace AutoRegularInspection
                 if (File.Exists(App.DamageSummaryFileName))
                 {
                     File.Copy(App.DamageSummaryFileName, $"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx", true);
-                    MessageBox.Show($"成功备份文件\"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx\"");
+                    _ = MessageBox.Show($"成功备份文件\"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx\"");
                 }
             }
             catch (Exception ex)
             {
                 Debug.Print($"备份Excel表格出错，错误信息：{ex.Message}");
+                _log.Error($"{nameof(BackupExcel_Click)}:{ex.Message}");
             }
 
         }
@@ -206,7 +207,7 @@ namespace AutoRegularInspection
         {
             try
             {
-                var appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+                Configuration appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
                 if (AutoCheckForUpdateCheckBox.IsChecked ?? false)
                 {
                     appConfig.AppSettings.Settings["AutoCheckForUpdate"].Value = "true";
@@ -223,6 +224,7 @@ namespace AutoRegularInspection
             catch (Exception ex)
             {
                 Debug.Print(ex.Message);
+                _log.Error($"{nameof(AutoCheckForUpdateCheckBox_Click)}:{ex.Message}");
             }
 
         }

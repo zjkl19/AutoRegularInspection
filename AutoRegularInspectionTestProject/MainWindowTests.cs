@@ -47,7 +47,21 @@ namespace AutoRegularInspectionTestProject
 
             //Act
             var doc = new Document(templateFile);
-            var asposeService = new AsposeWordsServices(ref doc, l1, l2, l3);
+
+            GenerateReportSettings generateReportSettings = new GenerateReportSettings
+            {
+                DeletePositionInBridgeDeckCheckBox = true
+          ,
+                CustomTableCellWidth = true
+          ,
+                BridgeDeckTableCellWidth = new TableCellWidth { No = 1, Position = 1, Component = 1, Damage = 1, DamageDescription = 1, PictureNo = 1, Comment = 1 }
+          ,
+                SuperSpaceTableCellWidth = new TableCellWidth { No = 1, Position = 1, Component = 1, Damage = 1, DamageDescription = 1, PictureNo = 1, Comment = 1 }
+          ,
+                SubSpaceTableCellWidth = new TableCellWidth { No = 1, Position = 1, Component = 1, Damage = 1, DamageDescription = 1, PictureNo = 1, Comment = 1 }
+            };
+
+            var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
             
             //TODO:改方法，加参数
             //asposeService.GenerateSummaryTableAndPictureTable(false,ImageWidth, ImageHeight, CompressImageFlag);
@@ -96,6 +110,7 @@ namespace AutoRegularInspectionTestProject
             Table subSpaceDamagePictureTable = doc.GetChildNodes(NodeType.Table, true)[bridgeDeckDamageSummaryTableIndex + 2 * 2 + 1] as Table;
 
             doc.UnlinkFields();   //看情况决定是否要解除链接
+            
             doc.Save(outputFile, SaveFormat.Docx);   //如果需要查看生成的文件，则加上这句
 
 

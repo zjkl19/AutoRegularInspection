@@ -1,4 +1,5 @@
 ﻿using AutoRegularInspection.Models;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -22,11 +23,21 @@ namespace AutoRegularInspection.Views
     /// </summary>
     public partial class OptionWindow : Window
     {
+        private ILogger _log;
         public OptionWindow()
         {
             InitializeComponent();
             OptionFrame.Tag = "Page1";
             OptionContentControl.DataContext = new { SubPage = new Page1() };
+        }
+
+        public OptionWindow(ILogger log)
+        {
+            InitializeComponent();
+            OptionFrame.Tag = "Page1";
+            OptionContentControl.DataContext = new { SubPage = new Page1() };
+            _log = log;
+
         }
 
 
@@ -37,12 +48,13 @@ namespace AutoRegularInspection.Views
                 return;
             }
 
+
             OptionFrame.Tag = nameof(OptionPicturePage);
 
             var config = XDocument.Load(@"Option.config");
 
-            var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-            var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+            XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
+            XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
 
             OptionContentControl.DataContext = new
             {

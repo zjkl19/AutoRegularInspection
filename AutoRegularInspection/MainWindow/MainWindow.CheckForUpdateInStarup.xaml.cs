@@ -37,7 +37,7 @@ namespace AutoRegularInspection
                 throw ex;
 
 #else
-                log.Error(ex, $"后台自动检查更新出错，错误信息：{ ex.Message.ToString()}");
+                _log.Error(ex, $"后台自动检查更新出错，错误信息：{ ex.Message.ToString()}");
                 autoApdate = false;
 #endif
 

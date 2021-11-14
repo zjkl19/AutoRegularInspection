@@ -55,12 +55,16 @@ namespace AutoRegularInspection.Repository
         /// <returns></returns>
         public static IEnumerable<string> ExportImageFromWordFile(int skipBefore,int skipAfter,string filePath, string savePath = "")
         {
-            if (!File.Exists(filePath)) yield return string.Empty;
+            if (!File.Exists(filePath))
+            {
+                yield return string.Empty;
+            }
+
             if (string.IsNullOrEmpty(savePath)) savePath = $"{AppDomain.CurrentDomain.BaseDirectory}\\Temp\\";
 
             //加载word
             Document doc = new Document(filePath);
-            NodeCollection shapes = doc.GetChildNodes(NodeType.Shape, true);
+            var shapes = doc.GetChildNodes(NodeType.Shape, true);
             int imageIndex = 0;
 
             Shape shape;
