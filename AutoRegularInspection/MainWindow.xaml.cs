@@ -55,7 +55,7 @@ namespace AutoRegularInspection
 
             _log = LogManager.GetCurrentClassLogger();
 
-            
+
             //TODO:考虑放到App.xaml中
             //IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             //var dataRepository = kernel.Get<IDataRepository>();
@@ -83,7 +83,7 @@ namespace AutoRegularInspection
             CheckForUpdateInStarup();    //启动时检查更新
         }
 
-        
+
 
         private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
         {
