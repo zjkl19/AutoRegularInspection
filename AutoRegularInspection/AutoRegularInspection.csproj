@@ -145,6 +145,7 @@
     <Compile Include="Models\GlobalData.cs" />
     <Compile Include="Models\GridModel.cs" />
     <Compile Include="Models\OptionModel.cs" />
+    <Compile Include="Models\OptionReportGeneralSettings.cs" />
     <Compile Include="Models\PointPenalty.cs" />
     <Compile Include="Models\ProgressBarModel.cs" />
     <Compile Include="Models\SeverityQualityLevel.cs" />
@@ -173,6 +174,9 @@
     <Compile Include="Views\OptionBookmarkPage.xaml.cs">
       <DependentUpon>OptionBookmarkPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OptionGeneralPage.xaml.cs">
+      <DependentUpon>OptionGeneralPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OptionPicturePage.xaml.cs">
       <DependentUpon>OptionPicturePage.xaml</DependentUpon>
     </Compile>
@@ -184,6 +188,7 @@
     </Compile>
     <Compile Include="Views\OptionWindow\OptionWindow.Cancel.xaml.cs" />
     <Compile Include="Views\OptionWindow\OptionWindow.Confirm.xaml.cs" />
+    <Compile Include="Views\OptionWindow\OptionWindow.Report_General_Selected.xaml.cs" />
     <Compile Include="Views\OptionWindow\OptionWindow.SummaryTable_Selected.cs" />
     <Compile Include="Views\OptionWindow\OptionWindow.Test.xaml.cs" />
     <Compile Include="Views\Page1.xaml.cs">
@@ -212,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\OptionBookmarkPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\OptionGeneralPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

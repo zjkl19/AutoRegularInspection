@@ -40,7 +40,7 @@ namespace AutoRegularInspection.Views
 
             OptionContentControl.DataContext = new
             {
-                SubPage = new OptionSummaryTablePage(bridgeDeckDamageSummaryTableWidth, superSpaceDamageSummaryTableWidth,subSpaceDamageSummaryTableWidth)
+                SubPage = new OptionSummaryTablePage(bridgeDeckDamageSummaryTableWidth, superSpaceDamageSummaryTableWidth, subSpaceDamageSummaryTableWidth)
             };
 
         }

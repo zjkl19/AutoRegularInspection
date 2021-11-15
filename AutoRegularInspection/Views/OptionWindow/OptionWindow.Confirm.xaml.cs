@@ -1,4 +1,5 @@
 ﻿using AutoRegularInspection.Models;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -49,6 +50,15 @@ namespace AutoRegularInspection.Views
                 SetSummaryTableWidth(config, bridgeDeckModel, "BridgeDeckSummaryTable");
                 SetSummaryTableWidth(config, superSpaceModel, "SuperSpaceSummaryTable");
                 SetSummaryTableWidth(config, subSpaceModel, "SubSpaceSummaryTable");
+            }
+
+            else if ((string)OptionFrame.Tag == nameof(OptionGeneralPage))
+            {
+                //TODO:修改
+                OptionGeneralPage frameContent = (OptionGeneralPage)frame.Content;
+                var model = frameContent.OptionGeneralPageStackPanel.DataContext as OptionReportGeneralSettings;
+                XElement IntactStructNoInsertSummaryTable = config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault();
+                IntactStructNoInsertSummaryTable.Value = model.IntactStructNoInsertSummaryTable.ToString(CultureInfo.InvariantCulture);
             }
 
             config.Save(App.ConfigFileName);
