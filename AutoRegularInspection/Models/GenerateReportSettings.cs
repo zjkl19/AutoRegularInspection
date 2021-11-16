@@ -12,6 +12,8 @@ namespace AutoRegularInspection.Models
 
         public bool CustomTableCellWidth { get; set; }
 
+        public bool IntactStructNoInsertSummaryTable { get; set; }
+
         public TableCellWidth BridgeDeckTableCellWidth { get; set; }
 
         public TableCellWidth SuperSpaceTableCellWidth { get; set; }

@@ -345,9 +345,16 @@ namespace AutoRegularInspection.Services
             builder.Font.Bold = false;
             builder.EndRow();
 
+            int sn = 1;    //序号
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                builder.InsertCell(); builder.Write($"{i + 1}");
+                //如果完整结构不插入汇总表并且部件名称为"/"
+                if(_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains("/"))
+                {
+                    continue;
+                }
+
+                builder.InsertCell(); builder.Write($"{sn}");sn++;
                 cellFormat.Width = tableCellWidth.No;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
                 cellFormat.Width = tableCellWidth.Position;
@@ -641,15 +648,24 @@ namespace AutoRegularInspection.Services
             //1、先找出合并起始行和最后一行
             int mergeLength = 0;     //合并长度
 
-            //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
-            for (int i = 0; i < listDamageSummary.Count - 1; i++)
+            List<DamageSummary> listDamageSummaryCopy = new List<DamageSummary>();
+            for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                for (int j = i + 1; j < listDamageSummary.Count; j++)
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains("/"))
+                {
+                    continue;
+                }
+                listDamageSummaryCopy.Add(listDamageSummary[i]);
+            }
+
+            for (int i = 0; i < listDamageSummaryCopy.Count - 1; i++)
+            {
+                for (int j = i + 1; j < listDamageSummaryCopy.Count; j++)
                 {
                     //缺损类型列相同并且构件类型相同
-                    if (listDamageSummary[i].Damage == listDamageSummary[j].Damage
-                        && listDamageSummary[i].Component == listDamageSummary[j].Component
-                        && listDamageSummary[i].Position == listDamageSummary[j].Position)
+                    if (listDamageSummaryCopy[i].Damage == listDamageSummaryCopy[j].Damage
+                        && listDamageSummaryCopy[i].Component == listDamageSummaryCopy[j].Component
+                        && listDamageSummaryCopy[i].Position == listDamageSummaryCopy[j].Position)
                     {
                         mergeLength++;
                     }
@@ -669,6 +685,34 @@ namespace AutoRegularInspection.Services
                 }
             }
 
+            //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
+            //for (int i = 0; i < listDamageSummary.Count - 1; i++)
+            //{
+            //    for (int j = i + 1; j < listDamageSummary.Count; j++)
+            //    {
+            //        //缺损类型列相同并且构件类型相同
+            //        if (listDamageSummary[i].Damage == listDamageSummary[j].Damage
+            //            && listDamageSummary[i].Component == listDamageSummary[j].Component
+            //            && listDamageSummary[i].Position == listDamageSummary[j].Position)
+            //        {
+            //            mergeLength++;
+            //        }
+            //        else
+            //        {
+            //            break;
+            //        }
+            //    }
+            //    if (mergeLength > 0)
+            //    {
+            //        var cellStartRange = summaryTable.Rows[i + 1].Cells[damageColumn];
+            //        var cellEndRange = summaryTable.Rows[i + 1 + mergeLength].Cells[damageColumn];
+            //        MergeCells(cellStartRange, cellEndRange);
+            //        i += mergeLength;    //i要跳过
+            //        mergeLength = 0;    //合并单元格后归0
+
+            //    }
+            //}
+
         }
 
         /// <summary>
@@ -680,18 +724,30 @@ namespace AutoRegularInspection.Services
         {
             int componentColumn = 2;    //构件类型所在列(Aspose.words)
 
+
+            List<DamageSummary> listDamageSummaryCopy = new List<DamageSummary>();
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains("/"))
+                {
+                    continue;
+                }
+                listDamageSummaryCopy.Add(listDamageSummary[i]);
+            }
+
+
             //合并算法：
             //1、先找出合并起始行和最后一行
             int mergeLength = 0;     //合并长度
 
             //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
-            for (int i = 0; i < listDamageSummary.Count - 1; i++)
+            for (int i = 0; i < listDamageSummaryCopy.Count - 1; i++)
             {
-                for (int j = i + 1; j < listDamageSummary.Count; j++)
+                for (int j = i + 1; j < listDamageSummaryCopy.Count; j++)
                 {
                     //缺损类型列相同并且构件类型相同
-                    if (listDamageSummary[i].Component == listDamageSummary[j].Component
-                        && listDamageSummary[i].Position == listDamageSummary[j].Position)
+                    if (listDamageSummaryCopy[i].Component == listDamageSummaryCopy[j].Component
+                        && listDamageSummaryCopy[i].Position == listDamageSummaryCopy[j].Position)
                     {
                         mergeLength++;
                     }
@@ -725,12 +781,34 @@ namespace AutoRegularInspection.Services
             //1、先找出合并起始行和最后一行
             int mergeLength = 0;     //合并长度
 
-            //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
-            for (int i = 0; i < listDamageSummary.Count - 1; i++)
+            List<DamageSummary> listDamageSummaryCopy = new List<DamageSummary>();
+
+            for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                for (int j = i + 1; j < listDamageSummary.Count; j++)
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains("/"))
                 {
-                    if (listDamageSummary[i].Position == listDamageSummary[j].Position)
+                    continue;
+                }
+                listDamageSummaryCopy.Add(listDamageSummary[i]);
+            }
+
+            //if (_generateReportSettings.IntactStructNoInsertSummaryTable)
+            //{
+                
+            //    for (int i = 0; i < listDamageSummary.Count; i++)
+            //    {
+            //        if (!listDamageSummary[i].Damage.Contains("/"))
+            //        {
+            //            listDamageSummaryCopy.Add(listDamageSummary[i]);
+            //        }
+            //    }
+            //}
+
+            for (int i = 0; i < listDamageSummaryCopy.Count-1; i++)
+            {
+                for (int j = i + 1; j < listDamageSummaryCopy.Count; j++)
+                {
+                    if (listDamageSummaryCopy[i].Position == listDamageSummaryCopy[j].Position)
                     {
                         mergeLength++;
                     }
@@ -749,6 +827,31 @@ namespace AutoRegularInspection.Services
 
                 }
             }
+
+            //i==0时，对应表格第i+1行（Aspose.Words中的行，人为认识的第2行）
+            //for (int i = 0; i < listDamageSummary.Count - 1; i++)
+            //{
+            //    for (int j = i + 1; j < listDamageSummary.Count; j++)
+            //    {
+            //        if (listDamageSummary[i].Position == listDamageSummary[j].Position)
+            //        {
+            //            mergeLength++;
+            //        }
+            //        else
+            //        {
+            //            break;
+            //        }
+            //    }
+            //    if (mergeLength > 0)
+            //    {
+            //        var cellStartRange = summaryTable.Rows[i + 1].Cells[mergedColumn];
+            //        var cellEndRange = summaryTable.Rows[i + 1 + mergeLength].Cells[mergedColumn];
+            //        MergeCells(cellStartRange, cellEndRange);
+            //        i += mergeLength;    //i要跳过
+            //        mergeLength = 0;    //合并单元格后归0
+
+            //    }
+            //}
 
         }
 

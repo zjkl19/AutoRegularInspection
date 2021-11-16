@@ -48,7 +48,9 @@ namespace AutoRegularInspection
                 ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
                 ,
-                BridgeDeckTableCellWidth =new TableCellWidth { No= bridgeDeckDamageSummaryTableWidth.No, Position= bridgeDeckDamageSummaryTableWidth.Position, Component= bridgeDeckDamageSummaryTableWidth.Component, Damage= bridgeDeckDamageSummaryTableWidth.Damage, DamageDescription= bridgeDeckDamageSummaryTableWidth.DamageDescription, PictureNo= bridgeDeckDamageSummaryTableWidth.PictureNo, Comment = bridgeDeckDamageSummaryTableWidth.Comment}
+                IntactStructNoInsertSummaryTable = Convert.ToBoolean(config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault().Value,CultureInfo.InvariantCulture)
+                ,
+                BridgeDeckTableCellWidth = new TableCellWidth { No = bridgeDeckDamageSummaryTableWidth.No, Position = bridgeDeckDamageSummaryTableWidth.Position, Component = bridgeDeckDamageSummaryTableWidth.Component, Damage = bridgeDeckDamageSummaryTableWidth.Damage, DamageDescription = bridgeDeckDamageSummaryTableWidth.DamageDescription, PictureNo = bridgeDeckDamageSummaryTableWidth.PictureNo, Comment = bridgeDeckDamageSummaryTableWidth.Comment }
                 ,
                 SuperSpaceTableCellWidth = new TableCellWidth { No = superSpaceDamageSummaryTableWidth.No, Position = superSpaceDamageSummaryTableWidth.Position, Component = superSpaceDamageSummaryTableWidth.Component, Damage = superSpaceDamageSummaryTableWidth.Damage, DamageDescription = superSpaceDamageSummaryTableWidth.DamageDescription, PictureNo = superSpaceDamageSummaryTableWidth.PictureNo, Comment = superSpaceDamageSummaryTableWidth.Comment }
                 ,
@@ -59,7 +61,7 @@ namespace AutoRegularInspection
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    GenerateReport(generateReportSettings,commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                    GenerateReport(generateReportSettings, commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
                     //try
                     //{
@@ -77,7 +79,7 @@ namespace AutoRegularInspection
 
         }
 
-        private static void GenerateReport(GenerateReportSettings generateReportSettings,bool CommentColumnInsertTable, double ImageWidth, double ImageHeight, string templateFile, string outputFile, int CompressImageFlag, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
+        private static void GenerateReport(GenerateReportSettings generateReportSettings, bool CommentColumnInsertTable, double ImageWidth, double ImageHeight, string templateFile, string outputFile, int CompressImageFlag, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
         {
             var w = new ProgressBarWindow();
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
