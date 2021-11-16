@@ -433,8 +433,6 @@ namespace AutoRegularInspection.Services
             summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, Color.Black, true);
             summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
 
-
-
             if (BookmarkStartName == BridgeDeckBookmarkStartName && _generateReportSettings.DeletePositionInBridgeDeckCheckBox == true)
             {
                 Column column = Column.FromIndex(summaryTable, 1);
@@ -506,7 +504,16 @@ namespace AutoRegularInspection.Services
 
                         if (listDamageSummary[i].PictureCounts > 1)
                         {
-                            builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
+                            if(!listDamageSummary[i].DamageDescriptionInPicture.Contains("$"))
+                            {
+                                builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
+                            }
+                            else
+                            {
+                                var damageDescriptionInPictureArray = listDamageSummary[i].DamageDescriptionInPicture.Split('$');
+                                builder.Write(damageDescriptionInPictureArray[j]);
+                            }
+                            
                         }
                         else
                         {
