@@ -22,6 +22,7 @@ namespace AutoRegularInspection
         public const string OutputReportFileName = "自动生成的外观检查报告.docx";
         public const string OutputDamageStatisticsFileName = "桥梁检测病害统计汇总表.xlsx";
         public const string ConfigFileName = "Option.config";
+        public const int TablePictureWidth = 550;    //表格图片一栏默认宽度
 
         public App()
         {

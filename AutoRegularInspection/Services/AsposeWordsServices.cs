@@ -260,11 +260,7 @@ namespace AutoRegularInspection.Services
             //病害汇总表格
             var summaryTable = builder.StartTable();
 
-            
-
-            builder.InsertCell();
-
-            
+            builder.InsertCell();        
 
             CellFormat cellFormat = builder.CellFormat;
             
@@ -466,6 +462,7 @@ namespace AutoRegularInspection.Services
                 for (int j = 0; j < tableTotalCols; j++)
                 {
                     builder.InsertCell();
+                    cellFormat.Width = App.TablePictureWidth;
                 }
                 builder.EndRow();
             }
@@ -511,7 +508,7 @@ namespace AutoRegularInspection.Services
                             else
                             {
                                 var damageDescriptionInPictureArray = listDamageSummary[i].DamageDescriptionInPicture.Split('$');
-                                builder.Write(damageDescriptionInPictureArray[j]);
+                                builder.Write($" {damageDescriptionInPictureArray[j]}");
                             }
                             
                         }
