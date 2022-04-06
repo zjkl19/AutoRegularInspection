@@ -27,16 +27,22 @@ namespace AutoRegularInspection
             DamageSummaryServices.InitListDamageSummary1(l1);
             DamageSummaryServices.InitListDamageSummary1(l2, 2_000_000);
             DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
-            Image image = null; Bitmap bitmap = null;
+            Image image = null;
             ImageClass imageClass = null;
             string picture1 = string.Empty; string picture2 = string.Empty;
 
 
-            OpenPicturePerview(_bridgeDeckListDamageSummary, l1, ref image, ref bitmap);
-            OpenPicturePerview(_superSpaceListDamageSummary, l2, ref image, ref bitmap);
-            OpenPicturePerview(_subSpaceListDamageSummary, l3, ref image, ref bitmap);
-            void OpenPicturePerview(ObservableCollection<DamageSummary> listDamageSummary, List<DamageSummary> lst, ref Image img, ref Bitmap map)
+            OpenPicturePerview(_bridgeDeckListDamageSummary, l1);
+            OpenPicturePerview(_superSpaceListDamageSummary, l2);
+            OpenPicturePerview(_subSpaceListDamageSummary, l3);
+            void OpenPicturePerview(ObservableCollection<DamageSummary> listDamageSummary, List<DamageSummary> lst)
             {
+                if (!File.Exists(@"日志.txt"))
+                {
+                    _ = File.Create(@"日志.txt");
+                }
+                Image img = null;
+                Bitmap map = null ; Bitmap map2 = null;
                 for (int i = 0; i < lst.Count; i++)
                 {
                     if (lst[i].PictureCounts == 0)
@@ -55,11 +61,6 @@ namespace AutoRegularInspection
                         catch (System.Exception ex)
                         {
                             imageClass = new ImageClass("ErrorPic.jpg");
-
-                            if (!File.Exists(@"日志.txt"))
-                            {
-                                _ = File.Create(@"日志.txt");
-                            }
 
                             var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
                             StreamWriter writer = new StreamWriter(stream);
@@ -89,10 +90,6 @@ namespace AutoRegularInspection
                         catch (System.Exception ex)
                         {
                             imageClass = new ImageClass("ErrorPic.jpg");
-                            if (!File.Exists(@"日志.txt"))
-                            {
-                                _ = File.Create(@"日志.txt");
-                            }
 
                             var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
                             StreamWriter writer = new StreamWriter(stream);
@@ -106,7 +103,6 @@ namespace AutoRegularInspection
                         //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]}");
                         map = new Bitmap(img);
 
-
                         listDamageSummary[i].PicturePreview1 = ConvertBitmap(map);
 
                         //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]);
@@ -117,10 +113,6 @@ namespace AutoRegularInspection
                         catch (System.Exception ex)
                         {
                             imageClass = new ImageClass("ErrorPic.jpg");
-                            if (!File.Exists(@"日志.txt"))
-                            {
-                                _ = File.Create(@"日志.txt");
-                            }
 
                             var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
                             StreamWriter writer = new StreamWriter(stream);
@@ -131,8 +123,8 @@ namespace AutoRegularInspection
                         img = imageClass.GetReducedImage(0.2);
 
                         //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]}");
-                        map = new Bitmap(img);
-                        listDamageSummary[i].PicturePreview2 = ConvertBitmap(map);
+                        map2 = new Bitmap(img);
+                        listDamageSummary[i].PicturePreview2 = ConvertBitmap(map2);
                         listDamageSummary[i].PictureHeight = 60;
                     }
                     else    //异常、负数等情况
