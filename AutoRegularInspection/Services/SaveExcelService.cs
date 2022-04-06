@@ -64,32 +64,35 @@ namespace AutoRegularInspection.Services
 
         private static void InsertVar(List<DamageSummary> listDamageSummary, ExcelWorksheet worksheet, ObservableCollection<BridgeDamage> componentComboBox, BridgePart bridgePart)
         {
-
+            int col = 1;    //列位置
             //添加表头
-            worksheet.Cells[1, 1].Value = "序号";
-            worksheet.Cells[1, 2].Value = "位置";
+            worksheet.Cells[1, col].Value = "序号"; col++;
+            worksheet.Cells[1, col].Value = "位置";col++;
             if (bridgePart == BridgePart.BridgeDeck)
             {
-                worksheet.Cells[1, 3].Value = "要素";
+                worksheet.Cells[1, col].Value = "要素";
             }
             else
             {
-                worksheet.Cells[1, 3].Value = "构件类型";
+                worksheet.Cells[1, col].Value = "构件类型";
             }
-            worksheet.Cells[1, 4].Value = "缺损类型";
-            worksheet.Cells[1, 5].Value = "缺损描述";
-            worksheet.Cells[1, 6].Value = "图片描述";
-            worksheet.Cells[1, 7].Value = "照片编号";
-            worksheet.Cells[1, 8].Value = "备注";
-            worksheet.Cells[1, 9].Value = "单位1";
-            worksheet.Cells[1, 10].Value = "单位1数量";
-            worksheet.Cells[1, 11].Value = "单位2";
-            worksheet.Cells[1, 12].Value = "单位2数量";
-            worksheet.Cells[1, 13].Value = "使用自定义单位";
+            col++;
+            worksheet.Cells[1, col].Value = "缺损类型"; col++;
+            worksheet.Cells[1, col].Value = "缺损描述"; col++;
+            worksheet.Cells[1, col].Value = "图片描述"; col++;
+            worksheet.Cells[1, col].Value = "照片编号"; col++;
+            worksheet.Cells[1, col].Value = "自定义照片编号"; col++;
+            worksheet.Cells[1, col].Value = "备注"; col++;
+            worksheet.Cells[1, col].Value = "单位1"; col++;
+            worksheet.Cells[1, col].Value = "单位1数量"; col++;
+            worksheet.Cells[1, col].Value = "单位2"; col++;
+            worksheet.Cells[1, col].Value = "单位2数量"; col++;
+            worksheet.Cells[1, col].Value = "使用自定义单位"; 
 
             //添加值
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
+                
                 worksheet.Cells[i + 2, 1].Value = i + 1;
                 worksheet.Cells[i + 2, 2].Value = listDamageSummary[i].Position;
                 if (componentComboBox[listDamageSummary[i].ComponentValue].Title != "其它")
@@ -113,6 +116,7 @@ namespace AutoRegularInspection.Services
                 worksheet.Cells[i + 2, 5].Value = listDamageSummary[i].DamageDescription;
                 worksheet.Cells[i + 2, 6].Value = listDamageSummary[i].DamageDescriptionInPicture;
                 worksheet.Cells[i + 2, 7].Value = listDamageSummary[i].PictureNo;
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "自定义照片编号")].Value = listDamageSummary[i].CustomPictureNo;
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "备注")].Value = listDamageSummary[i].Comment;
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位1")].Value = listDamageSummary[i].GetDisplayUnit1();
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位1数量")].Value = listDamageSummary[i].Unit1Counts;

@@ -55,5 +55,5 @@ using System.Windows;
 //新增方法或其他较为重要的功能增加：次版本号+1，最多加到9，再加则主版本号+1
 //原有方法改进或其他功能进行了改进：生成号+1
 //bug修复，小的重构：修订号+1
-[assembly: AssemblyVersion("0.2.3.0")]
+[assembly: AssemblyVersion("0.2.4.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]

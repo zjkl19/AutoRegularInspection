@@ -81,7 +81,26 @@ namespace AutoRegularInspection
                         var pictures = lst[i].PictureNo.Split(',');
 
                         //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]);
-                        imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[0]));
+                        
+                        try
+                        {
+                            imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[0]));
+                        }
+                        catch (System.Exception ex)
+                        {
+                            imageClass = new ImageClass("ErrorPic.jpg");
+                            if (!File.Exists(@"日志.txt"))
+                            {
+                                _ = File.Create(@"日志.txt");
+                            }
+
+                            var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
+                            StreamWriter writer = new StreamWriter(stream);
+                            writer.WriteLine($"警告：{pictures[0]}不存在！错误信息：{ex.Message}");
+                            writer.Close();
+                            stream.Close();
+                        }
+
                         img = imageClass.GetReducedImage(0.2);
 
                         //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]}");
@@ -91,7 +110,24 @@ namespace AutoRegularInspection
                         listDamageSummary[i].PicturePreview1 = ConvertBitmap(map);
 
                         //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]);
-                        imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[1]));
+                        try
+                        {
+                            imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[1]));
+                        }
+                        catch (System.Exception ex)
+                        {
+                            imageClass = new ImageClass("ErrorPic.jpg");
+                            if (!File.Exists(@"日志.txt"))
+                            {
+                                _ = File.Create(@"日志.txt");
+                            }
+
+                            var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
+                            StreamWriter writer = new StreamWriter(stream);
+                            writer.WriteLine($"警告：{pictures[1]}不存在！错误信息：{ex.Message}");
+                            writer.Close();
+                            stream.Close();
+                        }
                         img = imageClass.GetReducedImage(0.2);
 
                         //img = Image.FromFile($"{Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]}");

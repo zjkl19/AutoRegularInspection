@@ -309,9 +309,9 @@
   <ItemGroup>
     <Content Include="AsposeWordsNet\Aspose.Words.dll" />
     <Resource Include="外观检查自动报告程序使用说明.txt" />
-    <Resource Include="ErrorPic.jpg">
+    <Content Include="ErrorPic.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Resource Include="Pictures\DSC02858.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
