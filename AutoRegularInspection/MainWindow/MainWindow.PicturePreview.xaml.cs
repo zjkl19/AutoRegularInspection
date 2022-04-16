@@ -79,7 +79,7 @@ namespace AutoRegularInspection
                     }
                     else if (lst[i].PictureCounts >= 2)
                     {
-                        var pictures = lst[i].PictureNo.Split(',');
+                        var pictures = lst[i].PictureNo.Split(App.PictureNoSplitSymbol);
 
                         //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]);
                         

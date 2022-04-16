@@ -474,7 +474,7 @@ namespace AutoRegularInspection.Services
             {
                 if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
                 {
-                    string[] p = listDamageSummary[i].PictureNo.Split(',');
+                    string[] p = listDamageSummary[i].PictureNo.Split(App.PictureNoSplitSymbol);
                     for (int j = 0; j < p.Length; j++)
                     {
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
