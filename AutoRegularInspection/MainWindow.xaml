@@ -487,6 +487,7 @@
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="2" Margin="10" Click="CopyRow_Click">复制选中行</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="3" Margin="10" Click="MoveRowUp_Click">上移选中行</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="4" Margin="10" Click="MoveRowDown_Click">下移选中行</Button>
+        <Button Grid.Row="{StaticResource OperationButtonRowIndex2}" Grid.Column="5" Margin="10" Click="ValidatePicture_Click">验证照片有效性</Button>
 
         <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="0" Margin="10" Click="BackupExcel_Click">备份Excel</Button>
         <Button Grid.Row="{StaticResource OperationButtonRowIndex3}" Grid.Column="1" Margin="10" Click="SaveExcel_Click">保存到Excel</Button>
