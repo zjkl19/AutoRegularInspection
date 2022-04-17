@@ -470,6 +470,7 @@ namespace AutoRegularInspection.Services
 
             //builder.MoveTo(table.Rows[1 + 1].Cells[0].FirstParagraph);
             int curr = 0;    //当前已插入图片数
+            string[] dirs; string pictureFileName;
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
@@ -480,8 +481,15 @@ namespace AutoRegularInspection.Services
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
 
                         //var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
-
-                        string pictureFileName = FileService.GetFileName(@"Pictures", p[j]);
+                        if(Directory.GetFiles($@"{App.PicturesFolder}/", $"*{ p[j]}.*").Length!=0)
+                        {
+                            pictureFileName = FileService.GetFileName(@"Pictures", p[j]);
+                        }
+                        else
+                        {
+                            pictureFileName = FileService.GetFileName($"{App.PicturesOutFolder}", p[j]);
+                        }
+                        
                         //TODO：检测文件是否重复，若重复不需要再压缩（MD5校验）
                         //(暂时用文件名校验)
                         if (!File.Exists($"PicturesOut/{Path.GetFileName(pictureFileName)}"))

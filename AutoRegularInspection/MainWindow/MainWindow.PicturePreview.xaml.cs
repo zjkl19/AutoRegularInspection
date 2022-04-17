@@ -37,6 +37,7 @@ namespace AutoRegularInspection
             OpenPicturePerview(_subSpaceListDamageSummary, l3);
             void OpenPicturePerview(ObservableCollection<DamageSummary> listDamageSummary, List<DamageSummary> lst)
             {
+                string[] dirs, outdirs;
                 if (!File.Exists(@"日志.txt"))
                 {
                     _ = File.Create(@"日志.txt");
@@ -56,7 +57,25 @@ namespace AutoRegularInspection
 
                         try
                         {
-                            imageClass = new ImageClass(FileService.GetFileName(@"Pictures", lst[i].PictureNo));
+                            dirs = Directory.GetFiles($@"{App.PicturesFolder}/", $"*{lst[i].PictureNo}.*");    //结果含有路径
+                            outdirs = Directory.GetFiles($@"{App.PicturesOutFolder}/", $"*{lst[i].PictureNo}.*");
+                            if(dirs.Length!=0)
+                            {
+                                imageClass = new ImageClass(FileService.GetFileName($"{App.PicturesFolder}", lst[i].PictureNo));
+                                
+                            }
+                            else
+                            {
+                                if (outdirs.Length != 0)
+                                {
+                                    imageClass = new ImageClass(FileService.GetFileName($"{App.PicturesOutFolder}", lst[i].PictureNo));
+                                }
+                                else
+                                {
+                                    imageClass = new ImageClass("ErrorPic.jpg");
+                                }
+                            }
+                            
                         }
                         catch (System.Exception ex)
                         {
@@ -85,7 +104,26 @@ namespace AutoRegularInspection
                         
                         try
                         {
-                            imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[0]));
+                            //imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[0]));
+
+                            dirs = Directory.GetFiles($@"{App.PicturesFolder}/", $"*{pictures[0]}.*");    //结果含有路径
+                            outdirs = Directory.GetFiles($@"{App.PicturesOutFolder}/", $"*{pictures[0]}.*");
+                            if (dirs.Length != 0)
+                            {
+                                imageClass = new ImageClass(FileService.GetFileName($"{App.PicturesFolder}", pictures[0]));
+
+                            }
+                            else
+                            {
+                                if (outdirs.Length != 0)
+                                {
+                                    imageClass = new ImageClass(FileService.GetFileName($"{App.PicturesOutFolder}", pictures[0]));
+                                }
+                                else
+                                {
+                                    imageClass = new ImageClass("ErrorPic.jpg");
+                                }
+                            }
                         }
                         catch (System.Exception ex)
                         {
@@ -108,7 +146,26 @@ namespace AutoRegularInspection
                         //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[1]}*")[0]);
                         try
                         {
-                            imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[1]));
+                            //imageClass = new ImageClass(FileService.GetFileName(@"Pictures", pictures[1]));
+
+                            dirs = Directory.GetFiles($@"{App.PicturesFolder}/", $"*{pictures[1]}.*");    //结果含有路径
+                            outdirs = Directory.GetFiles($@"{App.PicturesOutFolder}/", $"*{pictures[1]}.*");
+                            if (dirs.Length != 0)
+                            {
+                                imageClass = new ImageClass(FileService.GetFileName($"{App.PicturesFolder}", pictures[1]));
+
+                            }
+                            else
+                            {
+                                if (outdirs.Length != 0)
+                                {
+                                    imageClass = new ImageClass(FileService.GetFileName($"{App.PicturesOutFolder}", pictures[1]));
+                                }
+                                else
+                                {
+                                    imageClass = new ImageClass("ErrorPic.jpg");
+                                }
+                            }
                         }
                         catch (System.Exception ex)
                         {

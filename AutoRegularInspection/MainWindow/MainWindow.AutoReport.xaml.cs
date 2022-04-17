@@ -48,7 +48,7 @@ namespace AutoRegularInspection
                 ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
                 ,
-                IntactStructNoInsertSummaryTable = Convert.ToBoolean(config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault().Value,CultureInfo.InvariantCulture)
+                IntactStructNoInsertSummaryTable = Convert.ToBoolean(config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault().Value, CultureInfo.InvariantCulture)
                 ,
                 BridgeDeckTableCellWidth = new TableCellWidth { No = bridgeDeckDamageSummaryTableWidth.No, Position = bridgeDeckDamageSummaryTableWidth.Position, Component = bridgeDeckDamageSummaryTableWidth.Component, Damage = bridgeDeckDamageSummaryTableWidth.Damage, DamageDescription = bridgeDeckDamageSummaryTableWidth.DamageDescription, PictureNo = bridgeDeckDamageSummaryTableWidth.PictureNo, Comment = bridgeDeckDamageSummaryTableWidth.Comment }
                 ,
@@ -104,10 +104,26 @@ namespace AutoRegularInspection
             DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
 
             var thread = new Thread(new ThreadStart(() =>
-            {
-                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
+            {        
                 //progressBarModel.ProgressValue = 0;    //测试数据
+                //生成报告前先验证照片的有效性
+                int totalInvalidPictureCounts = ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);
+                if (totalInvalidPictureCounts > 0)
+                {
+                    try
+                    {
+                        WriteInvalidPicturesResultToTxt(totalInvalidPictureCounts, bridgeDeckValidationResult, superSpaceValidationResult, subSpaceValidationResult);
+                        MessageBox.Show($"存在无效照片，无法生成报告，共计{totalInvalidPictureCounts}张，详见根目录{App.InvalidPicturesStoreFile}");
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        //MessageBox.Show(ex.Message);
+                        //throw;
+                    }
+                }
 
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
                 Document doc = new Document(templateFile);
                 var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
                 asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);

@@ -16,6 +16,9 @@ namespace AutoRegularInspection
         public static double ScreenWidth = SystemParameters.PrimaryScreenWidth;
         public static double ScreenHeight = SystemParameters.PrimaryScreenHeight;
 
+        public const string PicturesFolder = "Pictures";
+        public const string PicturesOutFolder = "PicturesOut";
+        public const string InvalidPicturesStoreFile= "无效照片列表.txt";
         public const string DamageSummaryFileName = "外观检查.xlsx";
         public const string StatisticsUnitFileName = "统计单位表.xlsx";
         public const string TemplateReportFileName = "外观检查报告模板.docx";
