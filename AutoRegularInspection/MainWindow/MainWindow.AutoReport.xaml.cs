@@ -107,7 +107,7 @@ namespace AutoRegularInspection
             {        
                 //progressBarModel.ProgressValue = 0;    //测试数据
                 //生成报告前先验证照片的有效性
-                int totalInvalidPictureCounts = ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);
+                int totalInvalidPictureCounts = PictureServices.ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);
                 if (totalInvalidPictureCounts > 0)
                 {
                     try

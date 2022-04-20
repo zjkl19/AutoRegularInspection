@@ -168,6 +168,7 @@
     <Compile Include="Services\ImageClass.cs" />
     <Compile Include="Services\ImageServices.cs" />
     <Compile Include="Services\NinjectDependencyResolver.cs" />
+    <Compile Include="Services\PictureServices.cs" />
     <Compile Include="Services\SaveExcelService.cs" />
     <Compile Include="Services\SuggestionServices.cs" />
     <Compile Include="ViewModels\GridViewModel.cs" />
