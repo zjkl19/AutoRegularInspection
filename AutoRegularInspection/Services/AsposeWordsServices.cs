@@ -187,6 +187,8 @@ namespace AutoRegularInspection.Services
 
             builder.MoveTo(bookmark.BookmarkStart);
 
+            builder.ParagraphFormat.Style = _doc.Styles[App.DocStyleOfMainText];
+
             //TODO：考虑一下具体的缩进值
             //builder.ParagraphFormat.FirstLineIndent = 8;
 
@@ -255,6 +257,7 @@ namespace AutoRegularInspection.Services
                 builder.Write("下部结构检查结果汇总表");
             }
 
+            builder.ParagraphFormat.Style = _doc.Styles[App.DocStyleOfTable];
             builder.Writeln();
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
             //病害汇总表格
@@ -438,9 +441,10 @@ namespace AutoRegularInspection.Services
             //根据内容自动调整表格
             //summaryTable.AutoFit(AutoFitBehavior.AutoFitToContents);
 
+            builder.ParagraphFormat.Style = _doc.Styles[App.DocStyleOfPicture];    //注意：图片段落格式设置采用单倍行距
             builder.Writeln();
 
-            //病害内容插入表格
+            //病害图片插入表格
 
             //Reference:
             //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs

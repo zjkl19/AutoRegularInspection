@@ -16,6 +16,10 @@ namespace AutoRegularInspection
         public static double ScreenWidth = SystemParameters.PrimaryScreenWidth;
         public static double ScreenHeight = SystemParameters.PrimaryScreenHeight;
 
+        public const string DocStyleOfMainText = "迪南自动报告正文";
+        public const string DocStyleOfTable = "迪南自动报告表格";
+        public const string DocStyleOfPicture = "迪南自动报告图片";
+
         public const string PicturesFolder = "Pictures";
         public const string PicturesOutFolder = "PicturesOut";
         public const string InvalidPicturesStoreFile= "无效照片列表.txt";
