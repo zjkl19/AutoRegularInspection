@@ -57,399 +57,410 @@
                 </MenuItem>
             </Menu>
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TabControl FontSize="{StaticResource DataGridFontSize}">
-                <TabItem Header="桥面系" Name="BridgeDeckTabItem">
-                    <Grid>
-                        <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
-                            <DataGrid.Columns>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "*" />
+            </Grid.RowDefinitions>
 
-                                <DataGridTextColumn
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "*" />
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column = "0" Grid.Row = "1" Height="300">
+                <TabControl FontSize="{StaticResource DataGridFontSize}">
+                    <TabItem Header="桥面系" Name="BridgeDeckTabItem">
+                        <Grid>
+                            <DataGrid  Name="BridgeDeckGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
+                                <DataGrid.Columns>
+
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="30"
                                 Binding="{Binding No}"
                                 Header="序号" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
 
-                                <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="要素（枚举）" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.ComponentComboBox}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding ComponentValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"
                                 Header="要素" />
 
-                                <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding ComponentValue
                                             ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource BridgeDeckEnum}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding DamageValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Damage}"
                                 Header="缺损类型" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescription}"
                                 Header="缺损描述" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescriptionInPicture}"
                                 Header="缺损对应图片描述" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding CustomPictureNo}"
                                 Header="自定义照片编号" />
-                                <DataGridTemplateColumn Width="Auto" Header="照片预览1">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                    <DataGridTemplateColumn Width="Auto" Header="照片预览1">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
                                                Height="{Binding PictureHeight}"
                                                />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="Auto" Header="照片预览2">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="Auto" Header="照片预览2">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
                                                Height="{Binding PictureHeight}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Comment}"
                                 Header="备注" />
 
-                                <DataGridTemplateColumn Header="单位1" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="单位1" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.Unit1ComboBox}}"
                                             DisplayMemberPath="DisplayTitle"
                                             SelectedIndex="{Binding Unit1Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit1Counts}"
                                 Header="单位1数量" />
 
-                                <DataGridTemplateColumn Header="单位2" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="单位2" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.Unit2ComboBox}}"
                                             DisplayMemberPath="DisplayTitle"
                                             SelectedIndex="{Binding Unit2Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
                                 Header="单位2数量" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding SeverityQuantity}"
                                 Header="严重程度（定量）" />
 
-                                <DataGridTemplateColumn Header="严重程度（定性）" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="严重程度（定性）" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.SeverityQualityLevelComboBox}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding SeverityQuality,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                            </DataGrid.Columns>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
 
-                        </DataGrid>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="上部结构" FontSize="{StaticResource DataGridFontSize}"  Name="SuperSpaceTabItem">
-                    <Grid>
-                        <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="上部结构" FontSize="{StaticResource DataGridFontSize}"  Name="SuperSpaceTabItem">
+                        <Grid>
+                            <DataGrid  Name="SuperSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="30"
                                 Binding="{Binding No}"
                                 Header="序号" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
 
-                                <DataGridTemplateColumn Header="构件类型（枚举）" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="构件类型（枚举）" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.SuperSpaceComponentComboBox}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding ComponentValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"
                                 Header="构件类型" />
 
-                                <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding ComponentValue
                                             ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource SuperSpaceEnum}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding DamageValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Damage}"
                                 Header="缺损类型" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescription}"
                                 Header="缺损描述" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescriptionInPicture}"
                                 Header="缺损对应图片描述" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding CustomPictureNo}"
                                 Header="自定义照片编号" />
-                                <DataGridTemplateColumn Width="Auto" Header="照片预览1">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                    <DataGridTemplateColumn Width="Auto" Header="照片预览1">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
                                                Height="{Binding PictureHeight}"
                                                />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="Auto" Header="照片预览2">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="Auto" Header="照片预览2">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
                                                Height="{Binding PictureHeight}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Comment}"
                                 Header="备注" />
-                                <DataGridTemplateColumn Header="单位1" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="单位1" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.Unit1ComboBox}}"
                                             DisplayMemberPath="DisplayTitle"
                                             SelectedIndex="{Binding Unit1Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit1Counts}"
                                 Header="单位1数量" />
 
-                                <DataGridTemplateColumn Header="单位2" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="单位2" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.Unit2ComboBox}}"
                                             DisplayMemberPath="DisplayTitle"
                                             SelectedIndex="{Binding Unit2Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
                                 Header="单位2数量" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-                </TabItem>
-                <TabItem Header="下部结构" FontSize="{StaticResource DataGridFontSize}"  Name="SubSpaceTabItem">
-                    <Grid>
-                        <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
+                    <TabItem Header="下部结构" FontSize="{StaticResource DataGridFontSize}"  Name="SubSpaceTabItem">
+                        <Grid>
+                            <DataGrid  Name="SubSpaceGrid" AutoGenerateColumns="False" ItemsSource="{Binding GridSource.GridData}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="30"
                                 Binding="{Binding No}"
                                 Header="序号" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 MinWidth="50"
                                 Binding="{Binding Position}"
                                 Header="位置" />
 
-                                <DataGridTemplateColumn Header="构件类型（枚举）" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="构件类型（枚举）" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.SubSpaceComponentComboBox}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding ComponentValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Component}"
                                 Header="构件类型" />
 
-                                <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="缺损类型（枚举）" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding ComponentValue
                                             ,Converter={StaticResource damageComboBoxConverter},ConverterParameter={StaticResource SubSpaceEnum}}"
                                             DisplayMemberPath="Title"
                                             SelectedIndex="{Binding DamageValue,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Damage}"
                                 Header="缺损类型" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescription}"
                                 Header="缺损描述" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescriptionInPicture}"
                                 Header="缺损对应图片描述" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding PictureNo}"
                                 Header="照片编号" />
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding CustomPictureNo}"
                                 Header="自定义照片编号" />
-                                <DataGridTemplateColumn Width="Auto" Header="照片预览1">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                    <DataGridTemplateColumn Width="Auto" Header="照片预览1">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding PicturePreview1}" RenderOptions.BitmapScalingMode="LowQuality" 
                                                Height="{Binding PictureHeight}"
                                                />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTemplateColumn Width="Auto" Header="照片预览2">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Width="Auto" Header="照片预览2">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding PicturePreview2}" RenderOptions.BitmapScalingMode="LowQuality" 
                                                Height="{Binding PictureHeight}"/>
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
-                                <DataGridTextColumn
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Comment}"
                                 Header="备注" />
-                                <DataGridTemplateColumn Header="单位1" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="单位1" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.Unit1ComboBox}}"
                                             DisplayMemberPath="DisplayTitle"
                                             SelectedIndex="{Binding Unit1Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit1Counts}"
                                 Header="单位1数量" />
 
-                                <DataGridTemplateColumn Header="单位2" Width="Auto">
-                                    <DataGridTemplateColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <ComboBox 
+                                    <DataGridTemplateColumn Header="单位2" Width="Auto">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <ComboBox 
                                             ItemsSource="{Binding Source={x:Static local:GlobalData.Unit2ComboBox}}"
                                             DisplayMemberPath="DisplayTitle"
                                             SelectedIndex="{Binding Unit2Value,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             />
-                                        </DataTemplate>
-                                    </DataGridTemplateColumn.CellTemplate>
-                                </DataGridTemplateColumn>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
 
-                                <DataGridTextColumn
+                                    <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
                                 Header="单位2数量" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Grid>
-                </TabItem>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+                    </TabItem>
 
-            </TabControl>
-        </StackPanel>
+                </TabControl>
+            </Grid>
+        </Grid>
+
+
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
