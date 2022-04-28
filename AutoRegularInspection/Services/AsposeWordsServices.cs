@@ -6,6 +6,7 @@ using AutoRegularInspection.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -61,8 +62,41 @@ namespace AutoRegularInspection.Services
             System.Threading.Thread.Sleep(500);
 
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            progressModel.ProgressValue = 99;
+
+            progressModel.Content = "正在替换文档变量……";
+            ReplaceDocVariable();
+
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";
+        }
+
+        private void ReplaceDocVariable()
+        {
+            string InspectionString = _generateReportSettings.InspectionString;
+            string[] MyDocumentVariables = new string[] { nameof(InspectionString) };//文档中包含的所有“文档变量”，方便遍历
+
+            try
+            {
+                var variables = _doc.Variables;
+                variables[nameof(InspectionString)] = InspectionString;
+            }
+            catch (Exception ex)
+            {
+                Debug.Print($"文档变量更新失败。信息{ex.Message}");
+            }
+
+            _doc.UpdateFields();    //更新文档变量
+            
+            foreach (var v in _doc.Range.Fields)
+            {
+                var v1 = v as FieldDocVariable;
+                if (v1!=null && MyDocumentVariables.Contains(v1.VariableName))
+                {
+                    _ = v1.Unlink();
+                }
+            }
+            _doc.UpdateFields();    //更新文档变量
         }
 
         public void GenerateSummaryTableAndPictureTable(bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
@@ -197,17 +231,17 @@ namespace AutoRegularInspection.Services
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
                 tableCellWidth = _generateReportSettings.BridgeDeckTableCellWidth;
-                builder.Write("桥面系检查结果详见");
+                builder.Write($"桥面系{_generateReportSettings.InspectionString}结果详见");
             }
             else if (BookmarkStartName == SuperSpaceBookmarkStartName)
             {
                 tableCellWidth = _generateReportSettings.SuperSpaceTableCellWidth;
-                builder.Write("上部结构检查结果详见");
+                builder.Write($"上部结构{_generateReportSettings.InspectionString}结果详见");
             }
             else
             {
                 tableCellWidth = _generateReportSettings.SubSpaceTableCellWidth;
-                builder.Write("下部结构检查结果详见");
+                builder.Write($"下部结构{_generateReportSettings.InspectionString}结果详见");
             }
             int firstIndex = 0; int lastIndex = listDamageSummary.Count - 1;
             //查找第一张
@@ -245,16 +279,16 @@ namespace AutoRegularInspection.Services
             //写入表头
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
-                builder.Write("桥面系检查结果汇总表");
+                builder.Write($"桥面系{_generateReportSettings.InspectionString}结果汇总表");
 
             }
             else if (BookmarkStartName == SuperSpaceBookmarkStartName)
             {
-                builder.Write("上部结构检查结果汇总表");
+                builder.Write($"上部结构{_generateReportSettings.InspectionString}结果汇总表");
             }
             else
             {
-                builder.Write("下部结构检查结果汇总表");
+                builder.Write($"下部结构{_generateReportSettings.InspectionString}结果汇总表");
             }
 
             builder.ParagraphFormat.Style = _doc.Styles[App.DocStyleOfTable];

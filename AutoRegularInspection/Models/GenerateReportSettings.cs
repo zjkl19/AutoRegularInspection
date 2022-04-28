@@ -8,6 +8,7 @@ namespace AutoRegularInspection.Models
 {
     public class GenerateReportSettings
     {
+        public string InspectionString { get; set; } = "检测";    //检测字符串
         public bool DeletePositionInBridgeDeckCheckBox { get; set; }
 
         public bool CustomTableCellWidth { get; set; }

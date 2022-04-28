@@ -44,6 +44,8 @@ namespace AutoRegularInspection
 
             GenerateReportSettings generateReportSettings = new GenerateReportSettings
             {
+                InspectionString="检测"
+                ,
                 DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture)
                 ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)

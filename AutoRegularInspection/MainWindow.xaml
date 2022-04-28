@@ -65,7 +65,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width = "*" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column = "0" Grid.Row = "1" Height="300">
+            <Grid Grid.Column = "0" Grid.Row = "1" Height="320">
                 <TabControl FontSize="{StaticResource DataGridFontSize}">
                     <TabItem Header="桥面系" Name="BridgeDeckTabItem">
                         <Grid>
@@ -495,13 +495,13 @@
             <Label  Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2022" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
-            <StatusBar>
-                <StatusBarItem>
-                    <TextBlock Name="StatusBarText" Text="就绪"/>
-                </StatusBarItem>
-            </StatusBar>
+            <DockPanel>
+                <StatusBar DockPanel.Dock="Bottom" Margin="{StaticResource DefaultMargin}">
+                    <StatusBarItem>
+                        <TextBlock Name="StatusBarText" Text="就绪"/>
+                    </StatusBarItem>
+                </StatusBar>
+            </DockPanel>
         </StackPanel>
     </StackPanel  >
-
-
 </Window>
