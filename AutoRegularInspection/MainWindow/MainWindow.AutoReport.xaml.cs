@@ -128,13 +128,10 @@ namespace AutoRegularInspection
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
                 Document doc = new Document(templateFile);
                 var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
-                asposeService.GenerateSummaryTableAndPictureTable(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
-
-                //两次更新域，1次更新序号，1次更新序号对应的交叉引用
-                doc.UpdateFields();
-                doc.UpdateFields();
+                asposeService.GenerateReport(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
 
                 doc.Save(outputFile, SaveFormat.Docx);
+
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("成功生成报告！"); });
 

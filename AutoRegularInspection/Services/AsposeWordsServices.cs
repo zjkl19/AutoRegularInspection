@@ -39,13 +39,13 @@ namespace AutoRegularInspection.Services
             _subSpaceListDamageSummary = subSpaceListDamageSummary;
         }
         /// <summary>
-        /// 生成汇总表以及插入图片
+        /// 生成报告，包括生成汇总表以及插入图片
         /// </summary>
         /// <param name="progressModel">进度条数据绑定模型</param>
         /// <param name="ImageWidth"></param>
         /// <param name="ImageHeight"></param>
         /// <param name="CompressImageFlag"></param>
-        public void GenerateSummaryTableAndPictureTable(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateReport(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
             progressModel.ProgressValue = 0;
 
@@ -67,10 +67,17 @@ namespace AutoRegularInspection.Services
             progressModel.Content = "正在替换文档变量……";
             ReplaceDocVariable();
 
+            //两次更新域，1次更新序号，1次更新序号对应的交叉引用
+            _doc.UpdateFields();
+            _doc.UpdateFields();
+            
+
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";
         }
-
+        /// <summary>
+        /// 替换文档变量
+        /// </summary>
         private void ReplaceDocVariable()
         {
             string InspectionString = _generateReportSettings.InspectionString;
@@ -98,8 +105,14 @@ namespace AutoRegularInspection.Services
             }
             _doc.UpdateFields();    //更新文档变量
         }
-
-        public void GenerateSummaryTableAndPictureTable(bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        /// <summary>
+        /// 重载GenerateReport方法，没有进度条
+        /// </summary>
+        /// <param name="CommentColumnInsertTable"></param>
+        /// <param name="ImageWidth"></param>
+        /// <param name="ImageHeight"></param>
+        /// <param name="CompressImageFlag"></param>
+        public void GenerateReport(bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
         {
             InsertSummaryWords();
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
