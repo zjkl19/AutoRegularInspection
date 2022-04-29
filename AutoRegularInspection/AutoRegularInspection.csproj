@@ -314,147 +314,147 @@
     <Content Include="ErrorPic.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Pictures\DSC02858.JPG">
+    <Content Include="Pictures\DSC02858.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02835.jpg">
+    </Content>
+    <Content Include="Pictures\DSC02835.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02776.jpg">
+    </Content>
+    <Content Include="Pictures\DSC02776.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02732.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02732.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02737-1.jpg">
+    </Content>
+    <Content Include="Pictures\DSC02737-1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02740.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02740.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02743.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02743.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02744.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02744.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02752.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02752.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02753.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02753.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02765.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02765.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02768.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02768.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02771.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02771.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02772.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02772.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02773.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02773.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02774.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02774.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02775.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02775.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02776-1.jpg">
+    </Content>
+    <Content Include="Pictures\DSC02776-1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02782.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02782.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02783.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02783.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02785.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02785.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02788.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02788.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02789.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02789.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02795.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02795.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02796.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02796.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02799.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02799.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02800.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02800.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02804.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02804.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02807.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02807.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02808.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02808.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02811-1.jpg">
+    </Content>
+    <Content Include="Pictures\DSC02811-1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02812.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02812.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02814.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02814.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02815.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02815.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02818.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02818.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02822.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02822.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02824.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02824.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02828.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02828.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02832.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02832.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02833.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02833.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02834.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02834.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02835-1.jpg">
+    </Content>
+    <Content Include="Pictures\DSC02835-1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02853.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02853.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02854.JPG">
+    </Content>
+    <Content Include="Pictures\DSC02854.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\DSC02858-1.jpg">
+    </Content>
+    <Content Include="Pictures\DSC02858-1.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\IMG_20200604_115052.jpg">
+    </Content>
+    <Content Include="Pictures\IMG_20200604_115052.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Pictures\IMG_20200604_115252.jpg">
+    </Content>
+    <Content Include="Pictures\IMG_20200604_115252.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
+    </Content>
     <Resource Include="lightning.ico" />
     <Resource Include="TODOList.txt" />
   </ItemGroup>
