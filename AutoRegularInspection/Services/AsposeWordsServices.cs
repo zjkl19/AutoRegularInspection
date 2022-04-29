@@ -69,8 +69,7 @@ namespace AutoRegularInspection.Services
 
             //两次更新域，1次更新序号，1次更新序号对应的交叉引用
             _doc.UpdateFields();
-            _doc.UpdateFields();
-            
+            _doc.UpdateFields();    
 
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";

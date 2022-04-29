@@ -22,6 +22,7 @@
             <local:BridgePart x:Key="SubSpaceEnum">SubSpace</local:BridgePart>
 
             <sysXaml:Thickness x:Key="DefaultMargin">5</sysXaml:Thickness>
+            <sysXaml:Thickness x:Key="DefaultControlMargin">15,5,15,5</sysXaml:Thickness>
             <sysXaml:Thickness x:Key="DefaultCheckBoxMargin">15,5,15,5</sysXaml:Thickness>
             <sysXaml:Thickness x:Key="DefaultCheckBoxPadding">5,0,5,0</sysXaml:Thickness>
             <sysXaml:Thickness x:Key="DefaultButtonMargin">15,5,15,5</sysXaml:Thickness>
@@ -462,6 +463,17 @@
 
 
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
+            <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
+                <Label  Content="请选择报告模板" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Margin="5,8,15,0">
+
+                <ComboBox DisplayMemberPath="Name" SelectedValuePath="ID" ItemsSource="{Binding Template}">
+                    <ComboBoxItem IsSelected="True" Content="建研报告模板">建研报告模板</ComboBoxItem>
+                    <ComboBoxItem >自定义模板1</ComboBoxItem>
+                    <ComboBoxItem>自定义模板2</ComboBoxItem>
+                </ComboBox>
+            </StackPanel>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="删除桥面系检查结果汇总表&quot;位置&quot;一列" VerticalAlignment="Center" Name="DeletePositionInBridgeDeckCheckBox" Click="DeletePositionInBridgeDeckCheckBox_Click"/>

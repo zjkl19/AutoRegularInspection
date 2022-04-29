@@ -31,6 +31,8 @@ namespace AutoRegularInspection
 
             double ImageWidth = Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture); double ImageHeight = Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture);
 
+            string TemplateFile=
+                BridgeDeckGrid.DataContext
             string templateFile = App.TemplateReportFileName; string outputFile = App.OutputReportFileName;
 
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
