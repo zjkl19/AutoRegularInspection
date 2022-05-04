@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AutoRegularInspection.Models
 {
-    public class ReportTemplates
+    public class ComboBoxReportTemplates
     {
         /// <summary>
         /// 显示名称

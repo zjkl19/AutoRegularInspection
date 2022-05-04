@@ -55,15 +55,17 @@ namespace AutoRegularInspection
 
             _log = LogManager.GetCurrentClassLogger();
 
-
             //TODO:考虑放到App.xaml中
             //IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             //var dataRepository = kernel.Get<IDataRepository>();
 
+            //初始化ComboBoxReportTemplates
+            TemplateFileComboBox.ItemsSource = App.TemplateFileList;
+            TemplateFileComboBox.SelectedIndex = 0;
+
+
             BridgeDeckGrid.DataContext = new GridViewModel();
-
             SuperSpaceGrid.DataContext = new GridViewModel(BridgePart.SuperSpace);
-
             SubSpaceGrid.DataContext = new GridViewModel(BridgePart.SubSpace);
 
             Configuration appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
@@ -82,8 +84,6 @@ namespace AutoRegularInspection
 
             CheckForUpdateInStarup();    //启动时检查更新
         }
-
-
 
         private void MenuItem_Option_Click(object sender, RoutedEventArgs e)
         {

@@ -468,10 +468,7 @@
             </StackPanel>
             <StackPanel Margin="5,8,15,0">
 
-                <ComboBox DisplayMemberPath="Name" SelectedValuePath="ID" ItemsSource="{Binding Template}">
-                    <ComboBoxItem IsSelected="True" Content="建研报告模板">建研报告模板</ComboBoxItem>
-                    <ComboBoxItem >自定义模板1</ComboBoxItem>
-                    <ComboBoxItem>自定义模板2</ComboBoxItem>
+                <ComboBox Name="TemplateFileComboBox" DisplayMemberPath="DisplayName" SelectedValuePath="Name" Width="200">
                 </ComboBox>
             </StackPanel>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>

@@ -2,6 +2,8 @@
 using Ninject;
 using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Services;
+using System.Collections.Generic;
+using AutoRegularInspection.Models;
 
 namespace AutoRegularInspection
 {
@@ -31,6 +33,10 @@ namespace AutoRegularInspection
         public const string ConfigFileName = "Option.config";
         public const char PictureNoSplitSymbol = ';';    //照片编号分隔符号
         public const int TablePictureWidth = 550;    //表格图片一栏默认宽度
+
+        public static List<ComboBoxReportTemplates> TemplateFileList => new List<ComboBoxReportTemplates> { 
+            new ComboBoxReportTemplates{DisplayName= "建研报告模板",Name="外观检查报告模板.docx"}
+            ,new ComboBoxReportTemplates{DisplayName= "检测中心报告模板",Name="检测中心外观检查报告模板.docx"}};
 
         public App()
         {

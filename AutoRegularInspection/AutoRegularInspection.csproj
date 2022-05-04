@@ -149,7 +149,7 @@
     <Compile Include="Models\OptionReportGeneralSettings.cs" />
     <Compile Include="Models\PointPenalty.cs" />
     <Compile Include="Models\ProgressBarModel.cs" />
-    <Compile Include="Models\ReportTemplates.cs" />
+    <Compile Include="Models\ComboBoxReportTemplates.cs" />
     <Compile Include="Models\SeverityQualityLevel.cs" />
     <Compile Include="Models\StatisticsUnit.cs" />
     <Compile Include="Models\SubSpaceDamageSummaryTableWidth.cs" />
@@ -470,6 +470,9 @@
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetFramework.Analyzers.dll" />
     <Analyzer Include="..\packages\Microsoft.NetFramework.Analyzers.2.9.8\analyzers\dotnet\cs\Microsoft.NetFramework.CSharp.Analyzers.dll" />
     <Analyzer Include="..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="报告模板\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
