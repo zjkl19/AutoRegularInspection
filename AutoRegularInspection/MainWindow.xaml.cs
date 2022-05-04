@@ -37,7 +37,7 @@ namespace AutoRegularInspection
 
             InitializeComponent();
 
-            Title = $"外观检查自动报告 v{Application.ResourceAssembly.GetName().Version.ToString()}";
+            Title = $"外观检查自动报告 v{Application.ResourceAssembly.GetName().Version}";
 
             //Nlog
             LoggingConfiguration config = new LoggingConfiguration();
@@ -62,7 +62,6 @@ namespace AutoRegularInspection
             //初始化ComboBoxReportTemplates
             TemplateFileComboBox.ItemsSource = App.TemplateFileList;
             TemplateFileComboBox.SelectedIndex = 0;
-
 
             BridgeDeckGrid.DataContext = new GridViewModel();
             SuperSpaceGrid.DataContext = new GridViewModel(BridgePart.SuperSpace);
@@ -92,7 +91,6 @@ namespace AutoRegularInspection
             w.Left = 0.5 * (App.ScreenWidth - w.Width);
             w.Show();
         }
-
 
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
@@ -126,7 +124,6 @@ namespace AutoRegularInspection
             int i = 1;
             try
             {
-
                 while (File.Exists($"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx"))
                 {
                     i++;
@@ -162,9 +159,7 @@ namespace AutoRegularInspection
                 {
                     MessageBox.Show("Excel保存失败！");
                 }
-
             }
-
         }
 
         private void OpenExcel_Click(object sender, RoutedEventArgs e)

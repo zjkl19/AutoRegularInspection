@@ -50,6 +50,10 @@ namespace AutoRegularInspectionTestProject
 
             GenerateReportSettings generateReportSettings = new GenerateReportSettings
             {
+                ComboBoxReportTemplates = new ComboBoxReportTemplates { DisplayName = "建研报告模板", Name = "外观检查报告模板.docx", DocStyleOfMainText = "迪南自动报告正文", DocStyleOfTable = "迪南自动报告表格", DocStyleOfPicture = "迪南自动报告图片" }
+                ,
+                InspectionString = "检测"
+                ,
                 DeletePositionInBridgeDeckCheckBox = false
           ,
                 CustomTableCellWidth = false

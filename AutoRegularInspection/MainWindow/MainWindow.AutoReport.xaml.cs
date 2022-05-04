@@ -31,9 +31,9 @@ namespace AutoRegularInspection
 
             double ImageWidth = Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture); double ImageHeight = Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture);
 
-
             //string templateFile = App.TemplateReportFileName;
-            string templateFile = App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name;
+            string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
+
             string outputFile = App.OutputReportFileName;
 
             int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
@@ -45,9 +45,12 @@ namespace AutoRegularInspection
 
             OptionWindowHelper.ExtractSummaryTableWidth(config, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
 
+
             GenerateReportSettings generateReportSettings = new GenerateReportSettings
             {
-                InspectionString="检测"
+                ComboBoxReportTemplates = App.TemplateFileList[TemplateFileComboBox.SelectedIndex]
+                ,
+                InspectionString = InspectionComboBox.Text
                 ,
                 DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture)
                 ,
@@ -109,7 +112,7 @@ namespace AutoRegularInspection
             DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
 
             var thread = new Thread(new ThreadStart(() =>
-            {        
+            {
                 //progressBarModel.ProgressValue = 0;    //测试数据
                 //生成报告前先验证照片的有效性
                 int totalInvalidPictureCounts = PictureServices.ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);

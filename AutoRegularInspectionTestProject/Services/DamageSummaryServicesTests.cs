@@ -23,7 +23,7 @@ namespace AutoRegularInspectionTestProject.Services
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary {
-                    PictureNo="855,858,875"
+                    PictureNo="855;858;875"
                 }
             };
 
@@ -42,7 +42,7 @@ namespace AutoRegularInspectionTestProject.Services
             var bridgeDeckListDamageSummary = new List<DamageSummary>
             {
                 new DamageSummary {
-                    PictureNo="855,858,875"
+                    PictureNo="855;858;875"
                 }
             };
 
@@ -67,7 +67,7 @@ namespace AutoRegularInspectionTestProject.Services
 
                     Component="伸缩缝"
                     ,Damage="缝内沉积物阻塞"
-                    ,PictureNo="855,858,875"
+                    ,PictureNo="855;858;875"
                 }
             };
 
@@ -88,7 +88,7 @@ namespace AutoRegularInspectionTestProject.Services
 
                     Component="横向联系"
                     ,Damage="连接件断裂"
-                    ,PictureNo="855,858,875"
+                    ,PictureNo="855;858;875"
                 }
                 ,new DamageSummary {
 
@@ -102,7 +102,7 @@ namespace AutoRegularInspectionTestProject.Services
 
             DamageSummaryServices.InitListDamageSummary(listDamageSummary,2_000_000,BridgePart.SuperSpace);
             //Assert
-            Assert.Equal(1, listDamageSummary[0].ComponentValue);
+            Assert.Equal(2, listDamageSummary[0].ComponentValue);
         }
 
         [Fact]
@@ -115,7 +115,7 @@ namespace AutoRegularInspectionTestProject.Services
 
                     Component="台身"
                     ,Damage="墩身水平裂缝"
-                    ,PictureNo="855,858,875"
+                    ,PictureNo="855;858;875"
                 }
             };
 
@@ -139,7 +139,7 @@ namespace AutoRegularInspectionTestProject.Services
 
                     Component="伸缩缝"
                     ,Damage="缝内沉积物阻塞"
-                    ,PictureNo="855,858,875"
+                    ,PictureNo="855;858;875"
                 }
             };
 
@@ -162,7 +162,7 @@ namespace AutoRegularInspectionTestProject.Services
 
                     Component="伸缩缝"
                     ,Damage="其它病害"
-                    ,PictureNo="855,858,875"
+                    ,PictureNo="855;858;875"
                 }
             };
 

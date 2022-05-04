@@ -233,7 +233,7 @@ namespace AutoRegularInspection.Services
 
             builder.MoveTo(bookmark.BookmarkStart);
 
-            builder.ParagraphFormat.Style = _doc.Styles[App.DocStyleOfMainText];
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfMainText];//_doc.Styles[App.DocStyleOfMainText];
 
             //TODO：考虑一下具体的缩进值
             //builder.ParagraphFormat.FirstLineIndent = 8;
@@ -303,7 +303,7 @@ namespace AutoRegularInspection.Services
                 builder.Write($"下部结构{_generateReportSettings.InspectionString}结果汇总表");
             }
 
-            builder.ParagraphFormat.Style = _doc.Styles[App.DocStyleOfTable];
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfTable];
             builder.Writeln();
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
             //病害汇总表格
@@ -487,7 +487,7 @@ namespace AutoRegularInspection.Services
             //根据内容自动调整表格
             //summaryTable.AutoFit(AutoFitBehavior.AutoFitToContents);
 
-            builder.ParagraphFormat.Style = _doc.Styles[App.DocStyleOfPicture];    //注意：图片段落格式设置采用单倍行距
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfPicture];    //注意：图片段落格式设置采用单倍行距
             builder.Writeln();
 
             //病害图片插入表格

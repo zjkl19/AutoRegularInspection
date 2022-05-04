@@ -8,6 +8,7 @@ namespace AutoRegularInspection.Models
 {
     public class GenerateReportSettings
     {
+        public ComboBoxReportTemplates ComboBoxReportTemplates { get; set; }
         public string InspectionString { get; set; } = "检测";    //检测字符串
         public bool DeletePositionInBridgeDeckCheckBox { get; set; }
 

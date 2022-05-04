@@ -43,7 +43,7 @@ namespace AutoRegularInspectionTestProject.Services
 
             //Assert
             Assert.Equal(3, totalInvalidPictureCounts);
-            Assert.Equal("875x", superSpaceValidationResult[0]);
+            Assert.Equal("上部结构,照片875x不存在", superSpaceValidationResult[0]);
         }
     }
 }

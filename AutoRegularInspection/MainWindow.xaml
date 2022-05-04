@@ -467,8 +467,16 @@
                 <Label  Content="请选择报告模板" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Margin="5,8,15,0">
-
                 <ComboBox Name="TemplateFileComboBox" DisplayMemberPath="DisplayName" SelectedValuePath="Name" Width="200">
+                </ComboBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
+                <Label  Content="外观检测/检查" VerticalAlignment="Center"/>
+            </StackPanel>
+            <StackPanel Margin="5,8,15,0">
+                <ComboBox Name="InspectionComboBox" Width="90">
+                    <ComboBoxItem IsSelected="True">检测</ComboBoxItem>
+                    <ComboBoxItem>检查</ComboBoxItem>
                 </ComboBox>
             </StackPanel>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
