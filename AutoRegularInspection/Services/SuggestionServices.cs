@@ -19,8 +19,8 @@ namespace AutoRegularInspection.Services
         /// <returns></returns>
         public string MakeSuggestions(List<DamageSummary> listDamageSummary)
         {
-            string strFilePath = "病害处理建议库.xlsx";
-            var workSheetName = "病害处理建议库";
+            string strFilePath = $"{App.ConfigurationFolder}\\{App.DamageProcessingSuggestionsFile}";
+            string workSheetName = "病害处理建议库";
 
             MatchCollection matches;
             var regexList = new List<Regex>();    //病害描述特征值

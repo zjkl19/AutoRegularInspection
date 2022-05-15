@@ -40,7 +40,7 @@ namespace AutoRegularInspection.Models
             {
                 workSheetName = "下部结构";
             }
-            string strFilePath = "桥梁病害汇总表.xlsx";
+            string strFilePath = $"{App.ConfigurationFolder}\\{App.DamageSummaryLibFileName}";
             var lst = new List<BridgeDamage>();
 
             if (!File.Exists(strFilePath))
@@ -156,7 +156,7 @@ namespace AutoRegularInspection.Models
 
         private static ObservableCollection<StatisticsUnit> LoadUnitDataFromExcel(string workSheetName)
         {
-            string strFilePath = App.StatisticsUnitFileName;
+            string strFilePath = $"{App.ConfigurationFolder}\\{App.StatisticsUnitFileName}";
             var lst = new List<StatisticsUnit>();
 
             if (!File.Exists(strFilePath))

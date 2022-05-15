@@ -22,7 +22,7 @@ namespace AutoRegularInspection.Repository
         public List<DamageSummary> ReadDamageData(BridgePart bridgePart)
         {
             string strFilePath = App.DamageSummaryFileName;
-            var workSheetName = EnumHelper.GetEnumDesc(bridgePart).ToString();
+            string workSheetName = EnumHelper.GetEnumDesc(bridgePart).ToString();
             var lst = new List<DamageSummary>();
 
             if (!File.Exists(strFilePath))
