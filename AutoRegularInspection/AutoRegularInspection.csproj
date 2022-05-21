@@ -311,13 +311,13 @@
     <Content Include="App.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="配置\ErrorPic.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AsposeWordsNet\Aspose.Words.dll" />
     <Resource Include="外观检查自动报告程序使用说明.txt" />
-    <Content Include="ErrorPic.jpg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Pictures\DSC02858.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

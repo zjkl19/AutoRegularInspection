@@ -22,6 +22,8 @@ namespace AutoRegularInspection
         public const string DocStyleOfTable = "迪南自动报告表格";
         public const string DocStyleOfPicture = "迪南自动报告图片";
 
+        public const string ErrorPicName = "ErrorPic.jpg";
+
         public const string DamageSummaryLibFileName = "桥梁病害汇总表.xlsx";
         public const string ConfigurationFolder = "配置";    //配置文件夹
         public const string DamageProcessingSuggestionsFile = "病害处理建议库.xlsx";

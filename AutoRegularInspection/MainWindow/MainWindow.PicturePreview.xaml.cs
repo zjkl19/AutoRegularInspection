@@ -72,14 +72,14 @@ namespace AutoRegularInspection
                                 }
                                 else
                                 {
-                                    imageClass = new ImageClass("ErrorPic.jpg");
+                                    imageClass = new ImageClass($"{App.ConfigurationFolder}\\{App.ErrorPicName}");
                                 }
                             }
                             
                         }
                         catch (System.Exception ex)
                         {
-                            imageClass = new ImageClass("ErrorPic.jpg");
+                            imageClass = new ImageClass($"{App.ConfigurationFolder}\\{App.ErrorPicName}");
 
                             var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
                             StreamWriter writer = new StreamWriter(stream);
@@ -121,13 +121,13 @@ namespace AutoRegularInspection
                                 }
                                 else
                                 {
-                                    imageClass = new ImageClass("ErrorPic.jpg");
+                                    imageClass = new ImageClass($"{App.ConfigurationFolder}\\{App.ErrorPicName}");
                                 }
                             }
                         }
                         catch (System.Exception ex)
                         {
-                            imageClass = new ImageClass("ErrorPic.jpg");
+                            imageClass = new ImageClass($"{App.ConfigurationFolder}\\{App.ErrorPicName}");
 
                             var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
                             StreamWriter writer = new StreamWriter(stream);
@@ -163,13 +163,13 @@ namespace AutoRegularInspection
                                 }
                                 else
                                 {
-                                    imageClass = new ImageClass("ErrorPic.jpg");
+                                    imageClass = new ImageClass($"{App.ConfigurationFolder}\\{App.ErrorPicName}");
                                 }
                             }
                         }
                         catch (System.Exception ex)
                         {
-                            imageClass = new ImageClass("ErrorPic.jpg");
+                            imageClass = new ImageClass($"{App.ConfigurationFolder}\\{App.ErrorPicName}");
 
                             var stream = new FileStream(@"日志.txt", FileMode.Append);//fileMode指定是读取还是写入
                             StreamWriter writer = new StreamWriter(stream);
