@@ -26,7 +26,7 @@ namespace AutoRegularInspection.Views
         {
             InitializeComponent();
 
-            XDocument xDocument = XDocument.Load(App.ConfigFileName);
+            XDocument xDocument = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
 
             OptionGeneralPageStackPanel.DataContext = new OptionReportGeneralSettings
             {

@@ -28,7 +28,7 @@ namespace AutoRegularInspection.Views
 
             //var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("BridgeDeckSummaryTable").GetAtt;
 
-            XDocument xDocument = XDocument.Load(App.ConfigFileName);
+            XDocument xDocument = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
             OptionWindowHelper.ExtractSummaryTableWidth(xDocument, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
 
             //TODO:研究以下几行

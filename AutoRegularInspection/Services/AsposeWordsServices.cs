@@ -544,9 +544,9 @@ namespace AutoRegularInspection.Services
                         //(暂时用文件名校验)
                         if (!File.Exists($"PicturesOut/{Path.GetFileName(pictureFileName)}"))
                         {
-                            ImageServices.CompressImage($"{pictureFileName}", $"PicturesOut/{Path.GetFileName(pictureFileName)}", CompressImageFlag);    //只取查找到的第1个文件，TODO：UI提示       
+                            _ = ImageServices.CompressImage($"{pictureFileName}", $"PicturesOut/{Path.GetFileName(pictureFileName)}", CompressImageFlag, _generateReportSettings.ImageSettings.MaxCompressSize);    //只取查找到的第1个文件，TODO：UI提示       
                         }
-                        builder.InsertImage($"PicturesOut/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
+                        _ = builder.InsertImage($"PicturesOut/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
 
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].FirstParagraph);
                         builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;

@@ -25,18 +25,16 @@ namespace AutoRegularInspection
             bool commentColumnInsertTable;
             commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value, CultureInfo.InvariantCulture);
 
-            XDocument config = XDocument.Load(App.ConfigFileName);
+            XDocument config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
             XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
             XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-
+            XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
+            XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
             double ImageWidth = Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture); double ImageHeight = Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture);
-
-            //string templateFile = App.TemplateReportFileName;
+            
             string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
 
             string outputFile = App.OutputReportFileName;
-
-            int CompressImageFlag = 80;    //图片压缩质量（0-100,值越大质量越高）
 
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
@@ -49,6 +47,13 @@ namespace AutoRegularInspection
             GenerateReportSettings generateReportSettings = new GenerateReportSettings
             {
                 ComboBoxReportTemplates = App.TemplateFileList[TemplateFileComboBox.SelectedIndex]
+                ,
+                ImageSettings = new ImageSettings
+                {
+                    MaxCompressSize = Convert.ToInt32(pictureMaxCompressSize.Value, CultureInfo.InvariantCulture)
+                    ,
+                    CompressQuality = Convert.ToInt32(pictureCompressQuality.Value, CultureInfo.InvariantCulture)
+                }
                 ,
                 InspectionString = InspectionComboBox.Text
                 ,
@@ -69,7 +74,7 @@ namespace AutoRegularInspection
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    GenerateReport(generateReportSettings, commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                    GenerateReport(generateReportSettings, commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, generateReportSettings.ImageSettings.CompressQuality, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
                     //try
                     //{

@@ -4,7 +4,7 @@ using System.IO;
 
 namespace AutoRegularInspection.Services
 {
-    public class ImageServices
+    public static class ImageServices
     {
         /// <summary>
         /// 无损压缩图片
@@ -15,7 +15,7 @@ namespace AutoRegularInspection.Services
         /// <param name="size">压缩后图片的最大大小</param>
         /// <param name="sfsc">是否是第一次调用</param>
         /// <returns></returns>
-        public static bool CompressImage(string sFile, string dFile, int flag = 90, int size = 300, bool sfsc = true)
+        public static bool CompressImage(string sFile, string dFile, int flag = 90, int size = 120, bool sfsc = true)
         {
             //如果是第一次调用，原始图像的大小小于要压缩的大小，则直接复制文件，并且返回true
             var firstFileInfo = new FileInfo(sFile);

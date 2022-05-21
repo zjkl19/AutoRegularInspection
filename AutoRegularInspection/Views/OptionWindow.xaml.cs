@@ -37,9 +37,7 @@ namespace AutoRegularInspection.Views
             OptionFrame.Tag = "Page1";
             OptionContentControl.DataContext = new { SubPage = new Page1() };
             _log = log;
-
         }
-
 
         private void Picture_General_Selected(object sender, RoutedEventArgs e)
         {
@@ -51,10 +49,12 @@ namespace AutoRegularInspection.Views
 
             OptionFrame.Tag = nameof(OptionPicturePage);
 
-            var config = XDocument.Load(@"Option.config");
+            var config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
 
             XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
             XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+            XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
+            XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
 
             OptionContentControl.DataContext = new
             {
@@ -65,6 +65,10 @@ namespace AutoRegularInspection.Views
                         PictureWidth = pictureWidth.Value.ToString(CultureInfo.InvariantCulture)
                         ,
                         PictureHeight = pictureHeight.Value.ToString(CultureInfo.InvariantCulture)
+                        ,
+                        PictureMaxCompressSize= pictureMaxCompressSize.Value.ToString(CultureInfo.InvariantCulture)
+                        ,
+                        PictureCompressQuality = pictureCompressQuality.Value.ToString(CultureInfo.InvariantCulture)
                     }
                 }
             };
@@ -79,7 +83,7 @@ namespace AutoRegularInspection.Views
 
             OptionFrame.Tag = nameof(OptionBookmarkPage);
 
-            var config = XDocument.Load(@"Option.config");
+            var config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
 
             var BridgeDeckBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault();
             var SuperSpaceBookmarkStartNo = config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault();

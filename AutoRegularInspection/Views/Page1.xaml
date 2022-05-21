@@ -9,7 +9,7 @@
       Title="Page1">
 
     <StackPanel Background="LightBlue">
-        <TextBlock Name="TxtInfo" Margin="10,10,10,10">Start Page</TextBlock>
+        <TextBlock Name="TxtInfo" Margin="10,10,10,10">您可以在这里对程序进行各种配置</TextBlock>
         <TextBlock  HorizontalAlignment="Left"
                 Margin="10,10,10,10">
         </TextBlock>

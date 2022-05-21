@@ -15,7 +15,7 @@ namespace AutoRegularInspection.Views
         {
             var frame = OptionContentControl.Content as Frame;
 
-            var config = XDocument.Load(App.ConfigFileName);
+            var config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
 
             if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
             {
@@ -26,6 +26,10 @@ namespace AutoRegularInspection.Views
                 pictureWidth.Value = model.PictureWidth;
                 XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
                 pictureHeight.Value = model.PictureHeight;
+                XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
+                pictureMaxCompressSize.Value = model.PictureMaxCompressSize;
+                XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
+                pictureCompressQuality.Value = model.PictureCompressQuality;
 
             }
             else if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
@@ -60,8 +64,7 @@ namespace AutoRegularInspection.Views
                 XElement IntactStructNoInsertSummaryTable = config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault();
                 IntactStructNoInsertSummaryTable.Value = model.IntactStructNoInsertSummaryTable.ToString(CultureInfo.InvariantCulture);
             }
-
-            config.Save(App.ConfigFileName);
+            config.Save($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
             _ = MessageBox.Show("保存设置成功！");
 
             void SetSummaryTableWidth(XDocument xDocument, BridgeDamageSummaryTableWidth model,string elementName)
@@ -74,23 +77,7 @@ namespace AutoRegularInspection.Views
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("PictureNo").Value = model.PictureNo.ToString(CultureInfo.InvariantCulture);
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Comment").Value = model.Comment.ToString(CultureInfo.InvariantCulture);
             }
-            //try
-            //{
-
-            //    var config = XDocument.Load(@"Option.config");
-
-            //    var pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-            //    pictureWidth.Value = PictureWidth.Text;
-            //    var pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-            //    pictureHeight.Value = PictureHeight.Text;
-            //    config.Save(@"Option.config");
-
-            //    MessageBox.Show("保存设置成功！");
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
+            
         }
 
     }

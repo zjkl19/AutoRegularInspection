@@ -14,71 +14,63 @@ namespace AutoRegularInspection.Models
         private string _PictureWidth;
         public string PictureWidth
         {
-            get { return _PictureWidth; }
-            set
-            {
-                UpdateProperty(ref _PictureWidth, value);
-            }
+            get => _PictureWidth;
+            set => UpdateProperty(ref _PictureWidth, value);
         }
 
         private string _PictureHeight;
         public string PictureHeight
         {
-            get { return _PictureHeight; }
-            set
-            {
-                UpdateProperty(ref _PictureHeight, value);
-            }
+            get => _PictureHeight;
+            set => UpdateProperty(ref _PictureHeight, value);
+        }
+
+        private string _PictureMaxCompressSize;
+        public string PictureMaxCompressSize
+        {
+            get => _PictureMaxCompressSize;
+            set => UpdateProperty(ref _PictureMaxCompressSize, value);
+        }
+        private string _PictureCompressQuality;
+        public string PictureCompressQuality
+        {
+            get => _PictureCompressQuality;
+            set => UpdateProperty(ref _PictureCompressQuality, value);
         }
 
         private string _BridgeDeckBookmarkStartNo;
         public string BridgeDeckBookmarkStartNo
         {
-            get { return _BridgeDeckBookmarkStartNo; }
-            set
-            {
-                UpdateProperty(ref _BridgeDeckBookmarkStartNo, value);
-            }
+            get => _BridgeDeckBookmarkStartNo;
+            set => UpdateProperty(ref _BridgeDeckBookmarkStartNo, value);
         }
 
         private string _SuperSpaceBookmarkStartNo;
         public string SuperSpaceBookmarkStartNo
         {
-            get { return _SuperSpaceBookmarkStartNo; }
-            set
-            {
-                UpdateProperty(ref _SuperSpaceBookmarkStartNo, value);
-            }
+            get => _SuperSpaceBookmarkStartNo;
+            set => UpdateProperty(ref _SuperSpaceBookmarkStartNo, value);
         }
 
         private string _SubSpaceBookmarkStartNo;
         public string SubSpaceBookmarkStartNo
         {
-            get { return _SubSpaceBookmarkStartNo; }
-            set
-            {
-                UpdateProperty(ref _SubSpaceBookmarkStartNo, value);
-            }
+            get => _SubSpaceBookmarkStartNo;
+            set => UpdateProperty(ref _SubSpaceBookmarkStartNo, value);
         }
 
         private string _BridgeDeckNoWidth;
         public string BridgeDeckNoWidth
         {
-            get { return _BridgeDeckNoWidth; }
-            set
-            {
-                UpdateProperty(ref _BridgeDeckNoWidth, value);
-            }
+            get => _BridgeDeckNoWidth;
+            set => UpdateProperty(ref _BridgeDeckNoWidth, value);
         }
 
         private string _BridgeDeckPositionWidth;
         public string BridgeDeckPositionWidth
         {
-            get { return _BridgeDeckPositionWidth; }
-            set
-            {
-                UpdateProperty(ref _BridgeDeckPositionWidth, value);
-            }
+            get => _BridgeDeckPositionWidth;
+            set => UpdateProperty(ref _BridgeDeckPositionWidth, value);
         }
 
         //private object _SubPage;
