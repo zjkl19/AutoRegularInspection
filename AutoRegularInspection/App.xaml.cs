@@ -31,7 +31,10 @@ namespace AutoRegularInspection
         public const string PicturesFolder = "Pictures";
         public const string PicturesOutFolder = "PicturesOut";
         public const string InvalidPicturesStoreFile = "无效照片列表.txt";
+        
         public const string DamageSummaryFileName = "外观检查.xlsx";
+        public const string DamageSummaryStatisticsFileName = "外观检查 - 统计.xlsx";
+
         public const string StatisticsUnitFileName = "统计单位表.xlsx";
         public const string TemplateReportFileName = "外观检查报告模板.docx";
         public const string OutputReportFileName = "自动生成的外观检查报告.docx";
@@ -42,6 +45,7 @@ namespace AutoRegularInspection
 
         public static List<ComboBoxReportTemplates> TemplateFileList => new List<ComboBoxReportTemplates> {
             new ComboBoxReportTemplates{DisplayName= "建研报告模板",Name="外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}
+            ,new ComboBoxReportTemplates{DisplayName= "交通综合评价报告模板",Name="交通综合评价报告模板.docx",DocStyleOfMainText="迪南交通报告正文",DocStyleOfTable="迪南交通报告表格",DocStyleOfPicture="迪南交通报告图片"}
             ,new ComboBoxReportTemplates{DisplayName= "检测中心报告模板",Name="检测中心外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}
             ,new ComboBoxReportTemplates{DisplayName= "自定义报告模板",Name="自定义外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}};
 

@@ -19,9 +19,9 @@ namespace AutoRegularInspection.Repository
         /// </summary>
         /// <param name="workSheetName">工作簿名称</param>
         /// <returns></returns>
-        public List<DamageSummary> ReadDamageData(BridgePart bridgePart)
+        public List<DamageSummary> ReadDamageData(BridgePart bridgePart, string strFilePath = App.DamageSummaryFileName)
         {
-            string strFilePath = App.DamageSummaryFileName;
+            //string strFilePath = App.DamageSummaryFileName;
             string workSheetName = EnumHelper.GetEnumDesc(bridgePart).ToString();
             var lst = new List<DamageSummary>();
 
@@ -101,6 +101,14 @@ namespace AutoRegularInspection.Repository
             {
                 throw ex;
             }
+        }
+
+        public List<DamageSummary> ReadDamageData(string strFilePath,BridgePart bridgePart)
+        {
+            var lst = new List<DamageSummary>();
+
+            return lst;
+            
         }
 
         private int GetUnit1Counts(string unitCountsString)

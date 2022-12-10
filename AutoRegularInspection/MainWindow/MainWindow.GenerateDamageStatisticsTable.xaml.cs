@@ -1,7 +1,10 @@
-﻿using AutoRegularInspection.Models;
+﻿using AutoRegularInspection.IRepository;
+using AutoRegularInspection.Models;
 using AutoRegularInspection.Services;
+using Ninject;
 using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
@@ -14,15 +17,46 @@ namespace AutoRegularInspection
     {
         private void GenerateDamageStatisticsTable_Click(object sender, RoutedEventArgs e)
         {
+            IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
+            var dataRepository = kernel.Get<IDataRepository>();
 
-            var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
-            var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
-            var _SubSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
+            if (!File.Exists($"{Path.GetFileName(App.DamageSummaryStatisticsFileName)}"))
+            {
+                if (MessageBox.Show($"{App.DamageSummaryStatisticsFileName}文件不存在，是否使用{App.DamageSummaryFileName}作为统计文件？", "提示", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    File.Copy(App.DamageSummaryFileName, App.DamageSummaryStatisticsFileName, true);
+                }
+                else
+                {
+                    return;
+                }
+
+            }
+            List<DamageSummary> lst;
+
+            lst = dataRepository.ReadDamageData(BridgePart.BridgeDeck, App.DamageSummaryStatisticsFileName);
+            DamageSummaryServices.InitListDamageSummary(lst);
+            ObservableCollection<DamageSummary> oc = new ObservableCollection<DamageSummary>();
+            lst.ForEach(x => oc.Add(x));
+            ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary = oc;
+
+            lst = dataRepository.ReadDamageData(BridgePart.SuperSpace, App.DamageSummaryStatisticsFileName);
+            DamageSummaryServices.InitListDamageSummary(lst, 2_000_000, BridgePart.SuperSpace);
+            oc = new ObservableCollection<DamageSummary>();
+            lst.ForEach(x => oc.Add(x));
+            ObservableCollection<DamageSummary> _superSpaceListDamageSummary = oc;
+
+            lst = dataRepository.ReadDamageData(BridgePart.SubSpace, App.DamageSummaryStatisticsFileName);
+            DamageSummaryServices.InitListDamageSummary(lst, 3_000_000, BridgePart.SubSpace);
+            oc = new ObservableCollection<DamageSummary>();
+            lst.ForEach(x => oc.Add(x));
+            ObservableCollection<DamageSummary> _subSpaceListDamageSummary = oc;
+
 
             try
             {
-                DamageSummaryServices.GenerateDamageStatisticsTable(_bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _SubSpaceListDamageSummary);
-                MessageBox.Show("成功生成桥梁检测病害统计汇总表！");
+                DamageSummaryServices.GenerateDamageStatisticsTable(_bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                _ = MessageBox.Show("成功生成桥梁检测病害统计汇总表！");
             }
             catch (Exception ex)
             {
