@@ -59,6 +59,8 @@ namespace AutoRegularInspection
                 ,
                 DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture)
                 ,
+                DeletePositionInSuperSpaceCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInSuperSpace"].Value, CultureInfo.InvariantCulture)
+                ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
                 ,
                 IntactStructNoInsertSummaryTable = Convert.ToBoolean(config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault().Value, CultureInfo.InvariantCulture)

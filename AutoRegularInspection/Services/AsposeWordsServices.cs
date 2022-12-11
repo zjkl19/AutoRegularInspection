@@ -478,7 +478,12 @@ namespace AutoRegularInspection.Services
             summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, Color.Black, true);
             summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
 
-            if (BookmarkStartName == BridgeDeckBookmarkStartName && _generateReportSettings.DeletePositionInBridgeDeckCheckBox == true)
+            if (BookmarkStartName == BridgeDeckBookmarkStartName && _generateReportSettings.DeletePositionInBridgeDeckCheckBox)
+            {
+                Column column = Column.FromIndex(summaryTable, 1);
+                column.Remove();
+            }
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName && _generateReportSettings.DeletePositionInSuperSpaceCheckBox)
             {
                 Column column = Column.FromIndex(summaryTable, 1);
                 column.Remove();

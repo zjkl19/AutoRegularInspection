@@ -8,7 +8,7 @@
         xmlns:local="clr-namespace:AutoRegularInspection.Models"
         xmlns:converters="clr-namespace:AutoRegularInspection.Converters"
         mc:Ignorable="d"
-        Title="外观检查自动报告" Height="650" Width="1500">
+        Title="外观检查自动报告" Height="680" Width="1450">
     <Window.Resources>
         <local:EnumConverter x:Key="eConverter"/>
         <local:ComponentValueConverter x:Key="cConverter"/>
@@ -481,8 +481,11 @@
             </StackPanel>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="备注列插入Word表格" VerticalAlignment="Center" Name="CommentColumnInsertTableCheckBox" Click="CommentColumnInsertTableCheckBox_Click"/>
-            <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="删除桥面系检查结果汇总表&quot;位置&quot;一列" VerticalAlignment="Center" Name="DeletePositionInBridgeDeckCheckBox" Click="DeletePositionInBridgeDeckCheckBox_Click"/>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="自定义汇总表格宽度" VerticalAlignment="Center" Name="CustomSummaryTableWidthCheckBox" Click="CustomSummaryTableWidthCheckBox_Click"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
+            <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="删除桥面系检查结果汇总表&quot;位置&quot;一列" VerticalAlignment="Center" Name="DeletePositionInBridgeDeckCheckBox" Click="DeletePositionInBridgeDeckCheckBox_Click"/>
+            <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="删除上部结构检查结果汇总表&quot;位置&quot;一列" VerticalAlignment="Center" Name="DeletePositionInSuperSpaceCheckBox" Click="DeletePositionInSuperSpaceCheckBox_Click"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}" >
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="PicturePreview_Click">照片预览</Button>
@@ -506,7 +509,6 @@
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="SuggestionButton_Click">查看参考建议</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="CheckForUpdateButton_Click">检查更新</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="DisclaimerButton_Click">免责声明</Button>
-
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
             <Label  Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2022" VerticalAlignment="Center"/>
