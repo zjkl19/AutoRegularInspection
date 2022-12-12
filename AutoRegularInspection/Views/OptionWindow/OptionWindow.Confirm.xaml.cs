@@ -31,6 +31,11 @@ namespace AutoRegularInspection.Views
                 XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
                 pictureCompressQuality.Value = model.PictureCompressQuality;
 
+                XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
+                compressPictureWidth.Value = model.CompressPictureWidth;
+                XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
+                compressPictureHeight.Value = model.CompressPictureHeight;
+
             }
             else if ((string)OptionFrame.Tag == nameof(OptionBookmarkPage))
             {

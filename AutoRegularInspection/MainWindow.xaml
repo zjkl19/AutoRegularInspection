@@ -494,6 +494,7 @@
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="MoveRowUp_Click">上移选中行</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="MoveRowDown_Click">下移选中行</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="ValidatePictures_Click">验证照片有效性</Button>
+            <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click=" BatchCompressImage_Click">批量压缩照片</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="BackupExcel_Click">备份Excel</Button>

@@ -56,6 +56,9 @@ namespace AutoRegularInspection.Views
             XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
             XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
 
+            XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
+            XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
+
             OptionContentControl.DataContext = new
             {
                 SubPage = new OptionPicturePage
@@ -69,6 +72,10 @@ namespace AutoRegularInspection.Views
                         PictureMaxCompressSize= pictureMaxCompressSize.Value.ToString(CultureInfo.InvariantCulture)
                         ,
                         PictureCompressQuality = pictureCompressQuality.Value.ToString(CultureInfo.InvariantCulture)
+                        ,
+                        CompressPictureWidth = compressPictureWidth.Value.ToString(CultureInfo.InvariantCulture)
+                        ,
+                        CompressPictureHeight = compressPictureHeight.Value.ToString(CultureInfo.InvariantCulture)
                     }
                 }
             };

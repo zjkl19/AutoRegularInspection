@@ -8,7 +8,7 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="Page1">
 
-    <StackPanel Background="LightBlue">
+    <StackPanel>
         <TextBlock Name="TxtInfo" Margin="10,10,10,10">您可以在这里对程序进行各种配置</TextBlock>
         <TextBlock  HorizontalAlignment="Left"
                 Margin="10,10,10,10">

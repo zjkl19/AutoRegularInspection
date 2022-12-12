@@ -38,6 +38,20 @@ namespace AutoRegularInspection.Models
             set => UpdateProperty(ref _PictureCompressQuality, value);
         }
 
+        private string _CompressPictureWidth;
+        public string CompressPictureWidth
+        {
+            get => _CompressPictureWidth;
+            set => UpdateProperty(ref _CompressPictureWidth, value);
+        }
+
+        private string _CompressPictureHeight;
+        public string CompressPictureHeight
+        {
+            get => _CompressPictureHeight;
+            set => UpdateProperty(ref _CompressPictureHeight, value);
+        }
+
         private string _BridgeDeckBookmarkStartNo;
         public string BridgeDeckBookmarkStartNo
         {

@@ -30,8 +30,13 @@ namespace AutoRegularInspection
             XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
             XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
             XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
+
+            XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
+            XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
+
             double ImageWidth = Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture); double ImageHeight = Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture);
-            
+            double CompressImageWidth = Convert.ToDouble(compressPictureWidth.Value, CultureInfo.InvariantCulture); double CompressImageHeight = Convert.ToDouble(compressPictureHeight.Value, CultureInfo.InvariantCulture);
+
             string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
 
             string outputFile = App.OutputReportFileName;
@@ -53,6 +58,10 @@ namespace AutoRegularInspection
                     MaxCompressSize = Convert.ToInt32(pictureMaxCompressSize.Value, CultureInfo.InvariantCulture)
                     ,
                     CompressQuality = Convert.ToInt32(pictureCompressQuality.Value, CultureInfo.InvariantCulture)
+                    ,
+                    CompressImageWidth = Convert.ToInt32(CompressImageWidth)
+                    ,
+                    CompressImageHeight = Convert.ToInt32(CompressImageHeight)
                 }
                 ,
                 InspectionString = InspectionComboBox.Text

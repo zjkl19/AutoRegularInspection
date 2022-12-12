@@ -59,10 +59,10 @@ namespace AutoRegularInspection
                         {
                             dirs = Directory.GetFiles($@"{App.PicturesFolder}/", $"*{lst[i].PictureNo}.*");    //结果含有路径
                             outdirs = Directory.GetFiles($@"{App.PicturesOutFolder}/", $"*{lst[i].PictureNo}.*");
-                            if(dirs.Length!=0)
+                            if (dirs.Length != 0)
                             {
                                 imageClass = new ImageClass(FileService.GetFileName($"{App.PicturesFolder}", lst[i].PictureNo));
-                                
+
                             }
                             else
                             {

@@ -13,6 +13,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace AutoRegularInspection.Services
 {
@@ -230,9 +233,7 @@ namespace AutoRegularInspection.Services
             //1、单倍行距
             //2、首行不缩进
             var bookmark = _doc.Range.Bookmarks[BookmarkStartName];
-
             builder.MoveTo(bookmark.BookmarkStart);
-
             builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfMainText];//_doc.Styles[App.DocStyleOfMainText];
 
             //TODO：考虑一下具体的缩进值
@@ -319,9 +320,7 @@ namespace AutoRegularInspection.Services
             }
 
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-
             builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
-
             builder.Font.Bold = true;
 
             builder.Write("序号");
@@ -473,10 +472,10 @@ namespace AutoRegularInspection.Services
             MergeTheSameColumn(listDamageSummary, summaryTable, 1);
 
             // Set a green border around the table but not inside. 
-            summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, Color.Black, true);
-            summaryTable.SetBorder(BorderType.Right, LineStyle.Single, 1.5, Color.Black, true);
-            summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, Color.Black, true);
-            summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, Color.Black, true);
+            summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Right, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
 
             if (BookmarkStartName == BridgeDeckBookmarkStartName && _generateReportSettings.DeletePositionInBridgeDeckCheckBox)
             {
@@ -549,7 +548,15 @@ namespace AutoRegularInspection.Services
                         //(暂时用文件名校验)
                         if (!File.Exists($"PicturesOut/{Path.GetFileName(pictureFileName)}"))
                         {
-                            _ = ImageServices.CompressImage($"{pictureFileName}", $"PicturesOut/{Path.GetFileName(pictureFileName)}", CompressImageFlag, _generateReportSettings.ImageSettings.MaxCompressSize);    //只取查找到的第1个文件，TODO：UI提示       
+                            using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load<Rgba32>(pictureFileName))
+                            {
+
+                                int width = _generateReportSettings.ImageSettings.CompressImageWidth;
+                                int height = _generateReportSettings.ImageSettings.CompressImageHeight;
+                                image.Mutate(x => x.Resize(width, height, KnownResamplers.Bicubic));
+                                image.Save($"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
+                            }
+                            //_ = ImageServices.CompressImage($"{pictureFileName}", $"PicturesOut/{Path.GetFileName(pictureFileName)}", CompressImageFlag, _generateReportSettings.ImageSettings.MaxCompressSize);    //只取查找到的第1个文件，TODO：UI提示       
                         }
                         _ = builder.InsertImage($"PicturesOut/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
 
@@ -931,17 +938,17 @@ namespace AutoRegularInspection.Services
             Table parentTable = startCell.ParentRow.ParentTable;
 
             // Find the row and cell indices for the start and end cell.
-            Point startCellPos = new Point(startCell.ParentRow.IndexOf(startCell), parentTable.IndexOf(startCell.ParentRow));
-            Point endCellPos = new Point(endCell.ParentRow.IndexOf(endCell), parentTable.IndexOf(endCell.ParentRow));
+            System.Drawing.Point startCellPos = new System.Drawing.Point(startCell.ParentRow.IndexOf(startCell), parentTable.IndexOf(startCell.ParentRow));
+            System.Drawing.Point endCellPos = new System.Drawing.Point(endCell.ParentRow.IndexOf(endCell), parentTable.IndexOf(endCell.ParentRow));
             // Create the range of cells to be merged based off these indices. Inverse each index if the end cell if before the start cell. 
-            Rectangle mergeRange = new Rectangle(Math.Min(startCellPos.X, endCellPos.X), Math.Min(startCellPos.Y, endCellPos.Y),
+            System.Drawing.Rectangle mergeRange = new System.Drawing.Rectangle(Math.Min(startCellPos.X, endCellPos.X), Math.Min(startCellPos.Y, endCellPos.Y),
                 Math.Abs(endCellPos.X - startCellPos.X) + 1, Math.Abs(endCellPos.Y - startCellPos.Y) + 1);
 
             foreach (Row row in parentTable.Rows)
             {
                 foreach (Cell cell in row.Cells)
                 {
-                    Point currentPos = new Point(row.IndexOf(cell), parentTable.IndexOf(row));
+                    System.Drawing.Point currentPos = new System.Drawing.Point(row.IndexOf(cell), parentTable.IndexOf(row));
 
                     // Check if the current cell is inside our merge range then merge it.
                     if (mergeRange.Contains(currentPos))

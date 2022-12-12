@@ -10,20 +10,25 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
-            <Label Content="图片宽度（像素）" ></Label>
-            <TextBox Text="{Binding PictureWidth,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
+            <Label Content="报告图片宽度（像素）" ></Label>
+            <TextBox Text="{Binding PictureWidth,UpdateSourceTrigger=PropertyChanged}" Width="120"></TextBox>
+            <Label Content="报告图片高度（像素）" ></Label>
+            <TextBox  Text="{Binding PictureHeight,UpdateSourceTrigger=PropertyChanged}" Width="120"></TextBox>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
-            <Label Content="图片高度（像素）" ></Label>
-            <TextBox  Text="{Binding PictureHeight,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
-        </StackPanel>
+
         <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
             <Label Content="压缩后图片最大大小（KB，仅支持正整数）" ></Label>
-            <TextBox  Text="{Binding PictureMaxCompressSize,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
+            <TextBox  Text="{Binding PictureMaxCompressSize,UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBox>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
             <Label Content="压缩质量（数字越小压缩率越高）1-100" ></Label>
-            <TextBox  Text="{Binding PictureCompressQuality,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
+            <TextBox  Text="{Binding PictureCompressQuality,UpdateSourceTrigger=PropertyChanged}" Width="150"></TextBox>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
+            <Label Content="压缩图片宽度（像素）" ></Label>
+            <TextBox Text="{Binding CompressPictureWidth,UpdateSourceTrigger=PropertyChanged}" Width="120"></TextBox>
+            <Label Content="压缩图片高度（像素，若填0，则依据宽度按比例缩放）" ></Label>
+            <TextBox  Text="{Binding CompressPictureHeight,UpdateSourceTrigger=PropertyChanged}" Width="120"></TextBox>
         </StackPanel>
     </StackPanel>
 </Page>
