@@ -54,6 +54,17 @@ namespace AutoRegularInspectionTestProject
                 ,
                 InspectionString = "检测"
                 ,
+                ImageSettings = new ImageSettings
+                {
+                    MaxCompressSize = Convert.ToInt32(200, CultureInfo.InvariantCulture)
+                    ,
+                    CompressQuality = Convert.ToInt32(80, CultureInfo.InvariantCulture)
+                    ,
+                    CompressImageWidth = Convert.ToInt32(224.25)
+                    ,
+                    CompressImageHeight = Convert.ToInt32(168.75)
+                }
+                ,
                 DeletePositionInBridgeDeckCheckBox = false
           ,
                 CustomTableCellWidth = false
@@ -66,9 +77,9 @@ namespace AutoRegularInspectionTestProject
             };
 
             var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
-            
+
             //TODO:改方法，加参数
-            asposeService.GenerateReport(false,ImageWidth, ImageHeight, CompressImageFlag);
+            asposeService.GenerateReport(false, ImageWidth, ImageHeight, CompressImageFlag);
 
             doc.UpdateFields();
             doc.UpdateFields();
@@ -114,16 +125,16 @@ namespace AutoRegularInspectionTestProject
             Table subSpaceDamagePictureTable = doc.GetChildNodes(NodeType.Table, true)[bridgeDeckDamageSummaryTableIndex + 2 * 2 + 1] as Table;
 
             doc.UnlinkFields();   //看情况决定是否要解除链接
-            
+
             doc.Save(outputFile, SaveFormat.Docx);   //如果需要查看生成的文件，则加上这句
 
 
             int skipBefore = 22; int skipAfter = 26;    //该数据要手动测试出来
-            List<string> fileNameList = AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(skipBefore, skipAfter,outputFile, $@"{tempPath}\").ToList();
+            List<string> fileNameList = AutoRegularInspection.Repository.AsposeWordsImage.ExportImageFromWordFile(skipBefore, skipAfter, outputFile, $@"{tempPath}\").ToList();
 
             //Assert
             //测试汇总内容
-            Assert.Contains("伸缩缝：共3条缝内沉积物阻塞，长度29.8m；共1处接缝处铺装碎边，面积0.6m²。\r栏杆：共1处丢失残缺。", doc.Range.Text,StringComparison.Ordinal);
+            Assert.Contains("伸缩缝：共3条缝内沉积物阻塞，长度29.8m；共1处接缝处铺装碎边，面积0.6m²。\r栏杆：共1处丢失残缺。", doc.Range.Text, StringComparison.Ordinal);
             Assert.Contains("台身：共3处露筋锈蚀，面积0.48m²。", doc.Range.Text, StringComparison.Ordinal);
 
             //测试汇总表（桥面系）
@@ -134,8 +145,8 @@ namespace AutoRegularInspectionTestProject
             Assert.Contains("图 2-1 左幅0#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-4 右幅1#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[3].Cells[1].GetText().Trim(), StringComparison.Ordinal);
             //测试图片md5（桥面系）
-            Assert.Equal("2169b9d1255df20c32a8f01b739c06ec", GetFileMD5($@"{tempPath}\{fileNameList[0]}"),true);
-            Assert.Equal("8bf87376612ac0545727f299ab61688d", GetFileMD5($@"{tempPath}\{fileNameList[1]}"), true);
+            Assert.Equal("B6293505BD94C532CDDF8742E5CE3E1C", GetFileMD5($@"{tempPath}\{fileNameList[0]}"), true);
+            Assert.Equal("5D27A41DF0962ABA0042E3E6E29D6E8B", GetFileMD5($@"{tempPath}\{fileNameList[1]}"), true);
 
             //测试汇总表（上部结构）
             Assert.Contains("无", superSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
@@ -144,18 +155,18 @@ namespace AutoRegularInspectionTestProject
             Assert.Contains("图 2-9 左幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-10 右幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[1].GetText().Trim(), StringComparison.Ordinal);
             //测试图片md5（上部结构）
-            Assert.Equal("2169b9d1255df20c32a8f01b739c06ec", GetFileMD5($@"{tempPath}\{fileNameList[8]}"), true);
-            Assert.Equal("0adecfa1b4387ccc54022bd98b518a0f", GetFileMD5($@"{tempPath}\{fileNameList[9]}"), true);
+            Assert.Equal("B6293505BD94C532CDDF8742E5CE3E1C", GetFileMD5($@"{tempPath}\{fileNameList[8]}"), true);
+            Assert.Equal("1FCAD78B7DF4DBE1603EB3319E871C7C", GetFileMD5($@"{tempPath}\{fileNameList[9]}"), true);
 
             //测试汇总表（下部结构）
             Assert.Contains("水蚀", subSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
             Assert.Contains("图 2-12", subSpaceDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(), StringComparison.Ordinal);
             //测试汇总图片表（下部结构）
-            Assert.Contains("图 2-13 左幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1+2].Cells[0].GetText().Trim(), StringComparison.Ordinal);
-            Assert.Contains("图 2-14 右幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1+2].Cells[1].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-13 左幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1 + 2].Cells[0].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-14 右幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1 + 2].Cells[1].GetText().Trim(), StringComparison.Ordinal);
             //测试图片md5（下部结构）
-            Assert.Equal("2169b9d1255df20c32a8f01b739c06ec", GetFileMD5($@"{tempPath}\{fileNameList[10]}"), true);
-            Assert.Equal("0adecfa1b4387ccc54022bd98b518a0f", GetFileMD5($@"{tempPath}\{fileNameList[11]}"), true);
+            Assert.Equal("B6293505BD94C532CDDF8742E5CE3E1C", GetFileMD5($@"{tempPath}\{fileNameList[10]}"), true);
+            Assert.Equal("1FCAD78B7DF4DBE1603EB3319E871C7C", GetFileMD5($@"{tempPath}\{fileNameList[11]}"), true);
         }
 
         public static string GetFileMD5(string filepath)
