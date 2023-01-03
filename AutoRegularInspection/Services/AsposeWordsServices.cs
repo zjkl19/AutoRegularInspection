@@ -52,19 +52,23 @@ namespace AutoRegularInspection.Services
         {
             progressModel.ProgressValue = 0;
 
+
             InsertSummaryWords();
-            progressModel.Content = "正在处理桥面系……";
+            progressModel.Content = $"正在处理{Properties.Resources.BridgeDeck}……";
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
-            progressModel.Content = "正在处理上部结构……";
+            System.Threading.Thread.Sleep(1000);
+
+            progressModel.Content = $"正在处理{Properties.Resources.SuperSpace}……";
             progressModel.ProgressValue = 33;
-            System.Threading.Thread.Sleep(500);
-
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
-            progressModel.Content = "正在处理下部结构……";
-            progressModel.ProgressValue = 66;
-            System.Threading.Thread.Sleep(500);
+            System.Threading.Thread.Sleep(1000);
 
+            
+            progressModel.Content = $"正在处理{Properties.Resources.SubSpace}……";
+            progressModel.ProgressValue = 66;
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            System.Threading.Thread.Sleep(1000);
+
             progressModel.ProgressValue = 99;
 
             progressModel.Content = "正在替换文档变量……";
@@ -100,7 +104,7 @@ namespace AutoRegularInspection.Services
             foreach (var v in _doc.Range.Fields)
             {
                 var v1 = v as FieldDocVariable;
-                if (v1!=null && MyDocumentVariables.Contains(v1.VariableName))
+                if (v1 != null && MyDocumentVariables.Contains(v1.VariableName))
                 {
                     _ = v1.Unlink();
                 }
@@ -535,9 +539,9 @@ namespace AutoRegularInspection.Services
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
 
                         //var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
-                        if(Directory.GetFiles($@"{App.PicturesFolder}/", $"*{ p[j]}.*").Length!=0)
+                        if (Directory.GetFiles($@"{App.PicturesFolder}/", $"*{ p[j]}.*").Length != 0)
                         {
-                            pictureFileName = FileService.GetFileName(@"Pictures", p[j]);
+                            pictureFileName = FileService.GetFileName($@"{App.PicturesFolder}", p[j]);
                         }
                         else
                         {
