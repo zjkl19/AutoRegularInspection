@@ -21,6 +21,7 @@ namespace AutoRegularInspection.Services
 {
     public class AsposeWordsServices
     {
+        private const double TableBorderLineWidth = 1.5;
         private Document _doc;
         private List<DamageSummary> _bridgeDeckListDamageSummary;
         private List<DamageSummary> _superSpaceListDamageSummary;
@@ -248,17 +249,17 @@ namespace AutoRegularInspection.Services
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
                 tableCellWidth = _generateReportSettings.BridgeDeckTableCellWidth;
-                builder.Write($"桥面系{_generateReportSettings.InspectionString}结果详见");
+                builder.Write($"{Properties.Resources.BridgeDeck}{_generateReportSettings.InspectionString}结果详见");
             }
             else if (BookmarkStartName == SuperSpaceBookmarkStartName)
             {
                 tableCellWidth = _generateReportSettings.SuperSpaceTableCellWidth;
-                builder.Write($"上部结构{_generateReportSettings.InspectionString}结果详见");
+                builder.Write($"{Properties.Resources.SuperSpace}{_generateReportSettings.InspectionString}结果详见");
             }
             else
             {
                 tableCellWidth = _generateReportSettings.SubSpaceTableCellWidth;
-                builder.Write($"下部结构{_generateReportSettings.InspectionString}结果详见");
+                builder.Write($"{Properties.Resources.SubSpace}{_generateReportSettings.InspectionString}结果详见");
             }
             int firstIndex = 0; int lastIndex = listDamageSummary.Count - 1;
             //查找第一张
@@ -281,6 +282,7 @@ namespace AutoRegularInspection.Services
             builder.Write("。");
             builder.Writeln();
 
+            //开始插入汇总表格
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
 
             builder.Write("表 ");
@@ -476,10 +478,10 @@ namespace AutoRegularInspection.Services
             MergeTheSameColumn(listDamageSummary, summaryTable, 1);
 
             // Set a green border around the table but not inside. 
-            summaryTable.SetBorder(BorderType.Left, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
-            summaryTable.SetBorder(BorderType.Right, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
-            summaryTable.SetBorder(BorderType.Top, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
-            summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, 1.5, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Left, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Right, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Top, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
 
             if (BookmarkStartName == BridgeDeckBookmarkStartName && _generateReportSettings.DeletePositionInBridgeDeckCheckBox)
             {
