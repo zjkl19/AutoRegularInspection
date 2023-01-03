@@ -64,7 +64,7 @@ namespace AutoRegularInspection.Services
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             System.Threading.Thread.Sleep(1000);
 
-            
+
             progressModel.Content = $"正在处理{Properties.Resources.SubSpace}……";
             progressModel.ProgressValue = 66;
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
@@ -77,7 +77,7 @@ namespace AutoRegularInspection.Services
 
             //两次更新域，1次更新序号，1次更新序号对应的交叉引用
             _doc.UpdateFields();
-            _doc.UpdateFields();    
+            _doc.UpdateFields();
 
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";
@@ -101,7 +101,7 @@ namespace AutoRegularInspection.Services
             }
 
             _doc.UpdateFields();    //更新文档变量
-            
+
             foreach (var v in _doc.Range.Fields)
             {
                 var v1 = v as FieldDocVariable;
@@ -316,10 +316,10 @@ namespace AutoRegularInspection.Services
             //病害汇总表格
             var summaryTable = builder.StartTable();
 
-            builder.InsertCell();        
+            builder.InsertCell();
 
             CellFormat cellFormat = builder.CellFormat;
-            
+
             if (_generateReportSettings.CustomTableCellWidth)
             {
                 cellFormat.Width = tableCellWidth.No;
@@ -399,12 +399,12 @@ namespace AutoRegularInspection.Services
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 //如果完整结构不插入汇总表并且部件名称为"/"
-                if(_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains("/"))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains("/"))
                 {
                     continue;
                 }
 
-                builder.InsertCell(); builder.Write($"{sn}");sn++;
+                builder.InsertCell(); builder.Write($"{sn}"); sn++;
                 cellFormat.Width = tableCellWidth.No;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
                 cellFormat.Width = tableCellWidth.Position;
@@ -549,10 +549,10 @@ namespace AutoRegularInspection.Services
                         {
                             pictureFileName = FileService.GetFileName($"{App.PicturesOutFolder}", p[j]);
                         }
-                        
+
                         //TODO：检测文件是否重复，若重复不需要再压缩（MD5校验）
                         //(暂时用文件名校验)
-                        if (!File.Exists($"PicturesOut/{Path.GetFileName(pictureFileName)}"))
+                        if (!File.Exists($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}"))
                         {
                             using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load<Rgba32>(pictureFileName))
                             {
@@ -564,7 +564,7 @@ namespace AutoRegularInspection.Services
                             }
                             //_ = ImageServices.CompressImage($"{pictureFileName}", $"PicturesOut/{Path.GetFileName(pictureFileName)}", CompressImageFlag, _generateReportSettings.ImageSettings.MaxCompressSize);    //只取查找到的第1个文件，TODO：UI提示       
                         }
-                        _ = builder.InsertImage($"PicturesOut/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
+                        _ = builder.InsertImage($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
 
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].FirstParagraph);
                         builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
@@ -575,18 +575,19 @@ namespace AutoRegularInspection.Services
                         _ = pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[curr % 2].Paragraphs[0]);
                         builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
 
+                        //根据图片数量生成图片描述内容
                         if (listDamageSummary[i].PictureCounts > 1)
                         {
-                            if(!listDamageSummary[i].DamageDescriptionInPicture.Contains("$"))
+                            if (!listDamageSummary[i].DamageDescriptionInPicture.Contains("$"))    //如果不含"$"，则每张图片后以"-"后缀区分
                             {
                                 builder.Write($" {listDamageSummary[i].DamageDescriptionInPicture}-{j + 1}");
                             }
                             else
                             {
-                                var damageDescriptionInPictureArray = listDamageSummary[i].DamageDescriptionInPicture.Split('$');
+                                var damageDescriptionInPictureArray = listDamageSummary[i].DamageDescriptionInPicture.Split('$');    //如果含有"$"，则每张图片分别自定义描述
                                 builder.Write($" {damageDescriptionInPictureArray[j]}");
                             }
-                            
+
                         }
                         else
                         {
@@ -600,6 +601,24 @@ namespace AutoRegularInspection.Services
 
 
             pictureTable.ClearBorders();
+
+            builder.Writeln();
+
+            //测试代码
+            //builder.MoveTo(bookmark.BookmarkStart);
+            //builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            //builder.Writeln();
+            //builder.Write("图 ");
+            //builder.InsertNode(r1);
+            //fieldStyleRefBuilder.BuildAndInsert(r1);
+            //builder.Write("-");
+            //builder.InsertNode(r2);
+            //pictureFieldSequenceBuilder.BuildAndInsert(r2);
+            //builder.Write(" ");
+            //builder.Write($"附加图1");
+
+
+
         }
 
         // ExStart:ColumnClass
@@ -874,7 +893,7 @@ namespace AutoRegularInspection.Services
 
             //if (_generateReportSettings.IntactStructNoInsertSummaryTable)
             //{
-                
+
             //    for (int i = 0; i < listDamageSummary.Count; i++)
             //    {
             //        if (!listDamageSummary[i].Damage.Contains("/"))
@@ -884,7 +903,7 @@ namespace AutoRegularInspection.Services
             //    }
             //}
 
-            for (int i = 0; i < listDamageSummaryCopy.Count-1; i++)
+            for (int i = 0; i < listDamageSummaryCopy.Count - 1; i++)
             {
                 for (int j = i + 1; j < listDamageSummaryCopy.Count; j++)
                 {
