@@ -32,8 +32,8 @@ namespace AutoRegularInspection.Models
         public int MaxCompressSize { get; set; }
         public int CompressQuality { get; set; }
 
-        public int CompressImageWidth { get; set; }
-        public int CompressImageHeight { get; set; }
+        public double CompressImageWidth { get; set; }
+        public double CompressImageHeight { get; set; }
     }
 
     public class TableCellWidth

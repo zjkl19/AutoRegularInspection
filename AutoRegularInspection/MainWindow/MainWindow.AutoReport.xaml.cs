@@ -33,8 +33,9 @@ namespace AutoRegularInspection
 
             XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
             XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
-
-            double ImageWidth = Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture); double ImageHeight = Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture);
+           
+            double ImageWidth = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture));
+            double ImageHeight = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture));
             double CompressImageWidth = Convert.ToDouble(compressPictureWidth.Value, CultureInfo.InvariantCulture); double CompressImageHeight = Convert.ToDouble(compressPictureHeight.Value, CultureInfo.InvariantCulture);
 
             string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
@@ -59,9 +60,9 @@ namespace AutoRegularInspection
                     ,
                     CompressQuality = Convert.ToInt32(pictureCompressQuality.Value, CultureInfo.InvariantCulture)
                     ,
-                    CompressImageWidth = Convert.ToInt32(CompressImageWidth)
+                    CompressImageWidth = ImageWidth
                     ,
-                    CompressImageHeight = Convert.ToInt32(CompressImageHeight)
+                    CompressImageHeight = ImageHeight
                 }
                 ,
                 InspectionString = InspectionComboBox.Text

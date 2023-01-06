@@ -10,9 +10,9 @@
 
     <StackPanel>
         <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
-            <Label Content="报告图片宽度（像素）" ></Label>
+            <Label Content="报告图片宽度（毫米）" ></Label>
             <TextBox Text="{Binding PictureWidth,UpdateSourceTrigger=PropertyChanged}" Width="120"></TextBox>
-            <Label Content="报告图片高度（像素）" ></Label>
+            <Label Content="报告图片高度（毫米）" ></Label>
             <TextBox  Text="{Binding PictureHeight,UpdateSourceTrigger=PropertyChanged}" Width="120"></TextBox>
         </StackPanel>
 

@@ -49,7 +49,7 @@ namespace AutoRegularInspection.Services
         /// <param name="ImageWidth"></param>
         /// <param name="ImageHeight"></param>
         /// <param name="CompressImageFlag"></param>
-        public void GenerateReport(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateReport(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 79.0, double ImageHeight = 59.4, int CompressImageFlag = 70)
         {
             progressModel.ProgressValue = 0;
 
@@ -119,7 +119,7 @@ namespace AutoRegularInspection.Services
         /// <param name="ImageWidth"></param>
         /// <param name="ImageHeight"></param>
         /// <param name="CompressImageFlag"></param>
-        public void GenerateReport(bool CommentColumnInsertTable, double ImageWidth = 224.25, double ImageHeight = 168.75, int CompressImageFlag = 70)
+        public void GenerateReport(bool CommentColumnInsertTable, double ImageWidth = 79.0, double ImageHeight = 59.4, int CompressImageFlag = 70)
         {
             InsertSummaryWords();
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
@@ -316,6 +316,8 @@ namespace AutoRegularInspection.Services
             //病害汇总表格
             var summaryTable = builder.StartTable();
 
+
+
             builder.InsertCell();
 
             CellFormat cellFormat = builder.CellFormat;
@@ -395,6 +397,9 @@ namespace AutoRegularInspection.Services
             builder.Font.Bold = false;
             builder.EndRow();
 
+            Row firstRow = summaryTable.FirstRow;
+            firstRow.RowFormat.Height = ConvertUtil.MillimeterToPoint(10);
+
             int sn = 1;    //序号
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
@@ -461,6 +466,7 @@ namespace AutoRegularInspection.Services
                     cellFormat.Width = tableCellWidth.Comment;
                 }
                 builder.EndRow();
+                
             }
 
 
@@ -557,8 +563,8 @@ namespace AutoRegularInspection.Services
                             using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load<Rgba32>(pictureFileName))
                             {
 
-                                int width = _generateReportSettings.ImageSettings.CompressImageWidth;
-                                int height = _generateReportSettings.ImageSettings.CompressImageHeight;
+                                var width = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageWidth);
+                                var height = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageHeight);
                                 image.Mutate(x => x.Resize(width, height, KnownResamplers.Bicubic));
                                 image.Save($"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
                             }

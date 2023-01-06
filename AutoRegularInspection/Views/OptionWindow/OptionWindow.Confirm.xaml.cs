@@ -17,6 +17,7 @@ namespace AutoRegularInspection.Views
 
             var config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
 
+            //TODO：工厂模式重构
             if ((string)OptionFrame.Tag == nameof(OptionPicturePage))
             {
                 OptionPicturePage frameContent = (OptionPicturePage)frame.Content;
