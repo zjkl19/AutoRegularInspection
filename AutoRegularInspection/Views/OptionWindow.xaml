@@ -33,7 +33,6 @@
             <TreeViewItem Header="报告">
                 <TreeViewItem Header="常规" Selected="Report_General_Selected"/>
                 <TreeViewItem Header="书签" Selected="Report_Bookmark_Selected"/>
-                <TreeViewItem Header="图片"/>
                 <TreeViewItem Header="汇总表格" Selected="SummaryTable_Selected"/>
             </TreeViewItem>
             <TreeViewItem Header="开发中">
