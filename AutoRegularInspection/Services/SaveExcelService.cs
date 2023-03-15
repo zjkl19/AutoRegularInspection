@@ -78,7 +78,8 @@ namespace AutoRegularInspection.Services
             }
             col++;
             worksheet.Cells[1, col].Value = "缺损类型"; col++;
-            worksheet.Cells[1, col].Value = "缺损描述"; col++;
+            worksheet.Cells[1, col].Value = "缺损位置"; col++;
+            worksheet.Cells[1, col].Value = "缺损程度"; col++;
             worksheet.Cells[1, col].Value = "图片描述"; col++;
             worksheet.Cells[1, col].Value = "照片编号"; col++;
             worksheet.Cells[1, col].Value = "自定义照片编号"; col++;
@@ -87,35 +88,51 @@ namespace AutoRegularInspection.Services
             worksheet.Cells[1, col].Value = "单位1数量"; col++;
             worksheet.Cells[1, col].Value = "单位2"; col++;
             worksheet.Cells[1, col].Value = "单位2数量"; col++;
-            worksheet.Cells[1, col].Value = "使用自定义单位"; 
+            worksheet.Cells[1, col].Value = "使用自定义单位";
 
             //添加值
             for (int i = 0; i < listDamageSummary.Count; i++)
-            {
-                
-                worksheet.Cells[i + 2, 1].Value = i + 1;
-                worksheet.Cells[i + 2, 2].Value = listDamageSummary[i].Position;
+            {              
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "序号")].Value = i + 1;
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "位置")].Value = listDamageSummary[i].Position;
                 if (componentComboBox[listDamageSummary[i].ComponentValue].Title != "其它")
                 {
-                    worksheet.Cells[i + 2, 3].Value = componentComboBox[listDamageSummary[i].ComponentValue].Title;
+                    if (bridgePart == BridgePart.BridgeDeck)
+                    {
+                        worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "要素")].Value = componentComboBox[listDamageSummary[i].ComponentValue].Title;
+                    }
+                    else
+                    {
+                        worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "构件类型")].Value = componentComboBox[listDamageSummary[i].ComponentValue].Title;
+                    }
                 }
                 else    //TODO:考虑"其它"输入为空的情况
                 {
-                    worksheet.Cells[i + 2, 3].Value = listDamageSummary[i].GetComponentName(bridgePart);
+                    if (bridgePart == BridgePart.BridgeDeck)
+                    {
+                        worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "要素")].Value = listDamageSummary[i].GetComponentName(bridgePart);
+                    }
+                    else
+                    {
+                        worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "构件类型")].Value = listDamageSummary[i].GetComponentName(bridgePart);
+                    }
+
                 }
+               
 
                 if (componentComboBox[listDamageSummary[i].ComponentValue].DamageComboBox[listDamageSummary[i].DamageValue].Title != "其它")
                 {
-                    worksheet.Cells[i + 2, 4].Value = componentComboBox[listDamageSummary[i].ComponentValue].DamageComboBox[listDamageSummary[i].DamageValue].Title;
+                    worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "缺损类型")].Value = componentComboBox[listDamageSummary[i].ComponentValue].DamageComboBox[listDamageSummary[i].DamageValue].Title;
                 }
                 else    //TODO:考虑"其它"输入为空的情况
                 {
-                    worksheet.Cells[i + 2, 4].Value = listDamageSummary[i].Damage;
+                    worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "缺损类型")].Value = listDamageSummary[i].Damage;
                 }
 
-                worksheet.Cells[i + 2, 5].Value = listDamageSummary[i].DamageDescription;
-                worksheet.Cells[i + 2, 6].Value = listDamageSummary[i].DamageDescriptionInPicture;
-                worksheet.Cells[i + 2, 7].Value = listDamageSummary[i].PictureNo;
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "缺损位置")].Value = listDamageSummary[i].DamagePosition;
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "缺损程度")].Value = listDamageSummary[i].DamageDescription;
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "图片描述")].Value = listDamageSummary[i].DamageDescriptionInPicture;
+                worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "照片编号")].Value = listDamageSummary[i].PictureNo;
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "自定义照片编号")].Value = listDamageSummary[i].CustomPictureNo;
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "备注")].Value = listDamageSummary[i].Comment;
                 worksheet.Cells[i + 2, FindColumnIndexByName(worksheet, "单位1")].Value = listDamageSummary[i].GetDisplayUnit1();

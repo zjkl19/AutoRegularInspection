@@ -79,6 +79,7 @@ namespace AutoRegularInspection.Views
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Position").Value = model.Position.ToString(CultureInfo.InvariantCulture);
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Component").Value = model.Component.ToString(CultureInfo.InvariantCulture);
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Damage").Value = model.Damage.ToString(CultureInfo.InvariantCulture);
+                config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("DamagePosition").Value = model.DamagePosition.ToString(CultureInfo.InvariantCulture);
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("DamageDescription").Value = model.DamageDescription.ToString(CultureInfo.InvariantCulture);
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("PictureNo").Value = model.PictureNo.ToString(CultureInfo.InvariantCulture);
                 config.Elements("configuration").Elements(elementName).FirstOrDefault().Attribute("Comment").Value = model.Comment.ToString(CultureInfo.InvariantCulture);

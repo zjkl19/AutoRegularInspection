@@ -60,6 +60,8 @@ namespace AutoRegularInspection.Views
                 Component = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
                 Damage = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                                ,
+                DamagePosition = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("DamagePosition").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
                 DamageDescription = Convert.ToDouble(xDocument.Elements("configuration").Elements("BridgeDeckSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,
@@ -73,7 +75,10 @@ namespace AutoRegularInspection.Views
                 ,Position = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Position").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,Component = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,Damage = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
-                ,DamageDescription = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                DamagePosition = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("DamagePosition").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                ,
+                DamageDescription = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,PictureNo = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("PictureNo").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
                 ,Comment = Convert.ToDouble(xDocument.Elements("configuration").Elements("SuperSpaceSummaryTable").FirstOrDefault().Attribute("Comment").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
             };
@@ -86,6 +91,8 @@ namespace AutoRegularInspection.Views
                 Component = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Component").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
                 Damage = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("Damage").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
+                                ,
+                DamagePosition = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("DamagePosition").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,
                 DamageDescription = Convert.ToDouble(xDocument.Elements("configuration").Elements("SubSpaceSummaryTable").FirstOrDefault().Attribute("DamageDescription").Value.ToString(CultureInfo.InvariantCulture), CultureInfo.InvariantCulture)
     ,

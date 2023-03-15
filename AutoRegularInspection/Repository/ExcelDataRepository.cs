@@ -77,12 +77,13 @@ namespace AutoRegularInspection.Repository
                         lst.Add(new DamageSummary
                         {
                             No = row - 1
-                            ,Position = worksheet.Cells[row, 2].Value?.ToString() ?? string.Empty
+                            ,Position = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "位置")].Value?.ToString() ?? string.Empty
                             ,Component = worksheet.Cells[row, 3].Value?.ToString() ?? string.Empty
                             ,Damage = worksheet.Cells[row, 4].Value?.ToString() ?? string.Empty
-                            ,DamageDescription = worksheet.Cells[row, 5].Value?.ToString() ?? string.Empty
-                            ,DamageDescriptionInPicture = worksheet.Cells[row, 6].Value?.ToString() ?? string.Empty
-                            ,PictureNo = worksheet.Cells[row, 7].Value?.ToString() ?? string.Empty
+                            ,DamagePosition = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "缺损位置")].Value?.ToString() ?? string.Empty
+                            ,DamageDescription = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "缺损程度")].Value?.ToString() ?? string.Empty
+                            ,DamageDescriptionInPicture = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "图片描述")].Value?.ToString() ?? string.Empty
+                            ,PictureNo = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "照片编号")].Value?.ToString() ?? string.Empty
                             ,CustomPictureNo = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "自定义照片编号")].Value?.ToString() ?? string.Empty
                             ,
                             Comment = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet,"备注")].Value?.ToString() ?? string.Empty

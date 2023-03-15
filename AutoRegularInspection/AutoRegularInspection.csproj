@@ -314,6 +314,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="报告模板\外观检查报告模板 - 副本.docx" />
+    <None Include="报告模板\建研-常规定检--晋安区桥梁模板.doc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="报告模板\自定义外观检查报告模板.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

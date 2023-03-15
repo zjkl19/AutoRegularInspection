@@ -75,11 +75,17 @@ namespace AutoRegularInspection
                 ,
                 IntactStructNoInsertSummaryTable = Convert.ToBoolean(config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault().Value, CultureInfo.InvariantCulture)
                 ,
-                BridgeDeckTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Damage), DamageDescription = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Comment) }
+                BridgeDeckTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Damage)
+                ,DamagePosition = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamagePosition)
+                , DamageDescription = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Comment) }
                 ,
-                SuperSpaceTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Damage), DamageDescription = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Comment) }
+                SuperSpaceTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Damage)
+                ,DamagePosition = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamagePosition)
+                , DamageDescription = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Comment) }
                 ,
-                SubSpaceTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Damage), DamageDescription = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Comment) }
+                SubSpaceTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Damage)
+                ,DamagePosition = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamagePosition)
+                , DamageDescription = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Comment) }
             };
 
             new Thread(() =>
@@ -153,7 +159,7 @@ namespace AutoRegularInspection
                 var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
                 asposeService.GenerateReport(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
 
-                doc.Save(outputFile, SaveFormat.Docx);
+                doc.Save(outputFile, SaveFormat.Doc);
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("成功生成报告！"); });

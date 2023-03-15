@@ -46,6 +46,8 @@ namespace AutoRegularInspection.Models
 
         public double Damage { set; get; }
 
+        public double DamagePosition { set; get; }
+
         public double DamageDescription { get; set; }
 
         public double PictureNo { get; set; }

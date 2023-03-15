@@ -7,7 +7,7 @@
       xmlns:sys1="clr-namespace:System;assembly=mscorlib"
       xmlns:local="clr-namespace:AutoRegularInspection.Views"
       mc:Ignorable="d" 
-      d:DesignHeight="200" d:DesignWidth="400"
+      d:DesignHeight="190" d:DesignWidth="770"
       Title="OptionSummaryTablePage">
     <StackPanel >
         <StackPanel.Resources>
@@ -15,9 +15,9 @@
             <sys1:Double x:Key="defaultWidth">40</sys1:Double>
         </StackPanel.Resources>
         <StackPanel  Orientation="Horizontal" >
-            <Label Content="桥面系" ></Label>
+            <Label Content="桥面系及附属设施" ></Label>
         </StackPanel>
-        
+
         <StackPanel Name="BridgeDeckStackPanel" Orientation="Horizontal">
             <Label Content="序号"  Margin="{StaticResource defaultMargin}"></Label>
             <!--使用DataContext-->
@@ -28,7 +28,9 @@
             <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding Damage,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
-            <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
+            <Label Content="缺损位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding DamagePosition,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损程度"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding DamageDescription,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding PictureNo,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
@@ -48,7 +50,9 @@
             <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding Damage,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
-            <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
+            <Label Content="缺损位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding DamagePosition,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损程度"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding DamageDescription,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding PictureNo,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
@@ -68,7 +72,9 @@
             <TextBox  Text="{Binding Component,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding Damage,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
-            <Label Content="缺损描述"  Margin="{StaticResource defaultMargin}" ></Label>
+            <Label Content="缺损位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding DamagePosition,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损程度"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding DamageDescription,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
             <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
             <TextBox  Text="{Binding PictureNo,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>

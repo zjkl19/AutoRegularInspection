@@ -298,7 +298,7 @@ namespace AutoRegularInspection.Services
             //写入表头
             if (BookmarkStartName == BridgeDeckBookmarkStartName)
             {
-                builder.Write($"桥面系{_generateReportSettings.InspectionString}结果汇总表");
+                builder.Write($"桥面系及附属设施{_generateReportSettings.InspectionString}结果汇总表");
 
             }
             else if (BookmarkStartName == SuperSpaceBookmarkStartName)
@@ -371,12 +371,22 @@ namespace AutoRegularInspection.Services
                 cellFormat.Width = tableCellWidth.Damage;
             }
             builder.Write("缺损类型");
+
+            builder.InsertCell();
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.DamagePosition;
+            }
+            builder.Write("缺损位置");
+
             builder.InsertCell();
             if (_generateReportSettings.CustomTableCellWidth)
             {
                 cellFormat.Width = tableCellWidth.DamageDescription;
             }
-            builder.Write("缺损描述");
+            builder.Write("缺损程度");    //建研-晋安报告中是“缺损程度”
+
+
             builder.InsertCell();
             if (_generateReportSettings.CustomTableCellWidth)
             {
@@ -417,6 +427,10 @@ namespace AutoRegularInspection.Services
                 cellFormat.Width = tableCellWidth.Component;
                 builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetDamageName(bridgePart).Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
                 cellFormat.Width = tableCellWidth.Damage;
+
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamagePosition.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
+                cellFormat.Width = tableCellWidth.DamagePosition;
+
                 builder.InsertCell();
                 builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
                 builder.Write($"{listDamageSummary[i].DamageDescription.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");
@@ -608,7 +622,7 @@ namespace AutoRegularInspection.Services
 
             pictureTable.ClearBorders();
 
-            builder.Writeln();
+            //builder.Writeln();
 
             //测试代码
             //builder.MoveTo(bookmark.BookmarkStart);

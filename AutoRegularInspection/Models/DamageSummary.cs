@@ -77,6 +77,19 @@ namespace AutoRegularInspection.Models
         /// </summary>
         public string Damage { set; get; } = string.Empty;
 
+        private string _DamagePosition;
+        /// <summary>
+        /// 病害位置/缺损位置
+        /// </summary>
+        public string DamagePosition
+        {
+            get { return _DamagePosition; }
+            set
+            {
+                UpdateProperty(ref _DamagePosition, value);
+
+            }
+        }
 
         private string _DamageDescription;
         /// <summary>

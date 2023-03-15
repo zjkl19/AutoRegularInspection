@@ -41,12 +41,20 @@ namespace AutoRegularInspection.Views
             {
 
                 No = bridgeDeckDamageSummaryTableWidth.No
-                ,Position = bridgeDeckDamageSummaryTableWidth.PictureNo
-                ,Component = bridgeDeckDamageSummaryTableWidth.Component
-                ,Damage = bridgeDeckDamageSummaryTableWidth.Damage
-                ,DamageDescription = bridgeDeckDamageSummaryTableWidth.DamageDescription
-                ,PictureNo = bridgeDeckDamageSummaryTableWidth.PictureNo
-                ,Comment = bridgeDeckDamageSummaryTableWidth.Comment
+                ,
+                Position = bridgeDeckDamageSummaryTableWidth.PictureNo
+                ,
+                Component = bridgeDeckDamageSummaryTableWidth.Component
+                ,
+                Damage = bridgeDeckDamageSummaryTableWidth.Damage
+                ,
+                DamagePosition = bridgeDeckDamageSummaryTableWidth.DamagePosition
+                ,
+                DamageDescription = bridgeDeckDamageSummaryTableWidth.DamageDescription
+                ,
+                PictureNo = bridgeDeckDamageSummaryTableWidth.PictureNo
+                ,
+                Comment = bridgeDeckDamageSummaryTableWidth.Comment
             };
 
             SuperSpaceStackPanel.DataContext = new SuperSpaceDamageSummaryTableWidth
@@ -59,6 +67,8 @@ namespace AutoRegularInspection.Views
                 Component = superSpaceDamageSummaryTableWidth.Component
                 ,
                 Damage = superSpaceDamageSummaryTableWidth.Damage
+                ,
+                DamagePosition = superSpaceDamageSummaryTableWidth.DamagePosition
                 ,
                 DamageDescription = superSpaceDamageSummaryTableWidth.DamageDescription
                 ,
@@ -77,6 +87,8 @@ namespace AutoRegularInspection.Views
                 Component = subSpaceDamageSummaryTableWidth.Component
                 ,
                 Damage = subSpaceDamageSummaryTableWidth.Damage
+                ,
+                DamagePosition = subSpaceDamageSummaryTableWidth.DamagePosition
                 ,
                 DamageDescription = subSpaceDamageSummaryTableWidth.DamageDescription
                 ,

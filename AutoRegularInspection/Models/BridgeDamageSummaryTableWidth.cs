@@ -36,6 +36,13 @@ namespace AutoRegularInspection.Models
             get { return _Damage; }
             set => UpdateProperty(ref _Damage, value);
         }
+        private double _DamagePosition;
+        public double DamagePosition
+        {
+            get { return _DamagePosition; }
+            set => UpdateProperty(ref _DamagePosition, value);
+        }
+
         private double _DamageDescription;
         public double DamageDescription
         {

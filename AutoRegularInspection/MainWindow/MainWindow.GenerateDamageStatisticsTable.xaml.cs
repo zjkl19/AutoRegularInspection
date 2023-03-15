@@ -20,9 +20,9 @@ namespace AutoRegularInspection
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
-            if (!File.Exists($"{Path.GetFileName(App.DamageSummaryStatisticsFileName)}"))
+            if (File.Exists($"{Path.GetFileName(App.DamageSummaryStatisticsFileName)}"))
             {
-                if (MessageBox.Show($"{App.DamageSummaryStatisticsFileName}文件不存在，是否使用{App.DamageSummaryFileName}作为统计文件？", "提示", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"已存在{App.DamageSummaryStatisticsFileName}统计文件，是否覆盖？", "提示", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     File.Copy(App.DamageSummaryFileName, App.DamageSummaryStatisticsFileName, true);
                 }
@@ -51,7 +51,6 @@ namespace AutoRegularInspection
             oc = new ObservableCollection<DamageSummary>();
             lst.ForEach(x => oc.Add(x));
             ObservableCollection<DamageSummary> _subSpaceListDamageSummary = oc;
-
 
             try
             {

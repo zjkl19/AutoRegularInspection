@@ -120,8 +120,12 @@
                                 Header="缺损类型" />
                                     <DataGridTextColumn
                                 Width="Auto"
+                                Binding="{Binding DamagePosition}"
+                                Header="缺损位置" />
+                                    <DataGridTextColumn
+                                Width="Auto"
                                 Binding="{Binding DamageDescription}"
-                                Header="缺损描述" />
+                                Header="缺损程度" />
                                     <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding DamageDescriptionInPicture}"
@@ -261,6 +265,10 @@
                                 Header="缺损类型" />
                                     <DataGridTextColumn
                                 Width="Auto"
+                                Binding="{Binding DamagePosition}"
+                                Header="缺损位置" />
+                                    <DataGridTextColumn
+                                Width="Auto"
                                 Binding="{Binding DamageDescription}"
                                 Header="缺损描述" />
                                     <DataGridTextColumn
@@ -384,6 +392,10 @@
                                 Header="缺损类型" />
                                     <DataGridTextColumn
                                 Width="Auto"
+                                Binding="{Binding DamagePosition}"
+                                Header="缺损位置" />
+                                    <DataGridTextColumn
+                                Width="Auto"
                                 Binding="{Binding DamageDescription}"
                                 Header="缺损描述" />
                                     <DataGridTextColumn
@@ -471,12 +483,12 @@
                 </ComboBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="15,5,0,5">
-                <Label  Content="外观检测/检查" VerticalAlignment="Center"/>
+                <Label  Content="外观检查/检测" VerticalAlignment="Center"/>
             </StackPanel>
             <StackPanel Margin="5,8,15,0">
                 <ComboBox Name="InspectionComboBox" Width="90">
-                    <ComboBoxItem IsSelected="True">检测</ComboBoxItem>
-                    <ComboBoxItem>检查</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">检查</ComboBoxItem>
+                    <ComboBoxItem>检测</ComboBoxItem>
                 </ComboBox>
             </StackPanel>
             <CheckBox Margin="{StaticResource DefaultCheckBoxMargin}" Padding="{StaticResource DefaultCheckBoxPadding}" Content="启动时自动检查更新" VerticalAlignment="Center" Name="AutoCheckForUpdateCheckBox" Click="AutoCheckForUpdateCheckBox_Click"/>
@@ -512,7 +524,7 @@
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="DisclaimerButton_Click">免责声明</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
-            <Label  Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2022" VerticalAlignment="Center"/>
+            <Label  Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2023" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
             <DockPanel>
