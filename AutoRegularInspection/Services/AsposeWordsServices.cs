@@ -52,9 +52,8 @@ namespace AutoRegularInspection.Services
         public void GenerateReport(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 79.0, double ImageHeight = 59.4, int CompressImageFlag = 70)
         {
             progressModel.ProgressValue = 0;
-
-
-            InsertSummaryWords();
+            //InsertSummaryWords();
+            
             progressModel.Content = $"正在处理{Properties.Resources.BridgeDeck}……";
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             System.Threading.Thread.Sleep(1000);
@@ -70,9 +69,14 @@ namespace AutoRegularInspection.Services
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             System.Threading.Thread.Sleep(1000);
 
-            progressModel.ProgressValue = 99;
+            progressModel.Content = "正在生成统计汇总表……";
+            progressModel.ProgressValue = 90;
+            CreateStatisticsTable();
+            System.Threading.Thread.Sleep(1000);
+            
 
             progressModel.Content = "正在替换文档变量……";
+            progressModel.ProgressValue = 99;
             ReplaceDocVariable();
 
             //两次更新域，1次更新序号，1次更新序号对应的交叉引用
@@ -82,6 +86,225 @@ namespace AutoRegularInspection.Services
             progressModel.ProgressValue = 100;
             progressModel.Content = "正在完成……";
         }
+        /// <summary>
+        /// 创建统计表
+        /// </summary>
+        private void CreateStatisticsTable()
+        {
+            //先统计
+            var bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
+            var superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
+            var subSpaceDamageStatistics = _subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
+
+
+            var builder = new DocumentBuilder(_doc);
+
+            var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
+            fieldStyleRefBuilder.AddArgument(1);
+            fieldStyleRefBuilder.AddSwitch(@"\s");
+
+            var tableFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            tableFieldSequenceBuilder.AddArgument("表");
+            tableFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            tableFieldSequenceBuilder.AddSwitch(@"\s", "1");
+
+            var bookmark = _doc.Range.Bookmarks["DamageStatTable"];
+            builder.MoveTo(bookmark.BookmarkStart);
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfMainText];//_doc.Styles[App.DocStyleOfMainText];
+
+
+            //开始插入统计表格
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+
+            builder.Write("表 ");
+            var r1 = new Run(_doc, "");
+            builder.InsertNode(r1);
+            fieldStyleRefBuilder.BuildAndInsert(r1);
+            builder.Write("-");
+            var r2 = new Run(_doc, "");
+            builder.InsertNode(r2);
+            tableFieldSequenceBuilder.BuildAndInsert(r2);
+            builder.Write(" ");
+
+            //写入表头
+            builder.Write($"桥梁缺损状况检查结果汇总表");
+
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfTable];
+            builder.Writeln();
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+            //病害统计表格
+            var statTable = builder.StartTable();
+
+            builder.InsertCell();
+            CellFormat cellFormat = builder.CellFormat;
+           
+
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+            builder.Font.Bold = true;
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+            builder.Write("桥梁部位");
+
+            builder.InsertCell();
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+            builder.Write("要素/构件");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+            builder.Write("缺损类型");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+            builder.Write("单位");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+            builder.Write("数量");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+            builder.Write("缺损程度");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+            builder.Write("备注");
+            
+
+
+            builder.Font.Bold = false;
+            builder.EndRow();
+            Row firstRow = statTable.FirstRow;
+            firstRow.RowFormat.Height = ConvertUtil.MillimeterToPoint(7.5);
+
+
+            var st1 = new List<string>();
+            var st2 = new List<string>();
+
+            foreach (var v1 in bridgeDeckDamageStatistics)
+            {
+                builder.InsertCell(); builder.Write($"桥面系");
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+                builder.InsertCell(); builder.Write($"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}");    //要素
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    //缺损类型
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+                builder.InsertCell(); 
+                if(v1.FirstOrDefault().GetDisplayUnit2()!="无")
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    //单位2/单位1
+                }
+                else
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit1()}");    //单位1
+                }
+                
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit2Counts)}/{v1.Sum(x => x.Unit1Counts)}");    //单位2数量/单位1数量
+                }
+                else
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    //单位2数量/单位1数量
+                }        
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+                builder.InsertCell(); builder.Write($"/");    //缺损程度
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.InsertCell(); builder.Write($"/");    //备注
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.EndRow();
+            }
+
+            foreach (var v1 in superSpaceDamageStatistics)
+            {
+                builder.InsertCell(); builder.Write($"上部结构");
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+                builder.InsertCell(); builder.Write($"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}");    //要素
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    //缺损类型
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+
+                builder.InsertCell(); 
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    //单位2/单位1
+                }
+                else
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit1()}");    //单位1
+                }
+
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit2Counts)}/{v1.Sum(x => x.Unit1Counts)}");    //单位2数量/单位1数量
+                }
+                else
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    //单位2数量/单位1数量
+                }
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+                builder.InsertCell(); builder.Write($"/");    //缺损程度
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.InsertCell(); builder.Write($"/");    //备注
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.EndRow();
+            }
+
+            foreach (var v1 in subSpaceDamageStatistics)
+            {
+                builder.InsertCell(); builder.Write($"下部结构");
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+                builder.InsertCell(); builder.Write($"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}");    //要素
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    //缺损类型
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+                builder.InsertCell(); 
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    //单位2/单位1
+                }
+                else
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit1()}");    //单位1
+                }
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit2Counts)}/{v1.Sum(x => x.Unit1Counts)}");    //单位2数量/单位1数量
+                }
+                else
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    //单位2数量/单位1数量
+                }
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+                builder.InsertCell(); builder.Write($"/");    //缺损程度
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.InsertCell(); builder.Write($"/");    //备注
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.EndRow();
+            }
+
+            builder.EndTable();
+
+
+            MergeStatTableColumn(statTable);
+            //TODO:用建造者模式重构
+            //MergeDamageColumn(listDamageSummary, statTable);
+            //MergeComponentColumn(listDamageSummary, statTable);
+            //MergeTheSameColumn(listDamageSummary, statTable, 1);
+
+            // Set a green border around the table but not inside. 
+            statTable.SetBorder(BorderType.Left, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Right, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Top, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Bottom, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+        }
+
         /// <summary>
         /// 替换文档变量
         /// </summary>
@@ -121,7 +344,7 @@ namespace AutoRegularInspection.Services
         /// <param name="CompressImageFlag"></param>
         public void GenerateReport(bool CommentColumnInsertTable, double ImageWidth = 79.0, double ImageHeight = 59.4, int CompressImageFlag = 70)
         {
-            InsertSummaryWords();
+            //InsertSummaryWords();
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
@@ -414,7 +637,7 @@ namespace AutoRegularInspection.Services
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 //如果完整结构不插入汇总表并且部件名称为"/"
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains("/"))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains(App.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }
@@ -755,6 +978,72 @@ namespace AutoRegularInspection.Services
         // ExEnd:ColumnClass
 
         /// <summary>
+        /// 合并统计表格相应列
+        /// </summary>
+        /// <param name="statTable"></param>
+        private void MergeStatTableColumn(Table statTable)
+        {
+            int componentColumn = 1;
+            //合并统计表格的列
+            int rowCounts = statTable.Rows.Count;
+            int mergeLength = 0;     //合并长度
+            //statTable.Rows[1].Cells[1].Range.Text
+            for (int i = 1; i < statTable.Rows.Count - 1; i++)
+            {
+                for (int j = i + 1; j < statTable.Rows.Count; j++)
+                {
+                    //“要素/构件”列相同并且“桥梁部位”列相同
+                    if (statTable.Rows[i].Cells[componentColumn].Range.Text == statTable.Rows[j].Cells[componentColumn].Range.Text
+                        && statTable.Rows[i].Cells[componentColumn-1].Range.Text == statTable.Rows[j].Cells[componentColumn-1].Range.Text)
+                    {
+                        mergeLength++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (mergeLength > 0)
+                {
+                    var cellStartRange = statTable.Rows[i].Cells[componentColumn];
+                    var cellEndRange = statTable.Rows[i + mergeLength].Cells[componentColumn];
+                    MergeCells(cellStartRange, cellEndRange);
+                    i += mergeLength;    //i要跳过
+                    mergeLength = 0;    //合并单元格后归0
+
+                }
+            }
+
+            //合并桥面系、上部结构及下部结构
+            mergeLength = 0;
+            //statTable.Rows[1].Cells[1].Range.Text
+            for (int i = 1; i < statTable.Rows.Count - 1; i++)
+            {
+                for (int j = i + 1; j < statTable.Rows.Count; j++)
+                {
+                    //“要素/构件”列相同并且“桥梁部位”列相同
+                    if (statTable.Rows[i].Cells[componentColumn - 1].Range.Text == statTable.Rows[j].Cells[componentColumn - 1].Range.Text)
+                    {
+                        mergeLength++;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                if (mergeLength > 0)
+                {
+                    var cellStartRange = statTable.Rows[i].Cells[componentColumn-1];
+                    var cellEndRange = statTable.Rows[i + mergeLength].Cells[componentColumn-1];
+                    MergeCells(cellStartRange, cellEndRange);
+                    i += mergeLength;    //i要跳过
+                    mergeLength = 0;    //合并单元格后归0
+
+                }
+            }
+        }
+
+        /// <summary>
         /// 合并缺损类型1列
         /// </summary>
         /// <param name="listDamageSummary">病害列表</param>
@@ -770,7 +1059,7 @@ namespace AutoRegularInspection.Services
             List<DamageSummary> listDamageSummaryCopy = new List<DamageSummary>();
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains("/"))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(App.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }
@@ -847,7 +1136,7 @@ namespace AutoRegularInspection.Services
             List<DamageSummary> listDamageSummaryCopy = new List<DamageSummary>();
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains("/"))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(App.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }
@@ -904,7 +1193,7 @@ namespace AutoRegularInspection.Services
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains("/"))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(App.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }
