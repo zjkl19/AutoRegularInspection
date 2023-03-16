@@ -511,6 +511,7 @@
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="BackupExcel_Click">备份Excel</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="SaveExcel_Click">保存到Excel</Button>
+            <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="SortDamageExcel_Click">Excel排序</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="OpenExcel_Click">打开Excel</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="GenerateDamageStatisticsTable_Click">生成病害统计汇总表</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="OpenDamageStatisticsTable_Click">打开病害统计汇总表</Button>

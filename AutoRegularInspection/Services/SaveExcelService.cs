@@ -22,7 +22,9 @@ namespace AutoRegularInspection.Services
             , List<DamageSummary> superSpaceListDamageSummary
             , List<DamageSummary> subSpaceListDamageSummary,string saveFileName=App.DamageSummaryFileName)
         {
-            string tempFileName = $"temp{App.DamageSummaryFileName}";
+            //string tempFileName = $"temp{App.DamageSummaryFileName}";
+
+            string tempFileName = $"temp{saveFileName}";
 
             if (File.Exists(tempFileName))
             {

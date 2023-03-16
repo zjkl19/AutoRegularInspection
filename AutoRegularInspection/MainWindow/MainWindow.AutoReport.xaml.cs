@@ -60,9 +60,9 @@ namespace AutoRegularInspection
                     ,
                     CompressQuality = Convert.ToInt32(pictureCompressQuality.Value, CultureInfo.InvariantCulture)
                     ,
-                    CompressImageWidth = ImageWidth
+                    CompressImageWidth = CompressImageWidth
                     ,
-                    CompressImageHeight = ImageHeight
+                    CompressImageHeight = CompressImageHeight
                 }
                 ,
                 InspectionString = InspectionComboBox.Text

@@ -53,7 +53,7 @@ namespace AutoRegularInspection.Services
         {
             progressModel.ProgressValue = 0;
             //InsertSummaryWords();
-            
+
             progressModel.Content = $"正在处理{Properties.Resources.BridgeDeck}……";
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
             System.Threading.Thread.Sleep(1000);
@@ -73,7 +73,7 @@ namespace AutoRegularInspection.Services
             progressModel.ProgressValue = 90;
             CreateStatisticsTable();
             System.Threading.Thread.Sleep(1000);
-            
+
 
             progressModel.Content = "正在替换文档变量……";
             progressModel.ProgressValue = 99;
@@ -95,7 +95,6 @@ namespace AutoRegularInspection.Services
             var bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName() });
             var superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace) });
             var subSpaceDamageStatistics = _subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无").GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace) });
-
 
             var builder = new DocumentBuilder(_doc);
 
@@ -137,7 +136,7 @@ namespace AutoRegularInspection.Services
 
             builder.InsertCell();
             CellFormat cellFormat = builder.CellFormat;
-           
+
 
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
             builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
@@ -169,7 +168,7 @@ namespace AutoRegularInspection.Services
 
             cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
             builder.Write("备注");
-            
+
 
 
             builder.Font.Bold = false;
@@ -189,8 +188,8 @@ namespace AutoRegularInspection.Services
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
                 builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    //缺损类型
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
-                builder.InsertCell(); 
-                if(v1.FirstOrDefault().GetDisplayUnit2()!="无")
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
                 {
                     builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    //单位2/单位1
                 }
@@ -198,7 +197,7 @@ namespace AutoRegularInspection.Services
                 {
                     builder.Write($"{v1.FirstOrDefault().GetUnit1()}");    //单位1
                 }
-                
+
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
                 builder.InsertCell();
                 if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
@@ -208,7 +207,7 @@ namespace AutoRegularInspection.Services
                 else
                 {
                     builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    //单位2数量/单位1数量
-                }        
+                }
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
                 builder.InsertCell(); builder.Write($"/");    //缺损程度
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
@@ -226,7 +225,7 @@ namespace AutoRegularInspection.Services
                 builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    //缺损类型
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
 
-                builder.InsertCell(); 
+                builder.InsertCell();
                 if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
                 {
                     builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    //单位2/单位1
@@ -262,7 +261,7 @@ namespace AutoRegularInspection.Services
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
                 builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    //缺损类型
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
-                builder.InsertCell(); 
+                builder.InsertCell();
                 if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
                 {
                     builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    //单位2/单位1
@@ -497,17 +496,57 @@ namespace AutoRegularInspection.Services
             }
 
             //TODO：考虑表格第1行和最后1行可能没有照片
-            pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[0].FirstPictureBookmarkIndex}", "", "");
-            pictureRefField.InsertHyperlink = true;
-            builder.Write("～");
-            pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary.Last().FirstPictureBookmarkIndex + listDamageSummary.Last().PictureCounts - 1}", "", "");
-            pictureRefField.InsertHyperlink = true;
+            //pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[0].FirstPictureBookmarkIndex}", "", "");
+            //pictureRefField.InsertHyperlink = true;
+            //builder.Write("～");
+            //pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary.Last().FirstPictureBookmarkIndex + listDamageSummary.Last().PictureCounts - 1}", "", "");
+            //pictureRefField.InsertHyperlink = true;
+
+            FieldRef tableRefField;
+            if (BookmarkStartName == BridgeDeckBookmarkStartName)
+            {
+                tableRefField = InsertFieldRef(builder, $"_Ref{App.TableRefOffset + 1}", "", "");
+            }
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
+            {
+                tableRefField = InsertFieldRef(builder, $"_Ref{App.TableRefOffset + 2}", "", "");
+            }
+            else
+            {
+                tableRefField = InsertFieldRef(builder, $"_Ref{App.TableRefOffset + 3}", "", "");
+            }
+
+            tableRefField.InsertHyperlink = true;
+
             builder.Write("。");
+
+
             builder.Writeln();
 
             //开始插入汇总表格
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
 
+            //builder.StartBookmark($"_Ref{App.TableRefOffset + 1}");
+            //builder.Write("图 ");
+            //_ = fieldStyleRefBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[curr % 2].Paragraphs[0]);
+            //builder.Write("-");
+            //_ = pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[curr % 2].Paragraphs[0]);
+            //builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
+
+            if (BookmarkStartName == BridgeDeckBookmarkStartName)
+            {
+                builder.StartBookmark($"_Ref{App.TableRefOffset + 1}");
+            }
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
+            {
+                builder.StartBookmark($"_Ref{App.TableRefOffset + 2}");
+            }
+            else
+            {
+                builder.StartBookmark($"_Ref{App.TableRefOffset + 3}");
+            }
+
+            
             builder.Write("表 ");
             var r1 = new Run(_doc, "");
             builder.InsertNode(r1);
@@ -516,6 +555,20 @@ namespace AutoRegularInspection.Services
             var r2 = new Run(_doc, "");
             builder.InsertNode(r2);
             tableFieldSequenceBuilder.BuildAndInsert(r2);
+            
+            if (BookmarkStartName == BridgeDeckBookmarkStartName)
+            {
+                builder.EndBookmark($"_Ref{App.TableRefOffset + 1}");
+            }
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
+            {
+                builder.EndBookmark($"_Ref{App.TableRefOffset + 2}");
+            }
+            else
+            {
+                builder.EndBookmark($"_Ref{App.TableRefOffset + 3}");
+            }
+
             builder.Write(" ");
 
             //写入表头
@@ -703,7 +756,7 @@ namespace AutoRegularInspection.Services
                     cellFormat.Width = tableCellWidth.Comment;
                 }
                 builder.EndRow();
-                
+
             }
 
 
@@ -994,7 +1047,7 @@ namespace AutoRegularInspection.Services
                 {
                     //“要素/构件”列相同并且“桥梁部位”列相同
                     if (statTable.Rows[i].Cells[componentColumn].Range.Text == statTable.Rows[j].Cells[componentColumn].Range.Text
-                        && statTable.Rows[i].Cells[componentColumn-1].Range.Text == statTable.Rows[j].Cells[componentColumn-1].Range.Text)
+                        && statTable.Rows[i].Cells[componentColumn - 1].Range.Text == statTable.Rows[j].Cells[componentColumn - 1].Range.Text)
                     {
                         mergeLength++;
                     }
@@ -1033,8 +1086,8 @@ namespace AutoRegularInspection.Services
                 }
                 if (mergeLength > 0)
                 {
-                    var cellStartRange = statTable.Rows[i].Cells[componentColumn-1];
-                    var cellEndRange = statTable.Rows[i + mergeLength].Cells[componentColumn-1];
+                    var cellStartRange = statTable.Rows[i].Cells[componentColumn - 1];
+                    var cellEndRange = statTable.Rows[i + mergeLength].Cells[componentColumn - 1];
                     MergeCells(cellStartRange, cellEndRange);
                     i += mergeLength;    //i要跳过
                     mergeLength = 0;    //合并单元格后归0

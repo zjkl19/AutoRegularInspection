@@ -149,6 +149,7 @@ namespace AutoRegularInspection
                 var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
                 var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
                 var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
+
                 if (SaveExcelService.SaveExcel(_bridgeDeckListDamageSummary.ToList()
                     , _superSpaceListDamageSummary.ToList()
                     , _subSpaceListDamageSummary.ToList()) == 1)

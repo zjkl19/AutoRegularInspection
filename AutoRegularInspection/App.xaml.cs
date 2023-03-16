@@ -43,6 +43,7 @@ namespace AutoRegularInspection
         public const string ConfigFileName = "Option.config";
         public const char PictureNoSplitSymbol = ';';    //照片编号分隔符号
         public const int TablePictureWidth = 550;    //表格图片一栏默认宽度
+        public const int TableRefOffset = 1_100_000;    //汇总表格章节书签默认偏移量
 
         public static List<ComboBoxReportTemplates> TemplateFileList => new List<ComboBoxReportTemplates> {
              new ComboBoxReportTemplates{DisplayName= "建研-常规定检--晋安区桥梁模板",Name="建研-常规定检--晋安区桥梁模板.doc",DocStyleOfMainText="晋安正文",DocStyleOfTable="晋安表格",DocStyleOfPicture="晋安图片"}
