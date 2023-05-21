@@ -33,7 +33,7 @@ namespace AutoRegularInspection
 
             XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
             XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
-           
+
             double ImageWidth = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture));
             double ImageHeight = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture));
             double CompressImageWidth = Convert.ToDouble(compressPictureWidth.Value, CultureInfo.InvariantCulture); double CompressImageHeight = Convert.ToDouble(compressPictureHeight.Value, CultureInfo.InvariantCulture);
@@ -75,37 +75,73 @@ namespace AutoRegularInspection
                 ,
                 IntactStructNoInsertSummaryTable = Convert.ToBoolean(config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault().Value, CultureInfo.InvariantCulture)
                 ,
-                BridgeDeckTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Damage)
-                ,DamagePosition = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamagePosition)
-                , DamageDescription = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Comment) }
+                BookmarkSettings = new BookmarkSettings
+                {
+                    BridgeDeckBookmarkStartNo = Convert.ToInt32(config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault().Value, CultureInfo.InvariantCulture),
+                    SuperSpaceBookmarkStartNo = Convert.ToInt32(config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault().Value, CultureInfo.InvariantCulture),
+                    SubSpaceBookmarkStartNo = Convert.ToInt32(config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault().Value, CultureInfo.InvariantCulture)
+                },
+                BridgeDeckTableCellWidth = new TableCellWidth
+                {
+                    No = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.No),
+                    Position = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Position),
+                    Component = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Damage)
+                    ,
+                    DamagePosition = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamagePosition)
+                    ,
+                    DamageDescription = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Comment)
+                }
                 ,
-                SuperSpaceTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Damage)
-                ,DamagePosition = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamagePosition)
-                , DamageDescription = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Comment) }
+                SuperSpaceTableCellWidth = new TableCellWidth
+                {
+                    No = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.No),
+                    Position = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Position),
+                    Component = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Damage)
                 ,
-                SubSpaceTableCellWidth = new TableCellWidth { No = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.No), Position = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Position), Component = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Component), Damage = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Damage)
-                ,DamagePosition = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamagePosition)
-                , DamageDescription = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamageDescription), PictureNo = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.PictureNo), Comment = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Comment) }
+                    DamagePosition = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamagePosition)
+                ,
+                    DamageDescription = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Comment)
+                }
+                ,
+                SubSpaceTableCellWidth = new TableCellWidth
+                {
+                    No = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.No),
+                    Position = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Position),
+                    Component = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Damage)
+                ,
+                    DamagePosition = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamagePosition)
+                ,
+                    DamageDescription = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Comment)
+                }
             };
 
             new Thread(() =>
-            {
-                Dispatcher.BeginInvoke(new Action(() =>
+                {
+                    Dispatcher.BeginInvoke(new Action(() =>
                 {
                     GenerateReport(generateReportSettings, commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, generateReportSettings.ImageSettings.CompressQuality, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
-                    //try
-                    //{
-                    //    GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                //try
+                //{
+                //    GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
 
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    throw ex;
-                    //}
-                }));
-            }).Start();
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw ex;
+                //}
+            }));
+                }).Start();
 
 
         }
@@ -130,15 +166,15 @@ namespace AutoRegularInspection
             List<DamageSummary> l2 = _superSpaceListDamageSummary.ToList();
             List<DamageSummary> l3 = _subSpaceListDamageSummary.ToList();
 
-            DamageSummaryServices.InitListDamageSummary1(l1);
-            DamageSummaryServices.InitListDamageSummary1(l2, 2_000_000);
-            DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
+            DamageSummaryServices.InitListDamageSummary1(l1,generateReportSettings.BookmarkSettings.BridgeDeckBookmarkStartNo);
+            DamageSummaryServices.InitListDamageSummary1(l2, generateReportSettings.BookmarkSettings.SuperSpaceBookmarkStartNo);
+            DamageSummaryServices.InitListDamageSummary1(l3, generateReportSettings.BookmarkSettings.SubSpaceBookmarkStartNo);
 
             var thread = new Thread(new ThreadStart(() =>
             {
-                //progressBarModel.ProgressValue = 0;    //测试数据
-                //生成报告前先验证照片的有效性
-                int totalInvalidPictureCounts = PictureServices.ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);
+            //progressBarModel.ProgressValue = 0;    //测试数据
+            //生成报告前先验证照片的有效性
+            int totalInvalidPictureCounts = PictureServices.ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);
                 if (totalInvalidPictureCounts > 0)
                 {
                     try
@@ -149,9 +185,9 @@ namespace AutoRegularInspection
                     }
                     catch (Exception ex)
                     {
-                        //MessageBox.Show(ex.Message);
-                        //throw;
-                    }
+                    //MessageBox.Show(ex.Message);
+                    //throw;
+                }
                 }
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });

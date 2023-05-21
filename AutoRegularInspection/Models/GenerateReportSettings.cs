@@ -18,6 +18,7 @@ namespace AutoRegularInspection.Models
         public bool CustomTableCellWidth { get; set; }
 
         public bool IntactStructNoInsertSummaryTable { get; set; }
+        public BookmarkSettings BookmarkSettings { get; set; }
 
         public TableCellWidth BridgeDeckTableCellWidth { get; set; }
 
@@ -25,6 +26,13 @@ namespace AutoRegularInspection.Models
 
         public TableCellWidth SubSpaceTableCellWidth { get; set; }
 
+    }
+
+    public class BookmarkSettings
+    {
+        public int BridgeDeckBookmarkStartNo { get; set; }
+        public int SuperSpaceBookmarkStartNo { get; set; }
+        public int SubSpaceBookmarkStartNo { get; set; }
     }
 
     public class ImageSettings
