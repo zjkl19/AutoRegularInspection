@@ -60,7 +60,7 @@ namespace AutoRegularInspectionTestProject.Services
             string expectedComment = bridgeDeckListDamageSummary[0].Comment; string acturalComment = string.Empty;
 
             string expectedDamageInSuperStructure = "无"; string acturalDamageInSuperStructure = string.Empty;
-            string expectedDamageInSubStructure = "水蚀"; string acturalDamageInSubStructure = string.Empty;
+            string expectedDamageInSubStructure = "右幅0#台台身水蚀"; string acturalDamageInSubStructure = string.Empty;
             //Act
 
             SaveExcelService.SaveExcel(bridgeDeckListDamageSummary, superSpaceListDamageSummary, subSpaceListDamageSummary, saveFileName);
@@ -72,7 +72,7 @@ namespace AutoRegularInspectionTestProject.Services
                 // 检查"桥面系"Worksheets
                 var worksheet = excelPackage.Workbook.Worksheets["桥面系"];
                 acturalDamage = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
-                acturalDamageDescription = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损描述")].Value?.ToString() ?? string.Empty;
+                acturalDamageDescription = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损程度")].Value?.ToString() ?? string.Empty;
                 acturalComment = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "备注")].Value?.ToString() ?? string.Empty;
 
                 // 检查"上部结构"Worksheets
@@ -80,7 +80,7 @@ namespace AutoRegularInspectionTestProject.Services
                 acturalDamageInSuperStructure = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
 
                 worksheet = excelPackage.Workbook.Worksheets["下部结构"];
-                acturalDamageInSubStructure = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损类型")].Value?.ToString() ?? string.Empty;
+                acturalDamageInSubStructure = worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "缺损程度")].Value?.ToString() ?? string.Empty;
             }
 
             //Assert

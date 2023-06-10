@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="AutoRegularInspection.SummaryTableOptionPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:sys="http://schemas.microsoft.com/netfx/2009/xaml/presentation"
+      xmlns:sys1="clr-namespace:System;assembly=mscorlib" 
+      xmlns:local="clr-namespace:AutoRegularInspection.Models"
+      mc:Ignorable="d" >
+    <UserControl.DataContext>
+        <local:OptionConfiguration/>
+    </UserControl.DataContext>
+    <StackPanel >
+        <StackPanel.Resources>
+            <sys:Thickness x:Key="defaultMargin">5</sys:Thickness>
+            <sys1:Double x:Key="defaultWidth">40</sys1:Double>
+        </StackPanel.Resources>
+        <StackPanel  Orientation="Horizontal" >
+            <Label Content="桥面系及附属设施" ></Label>
+        </StackPanel>
+
+        <StackPanel Name="BridgeDeckStackPanel" Orientation="Horizontal">
+            <Label Content="序号"  Margin="{StaticResource defaultMargin}"></Label>
+            <!--使用DataContext-->
+            <TextBox Text="{Binding BridgeDeckSummaryTable.No,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="{StaticResource defaultWidth}" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding BridgeDeckSummaryTable.Position,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="要       素"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding BridgeDeckSummaryTable.Component,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding BridgeDeckSummaryTable.Damage,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding BridgeDeckSummaryTable.DamagePosition,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损程度"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding BridgeDeckSummaryTable.DamageDescription,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding BridgeDeckSummaryTable.PictureNo,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding BridgeDeckSummaryTable.Comment,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+
+        </StackPanel>
+        <StackPanel  Orientation="Horizontal" >
+            <Label Content="上部结构" ></Label>
+        </StackPanel>
+        <StackPanel Name="SuperSpaceStackPanel"  Orientation="Horizontal" >
+            <Label Content="序号"  Margin="{StaticResource defaultMargin}"></Label>
+            <TextBox Text="{Binding SuperSpaceSummaryTable.No,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="{StaticResource defaultWidth}" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SuperSpaceSummaryTable.Position,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="构件类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SuperSpaceSummaryTable.Component,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SuperSpaceSummaryTable.Damage,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SuperSpaceSummaryTable.DamagePosition,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损程度"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SuperSpaceSummaryTable.DamageDescription,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SuperSpaceSummaryTable.PictureNo,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SuperSpaceSummaryTable.Comment,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+
+        </StackPanel>
+        <StackPanel  Orientation="Horizontal" >
+            <Label Content="下部结构" ></Label>
+        </StackPanel>
+        <StackPanel Name="SubSpaceStackPanel"  Orientation="Horizontal" >
+            <Label Content="序号"  Margin="{StaticResource defaultMargin}"></Label>
+            <TextBox Text="{Binding SubSpaceSummaryTable.No,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="{StaticResource defaultWidth}" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SubSpaceSummaryTable.Position,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="构件类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SubSpaceSummaryTable.Component,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损类型"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SubSpaceSummaryTable.Damage,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损位置"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SubSpaceSummaryTable.DamagePosition,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="缺损程度"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SubSpaceSummaryTable.DamageDescription,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="图示编号"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SubSpaceSummaryTable.PictureNo,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+            <Label Content="备注"  Margin="{StaticResource defaultMargin}" ></Label>
+            <TextBox  Text="{Binding SubSpaceSummaryTable.Comment,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" Width="40" Margin="{StaticResource defaultMargin}" ></TextBox>
+        </StackPanel>
+    </StackPanel >
+</UserControl>

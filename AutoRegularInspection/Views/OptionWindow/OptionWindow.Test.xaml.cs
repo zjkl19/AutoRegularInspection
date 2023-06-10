@@ -1,4 +1,5 @@
 ﻿using AutoRegularInspection.Models;
+using AutoRegularInspection.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -8,22 +9,9 @@ namespace AutoRegularInspection.Views
     {
         private void TestButton_Click(object sender, RoutedEventArgs e)
         {
-            var frame = OptionContentControl.Content as Frame;
-
-
-            //var m = (Page1)frame.Content;
-
-            //MessageBox.Show((string)frame.Tag);
-
-            var m = (OptionPicturePage)frame.Content;
-            var m1 = (m.DataContext) as OptionModel;
-            MessageBox.Show(m1.PictureHeight);
-
-            //if((string)fr.Tag=="Page1")
-            //{
-            //    var m = (Page1)fr.Content;
-            //    MessageBox.Show($"{m.TxtInfo.Text}");
-            //}
+            var viewModel = (OptionViewModel)DataContext;
+            var a = viewModel.Options[0].UserControl.DataContext as OptionConfiguration;
+            var b = 1;
         }
     }
 }

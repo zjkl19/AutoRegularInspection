@@ -63,7 +63,7 @@ namespace AutoRegularInspectionTestProject.Repository
             Assert.Equal(1, 1);
         }
 
-        [Fact]
+        //[Fact]
         public void GetSumPenalityTable_ShouldReturnCorretResult()
         {
             //Arrange

@@ -31,7 +31,7 @@ namespace AutoRegularInspection.Models
         /// 位置
         /// </summary>
         public string Position { set; get; }
-
+        
 
         private ObservableCollection<BridgeDamage> _DamageComboBox;
 
@@ -463,7 +463,7 @@ namespace AutoRegularInspection.Models
             ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit2ComboBox;
             return (unitBox[Unit2Value].DisplayTitle);
         }
-
+        
         public string GetPhysicalItem()
         {
             ObservableCollection<StatisticsUnit> unitBox = GlobalData.Unit2ComboBox;

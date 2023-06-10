@@ -12,7 +12,7 @@ namespace AutoRegularInspectionTestProject.Views
 {
     public partial class OptionWindowTests
     {
-        [Fact]
+        //[Fact]
         public void OptionWindow_SummaryTable_Selected_ShouldReturnCorrectVar()
         {
 

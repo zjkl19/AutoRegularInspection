@@ -13,6 +13,8 @@ using System.Windows;
 using System.Xml.Linq;
 using System.Globalization;
 using AutoRegularInspection.Views;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace AutoRegularInspection
 {
@@ -26,17 +28,23 @@ namespace AutoRegularInspection
             commentColumnInsertTable = Convert.ToBoolean(appConfig.AppSettings.Settings["CommentColumnInsertTable"].Value, CultureInfo.InvariantCulture);
 
             XDocument config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
-            XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-            XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-            XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
-            XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
 
-            XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
-            XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
+            //反序列化XML配置文件
+            var serializer = new XmlSerializer(typeof(OptionConfiguration));
+            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
+            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
 
-            double ImageWidth = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture));
-            double ImageHeight = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture));
-            double CompressImageWidth = Convert.ToDouble(compressPictureWidth.Value, CultureInfo.InvariantCulture); double CompressImageHeight = Convert.ToDouble(compressPictureHeight.Value, CultureInfo.InvariantCulture);
+            //XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
+            //XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
+            //XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
+            //XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
+
+            //XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
+            //XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
+
+            //double ImageWidth = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture));
+            //double ImageHeight = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture));
+            //double CompressImageWidth = Convert.ToDouble(compressPictureWidth.Value, CultureInfo.InvariantCulture); double CompressImageHeight = Convert.ToDouble(compressPictureHeight.Value, CultureInfo.InvariantCulture);
 
             string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
 
@@ -47,7 +55,7 @@ namespace AutoRegularInspection
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
 
 
-            OptionWindowHelper.ExtractSummaryTableWidth(config, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
+            //OptionWindowHelper.ExtractSummaryTableWidth(config, out BridgeDeckDamageSummaryTableWidth bridgeDeckDamageSummaryTableWidth, out SuperSpaceDamageSummaryTableWidth superSpaceDamageSummaryTableWidth, out SubSpaceDamageSummaryTableWidth subSpaceDamageSummaryTableWidth);
 
 
             GenerateReportSettings generateReportSettings = new GenerateReportSettings
@@ -56,13 +64,13 @@ namespace AutoRegularInspection
                 ,
                 ImageSettings = new ImageSettings
                 {
-                    MaxCompressSize = Convert.ToInt32(pictureMaxCompressSize.Value, CultureInfo.InvariantCulture)
+                    MaxCompressSize = deserializedConfig.Picture.MaxCompressSize
                     ,
-                    CompressQuality = Convert.ToInt32(pictureCompressQuality.Value, CultureInfo.InvariantCulture)
+                    CompressQuality = deserializedConfig.Picture.CompressQuality
                     ,
-                    CompressImageWidth = CompressImageWidth
+                    CompressImageWidth = ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Width)
                     ,
-                    CompressImageHeight = CompressImageHeight
+                    CompressImageHeight = ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Height)
                 }
                 ,
                 InspectionString = InspectionComboBox.Text
@@ -73,54 +81,52 @@ namespace AutoRegularInspection
                 ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
                 ,
-                IntactStructNoInsertSummaryTable = Convert.ToBoolean(config.Elements("configuration").Elements("General").Elements("IntactStructNoInsertSummaryTable").FirstOrDefault().Value, CultureInfo.InvariantCulture)
+                IntactStructNoInsertSummaryTable = deserializedConfig.General.IntactStructNoInsertSummaryTable
                 ,
                 BookmarkSettings = new BookmarkSettings
                 {
-                    BridgeDeckBookmarkStartNo = Convert.ToInt32(config.Elements("configuration").Elements("Bookmark").Elements("BridgeDeckBookmarkStartNo").FirstOrDefault().Value, CultureInfo.InvariantCulture),
-                    SuperSpaceBookmarkStartNo = Convert.ToInt32(config.Elements("configuration").Elements("Bookmark").Elements("SuperSpaceBookmarkStartNo").FirstOrDefault().Value, CultureInfo.InvariantCulture),
-                    SubSpaceBookmarkStartNo = Convert.ToInt32(config.Elements("configuration").Elements("Bookmark").Elements("SubSpaceBookmarkStartNo").FirstOrDefault().Value, CultureInfo.InvariantCulture)
+                    BridgeDeckBookmarkStartNo = deserializedConfig.Bookmark.BridgeDeckBookmarkStartNo,
+                    SuperSpaceBookmarkStartNo = deserializedConfig.Bookmark.SuperSpaceBookmarkStartNo,
+                    SubSpaceBookmarkStartNo = deserializedConfig.Bookmark.SubSpaceBookmarkStartNo
                 },
                 BridgeDeckTableCellWidth = new TableCellWidth
                 {
-                    No = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.No),
-                    Position = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Position),
-                    Component = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Component),
-                    Damage = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Damage)
+                    No = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.No),
+                    Position = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Position),
+                    Component = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Damage)
                     ,
-                    DamagePosition = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamagePosition)
+                    DamagePosition = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.DamagePosition)
                     ,
-                    DamageDescription = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.DamageDescription),
-                    PictureNo = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.PictureNo),
-                    Comment = ConvertUtil.MillimeterToPoint(bridgeDeckDamageSummaryTableWidth.Comment)
+                    DamageDescription = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Comment)
                 }
                 ,
                 SuperSpaceTableCellWidth = new TableCellWidth
                 {
-                    No = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.No),
-                    Position = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Position),
-                    Component = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Component),
-                    Damage = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Damage)
+                    No = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.No),
+                    Position = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Position),
+                    Component = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Damage)
                 ,
-                    DamagePosition = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamagePosition)
+                    DamagePosition = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.DamagePosition)
                 ,
-                    DamageDescription = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.DamageDescription),
-                    PictureNo = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.PictureNo),
-                    Comment = ConvertUtil.MillimeterToPoint(superSpaceDamageSummaryTableWidth.Comment)
+                    DamageDescription = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Comment)
                 }
                 ,
                 SubSpaceTableCellWidth = new TableCellWidth
                 {
-                    No = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.No),
-                    Position = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Position),
-                    Component = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Component),
-                    Damage = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Damage)
-                ,
-                    DamagePosition = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamagePosition)
-                ,
-                    DamageDescription = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.DamageDescription),
-                    PictureNo = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.PictureNo),
-                    Comment = ConvertUtil.MillimeterToPoint(subSpaceDamageSummaryTableWidth.Comment)
+                    No = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.No),
+                    Position = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Position),
+                    Component = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Damage),
+                    DamagePosition = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.DamagePosition),
+                    DamageDescription = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Comment)
                 }
             };
 
@@ -128,7 +134,7 @@ namespace AutoRegularInspection
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    GenerateReport(generateReportSettings, commentColumnInsertTable, ImageWidth, ImageHeight, templateFile, outputFile, generateReportSettings.ImageSettings.CompressQuality, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                    GenerateReport(generateReportSettings, commentColumnInsertTable, ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Width), ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Height), templateFile, outputFile, generateReportSettings.ImageSettings.CompressQuality, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
                 //try
                 //{
