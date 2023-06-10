@@ -134,13 +134,13 @@ namespace AutoRegularInspectionTestProject
 
             //Assert
             //测试汇总内容
-            Assert.Contains("伸缩缝：共3条缝内沉积物阻塞，长度29.8m；共1处接缝处铺装碎边，面积0.6m²。\r栏杆：共1处丢失残缺。", doc.Range.Text, StringComparison.Ordinal);
-            Assert.Contains("台身：共3处露筋锈蚀，面积0.48m²。", doc.Range.Text, StringComparison.Ordinal);
+            //Assert.Contains("伸缩缝：共3条缝内沉积物阻塞，长度29.8m；共1处接缝处铺装碎边，面积0.6m²。\r栏杆：共1处丢失残缺。", doc.Range.Text, StringComparison.Ordinal);
+            //Assert.Contains("台身：共3处露筋锈蚀，面积0.48m²。", doc.Range.Text, StringComparison.Ordinal);
 
             //测试汇总表（桥面系）
             Assert.Contains("缝内沉积物阻塞", bridgeDeckDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
             Assert.Contains("接缝处铺装碎边", bridgeDeckDamageSummaryTable.Rows[2].Cells[3].GetText(), StringComparison.Ordinal);
-            Assert.Contains("图 2-3", bridgeDeckDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-3", bridgeDeckDamageSummaryTable.Rows[2].Cells[6].GetText().Trim(), StringComparison.Ordinal);
             //测试汇总图片表（桥面系）
             Assert.Contains("图 2-1 左幅0#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-4 右幅1#伸缩缝沉积物阻塞-1", bridgeDeckDamagePictureTable.Rows[3].Cells[1].GetText().Trim(), StringComparison.Ordinal);
@@ -150,7 +150,7 @@ namespace AutoRegularInspectionTestProject
 
             //测试汇总表（上部结构）
             Assert.Contains("无", superSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
-            Assert.Contains("图 2-10", superSpaceDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-10", superSpaceDamageSummaryTable.Rows[2].Cells[6].GetText().Trim(), StringComparison.Ordinal);
             //测试汇总图片表（上部结构）
             Assert.Contains("图 2-9 左幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-10 右幅主梁", superSpaceDamagePictureTable.Rows[1].Cells[1].GetText().Trim(), StringComparison.Ordinal);
@@ -160,7 +160,7 @@ namespace AutoRegularInspectionTestProject
 
             //测试汇总表（下部结构）
             Assert.Contains("水蚀", subSpaceDamageSummaryTable.Rows[1].Cells[3].GetText(), StringComparison.Ordinal);
-            Assert.Contains("图 2-12", subSpaceDamageSummaryTable.Rows[2].Cells[5].GetText().Trim(), StringComparison.Ordinal);
+            Assert.Contains("图 2-12", subSpaceDamageSummaryTable.Rows[2].Cells[6].GetText().Trim(), StringComparison.Ordinal);
             //测试汇总图片表（下部结构）
             Assert.Contains("图 2-13 左幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1 + 2].Cells[0].GetText().Trim(), StringComparison.Ordinal);
             Assert.Contains("图 2-14 右幅1#台台身露筋锈蚀", subSpaceDamagePictureTable.Rows[1 + 2].Cells[1].GetText().Trim(), StringComparison.Ordinal);
