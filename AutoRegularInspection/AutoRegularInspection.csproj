@@ -130,7 +130,6 @@
     </ApplicationDefinition>
     <Compile Include="Converters\OptionConverter.cs" />
     <Compile Include="Converters\SeverityQualityConverter.cs" />
-    <Compile Include="Converters\SubPageConverter.cs" />
     <Compile Include="IRepository\IDataRepository.cs" />
     <Compile Include="IRepository\IFileWriter.cs" />
     <Compile Include="IRepository\IOptionPage.cs" />
@@ -211,12 +210,6 @@
     </Compile>
     <Compile Include="Views\OptionWindow\OptionWindow.Cancel.xaml.cs" />
     <Compile Include="Views\OptionWindow\OptionWindow.Test.xaml.cs" />
-    <Compile Include="Views\Page1.xaml.cs">
-      <DependentUpon>Page1.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Page2.xaml.cs">
-      <DependentUpon>Page2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\PictureOptionPage.xaml.cs">
       <DependentUpon>PictureOptionPage.xaml</DependentUpon>
     </Compile>
@@ -251,14 +244,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BookmarkOptionPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Page1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Page2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

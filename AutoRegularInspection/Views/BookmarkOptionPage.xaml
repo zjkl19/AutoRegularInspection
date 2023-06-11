@@ -5,15 +5,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:AutoRegularInspection.Models"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <Thickness x:Key="MarginResource">0,0,0,10</Thickness>
+        <Thickness x:Key="LabelMarginResource">0,0,10,0</Thickness>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <local:OptionConfiguration/>
     </UserControl.DataContext>
     <StackPanel>
-        <Label Content="桥面系书签起始编号" ></Label>
-        <TextBox Text="{Binding Bookmark.BridgeDeckBookmarkStartNo,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
-        <Label Content="上部结构书签起始编号" ></Label>
-        <TextBox  Text="{Binding Bookmark.SuperSpaceBookmarkStartNo,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
-        <Label Content="下部结构书签起始编号" ></Label>
-        <TextBox  Text="{Binding Bookmark.SubSpaceBookmarkStartNo,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
+        <StackPanel  Orientation="Horizontal" Margin="{StaticResource MarginResource}">
+            <Label Content="桥面系书签起始编号" Width="150" Margin="{StaticResource LabelMarginResource}"></Label>
+            <TextBox Text="{Binding Bookmark.BridgeDeckBookmarkStartNo,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
+        </StackPanel>
+        <StackPanel  Orientation="Horizontal" Margin="{StaticResource MarginResource}">
+            <Label Content="上部结构书签起始编号" Width="150" Margin="{StaticResource LabelMarginResource}"></Label>
+            <TextBox  Text="{Binding Bookmark.SuperSpaceBookmarkStartNo,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
+        </StackPanel>
+        <StackPanel  Orientation="Horizontal" Margin="{StaticResource MarginResource}">
+            <Label Content="下部结构书签起始编号" Width="150" Margin="{StaticResource LabelMarginResource}"></Label>
+            <TextBox  Text="{Binding Bookmark.SubSpaceBookmarkStartNo,UpdateSourceTrigger=PropertyChanged}" Width="200"></TextBox>
+        </StackPanel>
     </StackPanel>
 </UserControl>

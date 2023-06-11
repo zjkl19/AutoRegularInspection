@@ -35,7 +35,7 @@ namespace AutoRegularInspection
             //TODO：通过反射读取 AssemblyCopyright
             _ = MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version}\r" +
             $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2023\r" +
-            "系统框架设计、编程及维护：路桥检测研究所林迪南等"
+            "系统框架设计、编程及维护：桥梁监测与数字化研究所林迪南，等"
             , "关于");
         }
     }
