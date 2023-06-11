@@ -2,6 +2,9 @@
 using AutoRegularInspection.Models;
 using AutoRegularInspection.Repository;
 using AutoRegularInspection.Views;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,6 +21,7 @@ namespace AutoRegularInspection.ViewModels
 {
     public class OptionViewModel : INotifyPropertyChanged
     {
+        private readonly ILogger _log;
         public ObservableCollection<Option> Options { get; set; }
 
         public OptionConfiguration OptionConfiguration { get; set; }
@@ -38,6 +42,17 @@ namespace AutoRegularInspection.ViewModels
 
         public OptionViewModel()
         {
+            //Nlog
+            LoggingConfiguration config = new LoggingConfiguration();
+            // Targets where to log to: File and Console
+            FileTarget logfile = new FileTarget("logfile") { FileName = @"Log\LogFile.txt" };
+            ConsoleTarget logconsole = new ConsoleTarget("logconsole");
+            // Rules for mapping loggers to targets            
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, logconsole);
+            config.AddRule(LogLevel.Debug, LogLevel.Fatal, logfile);
+            // Apply config           
+            LogManager.Configuration = config;
+            _log = LogManager.GetCurrentClassLogger();
 
             // Here we can add the options with their corresponding user controls and children
             Options = new ObservableCollection<Option>
@@ -91,17 +106,27 @@ namespace AutoRegularInspection.ViewModels
 
         public void Save(object parameter)
         {
+            try
+            {
+                var configuration = Options[0].UserControl.DataContext;    //获得DataContext
+                                                                           //XmlSerializer serializer = new XmlSerializer(typeof(OptionConfiguration));
+                                                                           //using (TextWriter writer = new StreamWriter($"{App.ConfigurationFolder}\\{App.ConfigFileName}"))
+                                                                           //{
+                                                                           //    serializer.Serialize(writer, configuration);
+                                                                           //}
+                IFileWriter fileWriter = new FileWriter();
+                IXmlSerializer<OptionConfiguration> serializer = new LocalXmlSerializer<OptionConfiguration>();
+                SaveFile(configuration, fileWriter, serializer);
 
-            var configuration = Options[0].UserControl.DataContext;    //获得DataContext
-            //XmlSerializer serializer = new XmlSerializer(typeof(OptionConfiguration));
-            //using (TextWriter writer = new StreamWriter($"{App.ConfigurationFolder}\\{App.ConfigFileName}"))
-            //{
-            //    serializer.Serialize(writer, configuration);
-            //}
-            IFileWriter fileWriter = new FileWriter();
-            IXmlSerializer<OptionConfiguration> serializer = new LocalXmlSerializer<OptionConfiguration>();
-            SaveFile(configuration, fileWriter, serializer);
-            _ = MessageBox.Show("保存设置成功！");
+                _ = MessageBox.Show("保存设置成功！");
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex, "Error occurred in Save method");
+                throw; // rethrow the exception if you want it to be handled elsewhere
+
+            }
+
         }
 
         public static void SaveFile(object configuration, IFileWriter fileWriter, IXmlSerializer<OptionConfiguration> serializer)

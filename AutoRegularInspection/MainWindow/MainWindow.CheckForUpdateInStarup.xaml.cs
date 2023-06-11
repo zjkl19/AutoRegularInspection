@@ -32,15 +32,8 @@ namespace AutoRegularInspection
             }
             catch (Exception ex)
             {
-
-#if DEBUG
-                throw ex;
-
-#else
-                _log.Error(ex, $"后台自动检查更新出错，错误信息：{ ex.Message.ToString()}");
-                autoApdate = false;
-#endif
-
+                _log.Error(ex, $"后台自动检查更新出错，错误信息：{ ex.Message}");
+                throw;
             }
 
 

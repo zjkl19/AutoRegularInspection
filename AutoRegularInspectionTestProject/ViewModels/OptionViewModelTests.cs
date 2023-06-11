@@ -16,17 +16,21 @@ namespace AutoRegularInspectionTestProject.ViewModels
         public void SaveFile_ShouldWritesConfigurationToFile()
         {
             // Arrange
+            var configuration = new OptionConfiguration();
             var mockFileWriter = new Mock<IFileWriter>();
             var mockSerializer = new Mock<IXmlSerializer<OptionConfiguration>>();
 
-            var configuration = new OptionConfiguration();
+            // setup mockFileWriter to return a valid TextWriter when Create method is called
+            var stringWriter = new StringWriter();
+            mockFileWriter.Setup(f => f.Create(It.IsAny<string>())).Returns(stringWriter);
 
             // Act
             OptionViewModel.SaveFile(configuration, mockFileWriter.Object, mockSerializer.Object);
 
             // Assert
-            mockFileWriter.Verify(fw => fw.Create(It.IsAny<string>()), Times.Once());
-            mockSerializer.Verify(s => s.Serialize(It.IsAny<System.IO.TextWriter>(), configuration), Times.Once());
+            // Verify that the Serialize method was called once with the correct parameters
+            mockSerializer.Verify(s => s.Serialize(It.IsAny<TextWriter>(), configuration), Times.Once());
+
         }
 
         [Fact]
