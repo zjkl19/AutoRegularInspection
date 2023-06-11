@@ -1,4 +1,6 @@
-﻿using AutoRegularInspection.Models;
+﻿using AutoRegularInspection.IRepository;
+using AutoRegularInspection.Models;
+using AutoRegularInspection.Repository;
 using AutoRegularInspection.Views;
 using System;
 using System.Collections.Generic;
@@ -36,14 +38,14 @@ namespace AutoRegularInspection.ViewModels
 
         public OptionViewModel()
         {
-            
+
             // Here we can add the options with their corresponding user controls and children
             Options = new ObservableCollection<Option>
             {
                 new Option { Name = "图片", UserControl = new PictureOptionPage(), Children = new List<Option>
                 {
                     new Option { Name = "常规", UserControl = new PictureOptionPage()},
-                    
+
                 }},
                 new Option { Name = "报告", UserControl = new GeneralOptionPage(), Children = new List<Option>
                 {
@@ -73,7 +75,7 @@ namespace AutoRegularInspection.ViewModels
             for (int i = 0; i < Options.Count; i++)
             {
                 Options[i].UserControl.DataContext = deserializedConfig;
-                for (int j = 0; j < Options[i].Children.Count;j++) 
+                for (int j = 0; j < Options[i].Children.Count; j++)
                 {
                     Options[i].Children[j].UserControl.DataContext = deserializedConfig;
                 }
@@ -91,13 +93,36 @@ namespace AutoRegularInspection.ViewModels
         {
 
             var configuration = Options[0].UserControl.DataContext;    //获得DataContext
-            XmlSerializer serializer = new XmlSerializer(typeof(OptionConfiguration));
-            using (TextWriter writer = new StreamWriter($"{App.ConfigurationFolder}\\{App.ConfigFileName}"))
-            {
-                serializer.Serialize(writer, configuration);
-            }
+            //XmlSerializer serializer = new XmlSerializer(typeof(OptionConfiguration));
+            //using (TextWriter writer = new StreamWriter($"{App.ConfigurationFolder}\\{App.ConfigFileName}"))
+            //{
+            //    serializer.Serialize(writer, configuration);
+            //}
+            IFileWriter fileWriter = new FileWriter();
+            IXmlSerializer<OptionConfiguration> serializer = new LocalXmlSerializer<OptionConfiguration>();
+            SaveFile(configuration, fileWriter, serializer);
             _ = MessageBox.Show("保存设置成功！");
-        }   
+        }
+
+        public static void SaveFile(object configuration, IFileWriter fileWriter, IXmlSerializer<OptionConfiguration> serializer)
+        {
+            if (configuration == null)
+            {
+                throw new ArgumentNullException(nameof(configuration), "Configuration cannot be null");
+            }
+            using (var textWriter = fileWriter.Create($"{App.ConfigurationFolder}\\{App.ConfigFileName}"))
+            {
+                if (textWriter == null)
+                {
+                    throw new Exception("Failed to create TextWriter.");
+                }
+                serializer.Serialize(textWriter, (OptionConfiguration)configuration);
+            }
+            //using (var textWriter = fileWriter.Create($"{App.ConfigurationFolder}\\{App.ConfigFileName}"))
+            //{
+            //    serializer.Serialize(textWriter, (OptionConfiguration)configuration);
+            //}  
+        }
     }
     public class RelayCommand : ICommand
     {

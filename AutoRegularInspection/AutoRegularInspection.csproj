@@ -136,7 +136,9 @@
     <Compile Include="Converters\SeverityQualityConverter.cs" />
     <Compile Include="Converters\SubPageConverter.cs" />
     <Compile Include="IRepository\IDataRepository.cs" />
+    <Compile Include="IRepository\IFileWriter.cs" />
     <Compile Include="IRepository\IOptionPage.cs" />
+    <Compile Include="IRepository\IXmlSerializer.cs" />
     <Compile Include="MainWindow\MainWindow.BatchCompressImage.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CopyRow.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CheckForUpdate.xaml.cs" />
@@ -187,6 +189,8 @@
     <Compile Include="Repository\CheckForUpdate.cs" />
     <Compile Include="Repository\ExcelDataRepository.cs" />
     <Compile Include="Repository\AsposeWordsImage.cs" />
+    <Compile Include="Repository\FileWriter.cs" />
+    <Compile Include="Repository\LocalXmlSerializer.cs" />
     <Compile Include="Services\AsposeWordsServices.cs" />
     <Compile Include="Services\DamageSummaryServices.cs" />
     <Compile Include="Services\EnumHelper.cs" />
