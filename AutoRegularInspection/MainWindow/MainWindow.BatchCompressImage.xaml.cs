@@ -77,6 +77,16 @@ namespace AutoRegularInspection
     {
         public List<string> ProcessImages(string sourceDirectory, string outputDirectory, double targetWidth, double targetHeight, IProgress<ProgressReport> progress, CancellationToken cancellationToken)
         {
+            if (targetWidth < 0)
+            {
+                throw new ArgumentException("目标宽度不为负数", nameof(targetWidth));
+            }
+
+            if (targetHeight < 0)
+            {
+                throw new ArgumentException("目标高度不为负数", nameof(targetHeight));
+            }
+
             string[] searchPatterns = new[] { "*.jpg", "*.png", "*.jpeg", "*.bmp" };
             var imageFiles = searchPatterns.SelectMany(pattern => Directory.GetFiles(sourceDirectory, pattern, SearchOption.AllDirectories)).ToArray();
 
