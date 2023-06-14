@@ -11,6 +11,10 @@ using System.Threading;
 using System.Configuration;
 using System.Xml.Linq;
 using System.Linq;
+using System.Threading.Tasks;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace AutoRegularInspection
 {
@@ -18,66 +22,103 @@ namespace AutoRegularInspection
     {
         private void BatchCompressImage_Click(object sender, RoutedEventArgs e)
         {
-            System.Configuration.Configuration appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            XDocument config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
-            XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
-            XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
-            double CompressImageWidth = Convert.ToDouble(compressPictureWidth.Value, CultureInfo.InvariantCulture);
-            double CompressImageHeight = Convert.ToDouble(compressPictureHeight.Value, CultureInfo.InvariantCulture);
+            var serializer = new XmlSerializer(typeof(OptionConfiguration));
+            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
+            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+            double CompressImageWidth = deserializedConfig.Picture.CompressWidth;
+            double CompressImageHeight = deserializedConfig.Picture.CompressHeight;
 
-            //参考：https://docs.sixlabors.com/articles/imagesharp/resize.html
-            try
+            // 创建新的 ProgressBarWindow 和 ProgressBarModel
+            ProgressBarWindow w = new ProgressBarWindow();
+            ProgressBarModel progressBarModel = new ProgressBarModel
             {
-                ProgressBarWindow w = new ProgressBarWindow();
-                w.Top = 0.4 * (App.ScreenHeight - w.Height);
-                w.Left = 0.4 * (App.ScreenWidth - w.Width);
+                ProgressValue = 0
+            };
+            w.DataContext = progressBarModel;  // 设置 DataContext
 
-                ProgressBarModel progressBarModel = new ProgressBarModel
+            // 设置 ProgressBarWindow 的位置
+            w.Top = 0.4 * (App.ScreenHeight - w.Height);
+            w.Left = 0.4 * (App.ScreenWidth - w.Width);
+
+            w.Show();
+
+            Task.Run(() =>
+            {
+                try
                 {
-                    ProgressValue = 0
-                };
-                w.progressBarNumberTextBlock.DataContext = progressBarModel;
-                w.progressBar.DataContext = progressBarModel;
-                w.progressBarContentTextBlock.DataContext = progressBarModel;
-
-                int progressSleepTime = 500;    //进度条停顿时间
-
-                Thread thread = new Thread(new ThreadStart(() =>
-                {
-
-                    w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
-                    var jpgFiles = Directory.GetFiles($"{App.PicturesFolder}", "*.jpg", SearchOption.AllDirectories);
-                    int counter = 0;
-                    foreach (string filename in jpgFiles)
+                    var imageProcessor = new ImageProcessor();
+                    imageProcessor.ProcessImages(App.PicturesFolder, App.PicturesOutFolder, CompressImageWidth, CompressImageHeight, new Progress<ProgressReport>(report =>
                     {
-                        string name = Path.GetFileName(filename);
-                        using (Image image = Image.Load<Rgba32>(filename))
-                        {
+                        progressBarModel.ProgressValue = report.ProgressPercentage;
+                        progressBarModel.Content = report.CurrentOperation;
 
-                            int width = (int)CompressImageWidth;
-                            int height = (int)CompressImageHeight;
-                            image.Mutate(x => x.Resize(width, height, KnownResamplers.Bicubic));
-                            image.Save($"{App.PicturesOutFolder}\\{name}");
-                            counter++;
-                            progressBarModel.ProgressValue = counter * 100 / jpgFiles.Length;
-                            progressBarModel.Content = $"已处理图片{counter}/{jpgFiles.Length}";
-                        }
-                    }
-                    w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
-                    w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("图片压缩完成！"); });
+                    }), progressBarModel.CancellationTokenSource.Token);
 
-                }));
-                thread.Start();
-
-            }
-            catch (Exception ex)
-            {
-
-                MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture));
-            }
-
-
+                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("图片压缩完成！"); });
+                }
+                catch (OperationCanceledException)
+                {
+                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("图片压缩已取消！"); });
+                }
+                catch (Exception ex)
+                {
+                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture)); });
+                }
+                finally
+                {
+                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
+                }
+            });
 
         }
     }
+
+    public class ImageProcessor
+    {
+        public List<string> ProcessImages(string sourceDirectory, string outputDirectory, double targetWidth, double targetHeight, IProgress<ProgressReport> progress, CancellationToken cancellationToken)
+        {
+            string[] searchPatterns = new[] { "*.jpg", "*.png", "*.jpeg", "*.bmp" };
+            var imageFiles = searchPatterns.SelectMany(pattern => Directory.GetFiles(sourceDirectory, pattern, SearchOption.AllDirectories)).ToArray();
+
+            List<string> outputFiles = new List<string>();
+            int counter = 0;
+            var options = new ParallelOptions()
+            {
+                MaxDegreeOfParallelism = Environment.ProcessorCount / 2,
+                CancellationToken = cancellationToken,
+            };
+
+            Parallel.ForEach(imageFiles, options, filename =>
+            {
+                cancellationToken.ThrowIfCancellationRequested(); // 检查是否取消
+
+                string name = Path.GetFileName(filename);
+                using (Image image = Image.Load<Rgba32>(filename))
+                {
+                    int width = (int)targetWidth;
+                    int height = (int)targetHeight;
+                    image.Mutate(x => x.Resize(width, height, KnownResamplers.Bicubic));
+                    string outputPath = $"{outputDirectory}\\{name}";
+                    image.Save(outputPath);
+                    outputFiles.Add(outputPath);
+
+                    int incrementedCounter = Interlocked.Increment(ref counter);
+                    progress.Report(new ProgressReport
+                    {
+                        ProgressPercentage = incrementedCounter * 100 / imageFiles.Length,
+                        CurrentOperation = $"已处理图片{incrementedCounter}/{imageFiles.Length}"
+                    });
+                }
+            });
+
+            return outputFiles;
+        }
+    }
+
+    public class ProgressReport
+    {
+        public int ProgressPercentage { get; set; }
+        public string CurrentOperation { get; set; }
+    }
+
 }

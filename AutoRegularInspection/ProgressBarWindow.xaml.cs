@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoRegularInspection.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,16 @@ namespace AutoRegularInspection
         {
             InitializeComponent();
         }
+        //private void Cancel_Click(object sender, RoutedEventArgs e)
+        //{
+        //    // 获取 ProgressBarModel 实例并取消操作
+        //    var model = this.DataContext as ProgressBarModel;
+        //    model.CancellationTokenSource.Cancel();
+        //}
+        //private void Cancel_Click(object sender, RoutedEventArgs e)
+        //{
+        //    MessageBox.Show("111");
+        //    Close();        
+        //}
     }
 }

@@ -107,7 +107,7 @@ namespace AutoRegularInspection.Models
             }
         }
         private int _CompressQuality;
-        [XmlElement(ElementName = "CompressQuality")]
+        [XmlElement(ElementName = nameof(CompressQuality))]
         public int CompressQuality
         {
             get { return _CompressQuality; }
@@ -117,7 +117,7 @@ namespace AutoRegularInspection.Models
             }
         }
         private double _CompressWidth;
-        [XmlElement(ElementName = "CompressWidth")]
+        [XmlElement(ElementName = nameof(CompressWidth))]
         public double CompressWidth
         {
             get { return _CompressWidth; }
@@ -125,7 +125,7 @@ namespace AutoRegularInspection.Models
             { UpdateProperty(ref _CompressWidth, value); }
         }
         private double _CompressHeight;
-        [XmlElement(ElementName = "CompressHeight")]
+        [XmlElement(ElementName = nameof(CompressHeight))]
         public double CompressHeight
         {
             get => _CompressHeight;

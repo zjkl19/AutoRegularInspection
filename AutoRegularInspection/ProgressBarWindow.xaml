@@ -3,16 +3,26 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AutoRegularInspection"
+        xmlns:local="clr-namespace:AutoRegularInspection.Models"
         mc:Ignorable="d"
-        Title="处理进度" Height="218" Width="300">
+        Title="处理进度" Height="250" Width="300">
+    <Window.DataContext>
+        <local:ProgressBarModel/>
+    </Window.DataContext>
 
-    <Grid>
-        <ProgressBar Name="progressBar" Value="{Binding ProgressValue}" Height="24" Width="254" HorizontalAlignment="Left" Margin="12,72,0,0" VerticalAlignment="Top" Foreground="#FF2EAFF1" />
-        <StackPanel Height="35" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock Name="progressBarNumberTextBlock" Text="{Binding ProgressValue}"/>
-            <TextBlock Name="percent" Text="%" />
-        </StackPanel>
-        <TextBlock Name="progressBarContentTextBlock"  Text="{Binding Content}" HorizontalAlignment="Left" Margin="12,113,0,0" TextWrapping="Wrap" VerticalAlignment="Top"/>
-    </Grid>
+    <Window.Resources>
+        <Thickness x:Key="OuterMargin" >20</Thickness>
+        <Thickness x:Key="InnerMargin" >10</Thickness>
+    </Window.Resources>
+
+    <StackPanel Margin="{StaticResource OuterMargin}">
+        <Grid Height="35">
+            <ProgressBar Name="progressBar" Value="{Binding ProgressValue}" Foreground="#FF2EAFF1" />
+            <TextBlock Name="progressBarNumberTextBlock" Text="{Binding ProgressValue, StringFormat={}{0}%}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
+
+        <TextBlock Name="progressBarContentTextBlock" Margin="{StaticResource InnerMargin}" Text="{Binding Content}" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <Button Content="取消" Margin="{StaticResource InnerMargin}" Width="70" Height="30" HorizontalAlignment="Center"  VerticalAlignment="Center" Command="{Binding CancelCommand}"/>
+        <Label Margin="{StaticResource InnerMargin}" Content="如果点击取消，可能要等一会儿才生效" />
+    </StackPanel>
 </Window>

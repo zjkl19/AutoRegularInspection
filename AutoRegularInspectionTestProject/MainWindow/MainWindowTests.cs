@@ -14,9 +14,9 @@ using System.Text;
 using System.Security.Cryptography;
 using System.Globalization;
 
-namespace AutoRegularInspectionTestProject
+namespace AutoRegularInspectionTestProject.MainWindow
 {
-    public class MainWindowTests
+    public partial class MainWindowTests
     {
         //相当于集成测试
         [Fact]
