@@ -75,6 +75,20 @@ namespace AutoRegularInspection
 
     public class ImageProcessor
     {
+        /// <summary>
+        /// 处理源目录下的图片，按照指定的目标宽度和高度进行大小调整，并将处理后的图片保存到输出目录。
+        /// </summary>
+        /// <param name="sourceDirectory">包含待处理图片的源目录。</param>
+        /// <param name="outputDirectory">保存处理后图片的输出目录。</param>
+        /// <param name="targetWidth">处理后图片的目标宽度，该值不能小于0。</param>
+        /// <param name="targetHeight">处理后图片的目标高度，该值不能小于0。</param>
+        /// <param name="progress">用于报告处理进度的 IProgress&lt;ProgressReport&gt; 实例。</param>
+        /// <param name="cancellationToken">用于取消操作的 CancellationToken。</param>
+        /// <returns>包含处理后图片路径的列表。</returns>
+        /// <exception cref="DirectoryNotFoundException">当源目录或输出目录不存在时抛出。</exception>
+        /// <exception cref="ArgumentException">当 targetWidth 或 targetHeight 小于等于0时抛出。</exception>
+        /// <exception cref="OperationCanceledException">当操作被取消时抛出。</exception>
+
         public List<string> ProcessImages(string sourceDirectory, string outputDirectory, double targetWidth, double targetHeight, IProgress<ProgressReport> progress, CancellationToken cancellationToken)
         {
             if (targetWidth < 0)

@@ -26,10 +26,10 @@ namespace AutoRegularInspection.Services
         private List<DamageSummary> _bridgeDeckListDamageSummary;
         private List<DamageSummary> _superSpaceListDamageSummary;
         private List<DamageSummary> _subSpaceListDamageSummary;
-        readonly string BridgeDeckBookmarkStartName = "BridgeDeckStart";
-        readonly string SuperSpaceBookmarkStartName = "SuperSpaceStart";
-        readonly string SubSpaceBookmarkStartName = "SubSpaceStart";
-        private readonly GenerateReportSettings _generateReportSettings;
+        public const string BridgeDeckBookmarkStartName = "BridgeDeckStart";
+        public const string SuperSpaceBookmarkStartName = "SuperSpaceStart";
+        public const string SubSpaceBookmarkStartName = "SubSpaceStart";
+        public GenerateReportSettings _generateReportSettings;
         public AsposeWordsServices(ref Document doc
             , GenerateReportSettings generateReportSettings
             , List<DamageSummary> bridgeDeckListDamageSummary
@@ -496,25 +496,10 @@ namespace AutoRegularInspection.Services
             }
 
             //TODO：考虑表格第1行和最后1行可能没有照片
-            //pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[0].FirstPictureBookmarkIndex}", "", "");
-            //pictureRefField.InsertHyperlink = true;
-            //builder.Write("～");
-            //pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary.Last().FirstPictureBookmarkIndex + listDamageSummary.Last().PictureCounts - 1}", "", "");
-            //pictureRefField.InsertHyperlink = true;
 
             FieldRef tableRefField;
-            if (BookmarkStartName == BridgeDeckBookmarkStartName)
-            {
-                tableRefField = InsertFieldRef(builder, $"_Ref{App.TableRefOffset + 1}", "", "");
-            }
-            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
-            {
-                tableRefField = InsertFieldRef(builder, $"_Ref{App.TableRefOffset + 2}", "", "");
-            }
-            else
-            {
-                tableRefField = InsertFieldRef(builder, $"_Ref{App.TableRefOffset + 3}", "", "");
-            }
+
+            tableRefField = InsertFieldRef(builder, GetSummaryTableBookmarkValue(BookmarkStartName), "", "");
 
             tableRefField.InsertHyperlink = true;
 
@@ -526,27 +511,10 @@ namespace AutoRegularInspection.Services
             //开始插入汇总表格
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
 
-            //builder.StartBookmark($"_Ref{App.TableRefOffset + 1}");
-            //builder.Write("图 ");
-            //_ = fieldStyleRefBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[curr % 2].Paragraphs[0]);
-            //builder.Write("-");
-            //_ = pictureFieldSequenceBuilder.BuildAndInsert(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[curr % 2].Paragraphs[0]);
-            //builder.EndBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
 
-            if (BookmarkStartName == BridgeDeckBookmarkStartName)
-            {
-                builder.StartBookmark($"_Ref{App.TableRefOffset + 1}");
-            }
-            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
-            {
-                builder.StartBookmark($"_Ref{App.TableRefOffset + 2}");
-            }
-            else
-            {
-                builder.StartBookmark($"_Ref{App.TableRefOffset + 3}");
-            }
+            builder.StartBookmark(GetSummaryTableBookmarkValue(BookmarkStartName));
 
-            
+
             builder.Write("表 ");
             var r1 = new Run(_doc, "");
             builder.InsertNode(r1);
@@ -555,19 +523,10 @@ namespace AutoRegularInspection.Services
             var r2 = new Run(_doc, "");
             builder.InsertNode(r2);
             tableFieldSequenceBuilder.BuildAndInsert(r2);
-            
-            if (BookmarkStartName == BridgeDeckBookmarkStartName)
-            {
-                builder.EndBookmark($"_Ref{App.TableRefOffset + 1}");
-            }
-            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
-            {
-                builder.EndBookmark($"_Ref{App.TableRefOffset + 2}");
-            }
-            else
-            {
-                builder.EndBookmark($"_Ref{App.TableRefOffset + 3}");
-            }
+
+
+            builder.EndBookmark(GetSummaryTableBookmarkValue(BookmarkStartName));
+
 
             builder.Write(" ");
 
@@ -798,17 +757,18 @@ namespace AutoRegularInspection.Services
 
             //病害图片插入表格
 
+            CreateTableAndInsertPictures(listDamageSummary, ImageWidth, ImageHeight, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, cellFormat);
+
+        }
+
+        public void CreateTableAndInsertPictures(List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, DocumentBuilder builder, FieldBuilder fieldStyleRefBuilder, FieldBuilder pictureFieldSequenceBuilder, CellFormat cellFormat)
+        {
             //Reference:
             //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs
             var pictureTable = builder.StartTable();    //病害详细图片
 
             //计算总的图片数量
-            int totalPictureCounts = 0;
-
-            for (int i = 0; i < listDamageSummary.Count; i++)
-            {
-                totalPictureCounts += listDamageSummary[i].PictureCounts;
-            }
+            int totalPictureCounts = GetTotalPictureCounts(listDamageSummary);
 
             int tableTotalRows = 2 * ((totalPictureCounts + 1) / 2);    //表格总行数
             int tableTotalCols = 2;
@@ -837,7 +797,7 @@ namespace AutoRegularInspection.Services
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
 
                         //var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
-                        if (Directory.GetFiles($@"{App.PicturesFolder}/", $"*{ p[j]}.*").Length != 0)
+                        if (Directory.GetFiles($@"{App.PicturesFolder}/", $"*{p[j]}.*").Length != 0)
                         {
                             pictureFileName = FileService.GetFileName($@"{App.PicturesFolder}", p[j]);
                         }
@@ -894,29 +854,36 @@ namespace AutoRegularInspection.Services
                     }
                 }
             }
-
-
             pictureTable.ClearBorders();
-
-            //builder.Writeln();
-
-            //测试代码
-            //builder.MoveTo(bookmark.BookmarkStart);
-            //builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-            //builder.Writeln();
-            //builder.Write("图 ");
-            //builder.InsertNode(r1);
-            //fieldStyleRefBuilder.BuildAndInsert(r1);
-            //builder.Write("-");
-            //builder.InsertNode(r2);
-            //pictureFieldSequenceBuilder.BuildAndInsert(r2);
-            //builder.Write(" ");
-            //builder.Write($"附加图1");
-
-
-
         }
 
+        public static int GetTotalPictureCounts(List<DamageSummary> listDamageSummary)
+        {
+            int totalPictureCounts = 0;
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                totalPictureCounts += listDamageSummary[i].PictureCounts;
+            }
+            return totalPictureCounts;
+        }
+        /// <summary>
+        /// 根据给定的书签开始名称，返回汇总表格对应的书签值。
+        /// </summary>
+        /// <param name="bookmarkStartName">书签开始名称，可以是 BridgeDeckBookmarkStartName、SuperSpaceBookmarkStartName 或其他。</param>
+        /// <returns>对应的书签值，格式为 "_Ref{App.TableRefOffset + n}"，其中 n 取决于给定的书签开始名称。</returns>
+
+        public static string GetSummaryTableBookmarkValue(string bookmarkStartName)
+        {
+            switch (bookmarkStartName)
+            {
+                case BridgeDeckBookmarkStartName:
+                    return $"_Ref{App.TableRefOffset + 1}";
+                case SuperSpaceBookmarkStartName:
+                    return $"_Ref{App.TableRefOffset + 2}";
+                default:
+                    return $"_Ref{App.TableRefOffset + 3}";
+            }
+        }
         // ExStart:ColumnClass
         /// <summary>
         /// Represents a facade object for a column of a table in a Microsoft Word document.
