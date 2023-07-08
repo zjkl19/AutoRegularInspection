@@ -216,6 +216,9 @@
     <Compile Include="Views\PictureOptionPage.xaml.cs">
       <DependentUpon>PictureOptionPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\RegularProgressBarWindow.xaml.cs">
+      <DependentUpon>RegularProgressBarWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SuggestionWindow.xaml.cs">
       <DependentUpon>SuggestionWindow.xaml</DependentUpon>
     </Compile>
@@ -253,6 +256,10 @@
     <Page Include="Views\PictureOptionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RegularProgressBarWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\SuggestionWindow.xaml">
       <SubType>Designer</SubType>

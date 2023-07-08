@@ -154,7 +154,7 @@ namespace AutoRegularInspection
 
         private static void GenerateReport(GenerateReportSettings generateReportSettings, bool CommentColumnInsertTable, double ImageWidth, double ImageHeight, string templateFile, string outputFile, int CompressImageFlag, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
         {
-            var w = new ProgressBarWindow();
+            var w = new RegularProgressBarWindow();
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
             w.Left = 0.4 * (App.ScreenWidth - w.Width);
 
