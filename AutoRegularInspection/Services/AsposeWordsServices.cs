@@ -508,13 +508,10 @@ namespace AutoRegularInspection.Services
             tableRefField.InsertHyperlink = true;
 
             builder.Write("。");
-
-
             builder.Writeln();
 
             //开始插入汇总表格
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-
 
             builder.StartBookmark(GetSummaryTableBookmarkValue(BookmarkStartName));
 
@@ -527,7 +524,6 @@ namespace AutoRegularInspection.Services
             var r2 = new Run(_doc, "");
             builder.InsertNode(r2);
             tableFieldSequenceBuilder.BuildAndInsert(r2);
-
 
             builder.EndBookmark(GetSummaryTableBookmarkValue(BookmarkStartName));
 
@@ -865,7 +861,19 @@ namespace AutoRegularInspection.Services
             }
         }
 
-
+        /// <summary>
+        /// 在指定的表格中写入图片描述。
+        /// </summary>
+        /// <param name="listDamageSummary">包含病害摘要的列表。</param>
+        /// <param name="builder">用于构建文档的 DocumentBuilder 对象。</param>
+        /// <param name="fieldStyleRefBuilder">用于构建样式引用字段的 FieldBuilder 对象。</param>
+        /// <param name="pictureFieldSequenceBuilder">用于构建图片序列字段的 FieldBuilder 对象。</param>
+        /// <param name="pictureTable">包含图片的表格。</param>
+        /// <remarks>
+        /// 这个方法遍历 listDamageSummary 中的每个元素，对于每个元素，它会检查是否有关联的图片（通过检查 PictureCounts 属性）。
+        /// 如果有图片，它会在表格中的适当位置写入图片描述。描述的内容取决于 DamageDescriptionInPicture 属性，以及图片的数量。
+        /// 如果一个损害摘要关联了多张图片，那么每张图片的描述将会有所不同。
+        /// </remarks>
         public void WriteDescriptions(List<DamageSummary> listDamageSummary, DocumentBuilder builder, FieldBuilder fieldStyleRefBuilder, FieldBuilder pictureFieldSequenceBuilder, Table pictureTable)
         {
             int curr = 0;    //当前已插入图片数

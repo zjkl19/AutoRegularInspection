@@ -13,6 +13,7 @@ using Ninject;
 using Moq;
 using SixLabors.ImageSharp.PixelFormats;
 using System.Linq;
+using Aspose.Words.Fields;
 
 namespace AutoRegularInspectionTestProject.Services
 {
@@ -291,5 +292,80 @@ namespace AutoRegularInspectionTestProject.Services
             mockFileRepository.Verify(fr => fr.LoadImage(It.IsAny<string>()), Times.Never);
         }
 
+        [Fact]
+        public void WriteDescriptions_WritesExpectedDescriptions()
+        {
+            // Arrange
+            var mockFileRepository = new Mock<IFileRepository>();
+            mockFileRepository.Setup(fr => fr.GetFiles(It.IsAny<string>(), It.IsAny<string>())).Returns(new string[0]);
+            mockFileRepository.Setup(fr => fr.Exists(It.IsAny<string>())).Returns(false);
+            mockFileRepository.Setup(fr => fr.LoadImage(It.IsAny<string>())).Returns(new SixLabors.ImageSharp.Image<Rgba32>(1, 1));
+            mockFileRepository.Setup(fr => fr.GetFileName(It.IsAny<string>(), It.IsAny<string>())).Returns("test.jpg");
+
+            IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
+            var dataRepository = kernel.Get<IDataRepository>();
+
+            List<DamageSummary> l1, l2, l3;
+            l1 = dataRepository.ReadDamageData(BridgePart.BridgeDeck);
+            DamageSummaryServices.InitListDamageSummary(l1);
+            l2 = dataRepository.ReadDamageData(BridgePart.SuperSpace);
+            DamageSummaryServices.InitListDamageSummary(l2, 2_000_000, BridgePart.SuperSpace);
+            l3 = dataRepository.ReadDamageData(BridgePart.SubSpace);
+            DamageSummaryServices.InitListDamageSummary(l3, 3_000_000, BridgePart.SubSpace);
+
+            var doc = new Document();
+            var builder = new DocumentBuilder();
+            CellFormat cellFormat = builder.CellFormat;
+            GenerateReportSettings generateReportSettings = new GenerateReportSettings
+            {
+                ComboBoxReportTemplates = new ComboBoxReportTemplates { DisplayName = "建研报告模板", Name = "外观检查报告模板.docx", DocStyleOfMainText = "迪南自动报告正文", DocStyleOfTable = "迪南自动报告表格", DocStyleOfPicture = "迪南自动报告图片" }
+                ,
+                InspectionString = "检测"
+                ,
+                ImageSettings = new ImageSettings
+                {
+                    MaxCompressSize = Convert.ToInt32(200, CultureInfo.InvariantCulture)
+                    ,
+                    CompressQuality = Convert.ToInt32(80, CultureInfo.InvariantCulture)
+                    ,
+                    CompressImageWidth = Convert.ToInt32(224.25)
+                    ,
+                    CompressImageHeight = Convert.ToInt32(168.75)
+                }
+                ,
+                DeletePositionInBridgeDeckCheckBox = false
+          ,
+                CustomTableCellWidth = false
+          ,
+                BridgeDeckTableCellWidth = new TableCellWidth { No = 1, Position = 1, Component = 1, Damage = 1, DamageDescription = 1, PictureNo = 1, Comment = 1 }
+          ,
+                SuperSpaceTableCellWidth = new TableCellWidth { No = 1, Position = 1, Component = 1, Damage = 1, DamageDescription = 1, PictureNo = 1, Comment = 1 }
+          ,
+                SubSpaceTableCellWidth = new TableCellWidth { No = 1, Position = 1, Component = 1, Damage = 1, DamageDescription = 1, PictureNo = 1, Comment = 1 }
+            };
+            var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
+            int totalPictureCounts = AsposeWordsServices.GetTotalPictureCounts(l1);
+            var pictureTable = asposeService.CreateTable(totalPictureCounts, builder, cellFormat);
+
+            asposeService.InsertPictures(l1, 1, 1, builder, pictureTable, mockFileRepository.Object);
+
+            var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
+            fieldStyleRefBuilder.AddArgument(1);
+            fieldStyleRefBuilder.AddSwitch(@"\s");
+
+            var pictureFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            pictureFieldSequenceBuilder.AddArgument("图");
+            pictureFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            pictureFieldSequenceBuilder.AddSwitch(@"\s", "1");
+
+            // Act
+            asposeService.WriteDescriptions(l1, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, pictureTable);
+
+            // Assert
+            Assert.Contains("左幅0#伸缩缝沉积物阻塞-1", pictureTable.Rows[1].Cells[0].GetText());
+            Assert.Contains("左幅0#伸缩缝沉积物阻塞-2", pictureTable.Rows[1].Cells[1].GetText());
+            Assert.Contains("左幅0#伸缩缝接缝处铺装碎边", pictureTable.Rows[3].Cells[0].GetText());
+
+        }
     }
 }
