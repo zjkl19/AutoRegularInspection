@@ -1,5 +1,6 @@
 ﻿using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Repository;
+using Ninject;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,7 @@ namespace AutoRegularInspection.Services
         public override void Load()
         {
             _ = Bind<IDataRepository>().To<ExcelDataRepository>();
+            Bind<IFileRepository>().To<FileRepository>();
         }
     }
 }

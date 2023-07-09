@@ -16,6 +16,10 @@ using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using System.Xml.Linq;
+using Ninject;
+using AutoRegularInspection.IRepository;
+using AutoRegularInspection.Repository;
 
 namespace AutoRegularInspection.Services
 {
@@ -765,10 +769,34 @@ namespace AutoRegularInspection.Services
         {
             //Reference:
             //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs
-            var pictureTable = builder.StartTable();    //病害详细图片
-
             //计算总的图片数量
             int totalPictureCounts = GetTotalPictureCounts(listDamageSummary);
+
+            var pictureTable=CreateTable(totalPictureCounts, builder, cellFormat);
+
+            IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
+            var fileRepository = kernel.Get<IFileRepository>();
+
+            InsertPictures(listDamageSummary, ImageWidth, ImageHeight, builder, pictureTable, fileRepository);
+            WriteDescriptions(listDamageSummary, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, pictureTable);
+
+        }
+        /// <summary>
+        /// 创建一个表格来插入图片。
+        /// </summary>
+        /// <param name="totalPictureCounts">需要插入的图片总数。</param>
+        /// <param name="builder">用于构建表格的DocumentBuilder实例。</param>
+        /// <param name="cellFormat">用于设置表格单元格格式的CellFormat实例。</param>
+        /// <returns>创建的表格实例。</returns>
+        /// <remarks>
+        /// 此方法首先根据提供的图片总数计算出表格的行数和列数。
+        /// 然后使用提供的DocumentBuilder实例开始创建一个新的表格，并设置每个单元格的宽度。
+        /// 最后，结束表格的创建并清除表格的边框，然后返回创建的表格实例。
+        /// </remarks>
+        public Table CreateTable(int totalPictureCounts, DocumentBuilder builder, CellFormat cellFormat)
+        {
+
+            var pictureTable = builder.StartTable();    //病害详细图片表格
 
             int tableTotalRows = 2 * ((totalPictureCounts + 1) / 2);    //表格总行数
             int tableTotalCols = 2;
@@ -783,10 +811,25 @@ namespace AutoRegularInspection.Services
                 builder.EndRow();
             }
             builder.EndTable();
-
-            //builder.MoveTo(table.Rows[1 + 1].Cells[0].FirstParagraph);
+            pictureTable.ClearBorders();
+            return pictureTable;
+        }
+        
+        /// <summary>
+        /// 将图片插入到Word文档的表格中。图片来源于损伤摘要列表。
+        /// 每个损伤摘要可能包含多张图片，这些图片将按照它们在列表中出现的顺序插入到表格中。
+        /// 该函数使用IFileRepository实例与文件系统进行交互，从而更容易进行单元测试。
+        /// </summary>
+        /// <param name="listDamageSummary">损伤摘要列表。每个损伤摘要可能包含多张图片。</param>
+        /// <param name="ImageWidth">插入的图片应调整到的宽度。</param>
+        /// <param name="ImageHeight">插入的图片应调整到的高度。</param>
+        /// <param name="builder">用于将图片插入Word文档的DocumentBuilder实例。</param>
+        /// <param name="pictureTable">Word文档中应插入图片的表格。</param>
+        /// <param name="fileRepository">用于与文件系统交互的IFileRepository实例。</param>
+        public void InsertPictures(List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, DocumentBuilder builder, Table pictureTable, IFileRepository fileRepository)
+        {
             int curr = 0;    //当前已插入图片数
-            string[] dirs; string pictureFileName;
+            string pictureFileName;
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
@@ -796,8 +839,7 @@ namespace AutoRegularInspection.Services
                     {
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
 
-                        //var dirs = Directory.GetFiles(@"Pictures/", $"*{p[j]}*");    //结果含有路径
-                        if (Directory.GetFiles($@"{App.PicturesFolder}/", $"*{p[j]}.*").Length != 0)
+                        if (fileRepository.GetFiles($@"{App.PicturesFolder}/", $"*{p[j]}.*").Length != 0)
                         {
                             pictureFileName = FileService.GetFileName($@"{App.PicturesFolder}", p[j]);
                         }
@@ -806,22 +848,34 @@ namespace AutoRegularInspection.Services
                             pictureFileName = FileService.GetFileName($"{App.PicturesOutFolder}", p[j]);
                         }
 
-                        //TODO：检测文件是否重复，若重复不需要再压缩（MD5校验）
-                        //(暂时用文件名校验)
-                        if (!File.Exists($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}"))
+                        if (!fileRepository.Exists($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}"))
                         {
-                            using (SixLabors.ImageSharp.Image image = SixLabors.ImageSharp.Image.Load<Rgba32>(pictureFileName))
+                            using (var image = fileRepository.LoadImage(pictureFileName))
                             {
-
                                 var width = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageWidth);
                                 var height = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageHeight);
-                                image.Mutate(x => x.Resize(width, height, KnownResamplers.Bicubic));
-                                image.Save($"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
+                                fileRepository.ResizeImage(image, width, height);
+                                fileRepository.SaveImage(image,$"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
                             }
-                            //_ = ImageServices.CompressImage($"{pictureFileName}", $"PicturesOut/{Path.GetFileName(pictureFileName)}", CompressImageFlag, _generateReportSettings.ImageSettings.MaxCompressSize);    //只取查找到的第1个文件，TODO：UI提示       
                         }
                         _ = builder.InsertImage($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
+                        curr++;
+                    }
+                }
+            }
+        }
 
+
+        public void WriteDescriptions(List<DamageSummary> listDamageSummary, DocumentBuilder builder, FieldBuilder fieldStyleRefBuilder, FieldBuilder pictureFieldSequenceBuilder, Table pictureTable)
+        {
+            int curr = 0;    //当前已插入图片数
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
+                {
+                    string[] p = listDamageSummary[i].PictureNo.Split(App.PictureNoSplitSymbol);
+                    for (int j = 0; j < p.Length; j++)
+                    {
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].FirstParagraph);
                         builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
                         builder.StartBookmark($"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + j}");
@@ -854,7 +908,6 @@ namespace AutoRegularInspection.Services
                     }
                 }
             }
-            pictureTable.ClearBorders();
         }
 
         public static int GetTotalPictureCounts(List<DamageSummary> listDamageSummary)

@@ -4,6 +4,7 @@ using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Services;
 using System.Collections.Generic;
 using AutoRegularInspection.Models;
+using AutoRegularInspection.Repository;
 
 namespace AutoRegularInspection
 {
@@ -56,6 +57,13 @@ namespace AutoRegularInspection
         {
             //IOC，依赖注入
         }
+        //protected override void OnStartup(StartupEventArgs e)
+        //{
+        //    IKernel kernel = new StandardKernel();
+        //    kernel.Bind<IFileRepository>().To<FileRepository>();
+
+        //    base.OnStartup(e);
+        //}
 
 
     }

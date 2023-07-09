@@ -134,6 +134,7 @@
     <Compile Include="Converters\OptionConverter.cs" />
     <Compile Include="Converters\SeverityQualityConverter.cs" />
     <Compile Include="IRepository\IDataRepository.cs" />
+    <Compile Include="IRepository\IFileRepository.cs" />
     <Compile Include="IRepository\IFileWriter.cs" />
     <Compile Include="IRepository\IOptionPage.cs" />
     <Compile Include="IRepository\IXmlSerializer.cs" />
@@ -187,6 +188,7 @@
     <Compile Include="Repository\CheckForUpdate.cs" />
     <Compile Include="Repository\ExcelDataRepository.cs" />
     <Compile Include="Repository\AsposeWordsImage.cs" />
+    <Compile Include="Repository\FileRepository.cs" />
     <Compile Include="Repository\FileWriter.cs" />
     <Compile Include="Repository\LocalXmlSerializer.cs" />
     <Compile Include="Services\AsposeWordsServices.cs" />
