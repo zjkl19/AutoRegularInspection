@@ -56,7 +56,7 @@ namespace AutoRegularInspection.Services
         public void GenerateReport(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 79.0, double ImageHeight = 59.4, int CompressImageFlag = 70)
         {
             progressModel.ProgressValue = 0;
-            //InsertSummaryWords();
+            InsertSummaryWords();
 
             progressModel.Content = $"正在处理{Properties.Resources.BridgeDeck}……";
             InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
