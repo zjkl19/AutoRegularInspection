@@ -79,7 +79,7 @@ namespace AutoRegularInspectionTestProject.MainWindow
             var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
 
             //TODO:改方法，加参数
-            asposeService.GenerateReport(false, ImageWidth, ImageHeight, CompressImageFlag);
+            asposeService.GenerateReport();
 
             doc.UpdateFields();
             doc.UpdateFields();

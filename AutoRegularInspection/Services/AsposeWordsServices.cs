@@ -53,35 +53,42 @@ namespace AutoRegularInspection.Services
         /// <param name="ImageWidth"></param>
         /// <param name="ImageHeight"></param>
         /// <param name="CompressImageFlag"></param>
-        public void GenerateReport(ref ProgressBarModel progressModel, bool CommentColumnInsertTable, double ImageWidth = 79.0, double ImageHeight = 59.4, int CompressImageFlag = 70)
+        public void GenerateReport(ref ProgressBarModel progressModel)
         {
-            progressModel.ProgressValue = 0;
-            InsertSummaryWords();
-
-            progressModel.Content = $"正在处理{Properties.Resources.BridgeDeck}……";
-            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+                
+            //progressModel.ProgressValue = 0;
+            //progressModel.Content = $"正在处理{Properties.Resources.BridgeDeck}……";
+            progressModel.ReportProgress($"正在处理{Properties.Resources.BridgeDeck}……", 0);
+            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName,  _bridgeDeckListDamageSummary);
             System.Threading.Thread.Sleep(1000);
 
-            progressModel.Content = $"正在处理{Properties.Resources.SuperSpace}……";
-            progressModel.ProgressValue = 33;
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            //progressModel.Content = $"正在处理{Properties.Resources.SuperSpace}……";
+            //progressModel.ProgressValue = 33;
+            progressModel.ReportProgress($"正在处理{Properties.Resources.SuperSpace}……", 33);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName,  _superSpaceListDamageSummary);
             System.Threading.Thread.Sleep(1000);
 
 
-            progressModel.Content = $"正在处理{Properties.Resources.SubSpace}……";
-            progressModel.ProgressValue = 66;
-            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            //progressModel.Content = $"正在处理{Properties.Resources.SubSpace}……";
+            //progressModel.ProgressValue = 66;
+            progressModel.ReportProgress($"正在处理{Properties.Resources.SubSpace}……", 66);
+
+            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName,  _subSpaceListDamageSummary);
             System.Threading.Thread.Sleep(1000);
 
-            progressModel.Content = "正在生成统计汇总表……";
-            progressModel.ProgressValue = 90;
+            //progressModel.Content = "正在生成统计汇总表……";
+            //progressModel.ProgressValue = 90;
+            progressModel.ReportProgress("正在生成统计汇总表…", 90);
             CreateStatisticsTable();
             System.Threading.Thread.Sleep(1000);
 
 
-            progressModel.Content = "正在替换文档变量……";
-            progressModel.ProgressValue = 99;
+            //progressModel.Content = "正在替换文档变量……";
+            //progressModel.ProgressValue = 99;
+            progressModel.ReportProgress("正在替换文档变量…", 99);
             ReplaceDocVariable();
+            //其它不怎么耗时的操作
+            InsertSummaryWords();
 
             //两次更新域，1次更新序号，1次更新序号对应的交叉引用
             _doc.UpdateFields();
@@ -345,12 +352,12 @@ namespace AutoRegularInspection.Services
         /// <param name="ImageWidth"></param>
         /// <param name="ImageHeight"></param>
         /// <param name="CompressImageFlag"></param>
-        public void GenerateReport(bool CommentColumnInsertTable, double ImageWidth = 79.0, double ImageHeight = 59.4, int CompressImageFlag = 70)
+        public void GenerateReport()
         {
             //InsertSummaryWords();
-            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, CompressImageFlag, _bridgeDeckListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, CompressImageFlag, _superSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
-            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, CompressImageFlag, _subSpaceListDamageSummary, ImageWidth, ImageHeight, CommentColumnInsertTable);
+            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, _bridgeDeckListDamageSummary);
+            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, _superSpaceListDamageSummary);
+            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, _subSpaceListDamageSummary);
         }
         /// <summary>
         /// 插入总结描述，一般插入点在文档开头，统计病害数量等
@@ -437,7 +444,7 @@ namespace AutoRegularInspection.Services
 
         }
 
-        private void InsertSummaryAndPictureTable(string BookmarkStartName, int CompressImageFlag, List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, bool CommentColumnInsertTable)
+        private void InsertSummaryAndPictureTable(string BookmarkStartName, List<DamageSummary> listDamageSummary)
         {
 
             var builder = new DocumentBuilder(_doc);
@@ -629,7 +636,7 @@ namespace AutoRegularInspection.Services
             }
             builder.Write("图示编号");
 
-            if (CommentColumnInsertTable)
+            if (_generateReportSettings.CommentColumnInsertTable)
             {
                 builder.InsertCell();
                 if (_generateReportSettings.CustomTableCellWidth)
@@ -709,7 +716,7 @@ namespace AutoRegularInspection.Services
                     pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + listDamageSummary[i].PictureCounts - 1}", "", "");
                     pictureRefField.InsertHyperlink = true;
                 }
-                if (CommentColumnInsertTable)
+                if (_generateReportSettings.CommentColumnInsertTable)
                 {
                     builder.InsertCell(); builder.Write($"{listDamageSummary[i].Comment}");
                     cellFormat.Width = tableCellWidth.Comment;
@@ -757,11 +764,11 @@ namespace AutoRegularInspection.Services
 
             //病害图片插入表格
 
-            CreateTableAndInsertPictures(listDamageSummary, ImageWidth, ImageHeight, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, cellFormat);
+            CreateTableAndInsertPictures(listDamageSummary, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, cellFormat);
 
         }
 
-        public void CreateTableAndInsertPictures(List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, DocumentBuilder builder, FieldBuilder fieldStyleRefBuilder, FieldBuilder pictureFieldSequenceBuilder, CellFormat cellFormat)
+        public void CreateTableAndInsertPictures(List<DamageSummary> listDamageSummary,  DocumentBuilder builder, FieldBuilder fieldStyleRefBuilder, FieldBuilder pictureFieldSequenceBuilder, CellFormat cellFormat)
         {
             //Reference:
             //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs
@@ -773,7 +780,7 @@ namespace AutoRegularInspection.Services
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var fileRepository = kernel.Get<IFileRepository>();
 
-            InsertPictures(listDamageSummary, ImageWidth, ImageHeight, builder, pictureTable, fileRepository);
+            InsertPictures(listDamageSummary,  builder, pictureTable, fileRepository);
             WriteDescriptions(listDamageSummary, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, pictureTable);
 
         }
@@ -822,7 +829,7 @@ namespace AutoRegularInspection.Services
         /// <param name="builder">用于将图片插入Word文档的DocumentBuilder实例。</param>
         /// <param name="pictureTable">Word文档中应插入图片的表格。</param>
         /// <param name="fileRepository">用于与文件系统交互的IFileRepository实例。</param>
-        public void InsertPictures(List<DamageSummary> listDamageSummary, double ImageWidth, double ImageHeight, DocumentBuilder builder, Table pictureTable, IFileRepository fileRepository)
+        public void InsertPictures(List<DamageSummary> listDamageSummary, DocumentBuilder builder, Table pictureTable, IFileRepository fileRepository)
         {
             int curr = 0;    //当前已插入图片数
             string pictureFileName;
@@ -854,7 +861,7 @@ namespace AutoRegularInspection.Services
                                 fileRepository.SaveImage(image,$"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
                             }
                         }
-                        _ = builder.InsertImage($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, ImageWidth, ImageHeight, WrapType.Inline);
+                        _ = builder.InsertImage($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, _generateReportSettings.ImageSettings.CompressImageWidth, _generateReportSettings.ImageSettings.CompressImageHeight, WrapType.Inline);
                         curr++;
                     }
                 }

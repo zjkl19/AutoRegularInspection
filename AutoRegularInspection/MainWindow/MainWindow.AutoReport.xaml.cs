@@ -73,6 +73,7 @@ namespace AutoRegularInspection
                     CompressImageHeight = ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Height)
                 }
                 ,
+                CommentColumnInsertTable = commentColumnInsertTable,
                 InspectionString = InspectionComboBox.Text
                 ,
                 DeletePositionInBridgeDeckCheckBox = Convert.ToBoolean(appConfig.AppSettings.Settings["DeletePositionInBridgeDeck"].Value, CultureInfo.InvariantCulture)
@@ -134,7 +135,7 @@ namespace AutoRegularInspection
                 {
                     Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    GenerateReport(generateReportSettings, commentColumnInsertTable, ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Width), ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Height), templateFile, outputFile, generateReportSettings.ImageSettings.CompressQuality, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
+                    GenerateReport(generateReportSettings,  templateFile, outputFile,  _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
 
                 //try
                 //{
@@ -152,7 +153,7 @@ namespace AutoRegularInspection
 
         }
 
-        private static void GenerateReport(GenerateReportSettings generateReportSettings, bool CommentColumnInsertTable, double ImageWidth, double ImageHeight, string templateFile, string outputFile, int CompressImageFlag, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
+        private static void GenerateReport(GenerateReportSettings generateReportSettings, string templateFile, string outputFile,  ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
         {
             var w = new RegularProgressBarWindow();
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
@@ -199,7 +200,7 @@ namespace AutoRegularInspection
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
                 Document doc = new Document(templateFile);
                 var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
-                asposeService.GenerateReport(ref progressBarModel, CommentColumnInsertTable, ImageWidth, ImageHeight, CompressImageFlag);
+                asposeService.GenerateReport(ref progressBarModel);
 
                 doc.Save(outputFile, SaveFormat.Doc);
 

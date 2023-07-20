@@ -41,6 +41,17 @@ namespace AutoRegularInspection.Models
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        // 定义一个事件用于进度更改
+        public event Action<string, int> ProgressChanged;
+
+        // 用于触发事件的辅助方法
+        public void ReportProgress(string content, int value)
+        {
+            ProgressValue = value;
+            Content = content;
+            ProgressChanged?.Invoke(content, value);
+        }
     }
 
     public class CommandHandler : ICommand

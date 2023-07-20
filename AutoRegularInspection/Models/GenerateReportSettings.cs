@@ -12,6 +12,8 @@ namespace AutoRegularInspection.Models
 
         public ImageSettings ImageSettings { get; set; }
         public string InspectionString { get; set; } = "检测";    //检测字符串
+
+        public bool CommentColumnInsertTable { get; set; }     //是否插入备注列
         public bool DeletePositionInBridgeDeckCheckBox { get; set; }
         public bool DeletePositionInSuperSpaceCheckBox { get; set; }
 

@@ -224,7 +224,7 @@ namespace AutoRegularInspectionTestProject.Services
             var pictureTable = asposeService.CreateTable(totalPictureCounts, builder, cellFormat);
 
             //Act
-            asposeService.InsertPictures(l1, 1, 1, builder, pictureTable, mockFileRepository.Object);
+            asposeService.InsertPictures(l1, builder, pictureTable, mockFileRepository.Object);
 
             // Assert
             mockFileRepository.Verify(fr => fr.LoadImage(It.IsAny<string>()), Times.Exactly(l1.Sum(ds => ds.PictureCounts)));
@@ -286,7 +286,7 @@ namespace AutoRegularInspectionTestProject.Services
             // Act
             var pictureTable = asposeService.CreateTable(totalPictureCounts, builder, cellFormat);
 
-            asposeService.InsertPictures(l1, 1, 1, builder, pictureTable, mockFileRepository.Object);
+            asposeService.InsertPictures(l1, builder, pictureTable, mockFileRepository.Object);
 
             // Assert
             mockFileRepository.Verify(fr => fr.LoadImage(It.IsAny<string>()), Times.Never);
@@ -347,7 +347,7 @@ namespace AutoRegularInspectionTestProject.Services
             int totalPictureCounts = AsposeWordsServices.GetTotalPictureCounts(l1);
             var pictureTable = asposeService.CreateTable(totalPictureCounts, builder, cellFormat);
 
-            asposeService.InsertPictures(l1, 1, 1, builder, pictureTable, mockFileRepository.Object);
+            asposeService.InsertPictures(l1, builder, pictureTable, mockFileRepository.Object);
 
             var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
             fieldStyleRefBuilder.AddArgument(1);
