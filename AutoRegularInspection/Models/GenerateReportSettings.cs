@@ -11,6 +11,7 @@ namespace AutoRegularInspection.Models
         public ComboBoxReportTemplates ComboBoxReportTemplates { get; set; }
 
         public ImageSettings ImageSettings { get; set; }
+
         public string InspectionString { get; set; } = "检测";    //检测字符串
 
         public bool CommentColumnInsertTable { get; set; }     //是否插入备注列

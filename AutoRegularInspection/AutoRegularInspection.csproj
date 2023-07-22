@@ -133,10 +133,12 @@
     </ApplicationDefinition>
     <Compile Include="Converters\OptionConverter.cs" />
     <Compile Include="Converters\SeverityQualityConverter.cs" />
+    <Compile Include="TemplateReportStrategies\ReportGenerationStrategyFactory.cs" />
     <Compile Include="IRepository\IDataRepository.cs" />
     <Compile Include="IRepository\IFileRepository.cs" />
     <Compile Include="IRepository\IFileWriter.cs" />
     <Compile Include="IRepository\IOptionPage.cs" />
+    <Compile Include="IRepository\IReportGenerationStrategy.cs" />
     <Compile Include="IRepository\IXmlSerializer.cs" />
     <Compile Include="MainWindow\MainWindow.BatchCompressImage.xaml.cs" />
     <Compile Include="MainWindow\MainWindow.CopyRow.xaml.cs" />
@@ -192,6 +194,7 @@
     <Compile Include="Repository\FileWriter.cs" />
     <Compile Include="Repository\LocalXmlSerializer.cs" />
     <Compile Include="Services\AsposeWordsServices.cs" />
+    <Compile Include="Services\AsposeWordsServicesGenerateReport.cs" />
     <Compile Include="Services\DamageSummaryServices.cs" />
     <Compile Include="Services\EnumHelper.cs" />
     <Compile Include="Services\FileService.cs" />
@@ -201,6 +204,7 @@
     <Compile Include="Services\PictureServices.cs" />
     <Compile Include="Services\SaveExcelService.cs" />
     <Compile Include="Services\SuggestionServices.cs" />
+    <Compile Include="TemplateReportStrategies\DefaultTemplateReportStrategy.cs" />
     <Compile Include="ViewModels\GridViewModel.cs" />
     <Compile Include="ViewModels\OptionViewModel.cs" />
     <Compile Include="ViewModels\ProgressBarViewModel.cs" />

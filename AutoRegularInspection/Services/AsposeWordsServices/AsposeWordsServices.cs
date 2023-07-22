@@ -23,7 +23,7 @@ using AutoRegularInspection.Repository;
 
 namespace AutoRegularInspection.Services
 {
-    public class AsposeWordsServices
+    public partial class AsposeWordsServices
     {
         private const double TableBorderLineWidth = 1.5;
         private Document _doc;
@@ -46,57 +46,7 @@ namespace AutoRegularInspection.Services
             _superSpaceListDamageSummary = superSpaceListDamageSummary;
             _subSpaceListDamageSummary = subSpaceListDamageSummary;
         }
-        /// <summary>
-        /// 生成报告，包括生成汇总表以及插入图片
-        /// </summary>
-        /// <param name="progressModel">进度条数据绑定模型</param>
-        /// <param name="ImageWidth"></param>
-        /// <param name="ImageHeight"></param>
-        /// <param name="CompressImageFlag"></param>
-        public void GenerateReport(ref ProgressBarModel progressModel)
-        {
-                
-            //progressModel.ProgressValue = 0;
-            //progressModel.Content = $"正在处理{Properties.Resources.BridgeDeck}……";
-            progressModel.ReportProgress($"正在处理{Properties.Resources.BridgeDeck}……", 0);
-            InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName,  _bridgeDeckListDamageSummary);
-            System.Threading.Thread.Sleep(1000);
-
-            //progressModel.Content = $"正在处理{Properties.Resources.SuperSpace}……";
-            //progressModel.ProgressValue = 33;
-            progressModel.ReportProgress($"正在处理{Properties.Resources.SuperSpace}……", 33);
-            InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName,  _superSpaceListDamageSummary);
-            System.Threading.Thread.Sleep(1000);
-
-
-            //progressModel.Content = $"正在处理{Properties.Resources.SubSpace}……";
-            //progressModel.ProgressValue = 66;
-            progressModel.ReportProgress($"正在处理{Properties.Resources.SubSpace}……", 66);
-
-            InsertSummaryAndPictureTable(SubSpaceBookmarkStartName,  _subSpaceListDamageSummary);
-            System.Threading.Thread.Sleep(1000);
-
-            //progressModel.Content = "正在生成统计汇总表……";
-            //progressModel.ProgressValue = 90;
-            progressModel.ReportProgress("正在生成统计汇总表…", 90);
-            CreateStatisticsTable();
-            System.Threading.Thread.Sleep(1000);
-
-
-            //progressModel.Content = "正在替换文档变量……";
-            //progressModel.ProgressValue = 99;
-            progressModel.ReportProgress("正在替换文档变量…", 99);
-            ReplaceDocVariable();
-            //其它不怎么耗时的操作
-            InsertSummaryWords();
-
-            //两次更新域，1次更新序号，1次更新序号对应的交叉引用
-            _doc.UpdateFields();
-            _doc.UpdateFields();
-
-            progressModel.ProgressValue = 100;
-            progressModel.Content = "正在完成……";
-        }
+ 
         /// <summary>
         /// 创建统计表
         /// </summary>
