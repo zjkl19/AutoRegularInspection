@@ -429,21 +429,18 @@ namespace AutoRegularInspection.Services
 
             TableCellWidth tableCellWidth;
             //要求：至少要有2张照片
-            if (BookmarkStartName == BridgeDeckBookmarkStartName)
+
+            Dictionary<string, TableCellWidth> mappings = new Dictionary<string, TableCellWidth>
             {
-                tableCellWidth = _generateReportSettings.BridgeDeckTableCellWidth;
-                builder.Write($"{Properties.Resources.BridgeDeck}{_generateReportSettings.InspectionString}结果详见");
-            }
-            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
-            {
-                tableCellWidth = _generateReportSettings.SuperSpaceTableCellWidth;
-                builder.Write($"{Properties.Resources.SuperSpace}{_generateReportSettings.InspectionString}结果详见");
-            }
-            else
-            {
-                tableCellWidth = _generateReportSettings.SubSpaceTableCellWidth;
-                builder.Write($"{Properties.Resources.SubSpace}{_generateReportSettings.InspectionString}结果详见");
-            }
+                { BridgeDeckBookmarkStartName, _generateReportSettings.BridgeDeckTableCellWidth },
+                { SuperSpaceBookmarkStartName, _generateReportSettings.SuperSpaceTableCellWidth }
+                // 其他映射
+            };
+
+            tableCellWidth = mappings.ContainsKey(BookmarkStartName)
+                ? mappings[BookmarkStartName]
+                : _generateReportSettings.SubSpaceTableCellWidth;
+
             int firstIndex = 0; int lastIndex = listDamageSummary.Count - 1;
             //查找第一张
             while (listDamageSummary[firstIndex].PictureCounts == 0 && firstIndex < listDamageSummary.Count - 1)
@@ -458,57 +455,13 @@ namespace AutoRegularInspection.Services
 
             //TODO：考虑表格第1行和最后1行可能没有照片
 
-            FieldRef tableRefField;
-
-            tableRefField = InsertFieldRef(builder, GetSummaryTableBookmarkValue(BookmarkStartName), "", "");
-
-            tableRefField.InsertHyperlink = true;
-
-            builder.Write("。");
-            builder.Writeln();
-
             //开始插入汇总表格
-            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
-
-            builder.StartBookmark(GetSummaryTableBookmarkValue(BookmarkStartName));
-
-
-            builder.Write("表 ");
-            var r1 = new Run(_doc, "");
-            builder.InsertNode(r1);
-            fieldStyleRefBuilder.BuildAndInsert(r1);
-            builder.Write("-");
-            var r2 = new Run(_doc, "");
-            builder.InsertNode(r2);
-            tableFieldSequenceBuilder.BuildAndInsert(r2);
-
-            builder.EndBookmark(GetSummaryTableBookmarkValue(BookmarkStartName));
-
-
-            builder.Write(" ");
-
-            //写入表头
-            if (BookmarkStartName == BridgeDeckBookmarkStartName)
-            {
-                builder.Write($"桥面系及附属设施{_generateReportSettings.InspectionString}结果汇总表");
-
-            }
-            else if (BookmarkStartName == SuperSpaceBookmarkStartName)
-            {
-                builder.Write($"上部结构{_generateReportSettings.InspectionString}结果汇总表");
-            }
-            else
-            {
-                builder.Write($"下部结构{_generateReportSettings.InspectionString}结果汇总表");
-            }
+            //builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;    //已经在模板中设置了
 
             builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfTable];
-            builder.Writeln();
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
             //病害汇总表格
             var summaryTable = builder.StartTable();
-
-
 
             builder.InsertCell();
 

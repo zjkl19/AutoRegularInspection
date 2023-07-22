@@ -12,8 +12,9 @@ namespace AutoRegularInspection.Services
     {
         private static readonly Dictionary<string, IReportGenerationStrategy> strategies = new Dictionary<string, IReportGenerationStrategy>
         {
-            { "建研-常规定检--晋安区桥梁模板.doc", new DefaultTemplateReportStrategy() },
-            { "交通综合评价报告模板.docx", new DefaultTemplateReportStrategy() }
+            { "建研-常规定检--晋安区桥梁模板.doc", new Jinan2023TemplateReportStrategy() },
+            { "交通综合评价报告模板.docx", new TransportationTemplateReportStrategy() },
+            { "自定义外观检查报告模板.docx", new DefaultTemplateReportStrategy() }
             //... 其他模板策略
         };
 

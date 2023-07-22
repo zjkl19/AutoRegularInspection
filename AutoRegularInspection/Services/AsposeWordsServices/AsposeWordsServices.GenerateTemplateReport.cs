@@ -52,5 +52,65 @@ namespace AutoRegularInspection.Services
 			progressModel.ProgressValue = 100;
 			progressModel.Content = "正在完成……";
 		}
+
+		public void GenerateJinan2023TemplateReport(ProgressBarModel progressModel)
+		{
+			progressModel.ReportProgress($"正在处理{Properties.Resources.BridgeDeck}……", 0);
+			InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, _bridgeDeckListDamageSummary);
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress($"正在处理{Properties.Resources.SuperSpace}……", 33);
+			InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, _superSpaceListDamageSummary);
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress($"正在处理{Properties.Resources.SubSpace}……", 66);
+
+			InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, _subSpaceListDamageSummary);
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress("正在生成统计汇总表…", 90);
+			CreateStatisticsTable();
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress("正在替换文档变量…", 99);
+			ReplaceDocVariable();
+			InsertSummaryWords();
+
+			_doc.UpdateFields();
+			_doc.UpdateFields();
+
+			progressModel.ProgressValue = 100;
+			progressModel.Content = "正在完成……";
+		}
+
+		public void GenerateTransportationTemplateReport(ProgressBarModel progressModel)
+		{
+			progressModel.ReportProgress($"正在处理{Properties.Resources.BridgeDeck}……", 0);
+			InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, _bridgeDeckListDamageSummary);
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress($"正在处理{Properties.Resources.SuperSpace}……", 33);
+			InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, _superSpaceListDamageSummary);
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress($"正在处理{Properties.Resources.SubSpace}……", 66);
+
+			InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, _subSpaceListDamageSummary);
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress("正在生成统计汇总表…", 90);
+			CreateStatisticsTable();
+			System.Threading.Thread.Sleep(1000);
+
+			progressModel.ReportProgress("正在替换文档变量…", 99);
+			ReplaceDocVariable();
+			InsertSummaryWords();
+
+			_doc.UpdateFields();
+			_doc.UpdateFields();
+
+			progressModel.ProgressValue = 100;
+			progressModel.Content = "正在完成……";
+		}
 	}
 }
