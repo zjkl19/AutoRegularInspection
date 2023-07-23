@@ -28,9 +28,6 @@ namespace AutoRegularInspectionTestProject.MainWindow
             string templateFile = @"TestFiles\外观检查报告模板.docx";
             string outputFile = @"TestFiles\外观检查报告.docx";
 
-
-            double ImageWidth = 224.25; double ImageHeight = 168.75; int CompressImageFlag = 80;
-
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
