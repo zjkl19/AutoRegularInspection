@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media.Imaging;
+using System.Xml.Serialization;
 
 namespace AutoRegularInspection
 {
@@ -16,6 +17,11 @@ namespace AutoRegularInspection
     {
         private void PicturePreview_Click(object sender, RoutedEventArgs e)
         {
+            var serializer = new XmlSerializer(typeof(OptionConfiguration));
+            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
+            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+
+
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _subSpaceListDamageSummary = SubSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
@@ -98,7 +104,7 @@ namespace AutoRegularInspection
                     }
                     else if (lst[i].PictureCounts >= 2)
                     {
-                        var pictures = lst[i].PictureNo.Split(App.PictureNoSplitSymbol);
+                        var pictures = lst[i].PictureNo.Split(deserializedConfig.General.PictureNoSplitSymbol[0]);
 
                         //imageClass = new ImageClass(Directory.GetFiles(@"Pictures/", $"*{pictures[0]}*")[0]);
                         

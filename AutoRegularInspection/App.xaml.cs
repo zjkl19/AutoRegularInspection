@@ -23,7 +23,6 @@ namespace AutoRegularInspection
         public const string DocStyleOfTable = "迪南自动报告表格";
         public const string DocStyleOfPicture = "迪南自动报告图片";
 
-        public const string IntactStructNoInsertSummaryTableString = "不插入";
         public const string ErrorPicName = "ErrorPic.jpg";
 
         public const string DamageSummaryLibFileName = "桥梁病害汇总表.xlsx";
@@ -38,13 +37,9 @@ namespace AutoRegularInspection
         public const string DamageSummaryStatisticsFileName = "外观检查 - 统计.xlsx";
 
         public const string StatisticsUnitFileName = "统计单位表.xlsx";
-        public const string TemplateReportFileName = "外观检查报告模板.docx";
-        public const string OutputReportFileName = "自动生成的外观检查报告.doc";
+        public const string OutputReportFileName = "自动生成的外观检查报告";
         public const string OutputDamageStatisticsFileName = "桥梁检测病害统计汇总表.xlsx";
         public const string ConfigFileName = "Option.config";
-        public const char PictureNoSplitSymbol = ';';    //照片编号分隔符号
-        public const int TablePictureWidth = 550;    //表格图片一栏默认宽度
-        public const int TableRefOffset = 1_199_000;    //汇总表格章节书签默认偏移量
 
         public static List<ComboBoxReportTemplates> TemplateFileList => new List<ComboBoxReportTemplates> {
              new ComboBoxReportTemplates{DisplayName= "建研-常规定检--晋安区桥梁模板",Name="建研-常规定检--晋安区桥梁模板.doc",DocStyleOfMainText="晋安正文",DocStyleOfTable="晋安表格",DocStyleOfPicture="晋安图片"}

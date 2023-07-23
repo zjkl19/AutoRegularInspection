@@ -34,18 +34,6 @@ namespace AutoRegularInspection
             StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
             var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
 
-            //XElement pictureWidth = config.Elements("configuration").Elements("Picture").Elements("Width").FirstOrDefault();
-            //XElement pictureHeight = config.Elements("configuration").Elements("Picture").Elements("Height").FirstOrDefault();
-            //XElement pictureMaxCompressSize = config.Elements("configuration").Elements("Picture").Elements("MaxCompressSize").FirstOrDefault();
-            //XElement pictureCompressQuality = config.Elements("configuration").Elements("Picture").Elements("CompressQuality").FirstOrDefault();
-
-            //XElement compressPictureWidth = config.Elements("configuration").Elements("Picture").Elements("CompressWidth").FirstOrDefault();
-            //XElement compressPictureHeight = config.Elements("configuration").Elements("Picture").Elements("CompressHeight").FirstOrDefault();
-
-            //double ImageWidth = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureWidth.Value, CultureInfo.InvariantCulture));
-            //double ImageHeight = ConvertUtil.MillimeterToPoint(Convert.ToDouble(pictureHeight.Value, CultureInfo.InvariantCulture));
-            //double CompressImageWidth = Convert.ToDouble(compressPictureWidth.Value, CultureInfo.InvariantCulture); double CompressImageHeight = Convert.ToDouble(compressPictureHeight.Value, CultureInfo.InvariantCulture);
-
             string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
 
             string outputFile = App.OutputReportFileName;
@@ -82,6 +70,13 @@ namespace AutoRegularInspection
                 ,
                 CustomTableCellWidth = Convert.ToBoolean(appConfig.AppSettings.Settings["CustomSummaryTableWidth"].Value, CultureInfo.InvariantCulture)
                 ,
+
+                SaveDocxFormat = deserializedConfig.General.SaveDocxFormat,
+                PictureTableCellWidth = ConvertUtil.MillimeterToPoint(deserializedConfig.General.PictureTableCellWidth),
+                DamageDescriptionInPictureSplitSymbol = deserializedConfig.General.DamageDescriptionInPictureSplitSymbol,
+                PictureNoSplitSymbol = deserializedConfig.General.PictureNoSplitSymbol,
+                IntactStructNoInsertSummaryTableString = deserializedConfig.General.IntactStructNoInsertSummaryTableString,
+
                 IntactStructNoInsertSummaryTable = deserializedConfig.General.IntactStructNoInsertSummaryTable
                 ,
                 BookmarkSettings = new BookmarkSettings
@@ -202,7 +197,14 @@ namespace AutoRegularInspection
                 var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
                 asposeService.GenerateReport(ref progressBarModel);
 
-                doc.Save(outputFile, SaveFormat.Doc);
+                if(generateReportSettings.SaveDocxFormat)
+                {
+                    doc.Save(outputFile, SaveFormat.Docx);
+                }
+                else
+                {
+                    doc.Save(outputFile, SaveFormat.Doc);
+                }
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("成功生成报告！"); });

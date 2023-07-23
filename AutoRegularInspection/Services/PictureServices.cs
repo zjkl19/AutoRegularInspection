@@ -21,6 +21,10 @@ namespace AutoRegularInspection.Services
 
         public static int ValidatePicturesOfBridgePart(BridgePart bridgePart, List<DamageSummary> lst, out List<string> validationResult)
         {
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(OptionConfiguration));
+            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
+            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+
             validationResult = new List<string>();
             int totalCounts = 0;
             string[] dirs, outdirs;
@@ -43,7 +47,7 @@ namespace AutoRegularInspection.Services
                 }
                 else if (lst[i].PictureCounts >= 2)
                 {
-                    var pictures = lst[i].PictureNo.Split(App.PictureNoSplitSymbol);
+                    var pictures = lst[i].PictureNo.Split(deserializedConfig.General.PictureNoSplitSymbol[0]);
 
                     for (int j = 0; j < pictures.Length; j++)
                     {

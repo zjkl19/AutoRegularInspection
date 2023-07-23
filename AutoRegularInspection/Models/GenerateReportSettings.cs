@@ -20,7 +20,16 @@ namespace AutoRegularInspection.Models
 
         public bool CustomTableCellWidth { get; set; }
 
+        #region Option.config中General部分
+        public bool SaveDocxFormat { get; set; }
+        public double PictureTableCellWidth { get; set; }
         public bool IntactStructNoInsertSummaryTable { get; set; }
+        public string DamageDescriptionInPictureSplitSymbol { get; set; }
+        public string PictureNoSplitSymbol { get; set; }
+        public string IntactStructNoInsertSummaryTableString { get; set; }
+
+        #endregion
+
         public BookmarkSettings BookmarkSettings { get; set; }
 
         public TableCellWidth BridgeDeckTableCellWidth { get; set; }

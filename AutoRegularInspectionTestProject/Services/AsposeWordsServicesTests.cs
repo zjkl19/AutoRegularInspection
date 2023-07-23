@@ -67,46 +67,6 @@ namespace AutoRegularInspectionTestProject.Services
         }
 
         [Fact]
-        public void GetSummaryTableBookmarkValue_BridgeDeckBookmarkStartName_ReturnsCorrectValue()
-        {
-            // Arrange
-            var bookmarkStartName = AsposeWordsServices.BridgeDeckBookmarkStartName;
-
-            // Act
-            string result = AsposeWordsServices.GetSummaryTableBookmarkValue(bookmarkStartName);
-
-            // Assert
-            Assert.Equal($"_Ref{App.TableRefOffset + 1}", result);
-        }
-
-        [Fact]
-        public void GetSummaryTableBookmarkValue_SuperSpaceBookmarkStartName_ReturnsCorrectValue()
-        {
-            // Arrange
-            var bookmarkStartName = AsposeWordsServices.SuperSpaceBookmarkStartName;
-
-            // Act
-            string result = AsposeWordsServices.GetSummaryTableBookmarkValue(bookmarkStartName);
-
-            // Assert
-            Assert.Equal($"_Ref{App.TableRefOffset + 2}", result);
-        }
-
-        [Fact]
-        public void GetSummaryTableBookmarkValue_OtherBookmarkStartName_ReturnsCorrectValue()
-        {
-            // Arrange
-            var bookmarkStartName = "OtherBookmarkStartName";
-
-            // Act
-            string result = AsposeWordsServices.GetSummaryTableBookmarkValue(bookmarkStartName);
-
-            // Assert
-            Assert.Equal($"_Ref{App.TableRefOffset + 3}", result);
-        }
-
-
-        [Fact]
         public void CreateTable_CreatesTableWithExpectedProperties()
         {
             // Arrange
@@ -208,7 +168,9 @@ namespace AutoRegularInspectionTestProject.Services
                     ,
                     CompressImageHeight = Convert.ToInt32(168.75)
                 }
+                
                 ,
+                PictureNoSplitSymbol = ";",
                 DeletePositionInBridgeDeckCheckBox = false
           ,
                 CustomTableCellWidth = false
@@ -333,6 +295,7 @@ namespace AutoRegularInspectionTestProject.Services
                     CompressImageHeight = Convert.ToInt32(168.75)
                 }
                 ,
+                PictureNoSplitSymbol= ";",
                 DeletePositionInBridgeDeckCheckBox = false
           ,
                 CustomTableCellWidth = false

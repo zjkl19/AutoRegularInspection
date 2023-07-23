@@ -133,6 +133,10 @@ namespace AutoRegularInspection.Services
 
         private static void SetPictureCounts(List<DamageSummary> listDamageSummary)
         {
+            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(OptionConfiguration));
+            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
+            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 if(string.IsNullOrWhiteSpace(listDamageSummary[i].PictureNo))
@@ -141,7 +145,7 @@ namespace AutoRegularInspection.Services
                 }
                 else
                 {
-                    listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(App.PictureNoSplitSymbol).Length;
+                    listDamageSummary[i].PictureCounts = listDamageSummary[i].PictureNo.Split(deserializedConfig.General.PictureNoSplitSymbol[0]).Length;
                 }
             }
         }

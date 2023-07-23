@@ -261,12 +261,54 @@ namespace AutoRegularInspection.Models
 
     public class General : UpdatePropertyAndOnPropertyChangedBase, INotifyPropertyChanged
     {
+        private bool _SaveDocxFormat;
+        private double _PictureTableCellWidth;
+        private string _DamageDescriptionInPictureSplitSymbol;
+        private string _PictureNoSplitSymbol;
         private bool _IntactStructNoInsertSummaryTable;
-        [XmlElement(ElementName = "IntactStructNoInsertSummaryTable")]
+        private string _IntactStructNoInsertSummaryTableString;
+
+        [XmlElement(ElementName = nameof(SaveDocxFormat))]
+        public bool SaveDocxFormat
+        {
+            get => _SaveDocxFormat;
+            set => UpdateProperty(ref _SaveDocxFormat, value);
+        }
+
+        [XmlElement(ElementName = nameof(PictureTableCellWidth))]
+        public double PictureTableCellWidth
+        {
+            get => _PictureTableCellWidth;
+            set => UpdateProperty(ref _PictureTableCellWidth, value);
+        }
+
+        [XmlElement(ElementName = nameof(DamageDescriptionInPictureSplitSymbol))]
+        public string DamageDescriptionInPictureSplitSymbol
+        {
+            get => _DamageDescriptionInPictureSplitSymbol;
+            set => UpdateProperty(ref _DamageDescriptionInPictureSplitSymbol, value);
+        }
+
+        [XmlElement(ElementName = nameof(PictureNoSplitSymbol))]
+        public string PictureNoSplitSymbol
+        {
+            get => _PictureNoSplitSymbol;
+            set => UpdateProperty(ref _PictureNoSplitSymbol, value);
+        }
+
+        [XmlElement(ElementName = nameof(IntactStructNoInsertSummaryTable))]
         public bool IntactStructNoInsertSummaryTable
         {
             get => _IntactStructNoInsertSummaryTable;
-            set { UpdateProperty(ref _IntactStructNoInsertSummaryTable, value); }
+            set => UpdateProperty(ref _IntactStructNoInsertSummaryTable, value);
         }
+
+        [XmlElement(ElementName = nameof(IntactStructNoInsertSummaryTableString))]
+        public string IntactStructNoInsertSummaryTableString
+        {
+            get => _IntactStructNoInsertSummaryTableString;
+            set => UpdateProperty(ref _IntactStructNoInsertSummaryTableString, value);
+        }
+
     }
 }

@@ -559,7 +559,7 @@ namespace AutoRegularInspection.Services
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
                 //如果完整结构不插入汇总表并且部件名称为"/"
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains(App.IntactStructNoInsertSummaryTableString))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains(_generateReportSettings.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }
@@ -712,7 +712,7 @@ namespace AutoRegularInspection.Services
                 for (int j = 0; j < tableTotalCols; j++)
                 {
                     builder.InsertCell();
-                    cellFormat.Width = App.TablePictureWidth;
+                    cellFormat.Width = _generateReportSettings.PictureTableCellWidth;
                 }
                 builder.EndRow();
             }
@@ -740,7 +740,7 @@ namespace AutoRegularInspection.Services
             {
                 if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
                 {
-                    string[] p = listDamageSummary[i].PictureNo.Split(App.PictureNoSplitSymbol);
+                    string[] p = listDamageSummary[i].PictureNo.Split(_generateReportSettings.PictureNoSplitSymbol[0]);
                     for (int j = 0; j < p.Length; j++)
                     {
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2)].Cells[(curr) % 2].FirstParagraph);
@@ -791,7 +791,7 @@ namespace AutoRegularInspection.Services
             {
                 if (listDamageSummary[i].PictureCounts > 0)    //有图片则插入
                 {
-                    string[] p = listDamageSummary[i].PictureNo.Split(App.PictureNoSplitSymbol);
+                    string[] p = listDamageSummary[i].PictureNo.Split(_generateReportSettings.PictureNoSplitSymbol[0]);
                     for (int j = 0; j < p.Length; j++)
                     {
                         builder.MoveTo(pictureTable.Rows[2 * (int)(curr / 2) + 1].Cells[(curr) % 2].FirstParagraph);
@@ -837,24 +837,7 @@ namespace AutoRegularInspection.Services
             }
             return totalPictureCounts;
         }
-        /// <summary>
-        /// 根据给定的书签开始名称，返回汇总表格对应的书签值。
-        /// </summary>
-        /// <param name="bookmarkStartName">书签开始名称，可以是 BridgeDeckBookmarkStartName、SuperSpaceBookmarkStartName 或其他。</param>
-        /// <returns>对应的书签值，格式为 "_Ref{App.TableRefOffset + n}"，其中 n 取决于给定的书签开始名称。</returns>
 
-        public static string GetSummaryTableBookmarkValue(string bookmarkStartName)
-        {
-            switch (bookmarkStartName)
-            {
-                case BridgeDeckBookmarkStartName:
-                    return $"_Ref{App.TableRefOffset + 1}";
-                case SuperSpaceBookmarkStartName:
-                    return $"_Ref{App.TableRefOffset + 2}";
-                default:
-                    return $"_Ref{App.TableRefOffset + 3}";
-            }
-        }
         // ExStart:ColumnClass
         /// <summary>
         /// Represents a facade object for a column of a table in a Microsoft Word document.
@@ -1050,7 +1033,7 @@ namespace AutoRegularInspection.Services
             List<DamageSummary> listDamageSummaryCopy = new List<DamageSummary>();
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(App.IntactStructNoInsertSummaryTableString))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(_generateReportSettings.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }
@@ -1127,7 +1110,7 @@ namespace AutoRegularInspection.Services
             List<DamageSummary> listDamageSummaryCopy = new List<DamageSummary>();
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(App.IntactStructNoInsertSummaryTableString))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(_generateReportSettings.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }
@@ -1184,7 +1167,7 @@ namespace AutoRegularInspection.Services
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {
-                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(App.IntactStructNoInsertSummaryTableString))
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].Damage.Contains(_generateReportSettings.IntactStructNoInsertSummaryTableString))
                 {
                     continue;
                 }

@@ -81,7 +81,6 @@ namespace AutoRegularInspection.ViewModels
             StreamReader reader = streamReader;    //TODO：找不到文件的判断
             var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);    //DataContext
 
-
             //Options[0].UserControl.DataContext = deserializedConfig;
             //Options[0].Children[0].UserControl.DataContext = deserializedConfig;
             //Options[1].UserControl.DataContext = deserializedConfig;

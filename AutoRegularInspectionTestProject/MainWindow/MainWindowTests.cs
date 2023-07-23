@@ -65,6 +65,7 @@ namespace AutoRegularInspectionTestProject.MainWindow
                     CompressImageHeight = Convert.ToInt32(168.75)
                 }
                 ,
+                PictureNoSplitSymbol = ";",
                 DeletePositionInBridgeDeckCheckBox = false
           ,
                 CustomTableCellWidth = false
