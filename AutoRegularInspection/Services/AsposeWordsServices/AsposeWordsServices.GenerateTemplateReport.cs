@@ -31,11 +31,12 @@ namespace AutoRegularInspection.Services
 			InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, _subSpaceListDamageSummary);
 			System.Threading.Thread.Sleep(1000);
 
+			//默认模板没有统计汇总表
 			//progressModel.Content = "正在生成统计汇总表……";
 			//progressModel.ProgressValue = 90;
-			progressModel.ReportProgress("正在生成统计汇总表…", 90);
-			CreateStatisticsTable();
-			System.Threading.Thread.Sleep(1000);
+			//progressModel.ReportProgress("正在生成统计汇总表…", 90);
+			//CreateStatisticsTable();
+			//System.Threading.Thread.Sleep(1000);
 
 
 			//progressModel.Content = "正在替换文档变量……";
