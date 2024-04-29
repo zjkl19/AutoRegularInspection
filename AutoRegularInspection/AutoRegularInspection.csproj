@@ -320,17 +320,17 @@
     </Content>
     <Compile Include="Services\AsposeWordsServices\AsposeWordsServices.GenerateTemplateReport.cs" />
     <None Include="报告模板\交通综合评价报告模板.docx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="报告模板\外观检查报告模板 - 副本.docx" />
     <None Include="报告模板\建研-常规定检--晋安区桥梁模板.doc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="报告模板\自定义外观检查报告模板.docx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="报告模板\外观检查报告模板.docx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="配置\Option.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -272,10 +272,10 @@ namespace AutoRegularInspection.Services
         {
             string InspectionString = _generateReportSettings.InspectionString;
             string[] MyDocumentVariables = new string[] { nameof(InspectionString) };//文档中包含的所有“文档变量”，方便遍历
-
+            
+            var variables = _doc.Variables;
             try
             {
-                var variables = _doc.Variables;
                 variables[nameof(InspectionString)] = InspectionString;
             }
             catch (Exception ex)
@@ -758,8 +758,8 @@ namespace AutoRegularInspection.Services
                         {
                             using (var image = fileRepository.LoadImage(pictureFileName))
                             {
-                                var width = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageWidth);
-                                var height = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageHeight);
+                                var width = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageWidth*4);
+                                var height = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageHeight*4);
                                 fileRepository.ResizeImage(image, width, height);
                                 fileRepository.SaveImage(image,$"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
                             }

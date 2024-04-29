@@ -24,6 +24,7 @@ using NLog;
 using NLog.Config;
 using NLog.Targets;
 using System.Globalization;
+using System.Xml.Serialization;
 
 namespace AutoRegularInspection
 {
@@ -153,14 +154,94 @@ namespace AutoRegularInspection
 
         private void OpenReport_Click(object sender, RoutedEventArgs e)
         {
-            string reportFile = App.OutputReportFileName;
-            if (File.Exists(reportFile))
+            XDocument config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
+
+            //反序列化XML配置文件
+            var serializer = new XmlSerializer(typeof(OptionConfiguration));
+            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
+            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+            GenerateReportSettings generateReportSettings = new GenerateReportSettings
             {
-                Process.Start(reportFile);
+                ComboBoxReportTemplates = App.TemplateFileList[TemplateFileComboBox.SelectedIndex]
+                ,
+                ImageSettings = new ImageSettings
+                {
+                    MaxCompressSize = deserializedConfig.Picture.MaxCompressSize
+                    ,
+                    CompressQuality = deserializedConfig.Picture.CompressQuality
+                    ,
+                    CompressImageWidth = ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Width)
+                    ,
+                    CompressImageHeight = ConvertUtil.MillimeterToPoint(deserializedConfig.Picture.Height)
+                }
+                ,
+
+                SaveDocxFormat = deserializedConfig.General.SaveDocxFormat,
+                PictureTableCellWidth = ConvertUtil.MillimeterToPoint(deserializedConfig.General.PictureTableCellWidth),
+                DamageDescriptionInPictureSplitSymbol = deserializedConfig.General.DamageDescriptionInPictureSplitSymbol,
+                PictureNoSplitSymbol = deserializedConfig.General.PictureNoSplitSymbol,
+                IntactStructNoInsertSummaryTableString = deserializedConfig.General.IntactStructNoInsertSummaryTableString,
+
+                IntactStructNoInsertSummaryTable = deserializedConfig.General.IntactStructNoInsertSummaryTable
+                ,
+                BookmarkSettings = new BookmarkSettings
+                {
+                    BridgeDeckBookmarkStartNo = deserializedConfig.Bookmark.BridgeDeckBookmarkStartNo,
+                    SuperSpaceBookmarkStartNo = deserializedConfig.Bookmark.SuperSpaceBookmarkStartNo,
+                    SubSpaceBookmarkStartNo = deserializedConfig.Bookmark.SubSpaceBookmarkStartNo
+                },
+                BridgeDeckTableCellWidth = new TableCellWidth
+                {
+                    No = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.No),
+                    Position = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Position),
+                    Component = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Damage)
+                    ,
+                    DamagePosition = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.DamagePosition)
+                    ,
+                    DamageDescription = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.BridgeDeckSummaryTable.Comment)
+                }
+                ,
+                SuperSpaceTableCellWidth = new TableCellWidth
+                {
+                    No = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.No),
+                    Position = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Position),
+                    Component = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Damage)
+                ,
+                    DamagePosition = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.DamagePosition)
+                ,
+                    DamageDescription = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.SuperSpaceSummaryTable.Comment)
+                }
+                ,
+                SubSpaceTableCellWidth = new TableCellWidth
+                {
+                    No = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.No),
+                    Position = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Position),
+                    Component = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Component),
+                    Damage = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Damage),
+                    DamagePosition = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.DamagePosition),
+                    DamageDescription = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.DamageDescription),
+                    PictureNo = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.PictureNo),
+                    Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Comment)
+                }
+            };
+
+            string reportFile = App.OutputReportFileName;
+            string fileExtension = generateReportSettings.SaveDocxFormat ? ".docx" : ".doc";
+            string fullPath = $"{reportFile}{fileExtension}";
+
+            if (File.Exists(fullPath))
+            {
+                Process.Start(fullPath);
             }
             else
             {
-                MessageBox.Show($"请先生成报告。");
+                MessageBox.Show("请先生成报告。");
             }
 
         }

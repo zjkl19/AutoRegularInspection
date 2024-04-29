@@ -199,11 +199,11 @@ namespace AutoRegularInspection
 
                 if(generateReportSettings.SaveDocxFormat)
                 {
-                    doc.Save(outputFile, SaveFormat.Docx);
+                    doc.Save($"{outputFile}.docx", SaveFormat.Docx);
                 }
                 else
                 {
-                    doc.Save(outputFile, SaveFormat.Doc);
+                    doc.Save($"{outputFile}.doc", SaveFormat.Doc);
                 }
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
