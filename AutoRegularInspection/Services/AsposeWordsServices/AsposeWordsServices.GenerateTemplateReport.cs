@@ -174,7 +174,76 @@ namespace AutoRegularInspection.Services
 			progressModel.Content = "正在完成……";
 		}
 
-		public void GenerateTransportationTemplateReport(ProgressBarModel progressModel)
+        public void GenerateCityBridge2024TemplateReport(ProgressBarModel progressModel)
+        {
+            progressModel.ReportProgress($"正在处理{Properties.Resources.BridgeDeck}……", 0);
+            try
+            {
+                InsertSummaryAndPictureTable(BridgeDeckBookmarkStartName, _bridgeDeckListDamageSummary);
+            }
+            catch (Exception) {; }
+            System.Threading.Thread.Sleep(1000);
+
+            progressModel.ReportProgress($"正在处理{Properties.Resources.SuperSpace}……", 33);
+            try
+            {
+                InsertSummaryAndPictureTable(SuperSpaceBookmarkStartName, _superSpaceListDamageSummary);
+            }
+            catch (Exception) {; }
+            System.Threading.Thread.Sleep(1000);
+
+            progressModel.ReportProgress($"正在处理{Properties.Resources.SubSpace}……", 66);
+
+            try
+            {
+                InsertSummaryAndPictureTable(SubSpaceBookmarkStartName, _subSpaceListDamageSummary);
+            }
+            catch (Exception) {; }
+            System.Threading.Thread.Sleep(1000);
+
+            progressModel.ReportProgress("正在生成统计汇总表…", 90);
+            try
+            {
+                CreateStatisticsTable();
+            }
+            catch (Exception) {; }
+            System.Threading.Thread.Sleep(1000);
+
+            progressModel.ReportProgress("正在替换文档变量…", 99);
+            try
+            {
+                ReplaceDocVariable();
+            }
+            catch (Exception)
+            {
+
+                ;
+            }
+
+            try
+            {
+                InsertSummaryWords();
+            }
+            catch (Exception)
+            {
+
+                ;
+            }
+            try
+            {
+                _doc.UpdateFields();
+                _doc.UpdateFields();
+            }
+            catch (Exception)
+            {
+
+                ;
+            }
+
+            progressModel.ProgressValue = 100;
+            progressModel.Content = "正在完成……";
+        }
+        public void GenerateTransportationTemplateReport(ProgressBarModel progressModel)
 		{
 			progressModel.ReportProgress($"正在处理{Properties.Resources.BridgeDeck}……", 0);
 			try
