@@ -319,6 +319,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Compile Include="Services\AsposeWordsServices\AsposeWordsServices.GenerateTemplateReport.cs" />
+    <None Include="templates.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="报告模板\交通综合评价报告模板.docx">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

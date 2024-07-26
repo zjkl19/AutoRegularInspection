@@ -10,7 +10,7 @@ namespace AutoRegularInspection
 {
     public partial class MainWindow : Window
     {
-        //add unittests;
+       
         private void Test_Click(object sender, RoutedEventArgs e)
         {
             string currentDirectory = Directory.GetCurrentDirectory();

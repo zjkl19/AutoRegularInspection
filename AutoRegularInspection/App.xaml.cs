@@ -5,6 +5,9 @@ using AutoRegularInspection.Services;
 using System.Collections.Generic;
 using AutoRegularInspection.Models;
 using AutoRegularInspection.Repository;
+using Newtonsoft.Json;
+using System;
+using System.IO;
 
 namespace AutoRegularInspection
 {
@@ -41,15 +44,58 @@ namespace AutoRegularInspection
         public const string OutputDamageStatisticsFileName = "桥梁检测病害统计汇总表.xlsx";
         public const string ConfigFileName = "Option.config";
 
-        public static List<ComboBoxReportTemplates> TemplateFileList => new List<ComboBoxReportTemplates> {
-             new ComboBoxReportTemplates{DisplayName= "建研-常规定检--晋安区桥梁模板",Name="建研-常规定检--晋安区桥梁模板.doc",DocStyleOfMainText="晋安正文",DocStyleOfTable="晋安表格",DocStyleOfPicture="晋安图片"}
-            ,new ComboBoxReportTemplates{DisplayName= "交通综合评价报告模板",Name="交通综合评价报告模板.docx",DocStyleOfMainText="迪南交通报告正文",DocStyleOfTable="迪南交通报告表格",DocStyleOfPicture="迪南交通报告图片"}
-            ,new ComboBoxReportTemplates{DisplayName= "建研报告模板",Name="外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}
-            ,new ComboBoxReportTemplates{DisplayName= "检测中心报告模板",Name="检测中心外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}
-            ,new ComboBoxReportTemplates{DisplayName= "自定义报告模板",Name="自定义外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}};
+        public static List<ComboBoxReportTemplates> TemplateFileList { get; private set; }
 
+        //public static List<ComboBoxReportTemplates> TemplateFileList => new List<ComboBoxReportTemplates> {
+        //     new ComboBoxReportTemplates{DisplayName= "建研-常规定检--晋安区桥梁模板",Name="建研-常规定检--晋安区桥梁模板.doc",DocStyleOfMainText="晋安正文",DocStyleOfTable="晋安表格",DocStyleOfPicture="晋安图片"}
+        //    ,new ComboBoxReportTemplates{DisplayName= "交通综合评价报告模板",Name="交通综合评价报告模板.docx",DocStyleOfMainText="迪南交通报告正文",DocStyleOfTable="迪南交通报告表格",DocStyleOfPicture="迪南交通报告图片"}
+        //    ,new ComboBoxReportTemplates{DisplayName= "建研报告模板",Name="外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}
+        //    ,new ComboBoxReportTemplates{DisplayName= "检测中心报告模板",Name="检测中心外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}
+        //    ,new ComboBoxReportTemplates{DisplayName= "自定义报告模板",Name="自定义外观检查报告模板.docx",DocStyleOfMainText="迪南自动报告正文",DocStyleOfTable="迪南自动报告表格",DocStyleOfPicture="迪南自动报告图片"}};
+
+        public interface IFileSystem
+        {
+            bool FileExists(string path);
+            string ReadAllText(string path);
+        }
+        public class FileSystem : IFileSystem
+        {
+            public bool FileExists(string path) => File.Exists(path);
+            public string ReadAllText(string path) => File.ReadAllText(path);
+        }
+        private void LoadTemplates()
+        {
+            string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "templates.json");
+            var templateService = new TemplateService(new FileSystem());
+            TemplateFileList = templateService.LoadTemplates(jsonFilePath);
+        }
+
+        public class TemplateService
+        {
+            private readonly IFileSystem _fileSystem;
+
+            public TemplateService(IFileSystem fileSystem)
+            {
+                _fileSystem = fileSystem;
+            }
+
+            public List<ComboBoxReportTemplates> LoadTemplates(string jsonFilePath)
+            {
+                if (_fileSystem.FileExists(jsonFilePath))
+                {
+                    string json = _fileSystem.ReadAllText(jsonFilePath);
+                    return JsonConvert.DeserializeObject<List<ComboBoxReportTemplates>>(json);
+                }
+                else
+                {
+                    // 处理文件不存在的情况
+                    return new List<ComboBoxReportTemplates>();
+                }
+            }
+        }
         public App()
         {
+            LoadTemplates();
             //IOC，依赖注入
         }
         //protected override void OnStartup(StartupEventArgs e)
