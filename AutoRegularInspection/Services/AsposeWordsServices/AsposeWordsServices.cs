@@ -265,6 +265,226 @@ namespace AutoRegularInspection.Services
             statTable.SetBorder(BorderType.Bottom, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
         }
 
+        private void CreateStatisticsTableWithPosition()
+        {
+            // 统计数据分组，增加 Position 字段
+            var bridgeDeckDamageStatistics = _bridgeDeckListDamageSummary.Where(x => x.GetUnit1() != "无")
+                .GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName(), Position = x.Position });
+            var superSpaceDamageStatistics = _superSpaceListDamageSummary.Where(x => x.GetUnit1() != "无")
+                .GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SuperSpace), DamageName = x.GetDamageName(BridgePart.SuperSpace), Position = x.Position });
+            var subSpaceDamageStatistics = _subSpaceListDamageSummary.Where(x => x.GetUnit1() != "无")
+                .GroupBy(x => new { ComponentName = x.GetComponentName(BridgePart.SubSpace), DamageName = x.GetDamageName(BridgePart.SubSpace), Position = x.Position });
+
+            var builder = new DocumentBuilder(_doc);
+
+            var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
+            fieldStyleRefBuilder.AddArgument(1);
+            fieldStyleRefBuilder.AddSwitch(@"\s");
+
+            var tableFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            tableFieldSequenceBuilder.AddArgument("表");
+            tableFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            tableFieldSequenceBuilder.AddSwitch(@"\s", "1");
+
+            var bookmark = _doc.Range.Bookmarks["DamageStatTable"];
+            builder.MoveTo(bookmark.BookmarkStart);
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfMainText];
+
+            // 开始插入统计表格
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+
+            builder.Write("表 ");
+            var r1 = new Run(_doc, "");
+            builder.InsertNode(r1);
+            fieldStyleRefBuilder.BuildAndInsert(r1);
+            builder.Write("-");
+            var r2 = new Run(_doc, "");
+            builder.InsertNode(r2);
+            tableFieldSequenceBuilder.BuildAndInsert(r2);
+            builder.Write(" ");
+
+            // 写入表头
+            builder.Write($"桥梁缺损状况检查结果汇总表");
+
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfTable];
+            builder.Writeln();
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+
+            // 病害统计表格
+            var statTable = builder.StartTable();
+
+            builder.InsertCell();
+            CellFormat cellFormat = builder.CellFormat;
+
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+            builder.Font.Bold = true;
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+            builder.Write("桥梁部位");
+
+            builder.InsertCell();
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+            builder.Write("要素/构件");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+            builder.Write("缺损类型");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+            builder.Write("位置");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+            builder.Write("单位");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+            builder.Write("数量");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+            builder.Write("缺损程度");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+            builder.Write("备注");
+
+            builder.Font.Bold = false;
+            builder.EndRow();
+            Row firstRow = statTable.FirstRow;
+            firstRow.RowFormat.Height = ConvertUtil.MillimeterToPoint(7.5);
+
+            var st1 = new List<string>();
+            var st2 = new List<string>();
+
+            foreach (var v1 in bridgeDeckDamageStatistics)
+            {
+                builder.InsertCell(); builder.Write($"桥面系");
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+                builder.InsertCell(); builder.Write($"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}");    // 要素
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    // 缺损类型
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.Position}");    // 位置
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    // 单位2/单位1
+                }
+                else
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit1()}");    // 单位1
+                }
+
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit2Counts)}/{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
+                }
+                else
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
+                }
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+                builder.InsertCell(); builder.Write($"/");    // 缺损程度
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.InsertCell(); builder.Write($"/");    // 备注
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.EndRow();
+            }
+
+            foreach (var v1 in superSpaceDamageStatistics)
+            {
+                builder.InsertCell(); builder.Write($"上部结构");
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+                builder.InsertCell(); builder.Write($"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}");    // 要素
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    // 缺损类型
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.Position}");    // 位置
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    // 单位2/单位1
+                }
+                else
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit1()}");    // 单位1
+                }
+
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit2Counts)}/{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
+                }
+                else
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
+                }
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+                builder.InsertCell(); builder.Write($"/");    // 缺损程度
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.InsertCell(); builder.Write($"/");    // 备注
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.EndRow();
+            }
+
+            foreach (var v1 in subSpaceDamageStatistics)
+            {
+                builder.InsertCell(); builder.Write($"下部结构");
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+                builder.InsertCell(); builder.Write($"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}");    // 要素
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}");    // 缺损类型
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+                builder.InsertCell(); builder.Write($"{v1.Key.Position}");    // 位置
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}");    // 单位2/单位1
+                }
+                else
+                {
+                    builder.Write($"{v1.FirstOrDefault().GetUnit1()}");    // 单位1
+                }
+
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                builder.InsertCell();
+                if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit2Counts)}/{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
+                }
+                else
+                {
+                    builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
+                }
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+                builder.InsertCell(); builder.Write($"/");    // 缺损程度
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.InsertCell(); builder.Write($"/");    // 备注
+                cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                builder.EndRow();
+            }
+
+            builder.EndTable();
+
+            MergeStatTableColumn(statTable);
+
+            // 设置表格边框
+            statTable.SetBorder(BorderType.Left, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Right, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Top, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Bottom, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+        }
+
+
         /// <summary>
         /// 替换文档变量
         /// </summary>

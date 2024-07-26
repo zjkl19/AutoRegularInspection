@@ -205,6 +205,7 @@ namespace AutoRegularInspection.Services
             try
             {
                 CreateStatisticsTable();
+                CreateStatisticsTableWithPosition();
             }
             catch (Exception) {; }
             System.Threading.Thread.Sleep(1000);
