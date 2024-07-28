@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -32,9 +33,13 @@ namespace AutoRegularInspection
 
         private void MenuItem_About_Click(object sender, RoutedEventArgs e)
         {
-            //TODO：通过反射读取 AssemblyCopyright
+            var copyrightAttribute = (AssemblyCopyrightAttribute)Attribute.GetCustomAttribute(
+    Assembly.GetExecutingAssembly(),
+    typeof(AssemblyCopyrightAttribute));
+            string copyright = copyrightAttribute != null ? copyrightAttribute.Copyright : "版权所有";
+
             _ = MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version}\r" +
-            $"Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2023\r" +
+            $"{copyright}\r" +
             "系统框架设计、编程及维护：桥梁监测与数字化研究所林迪南，等"
             , "关于");
         }

@@ -518,7 +518,18 @@
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="Test_Click">自定义功能测试</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
-            <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="AutoReport_Click">自动生成报告</Button>
+            <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="AutoReport_Click" Content="自动生成报告" BorderThickness="2"
+                BorderBrush="Red">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock>请注意以下几点：</TextBlock>
+                            <TextBlock>1. 外观检查excel务必备份。</TextBlock>
+                            <TextBlock>2. 照片名要输入足够长的尾号以防混淆。</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="OpenReport_Click">打开报告</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="SuggestionButton_Click">查看参考建议</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="CheckForUpdateButton_Click">检查更新</Button>
