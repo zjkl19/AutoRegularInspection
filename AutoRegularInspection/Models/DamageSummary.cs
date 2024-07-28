@@ -219,6 +219,15 @@ namespace AutoRegularInspection.Models
                 UpdateProperty(ref _Unit2Counts, value);
             }
         }
+        /// <summary>
+        /// 缺损百分比
+        /// </summary>
+        private decimal _DamagePercentage;
+        public decimal DamagePercentage
+        {
+            get => _DamagePercentage;
+            set => UpdateProperty(ref _DamagePercentage, value);
+        }
 
         private double _PictureHeight;
         public double PictureHeight

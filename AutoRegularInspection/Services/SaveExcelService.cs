@@ -90,6 +90,7 @@ namespace AutoRegularInspection.Services
             worksheet.Cells[1, col].Value = "单位1数量"; col++;
             worksheet.Cells[1, col].Value = "单位2"; col++;
             worksheet.Cells[1, col].Value = "单位2数量"; col++;
+            worksheet.Cells[1, col].Value = "缺损百分比"; col++;
             worksheet.Cells[1, col].Value = "使用自定义单位";
 
             //添加值

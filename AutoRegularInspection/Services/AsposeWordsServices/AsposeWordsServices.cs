@@ -390,7 +390,7 @@ namespace AutoRegularInspection.Services
                     builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
                 }
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
-                builder.InsertCell(); builder.Write($"/");    // 缺损程度
+                builder.InsertCell(); builder.Write($"{v1.Sum(x => x.DamagePercentage)}%");    // 缺损程度
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
                 builder.InsertCell(); builder.Write($"/");    // 备注
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
@@ -428,7 +428,7 @@ namespace AutoRegularInspection.Services
                     builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
                 }
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
-                builder.InsertCell(); builder.Write($"/");    // 缺损程度
+                builder.InsertCell(); builder.Write($"{v1.Sum(x => x.DamagePercentage)}%");    // 缺损程度
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
                 builder.InsertCell(); builder.Write($"/");    // 备注
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
@@ -466,7 +466,7 @@ namespace AutoRegularInspection.Services
                     builder.Write($"{v1.Sum(x => x.Unit1Counts)}");    // 单位2数量/单位1数量
                 }
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
-                builder.InsertCell(); builder.Write($"/");    // 缺损程度
+                builder.InsertCell(); builder.Write($"{v1.Sum(x => x.DamagePercentage)}%");    // 缺损程度
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
                 builder.InsertCell(); builder.Write($"/");    // 备注
                 cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);

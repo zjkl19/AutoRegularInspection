@@ -114,7 +114,8 @@ namespace AutoRegularInspection.Repository
                 Unit1 = GetValue(worksheet, row, "单位1"),
                 Unit1Counts = GetUnit1Counts(GetValue(worksheet, row, "单位1数量")),
                 Unit2 = GetValue(worksheet, row, "单位2"),
-                Unit2Counts = GetUnit2Counts(GetValue(worksheet, row, "单位2数量"))
+                Unit2Counts = GetUnit2Counts(GetValue(worksheet, row, "单位2数量")),
+                DamagePercentage = GetDamagePercentage(worksheet, row)
             };
         }
 
@@ -153,6 +154,10 @@ namespace AutoRegularInspection.Repository
             }
         }
 
-
+        private decimal GetDamagePercentage(ExcelWorksheet worksheet, int row)
+        {
+            string value = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "缺损百分比")].Value?.ToString() ?? "0";
+            return decimal.TryParse(value, out decimal result) ? result : 0;
+        }
     }
 }

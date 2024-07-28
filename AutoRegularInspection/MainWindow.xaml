@@ -200,6 +200,12 @@
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
                                 Header="单位2数量" />
+                                    
+                                    <DataGridTextColumn
+                                Width="Auto"
+                                Binding="{Binding DamagePercentage}"
+                                Header="缺损百分比" />
+                                    
                                     <DataGridTextColumn
                                 Width="Auto"
                                 Binding="{Binding SeverityQuantity}"
@@ -340,10 +346,14 @@
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
 
-                                    <DataGridTextColumn
+                                    <DataGridTextColumn Header="单位2数量"
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
-                                Header="单位2数量" />
+                                 />
+
+                                    <DataGridTextColumn Header="缺损百分比" 
+                                Width="Auto"
+                                Binding="{Binding DamagePercentage}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
@@ -471,6 +481,10 @@
                                 Width="Auto"
                                 Binding="{Binding Unit2Counts}"
                                 Header="单位2数量" />
+                                    
+                                    <DataGridTextColumn Header="缺损百分比" 
+                                Width="Auto"
+                                Binding="{Binding DamagePercentage}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
                         </Grid>
