@@ -207,9 +207,11 @@ namespace AutoRegularInspectionTestProject.Services
             using (var excelPackage = new ExcelPackage(file))
             {
                 // 检查"桥面系"Worksheets
-                var worksheet = excelPackage.Workbook.Worksheets["桥面系病害统计汇总表"];
+                var worksheet = excelPackage.Workbook.Worksheets["桥面系病害汇总"];
+                // 手动计算公式以确保可以读取其结果
+                worksheet.Calculate();
                 acturalUnit1TotalCounts = Convert.ToInt32(worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value?.ToString() ?? string.Empty, CultureInfo.InvariantCulture);
-                acturalUnit2TotalCounts = Convert.ToDecimal(worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value?.ToString() ?? string.Empty,CultureInfo.InvariantCulture);
+                acturalUnit2TotalCounts = Math.Round(Convert.ToDecimal(worksheet.Cells[2, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value?.ToString() ?? string.Empty,CultureInfo.InvariantCulture),1);
             }
 
             //Assert

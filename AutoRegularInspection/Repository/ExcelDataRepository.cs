@@ -37,31 +37,7 @@ namespace AutoRegularInspection.Repository
                 using (ExcelPackage package = new ExcelPackage(file))
                 {
                     ExcelWorksheet worksheet = package.Workbook.Worksheets[workSheetName];
-                    int rowCount = 2;// worksheet.Dimension.Rows;   //worksheet.Dimension.Rows指的是所有列中最大行
-                    //首行：表头不导入
-                    bool rowCur = true;    //行游标指示器
-                                           //rowCur=false表示到达行尾
-                                           //计算行数
-                    while (rowCur)
-                    {
-                        try
-                        {
-                            //跳过表头
-                            if (string.IsNullOrWhiteSpace(worksheet.Cells[rowCount + 1, 1].Value?.ToString()))
-                            {
-                                rowCur = false;
-                            }
-                        }
-                        catch (Exception ex)   //读取异常则终止
-                        {
-                            rowCur = false;
-                        }
-
-                        if (rowCur)
-                        {
-                            rowCount++;
-                        }
-                    }
+                    int rowCount = GetRowCount(worksheet);
 
                     //bool validationResult = false;
                     int row = 2;    //excel中行指针
@@ -73,25 +49,7 @@ namespace AutoRegularInspection.Repository
                         //1、处理excel数据导入;
                         //2、验证"视图模型";
                         //3、验证业务模型;
-
-                        lst.Add(new DamageSummary
-                        {
-                            No = row - 1
-                            ,Position = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "位置")].Value?.ToString() ?? string.Empty
-                            ,Component = worksheet.Cells[row, 3].Value?.ToString() ?? string.Empty
-                            ,Damage = worksheet.Cells[row, 4].Value?.ToString() ?? string.Empty
-                            ,DamagePosition = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "缺损位置")].Value?.ToString() ?? string.Empty
-                            ,DamageDescription = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "缺损程度")].Value?.ToString() ?? string.Empty
-                            ,DamageDescriptionInPicture = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "图片描述")].Value?.ToString() ?? string.Empty
-                            ,PictureNo = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "照片编号")].Value?.ToString() ?? string.Empty
-                            ,CustomPictureNo = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "自定义照片编号")].Value?.ToString() ?? string.Empty
-                            ,
-                            Comment = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet,"备注")].Value?.ToString() ?? string.Empty
-                            ,Unit1 = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位1")].Value?.ToString() ?? string.Empty
-                            ,Unit1Counts = GetUnit1Counts(worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量")].Value?.ToString() ?? string.Empty)
-                            ,Unit2 = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位2")].Value?.ToString() ?? string.Empty
-                            ,Unit2Counts = GetUnit2Counts(worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量")].Value?.ToString() ?? string.Empty)
-                        });
+                        lst.Add(CreateDamageSummaryFromRow(worksheet, row));
 
                     }
                 }
@@ -111,6 +69,65 @@ namespace AutoRegularInspection.Repository
             return lst;
             
         }
+
+        /// <summary>
+        /// 获取工作表中有效数据的行数（跳过表头）
+        /// </summary>
+        /// <param name="worksheet">Excel工作表</param>
+        /// <returns>有效数据的行数</returns>
+        private int GetRowCount(ExcelWorksheet worksheet)
+        {
+            int rowCount = 2;  // 从第2行开始，因为第1行是表头
+            while (true)
+            {
+                try
+                {
+                    // 如果当前行的第一个单元格为空或仅包含空白，则认为是行尾
+                    if (string.IsNullOrWhiteSpace(worksheet.Cells[rowCount + 1, 1].Value?.ToString()))
+                    {
+                        break;  // 结束循环
+                    }
+                }
+                catch
+                {
+                    break;  // 如果读取单元格时发生异常，也结束循环
+                }
+                rowCount++;  // 增加行计数器，处理下一行
+            }
+            return rowCount;  // 返回有效数据的行数
+        }
+
+        private DamageSummary CreateDamageSummaryFromRow(ExcelWorksheet worksheet, int row)
+        {
+            return new DamageSummary
+            {
+                No = row - 1,
+                Position = GetValue(worksheet, row, "位置"),
+                Component = GetValue(worksheet, row, 3),
+                Damage = GetValue(worksheet, row, 4),
+                DamagePosition = GetValue(worksheet, row, "缺损位置"),
+                DamageDescription = GetValue(worksheet, row, "缺损程度"),
+                DamageDescriptionInPicture = GetValue(worksheet, row, "图片描述"),
+                PictureNo = GetValue(worksheet, row, "照片编号"),
+                CustomPictureNo = GetValue(worksheet, row, "自定义照片编号"),
+                Comment = GetValue(worksheet, row, "备注"),
+                Unit1 = GetValue(worksheet, row, "单位1"),
+                Unit1Counts = GetUnit1Counts(GetValue(worksheet, row, "单位1数量")),
+                Unit2 = GetValue(worksheet, row, "单位2"),
+                Unit2Counts = GetUnit2Counts(GetValue(worksheet, row, "单位2数量"))
+            };
+        }
+
+        private string GetValue(ExcelWorksheet worksheet, int row, string columnName)
+        {
+            return worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, columnName)].Value?.ToString() ?? string.Empty;
+        }
+
+        private string GetValue(ExcelWorksheet worksheet, int row, int columnIndex)
+        {
+            return worksheet.Cells[row, columnIndex].Value?.ToString() ?? string.Empty;
+        }
+
 
         private int GetUnit1Counts(string unitCountsString)
         {
