@@ -682,7 +682,7 @@ namespace AutoRegularInspection.Services
             builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
             //病害汇总表格
             var summaryTable = builder.StartTable();
-
+            builder.RowFormat.HeadingFormat = true;    //标题行重复
             builder.InsertCell();    //开始插入标题行
 
             CellFormat cellFormat = builder.CellFormat;
@@ -771,11 +771,11 @@ namespace AutoRegularInspection.Services
 
             builder.Font.Bold = false;
             builder.EndRow();
-            summaryTable.FirstRow.RowFormat.HeadingFormat = true;    // 设置标题行的重复属性
 
             Row firstRow = summaryTable.FirstRow;
             firstRow.RowFormat.Height = ConvertUtil.MillimeterToPoint(10);
 
+            builder.RowFormat.HeadingFormat = false;    //关闭标题行重复（后面的行不是标题行）
             int sn = 1;    //序号
             for (int i = 0; i < listDamageSummary.Count; i++)
             {

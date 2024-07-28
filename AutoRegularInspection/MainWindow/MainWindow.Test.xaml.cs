@@ -5,6 +5,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Text; // 引入文本命名空间以访问编码类
 using Aspose.Words;
+using Aspose.Words.Tables;
 
 namespace AutoRegularInspection
 {
@@ -13,39 +14,35 @@ namespace AutoRegularInspection
        
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-            string currentDirectory = Directory.GetCurrentDirectory();
-            // 指定子目录路径
-            string targetDirectory = Path.Combine(currentDirectory, "更新域");
-            string[] fileEntries = Directory.GetFiles(targetDirectory, "*.doc?");
+            Document doc = new Document();
+            DocumentBuilder builder = new DocumentBuilder(doc);
 
-            if (fileEntries.Length == 0)
+            builder.StartTable();
+            builder.RowFormat.HeadingFormat = true;
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            builder.CellFormat.Width = 100;
+            builder.InsertCell();
+            builder.Writeln("Heading row 1");
+            builder.EndRow();
+            builder.InsertCell();
+            builder.Writeln("Heading row 2");
+            builder.EndRow();
+
+            builder.CellFormat.Width = 50;
+            builder.ParagraphFormat.ClearFormatting();
+
+            // Insert some content so the table is long enough to continue onto the next page
+            for (int i = 0; i < 50; i++)
             {
-                MessageBox.Show("“更新域”目录下没有找到 .doc 或 .docx 文件。");
-            }
-            else
-            {
-                Stopwatch stopwatch = Stopwatch.StartNew();
-
-                foreach (string fileName in fileEntries)
-                {
-                    try
-                    {
-                        Document doc = new Document(fileName);
-                        doc.UpdateFields();
-                        doc.UpdateFields();
-                        doc.Save(fileName);
-                        Console.WriteLine($"已更新文件中的域: {fileName}");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"更新文件 {fileName} 时出错: {ex.Message}");
-                    }
-                }
-
-                stopwatch.Stop();
-                MessageBox.Show($"所有文件的域更新过程已完成。程序运行耗时：{stopwatch.Elapsed.TotalMinutes} 分钟。");
+                builder.InsertCell();
+                builder.RowFormat.HeadingFormat = false;
+                builder.Write("Column 1 Text");
+                builder.InsertCell();
+                builder.Write("Column 2 Text");
+                builder.EndRow();
             }
 
+            doc.Save("DocumentBuilder.InsertTableSetHeadingRow.docx");
         }
 
 
