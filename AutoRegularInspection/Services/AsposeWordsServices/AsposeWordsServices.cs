@@ -683,7 +683,7 @@ namespace AutoRegularInspection.Services
             //病害汇总表格
             var summaryTable = builder.StartTable();
 
-            builder.InsertCell();
+            builder.InsertCell();    //开始插入标题行
 
             CellFormat cellFormat = builder.CellFormat;
 
@@ -771,6 +771,7 @@ namespace AutoRegularInspection.Services
 
             builder.Font.Bold = false;
             builder.EndRow();
+            summaryTable.FirstRow.RowFormat.HeadingFormat = true;    // 设置标题行的重复属性
 
             Row firstRow = summaryTable.FirstRow;
             firstRow.RowFormat.Height = ConvertUtil.MillimeterToPoint(10);

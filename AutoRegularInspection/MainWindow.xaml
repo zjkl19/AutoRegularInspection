@@ -522,10 +522,11 @@
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="OpenReport_Click">打开报告</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="SuggestionButton_Click">查看参考建议</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="CheckForUpdateButton_Click">检查更新</Button>
+            <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="UpdateDocumentFields_Click">快速更新域</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="DisclaimerButton_Click">免责声明</Button>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
-            <Label  Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2023" VerticalAlignment="Center"/>
+            <Label  Content="Copyright © 福建省建筑科学研究院 福建省建筑工程质量检测中心有限公司 2020-2024" VerticalAlignment="Center"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Margin="{StaticResource DefaultMargin}">
             <DockPanel>

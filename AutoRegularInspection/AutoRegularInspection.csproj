@@ -133,6 +133,7 @@
     </ApplicationDefinition>
     <Compile Include="Converters\OptionConverter.cs" />
     <Compile Include="Converters\SeverityQualityConverter.cs" />
+    <Compile Include="MainWindow\MainWindow.UpdateDocumentFields.xaml.cs" />
     <Compile Include="Services\AsposeWordsServices\CityBridge2024TemplateReportStrategy.cs" />
     <Compile Include="Services\AsposeWordsServices\Jinan2023TemplateReportStrategy.cs" />
     <Compile Include="Services\AsposeWordsServices\ReportGenerationStrategyFactory.cs" />
