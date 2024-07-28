@@ -19,7 +19,6 @@ namespace AutoRegularInspection.ViewModels
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
-
             List<DamageSummary> lst;
 
             lst = dataRepository.ReadDamageData(bridgePart);
@@ -30,21 +29,15 @@ namespace AutoRegularInspection.ViewModels
             }
             else if(bridgePart == BridgePart.SuperSpace)
             {
-                DamageSummaryServices.InitListDamageSummary(lst, 2_000_000,bridgePart);
+                DamageSummaryServices.InitListDamageSummary(lst, 2_000_000,bridgePart);    //尽管这里的2_000_000是被硬编码的，但实际生成的报告中，这个值是会被配置文件中的值替换
             }
             else
             {
                 DamageSummaryServices.InitListDamageSummary(lst, 3_000_000, bridgePart);
             }
-            ObservableCollection<DamageSummary> oc = new ObservableCollection<DamageSummary>();
+        
+            GridSource.GridData = new ObservableCollection<DamageSummary>(lst);    // 使用 ObservableCollection 的构造函数直接转换 List
 
-            //List转ObservableCollection
-            lst.ForEach(x => oc.Add(x));
-            foreach(var k in oc)
-            {
-                GridSource.GridData.Add(k);
-            }
-            
         }
         public GridModel GridSource { get; set; }
     }

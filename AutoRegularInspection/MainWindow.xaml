@@ -13,6 +13,13 @@
         <local:EnumConverter x:Key="eConverter"/>
         <local:ComponentValueConverter x:Key="cConverter"/>
         <local:DamageComboBoxConverter x:Key="damageComboBoxConverter"/>
+        <!-- 定义MenuItem的样式 -->
+        <Style TargetType="MenuItem">
+            <Setter Property="FontSize" Value="14"/>
+            <!-- 修改字体大小 -->
+            <Setter Property="Margin" Value="0,0,10,0"/>
+            <!-- 修改间隔 -->
+        </Style>
     </Window.Resources>
 
     <StackPanel >
@@ -526,6 +533,7 @@
                             <TextBlock>请注意以下几点：</TextBlock>
                             <TextBlock>1. 外观检查excel务必备份。</TextBlock>
                             <TextBlock>2. 照片名要输入足够长的尾号以防混淆。</TextBlock>
+                            <TextBlock>3. 照片名必须输入至结尾（不含扩展名）。</TextBlock>
                         </StackPanel>
                     </ToolTip>
                 </Button.ToolTip>

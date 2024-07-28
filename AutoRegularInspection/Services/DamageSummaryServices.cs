@@ -42,7 +42,12 @@ namespace AutoRegularInspection.Services
 
             //}
         }
-
+        /// <summary>
+        /// 设置每个 DamageSummary 对象的组合框值。
+        /// 根据桥梁部分（桥面系、上部结构或下部结构）设置相应的组合框值。
+        /// </summary>
+        /// <param name="listDamageSummary">损坏摘要列表。</param>
+        /// <param name="bridgePart">桥梁部分，默认为桥面系。</param>
         private static void SetComboBox(List<DamageSummary> listDamageSummary, BridgePart bridgePart = BridgePart.BridgeDeck)
         {
             for (int i = 0; i < listDamageSummary.Count; i++)
