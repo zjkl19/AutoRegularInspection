@@ -30,6 +30,7 @@ namespace AutoRegularInspection.Services
         private List<DamageSummary> _bridgeDeckListDamageSummary;
         private List<DamageSummary> _superSpaceListDamageSummary;
         private List<DamageSummary> _subSpaceListDamageSummary;
+        private Dictionary<string, List<DamageSummary>> _damageSummaries;
         public const string BridgeDeckBookmarkStartName = "BridgeDeckStart";
         public const string SuperSpaceBookmarkStartName = "SuperSpaceStart";
         public const string SubSpaceBookmarkStartName = "SubSpaceStart";
@@ -46,7 +47,47 @@ namespace AutoRegularInspection.Services
             _superSpaceListDamageSummary = superSpaceListDamageSummary;
             _subSpaceListDamageSummary = subSpaceListDamageSummary;
         }
- 
+
+        /// <summary>
+        /// 新的构造函数，处理任意数量的List<DamageSummary>
+        /// </summary>
+        /// <param name="doc">Word文档对象</param>
+        /// <param name="generateReportSettings">报告生成设置</param>
+        /// <param name="damageSummaries">包含所有损坏摘要的字典</param>
+        public AsposeWordsServices(ref Document doc, GenerateReportSettings generateReportSettings, Dictionary<string, List<DamageSummary>> damageSummaries)
+        {
+            _doc = doc;
+            _generateReportSettings = generateReportSettings;
+            _damageSummaries = damageSummaries;
+        }
+
+        /// <summary>
+        /// 从指定的书签开始依次插入书签。
+        /// </summary>
+        /// <param name="bookmarkName">书签名称。</param>
+        /// <param name="damageSummaries">包含所有损坏摘要的字典。</param>
+        public void InsertBookmarksAtBookmark(string bookmarkName, Dictionary<string, List<DamageSummary>> damageSummaries)
+        {
+            var builder = new DocumentBuilder(_doc);
+            builder.MoveToBookmark(bookmarkName);
+
+            foreach (var kvp in damageSummaries)
+            {
+                string partName = kvp.Key;
+                //List<DamageSummary> listDamageSummary = kvp.Value;
+
+                // 插入当前部分的标题
+                builder.Writeln(partName);
+
+                // 插入当前部分的书签
+                builder.StartBookmark(partName);
+                builder.EndBookmark(partName);
+
+                // 插入一个段落以确保书签之间有间隔
+                builder.InsertParagraph();
+            }
+        }
+
         /// <summary>
         /// 创建统计表
         /// </summary>
@@ -484,6 +525,153 @@ namespace AutoRegularInspection.Services
             statTable.SetBorder(BorderType.Bottom, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
         }
 
+        /// <summary>
+        /// 创建带有位置的统计表格
+        /// </summary>
+        public void CreateStatisticsTableWithPosition(Dictionary<string, List<DamageSummary>> damageSummaries)
+        {
+            var builder = new DocumentBuilder(_doc);
+
+            var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
+            fieldStyleRefBuilder.AddArgument(1);
+            fieldStyleRefBuilder.AddSwitch(@"\s");
+
+            var tableFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            tableFieldSequenceBuilder.AddArgument("表");
+            tableFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            tableFieldSequenceBuilder.AddSwitch(@"\s", "1");
+
+            var bookmark = _doc.Range.Bookmarks["DamageStatTable"];
+            builder.MoveTo(bookmark.BookmarkStart);
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfMainText];
+
+            // 开始插入统计表格
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+
+            builder.Write("表 ");
+            var r1 = new Run(_doc, "");
+            builder.InsertNode(r1);
+            fieldStyleRefBuilder.BuildAndInsert(r1);
+            builder.Write("-");
+            var r2 = new Run(_doc, "");
+            builder.InsertNode(r2);
+            tableFieldSequenceBuilder.BuildAndInsert(r2);
+            builder.Write(" ");
+
+            // 写入表头
+            builder.Write($"桥梁缺损状况检查结果汇总表");
+
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfTable];
+            builder.Writeln();
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+
+            // 病害统计表格
+            var statTable = builder.StartTable();
+
+            builder.InsertCell();
+            CellFormat cellFormat = builder.CellFormat;
+
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+            builder.Font.Bold = true;
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+            builder.Write("桥梁部位");
+
+            builder.InsertCell();
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+            builder.Write("要素/构件");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+            builder.Write("缺损类型");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+            builder.Write("位置");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+            builder.Write("单位");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+            builder.Write("数量");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+            builder.Write("缺损程度");
+            builder.InsertCell();
+
+            cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+            builder.Write("备注");
+
+            builder.Font.Bold = false;
+            builder.EndRow();
+            Row firstRow = statTable.FirstRow;
+            firstRow.RowFormat.Height = ConvertUtil.MillimeterToPoint(7.5);
+
+            foreach (var kvp in damageSummaries)
+            {
+                string partName = kvp.Key;
+                List<DamageSummary> listDamageSummary = kvp.Value;
+
+                //var damageStatistics = listDamageSummary.Where(x => x.GetUnit1() != "无")
+                //    .GroupBy(x => new { ComponentName = x.GetComponentName(), DamageName = x.GetDamageName(), Position = x.Position });
+                var damageStatistics = listDamageSummary.Where(x => x.GetUnit1() != "无")
+                    .GroupBy(x => new {PartName=partName, ComponentName= x.Component, DamageName = x.Damage, Position = x.Position });
+
+
+                foreach (var v1 in damageStatistics)
+                {
+                    builder.InsertCell(); builder.Write(v1.Key.PartName.ToString(CultureInfo.InvariantCulture)); // 插入桥梁部位
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(22);
+                    builder.InsertCell(); builder.Write($"{v1.Key.ComponentName.ToString(CultureInfo.InvariantCulture)}"); // 要素
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(24.8);
+                    builder.InsertCell(); builder.Write($"{v1.Key.DamageName.ToString(CultureInfo.InvariantCulture)}"); // 缺损类型
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(30.8);
+                    builder.InsertCell(); builder.Write($"{v1.Key.Position}"); // 位置
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                    builder.InsertCell();
+                    if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                    {
+                        builder.Write($"{v1.FirstOrDefault().GetUnit2()}/{v1.FirstOrDefault().GetUnit1()}"); // 单位2/单位1
+                    }
+                    else
+                    {
+                        builder.Write($"{v1.FirstOrDefault().GetUnit1()}"); // 单位1
+                    }
+
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(16.6);
+                    builder.InsertCell();
+                    if (v1.FirstOrDefault().GetDisplayUnit2() != "无")
+                    {
+                        builder.Write($"{v1.Sum(x => x.Unit2Counts)}/{v1.Sum(x => x.Unit1Counts)}"); // 单位2数量/单位1数量
+                    }
+                    else
+                    {
+                        builder.Write($"{v1.Sum(x => x.Unit1Counts)}"); // 单位2数量/单位1数量
+                    }
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(25.8);
+                    builder.InsertCell(); builder.Write($"{v1.Sum(x => x.DamagePercentage)}%"); // 缺损程度
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                    builder.InsertCell(); builder.Write("/"); // 备注
+                    cellFormat.Width = ConvertUtil.MillimeterToPoint(21.8);
+                    builder.EndRow();
+                }
+            }
+
+            builder.EndTable();
+
+            MergeStatTableColumn(statTable);
+
+            // 设置表格边框
+            statTable.SetBorder(BorderType.Left, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Right, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Top, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            statTable.SetBorder(BorderType.Bottom, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+        }
+
 
         /// <summary>
         /// 替换文档变量
@@ -492,7 +680,7 @@ namespace AutoRegularInspection.Services
         {
             string InspectionString = _generateReportSettings.InspectionString;
             string[] MyDocumentVariables = new string[] { nameof(InspectionString) };//文档中包含的所有“文档变量”，方便遍历
-            
+
             var variables = _doc.Variables;
             try
             {
@@ -614,6 +802,18 @@ namespace AutoRegularInspection.Services
 
         }
 
+        /// <summary>
+        /// 插入摘要和图片表格的内部方法，返回DocumentBuilder实例。
+        /// </summary>
+        /// <param name="BookmarkStartName">书签起始名称。</param>
+        /// <param name="listDamageSummary">缺损摘要列表。</param>
+        /// <returns>DocumentBuilder实例。</returns>
+        private DocumentBuilder InsertSummaryAndPictureTableWithBuilder(string BookmarkStartName, List<DamageSummary> listDamageSummary)
+        {
+            var builder = new DocumentBuilder(_doc);
+            InsertSummaryAndPictureTableCore(builder, BookmarkStartName, listDamageSummary);
+            return builder;
+        }
         private void InsertSummaryAndPictureTable(string BookmarkStartName, List<DamageSummary> listDamageSummary)
         {
 
@@ -892,22 +1092,313 @@ namespace AutoRegularInspection.Services
 
         }
 
-        public void CreateTableAndInsertPictures(List<DamageSummary> listDamageSummary,  DocumentBuilder builder, FieldBuilder fieldStyleRefBuilder, FieldBuilder pictureFieldSequenceBuilder, CellFormat cellFormat)
+        /// <summary>
+        /// 执行插入摘要和图片表格的实际逻辑。
+        /// </summary>
+        /// <param name="builder">DocumentBuilder实例。</param>
+        /// <param name="BookmarkStartName">书签起始名称。</param>
+        /// <param name="listDamageSummary">缺损摘要列表。</param>
+        private void InsertSummaryAndPictureTableCore(DocumentBuilder builder, string BookmarkStartName, List<DamageSummary> listDamageSummary)
+        {
+            // 插入摘要和图片表格的实际代码
+            builder.MoveToBookmark(BookmarkStartName);
+
+            var fieldStyleRefBuilder = new FieldBuilder(FieldType.FieldStyleRef);
+            fieldStyleRefBuilder.AddArgument(1);
+            fieldStyleRefBuilder.AddSwitch(@"\s");
+
+            var pictureFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            pictureFieldSequenceBuilder.AddArgument("图");
+            pictureFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            pictureFieldSequenceBuilder.AddSwitch(@"\s", "1");
+
+            var tableFieldSequenceBuilder = new FieldBuilder(FieldType.FieldSequence);
+            tableFieldSequenceBuilder.AddArgument("表");
+            tableFieldSequenceBuilder.AddSwitch(@"\*", "ARABIC");
+            tableFieldSequenceBuilder.AddSwitch(@"\s", "1");
+
+            //_Refxx的书签不会在word的“插入”=>“书签”中显示
+
+            FieldRef pictureRefField;
+
+            //模板在书签位置格式调整
+            //1、单倍行距
+            //2、首行不缩进
+            var bookmark = _doc.Range.Bookmarks[BookmarkStartName];
+            builder.MoveTo(bookmark.BookmarkStart);
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfMainText];//_doc.Styles[App.DocStyleOfMainText];
+
+            //TODO：考虑一下具体的缩进值
+            //builder.ParagraphFormat.FirstLineIndent = 8;
+
+            TableCellWidth tableCellWidth;
+            //要求：至少要有2张照片
+
+            //Dictionary<string, TableCellWidth> mappings = new Dictionary<string, TableCellWidth>
+            //{
+            //    { BridgeDeckBookmarkStartName, _generateReportSettings.BridgeDeckTableCellWidth },
+            //    { SuperSpaceBookmarkStartName, _generateReportSettings.SuperSpaceTableCellWidth }
+            //    // 其他映射
+            //};
+
+            //tableCellWidth = mappings.ContainsKey(BookmarkStartName)
+            //    ? mappings[BookmarkStartName]
+            //    : _generateReportSettings.SubSpaceTableCellWidth;
+
+            //临时用上部结构的配置
+            tableCellWidth = _generateReportSettings.SuperSpaceTableCellWidth;
+
+            int firstIndex = 0; int lastIndex = listDamageSummary.Count - 1;
+            //查找第一张
+            while (listDamageSummary[firstIndex].PictureCounts == 0 && firstIndex < listDamageSummary.Count - 1)
+            {
+                firstIndex++;
+            }
+            //查找最后一张
+            while (listDamageSummary[lastIndex].PictureCounts == 0 && lastIndex > 0)
+            {
+                lastIndex--;
+            }
+
+            //TODO：考虑表格第1行和最后1行可能没有照片
+
+            //开始插入汇总表格
+            //builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;    //已经在模板中设置了
+
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfTable];
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+            //病害汇总表格
+            var summaryTable = builder.StartTable();
+            builder.RowFormat.HeadingFormat = true;    //标题行重复
+            builder.InsertCell();    //开始插入标题行
+
+            CellFormat cellFormat = builder.CellFormat;
+
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.No;
+            }
+
+            builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+            builder.CellFormat.VerticalAlignment = CellVerticalAlignment.Center;
+            builder.Font.Bold = true;
+
+            builder.Write("序号");
+            builder.InsertCell();
+
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.Position;
+            }
+
+            builder.Write("位置");
+            builder.InsertCell();
+
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.Component;
+            }
+            BridgePart bridgePart;
+
+            builder.Write("构件类型");
+            bridgePart = BridgePart.SuperSpace;
+            //if (BookmarkStartName == BridgeDeckBookmarkStartName)
+            //{
+            //    builder.Write("要素");
+            //    bridgePart = BridgePart.BridgeDeck;
+
+            //}
+            //else if (BookmarkStartName == SuperSpaceBookmarkStartName)
+            //{
+            //    builder.Write("构件类型");
+            //    bridgePart = BridgePart.SuperSpace;
+            //}
+            //else
+            //{
+            //    builder.Write("构件类型");
+            //    bridgePart = BridgePart.SubSpace;
+            //}
+
+            builder.InsertCell();
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.Damage;
+            }
+            builder.Write("缺损类型");
+
+            builder.InsertCell();
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.DamagePosition;
+            }
+            builder.Write("缺损位置");
+
+            builder.InsertCell();
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.DamageDescription;
+            }
+            builder.Write("缺损程度");    //建研-晋安报告中是“缺损程度”
+
+
+            builder.InsertCell();
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                cellFormat.Width = tableCellWidth.PictureNo;
+            }
+            builder.Write("图示编号");
+
+            if (_generateReportSettings.CommentColumnInsertTable)
+            {
+                builder.InsertCell();
+                if (_generateReportSettings.CustomTableCellWidth)
+                {
+                    cellFormat.Width = tableCellWidth.Comment;
+                }
+                builder.Write("备注");
+            }
+
+            builder.Font.Bold = false;
+            builder.EndRow();
+
+            Row firstRow = summaryTable.FirstRow;
+            firstRow.RowFormat.Height = ConvertUtil.MillimeterToPoint(10);
+
+            builder.RowFormat.HeadingFormat = false;    //关闭标题行重复（后面的行不是标题行）
+            int sn = 1;    //序号
+            for (int i = 0; i < listDamageSummary.Count; i++)
+            {
+                //如果完整结构不插入汇总表并且部件名称为"/"
+                if (_generateReportSettings.IntactStructNoInsertSummaryTable && listDamageSummary[i].GetDamageName(bridgePart).Contains(_generateReportSettings.IntactStructNoInsertSummaryTableString))
+                {
+                    continue;
+                }
+
+                builder.InsertCell(); builder.Write($"{sn}"); sn++;
+                cellFormat.Width = tableCellWidth.No;
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].Position}");
+                cellFormat.Width = tableCellWidth.Position;
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetComponentName(bridgePart)}");
+                cellFormat.Width = tableCellWidth.Component;
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].GetDamageName(bridgePart).Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
+                cellFormat.Width = tableCellWidth.Damage;
+
+                builder.InsertCell(); builder.Write($"{listDamageSummary[i].DamagePosition.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");    //\u00B2是2的上标,\u00B3是3的上标
+                cellFormat.Width = tableCellWidth.DamagePosition;
+
+                builder.InsertCell();
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Left;
+                builder.Write($"{listDamageSummary[i].DamageDescription.Replace("m2", "m\u00B2").Replace("m3", "m\u00B3")}");
+                cellFormat.Width = tableCellWidth.DamageDescription;
+                builder.InsertCell();
+                cellFormat.Width = tableCellWidth.PictureNo;
+                builder.ParagraphFormat.Alignment = ParagraphAlignment.Center;
+                if (listDamageSummary[i].PictureCounts == 0)
+                {
+                    if (string.IsNullOrWhiteSpace(listDamageSummary[i].CustomPictureNo))
+                    {
+                        builder.Write("/");
+                    }
+                    else
+                    {
+                        builder.Write(listDamageSummary[i].CustomPictureNo);
+                    }
+                }
+                else if (listDamageSummary[i].PictureCounts == 1)
+                {
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
+                    pictureRefField.InsertHyperlink = true;
+                }
+                else if (listDamageSummary[i].PictureCounts == 2)
+                {
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
+                    pictureRefField.InsertHyperlink = true;
+
+                    builder.Write("\r\n");
+
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + 1}", "", "");
+                    pictureRefField.InsertHyperlink = true;
+                }
+                else    //图片大于2张
+                {
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex}", "", "");
+                    pictureRefField.InsertHyperlink = true;
+
+                    builder.Write("\r\n～\r\n");
+
+                    pictureRefField = InsertFieldRef(builder, $"_Ref{listDamageSummary[i].FirstPictureBookmarkIndex + listDamageSummary[i].PictureCounts - 1}", "", "");
+                    pictureRefField.InsertHyperlink = true;
+                }
+                if (_generateReportSettings.CommentColumnInsertTable)
+                {
+                    builder.InsertCell(); builder.Write($"{listDamageSummary[i].Comment}");
+                    cellFormat.Width = tableCellWidth.Comment;
+                }
+                builder.EndRow();
+
+            }
+
+
+            builder.EndTable();
+
+            if (_generateReportSettings.CustomTableCellWidth)
+            {
+                summaryTable.AutoFit(AutoFitBehavior.FixedColumnWidths);
+            }
+
+
+            //TODO:用建造者模式重构
+            MergeDamageColumn(listDamageSummary, summaryTable);
+            MergeComponentColumn(listDamageSummary, summaryTable);
+            MergeTheSameColumn(listDamageSummary, summaryTable, 1);
+
+            // Set a green border around the table but not inside. 
+            summaryTable.SetBorder(BorderType.Left, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Right, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Top, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+            summaryTable.SetBorder(BorderType.Bottom, LineStyle.Single, TableBorderLineWidth, System.Drawing.Color.Black, true);
+
+            if (BookmarkStartName == BridgeDeckBookmarkStartName && _generateReportSettings.DeletePositionInBridgeDeckCheckBox)
+            {
+                Column column = Column.FromIndex(summaryTable, 1);
+                column.Remove();
+            }
+            else if (BookmarkStartName == SuperSpaceBookmarkStartName && _generateReportSettings.DeletePositionInSuperSpaceCheckBox)
+            {
+                Column column = Column.FromIndex(summaryTable, 1);
+                column.Remove();
+            }
+
+            //根据内容自动调整表格
+            //summaryTable.AutoFit(AutoFitBehavior.AutoFitToContents);
+
+            builder.ParagraphFormat.Style = _doc.Styles[_generateReportSettings.ComboBoxReportTemplates.DocStyleOfPicture];    //注意：图片段落格式设置采用单倍行距
+            builder.Writeln();
+
+            //病害图片插入表格
+
+            CreateTableAndInsertPictures(listDamageSummary, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, cellFormat);
+
+        }
+
+        public void CreateTableAndInsertPictures(List<DamageSummary> listDamageSummary, DocumentBuilder builder, FieldBuilder fieldStyleRefBuilder, FieldBuilder pictureFieldSequenceBuilder, CellFormat cellFormat)
         {
             //Reference:
             //https://github.com/aspose-words/Aspose.Words-for-.NET/blob/f84af3bfbf2a1f818551064a0912b106e848b2ad/Examples/CSharp/Programming-Documents/Bookmarks/BookmarkTable.cs
             //计算总的图片数量
             int totalPictureCounts = GetTotalPictureCounts(listDamageSummary);
 
-            var pictureTable=CreateTable(totalPictureCounts, builder, cellFormat);
+            var pictureTable = CreateTable(totalPictureCounts, builder, cellFormat);
 
             IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
             var fileRepository = kernel.Get<IFileRepository>();
 
-            InsertPictures(listDamageSummary,  builder, pictureTable, fileRepository);
+            InsertPictures(listDamageSummary, builder, pictureTable, fileRepository);
             WriteDescriptions(listDamageSummary, builder, fieldStyleRefBuilder, pictureFieldSequenceBuilder, pictureTable);
 
         }
+
+
         /// <summary>
         /// 创建一个表格来插入图片。
         /// </summary>
@@ -941,7 +1432,7 @@ namespace AutoRegularInspection.Services
             pictureTable.ClearBorders();
             return pictureTable;
         }
-        
+
         /// <summary>
         /// 将图片插入到Word文档的表格中。图片来源于损伤摘要列表。
         /// 每个损伤摘要可能包含多张图片，这些图片将按照它们在列表中出现的顺序插入到表格中。
@@ -979,10 +1470,10 @@ namespace AutoRegularInspection.Services
                         {
                             using (var image = fileRepository.LoadImage(pictureFileName))
                             {
-                                var width = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageWidth*4);
-                                var height = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageHeight*4);
+                                var width = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageWidth * 4);
+                                var height = Convert.ToInt32(_generateReportSettings.ImageSettings.CompressImageHeight * 4);
                                 fileRepository.ResizeImage(image, width, height);
-                                fileRepository.SaveImage(image,$"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
+                                fileRepository.SaveImage(image, $"{App.PicturesOutFolder}\\{Path.GetFileName(pictureFileName)}");
                             }
                         }
                         _ = builder.InsertImage($"{App.PicturesOutFolder}/{Path.GetFileName(pictureFileName)}", RelativeHorizontalPosition.Margin, 0, RelativeVerticalPosition.Margin, 0, _generateReportSettings.ImageSettings.CompressImageWidth, _generateReportSettings.ImageSettings.CompressImageHeight, WrapType.Inline);

@@ -552,6 +552,19 @@
                     </ToolTip>
                 </Button.ToolTip>
             </Button>
+            <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="GeneralTemplateReport_Click" Content="生成通用模板报告" BorderThickness="2"
+    BorderBrush="Blue">
+                <Button.ToolTip>
+                    <ToolTip>
+                        <StackPanel>
+                            <TextBlock>请注意以下几点：</TextBlock>
+                            <TextBlock>1. 外观检查-通用excel务必备份。</TextBlock>
+                            <TextBlock>2. 模板要选择通用模板。</TextBlock>
+                            <TextBlock>3. 暂不支持预览列表、自定义书签编号等功能。</TextBlock>
+                        </StackPanel>
+                    </ToolTip>
+                </Button.ToolTip>
+            </Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="OpenReport_Click">打开报告</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="SuggestionButton_Click">查看参考建议</Button>
             <Button Margin="{StaticResource DefaultButtonMargin}" Padding="{StaticResource DefaultButtonPadding}" Width="{StaticResource DefaultControlWidth}" Click="CheckForUpdateButton_Click">检查更新</Button>

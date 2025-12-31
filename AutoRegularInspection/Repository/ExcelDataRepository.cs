@@ -62,13 +62,81 @@ namespace AutoRegularInspection.Repository
             }
         }
 
-        public List<DamageSummary> ReadDamageData(string strFilePath,BridgePart bridgePart)
+        /// <summary>
+        /// 从Excel文件中的特定工作表读取损坏数据。
+        /// </summary>
+        /// <param name="workSheetName">工作表的名称。</param>
+        /// <param name="strFilePath">Excel文件的路径。</param>
+        /// <returns>包含缺损数据的DamageSummary对象列表。</returns>
+        public List<DamageSummary> ReadDamageData(string workSheetName, string strFilePath)
         {
             var lst = new List<DamageSummary>();
 
-            return lst;
-            
+            // 检查文件是否存在
+            if (!File.Exists(strFilePath))
+            {
+                return lst;
+            }
+
+            try
+            {
+                FileInfo file = new FileInfo(strFilePath);
+                using (ExcelPackage package = new ExcelPackage(file))
+                {
+                    // 获取指定名称的工作表
+                    ExcelWorksheet worksheet = package.Workbook.Worksheets[workSheetName];
+                    int rowCount = GetRowCount(worksheet);
+
+                    // 遍历行并创建DamageSummary对象
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        lst.Add(CreateDamageSummaryFromRow(worksheet, row));
+                    }
+                }
+                return lst;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
+
+        /// <summary>
+        /// 从Excel文件中的所有工作表读取损坏数据。
+        /// </summary>
+        /// <param name="strFilePath">Excel文件的路径。</param>
+        /// <returns>一个字典，键为工作表名称，值为包含损坏数据的DamageSummary对象列表。</returns>
+        public Dictionary<string, List<DamageSummary>> ReadAllDamageDataFromFile(string strFilePath)
+        {
+            var allDamageData = new Dictionary<string, List<DamageSummary>>();
+
+            // 检查文件是否存在
+            if (!File.Exists(strFilePath))
+            {
+                return allDamageData;
+            }
+
+            try
+            {
+                FileInfo file = new FileInfo(strFilePath);
+                using (ExcelPackage package = new ExcelPackage(file))
+                {
+                    // 遍历工作簿中的每个工作表
+                    foreach (var worksheet in package.Workbook.Worksheets)
+                    {
+                        var damageData = ReadDamageData(worksheet.Name, strFilePath);
+                        allDamageData.Add(worksheet.Name, damageData);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return allDamageData;
+        }
+
 
         /// <summary>
         /// 获取工作表中有效数据的行数（跳过表头）

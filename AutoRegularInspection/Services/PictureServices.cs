@@ -19,11 +19,34 @@ namespace AutoRegularInspection.Services
             return totalInvalidPictureCounts;
         }
 
+        /// <summary>
+        /// 验证图片的方法，处理Dictionary<string, List<DamageSummary>>类型的参数。
+        /// </summary>
+        /// <param name="allDamageData">包含所有损坏数据的字典。</param>
+        /// <param name="validationResults">存储验证结果的字典。</param>
+        /// <returns>无效图片的总数。</returns>
+        public static int ValidatePictures(Dictionary<string, List<DamageSummary>> allDamageData, out Dictionary<string, List<string>> validationResults)
+        {
+            int totalInvalidPictureCounts = 0;
+            validationResults = new Dictionary<string, List<string>>();
+
+            foreach (var kvp in allDamageData)
+            {
+                string key = kvp.Key;
+                List<DamageSummary> damageSummaryList = kvp.Value;
+
+                int invalidCount = ValidatePicturesOfBridgePart(BridgePart.SuperSpace, damageSummaryList, out List<string> partValidationResult);
+                totalInvalidPictureCounts += invalidCount;
+
+                validationResults[key] = partValidationResult;
+            }
+
+            return totalInvalidPictureCounts;
+        }
+
         public static int ValidatePicturesOfBridgePart(BridgePart bridgePart, List<DamageSummary> lst, out List<string> validationResult)
         {
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(OptionConfiguration));
-            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
-            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+            var deserializedConfig = OptionConfigurationLoader.Load();
 
             validationResult = new List<string>();
             int totalCounts = 0;

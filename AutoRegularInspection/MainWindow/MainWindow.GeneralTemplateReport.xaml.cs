@@ -22,8 +22,8 @@ namespace AutoRegularInspection
 {
     public partial class MainWindow : Window
     {
-       
-        private void Test_Click(object sender, RoutedEventArgs e)
+
+        private void GeneralTemplateReport_Click(object sender, RoutedEventArgs e)
         {
             Configuration appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             bool commentColumnInsertTable;
@@ -50,7 +50,7 @@ namespace AutoRegularInspection
 
             // 读取Excel文件中所有标签的数据
             Dictionary<string, List<DamageSummary>> allDamageData = dataRepository.ReadAllDamageDataFromFile("外观检查-通用.xlsx");
-            int initialIndex = 1000000;    // 初始化初始索引值
+            int initialIndex = 1_010_000;    // 初始化初始索引值
             // 遍历Dictionary并对每个List<DamageSummary>进行预处理
             foreach (var kvp in allDamageData)
             {
@@ -58,7 +58,7 @@ namespace AutoRegularInspection
                 List<DamageSummary> damageSummaryList = kvp.Value;
                 // 对每个List<DamageSummary>调用InitListDamageSummary进行预处理
                 DamageSummaryServices.InitListDamageSummary(damageSummaryList, initialIndex, BridgePart.SuperSpace); // 根据需要传递不同的参数
-                initialIndex += 100000;    // 递增初始索引值
+                initialIndex += 100_000;    // 递增初始索引值
             }
 
             GenerateReportSettings generateReportSettings = new GenerateReportSettings
@@ -149,9 +149,7 @@ namespace AutoRegularInspection
                 }));
             }).Start();
 
-
         }
-
 
     }
 }

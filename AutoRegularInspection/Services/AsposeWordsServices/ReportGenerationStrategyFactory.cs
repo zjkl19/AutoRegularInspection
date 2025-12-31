@@ -14,6 +14,7 @@ namespace AutoRegularInspection.Services
         {
             { "建研-常规定检--晋安区桥梁模板.doc", new Jinan2023TemplateReportStrategy() },
             { "建研-常规定检--桥梁模板2024.docx", new CityBridge2024TemplateReportStrategy() },
+            { "建研-通用模板2024.docx", new GeneralTemplateStrategy() },
             { "建研-常规定检--地下通道模板2024.docx", new CityBridge2024TemplateReportStrategy() },
             { "交通综合评价报告模板.docx", new TransportationTemplateReportStrategy() },
             { "自定义外观检查报告模板.docx", new DefaultTemplateReportStrategy() }

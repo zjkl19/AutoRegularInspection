@@ -138,9 +138,7 @@ namespace AutoRegularInspection.Services
 
         private static void SetPictureCounts(List<DamageSummary> listDamageSummary)
         {
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(OptionConfiguration));
-            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
-            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+            var deserializedConfig = OptionConfigurationLoader.Load();
 
             for (int i = 0; i < listDamageSummary.Count; i++)
             {

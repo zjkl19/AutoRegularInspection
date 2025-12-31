@@ -10,5 +10,9 @@ namespace AutoRegularInspection.IRepository
     public interface IDataRepository
     {
         List<DamageSummary> ReadDamageData(BridgePart bridgePart, string strFilePath = App.DamageSummaryFileName);
+
+        List<DamageSummary> ReadDamageData(string workSheetName, string strFilePath);
+
+        Dictionary<string, List<DamageSummary>> ReadAllDamageDataFromFile(string strFilePath);
     }
 }

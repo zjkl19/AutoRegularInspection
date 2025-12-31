@@ -72,6 +72,42 @@ namespace AutoRegularInspection
             stream.Close();
         }
 
-       
+        /// <summary>
+        /// 将无效图片的结果写入文本文件。
+        /// </summary>
+        /// <param name="totalInvalidPictureCounts">无效图片的总数。</param>
+        /// <param name="validationResults">包含每个工作表验证结果的字典。</param>
+        private static void WriteInvalidPicturesResultToTxt(int totalInvalidPictureCounts, Dictionary<string, List<string>> validationResults)
+        {
+            string storeFile = App.InvalidPicturesStoreFile;
+            FileStream stream;
+            if (!File.Exists(storeFile))
+            {
+                using (var fs = File.Create(storeFile))
+                {
+                    // 确保文件创建后被释放
+                }
+            }
+            stream = new FileStream(storeFile, FileMode.Append);
+            StreamWriter writer = new StreamWriter(stream);
+            writer.WriteLine($"当前时间：{DateTime.Now}");
+            writer.WriteLine($"共计{totalInvalidPictureCounts}张照片无效。");
+
+            foreach (var kvp in validationResults)
+            {
+                string worksheetName = kvp.Key;
+                List<string> validationResult = kvp.Value;
+
+                writer.WriteLine($"工作表: {worksheetName}");
+                for (int i = 0; i < validationResult.Count; i++)
+                {
+                    writer.WriteLine(validationResult[i]);
+                }
+            }
+
+            writer.Close();
+            stream.Close();
+        }
+
     }
 }

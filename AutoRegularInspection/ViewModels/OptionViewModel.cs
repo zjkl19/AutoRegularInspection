@@ -1,6 +1,7 @@
 ﻿using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Models;
 using AutoRegularInspection.Repository;
+using AutoRegularInspection.Services;
 using AutoRegularInspection.Views;
 using NLog;
 using NLog.Config;
@@ -15,7 +16,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Xml.Serialization;
 
 namespace AutoRegularInspection.ViewModels
 {
@@ -76,10 +76,7 @@ namespace AutoRegularInspection.ViewModels
                 // add more options as needed
             };
             //反序列化XML配置文件
-            var serializer = new System.Xml.Serialization.XmlSerializer(typeof(OptionConfiguration));
-            StreamReader streamReader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
-            StreamReader reader = streamReader;    //TODO：找不到文件的判断
-            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);    //DataContext
+            var deserializedConfig = OptionConfigurationLoader.Load();
 
             //Options[0].UserControl.DataContext = deserializedConfig;
             //Options[0].Children[0].UserControl.DataContext = deserializedConfig;
@@ -142,6 +139,7 @@ namespace AutoRegularInspection.ViewModels
                 }
                 serializer.Serialize(textWriter, (OptionConfiguration)configuration);
             }
+            OptionConfigurationLoader.SetCache((OptionConfiguration)configuration);
             //using (var textWriter = fileWriter.Create($"{App.ConfigurationFolder}\\{App.ConfigFileName}"))
             //{
             //    serializer.Serialize(textWriter, (OptionConfiguration)configuration);

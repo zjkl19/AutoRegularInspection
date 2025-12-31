@@ -17,10 +17,7 @@ namespace AutoRegularInspection
     {
         private void PicturePreview_Click(object sender, RoutedEventArgs e)
         {
-            var serializer = new XmlSerializer(typeof(OptionConfiguration));
-            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
-            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
-
+            var deserializedConfig = OptionConfigurationLoader.Load();
 
             var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
             var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;

@@ -1,4 +1,5 @@
 ﻿using AutoRegularInspection.Models;
+using AutoRegularInspection.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -22,9 +23,7 @@ namespace AutoRegularInspection
     {
         private void BatchCompressImage_Click(object sender, RoutedEventArgs e)
         {
-            var serializer = new XmlSerializer(typeof(OptionConfiguration));
-            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
-            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+            var deserializedConfig = OptionConfigurationLoader.Load();
             double CompressImageWidth = deserializedConfig.Picture.CompressWidth;
             double CompressImageHeight = deserializedConfig.Picture.CompressHeight;
 

@@ -157,9 +157,7 @@ namespace AutoRegularInspection
             XDocument config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
 
             //反序列化XML配置文件
-            var serializer = new XmlSerializer(typeof(OptionConfiguration));
-            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
-            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+            var deserializedConfig = OptionConfigurationLoader.Load();
             GenerateReportSettings generateReportSettings = new GenerateReportSettings
             {
                 ComboBoxReportTemplates = App.TemplateFileList[TemplateFileComboBox.SelectedIndex]

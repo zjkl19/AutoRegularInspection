@@ -29,10 +29,7 @@ namespace AutoRegularInspection
 
             XDocument config = XDocument.Load($"{App.ConfigurationFolder}\\{App.ConfigFileName}");
 
-            //反序列化XML配置文件
-            var serializer = new XmlSerializer(typeof(OptionConfiguration));
-            StreamReader reader = new StreamReader($"{App.ConfigurationFolder}\\{App.ConfigFileName}");    //TODO：找不到文件的判断
-            var deserializedConfig = (OptionConfiguration)serializer.Deserialize(reader);
+            var deserializedConfig = OptionConfigurationLoader.Load();
 
             string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
 
@@ -212,6 +209,101 @@ namespace AutoRegularInspection
             }));
             thread.Start();
 
+        }
+
+        /// <summary>
+        /// 生成报告的方法，使用Dictionary<string, List<DamageSummary>>作为参数。
+        /// </summary>
+        /// <param name="generateReportSettings">报告生成设置。</param>
+        /// <param name="templateFile">模板文件路径。</param>
+        /// <param name="outputFile">输出文件路径。</param>
+        /// <param name="damageSummaries">包含工作表名称和损坏数据的字典。</param>
+        public static void GenerateReport(GenerateReportSettings generateReportSettings, string templateFile, string outputFile, Dictionary<string, List<DamageSummary>> damageSummaries)
+        {
+            if (damageSummaries == null || damageSummaries.Count < 1)
+            {
+                throw new ArgumentException("必须至少提供一个DamageSummary列表。");
+            }
+
+            var w = new RegularProgressBarWindow();
+            w.Top = 0.4 * (App.ScreenHeight - w.Height);
+            w.Left = 0.4 * (App.ScreenWidth - w.Width);
+
+            var progressBarModel = new ProgressBarModel
+            {
+                ProgressValue = 0
+            };
+            w.progressBarNumberTextBlock.DataContext = progressBarModel;
+            w.progressBar.DataContext = progressBarModel;
+            w.progressBarContentTextBlock.DataContext = progressBarModel;
+
+            var progressSleepTime = 500;    //进度条停顿时间
+
+            //通用版本直接传入List，不用转换
+            //List<DamageSummary> l1 = _bridgeDeckListDamageSummary.ToList();
+            //List<DamageSummary> l2 = _superSpaceListDamageSummary.ToList();
+            //List<DamageSummary> l3 = _subSpaceListDamageSummary.ToList();
+
+            //传入后已经初始化，不需要再初始化
+            //DamageSummaryServices.InitListDamageSummary1(l1, generateReportSettings.BookmarkSettings.BridgeDeckBookmarkStartNo);
+            //DamageSummaryServices.InitListDamageSummary1(l2, generateReportSettings.BookmarkSettings.SuperSpaceBookmarkStartNo);
+            //DamageSummaryServices.InitListDamageSummary1(l3, generateReportSettings.BookmarkSettings.SubSpaceBookmarkStartNo);
+
+            var thread = new Thread(new ThreadStart(() =>
+            {
+                //progressBarModel.ProgressValue = 0;    //测试数据
+                //生成报告前先验证照片的有效性
+ 
+                int totalInvalidPictureCounts = PictureServices.ValidatePictures(damageSummaries, out Dictionary<string, List<string>> validationResults);
+
+                if (totalInvalidPictureCounts > 0)
+                {
+                    try
+                    {
+                        WriteInvalidPicturesResultToTxt(totalInvalidPictureCounts, validationResults);
+                        MessageBox.Show($"存在无效照片，无法生成报告，共计{totalInvalidPictureCounts}张，详见根目录{App.InvalidPicturesStoreFile}");
+                        return;
+                    }
+                    catch (Exception ex)
+                    {
+                        //MessageBox.Show(ex.Message);
+                        //throw;
+                    }
+                }
+
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
+                Document doc = new Document(templateFile);
+                var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, damageSummaries);
+                asposeService.GenerateReport(ref progressBarModel);
+
+                if (generateReportSettings.SaveDocxFormat)
+                {
+                    doc.Save($"{outputFile}.docx", SaveFormat.Docx);
+                }
+                else
+                {
+                    doc.Save($"{outputFile}.doc", SaveFormat.Doc);
+                }
+
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("成功生成报告！"); });
+
+            }));
+            thread.Start();
+
+            foreach (var kvp in damageSummaries)
+            {
+                string worksheetName = kvp.Key;
+                List<DamageSummary> damageSummaryList = kvp.Value;
+
+                // 对每个DamageSummary列表进行处理
+                // 示例处理代码：
+                Console.WriteLine($"Processing worksheet: {worksheetName}");
+                foreach (var damageSummary in damageSummaryList)
+                {
+                    // 处理每个DamageSummary对象
+                }
+            }
         }
     }
 }
