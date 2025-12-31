@@ -47,9 +47,19 @@ namespace AutoRegularInspection.Services
         public static int ValidatePicturesOfBridgePart(BridgePart bridgePart, List<DamageSummary> lst, out List<string> validationResult)
         {
             var deserializedConfig = OptionConfigurationLoader.Load();
+            return ValidatePicturesOfBridgePart(bridgePart, lst, out validationResult, null, null, deserializedConfig);
+        }
 
+        /// <summary>
+        /// 提供可覆盖的图片目录与配置，用于测试或自定义路径。
+        /// </summary>
+        public static int ValidatePicturesOfBridgePart(BridgePart bridgePart, List<DamageSummary> lst, out List<string> validationResult, string picturesFolder, string picturesOutFolder, OptionConfiguration config)
+        {
             validationResult = new List<string>();
             int totalCounts = 0;
+            var picFolder = string.IsNullOrWhiteSpace(picturesFolder) ? App.PicturesFolder : picturesFolder;
+            var outFolder = string.IsNullOrWhiteSpace(picturesOutFolder) ? App.PicturesOutFolder : picturesOutFolder;
+            var deserializedConfig = config ?? OptionConfigurationLoader.Load();
             string[] dirs, outdirs;
             for (int i = 0; i < lst.Count; i++)
             {
@@ -59,8 +69,8 @@ namespace AutoRegularInspection.Services
                 }
                 else if (lst[i].PictureCounts == 1)
                 {
-                    dirs = Directory.GetFiles($@"{App.PicturesFolder}/", $"*{lst[i].PictureNo}.*");    //结果含有路径
-                    outdirs = Directory.GetFiles($@"{App.PicturesOutFolder}/", $"*{lst[i].PictureNo}.*");
+                    dirs = Directory.GetFiles($@"{picFolder}/", $"*{lst[i].PictureNo}.*");    //结果含有路径
+                    outdirs = Directory.GetFiles($@"{outFolder}/", $"*{lst[i].PictureNo}.*");
                     if (dirs.Length == 0 && outdirs.Length == 0)
                     {
                         totalCounts++;
@@ -74,8 +84,8 @@ namespace AutoRegularInspection.Services
 
                     for (int j = 0; j < pictures.Length; j++)
                     {
-                        dirs = Directory.GetFiles($@"{App.PicturesFolder}/", $"*{pictures[j]}.*");    //结果含有路径
-                        outdirs = Directory.GetFiles($@"{App.PicturesOutFolder}/", $"*{pictures[j]}.*");
+                        dirs = Directory.GetFiles($@"{picFolder}/", $"*{pictures[j]}.*");    //结果含有路径
+                        outdirs = Directory.GetFiles($@"{outFolder}/", $"*{pictures[j]}.*");
                         if (dirs.Length == 0 && outdirs.Length == 0)
                         {
                             totalCounts++;

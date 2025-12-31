@@ -1,4 +1,3 @@
-using AutoRegularInspection.Models;
 using AutoRegularInspection.Services;
 using System;
 using System.IO;
@@ -9,11 +8,11 @@ namespace AutoRegularInspectionTestProject
     public class OptionConfigurationLoaderTests
     {
         [Fact]
-        public void Load_ReturnsDefaults_WhenFileIsMissing()
+        public void Load_ReturnsDefaults_WhenFileMissing()
         {
             var tempPath = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString(), "Option.config");
 
-            var config = OptionConfigurationLoader.Load(tempPath, refresh: true);
+            var config = OptionConfigurationLoader.Load(tempPath, true);
 
             Assert.NotNull(config);
             Assert.NotNull(config.Picture);
@@ -59,7 +58,7 @@ namespace AutoRegularInspectionTestProject
 
             File.WriteAllText(filePath, xml);
 
-            var config = OptionConfigurationLoader.Load(filePath, refresh: true);
+            var config = OptionConfigurationLoader.Load(filePath, true);
 
             Assert.Equal(120.5, config.Picture.Width);
             Assert.Equal(3, config.Bookmark.SubSpaceBookmarkStartNo);

@@ -64,7 +64,7 @@ namespace AutoRegularInspection
             public bool FileExists(string path) => File.Exists(path);
             public string ReadAllText(string path) => File.ReadAllText(path);
         }
-        private void LoadTemplates()
+        private static void LoadTemplates()
         {
             string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "templates.json");
             var templateService = new TemplateService(new FileSystem());
@@ -102,6 +102,14 @@ namespace AutoRegularInspection
             {
                 Kernel = new StandardKernel(new NinjectDependencyResolver());
             }
+        }
+
+        /// <summary>
+        /// 重新加载 templates.json
+        /// </summary>
+        public static void ReloadTemplates()
+        {
+            LoadTemplates();
         }
         //protected override void OnStartup(StartupEventArgs e)
         //{

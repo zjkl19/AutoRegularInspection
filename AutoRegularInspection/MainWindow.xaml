@@ -58,6 +58,7 @@
                 </MenuItem>
                 <MenuItem Header="工具">
                     <MenuItem Header="选项" Click="MenuItem_Option_Click" ></MenuItem>
+                    <MenuItem Header="重新加载配置与模板" Click="MenuItem_ReloadConfig_Click"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="帮助">
                     <MenuItem Header="查看源代码" Click="MenuItem_ViewSourceCode_Click" ></MenuItem>
