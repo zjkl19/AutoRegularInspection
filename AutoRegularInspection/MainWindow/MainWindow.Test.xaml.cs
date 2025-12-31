@@ -34,7 +34,21 @@ namespace AutoRegularInspection
             //反序列化XML配置文件
             var deserializedConfig = OptionConfigurationLoader.Load();
 
-            string templateFile = $"{App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
+            if (App.TemplateFileList == null || TemplateFileComboBox.SelectedIndex < 0 || TemplateFileComboBox.SelectedIndex >= App.TemplateFileList.Count)
+            {
+                MessageBox.Show("未选择有效模板，请检查 templates.json。", "模板校验失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var selectedTemplate = App.TemplateFileList[TemplateFileComboBox.SelectedIndex];
+            string validationMessage;
+            if (!TemplateValidator.Validate(selectedTemplate, out validationMessage))
+            {
+                MessageBox.Show(validationMessage, "模板校验失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string templateFile = Path.Combine(App.ReportTemplatesFolder, selectedTemplate.Name);
 
             string outputFile = App.OutputReportFileName;
 
@@ -45,7 +59,7 @@ namespace AutoRegularInspection
 
             //通用版本，参考GridViewModel代码
             List<DamageSummary> lst;
-            IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
+            IKernel kernel = App.Kernel ?? new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
             // 读取Excel文件中所有标签的数据

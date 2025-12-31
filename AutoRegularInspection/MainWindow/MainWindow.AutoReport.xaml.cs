@@ -31,7 +31,21 @@ namespace AutoRegularInspection
 
             var deserializedConfig = OptionConfigurationLoader.Load();
 
-            string templateFile = $"{ App.ReportTemplatesFolder}\\{App.TemplateFileList[TemplateFileComboBox.SelectedIndex].Name}";
+            if (App.TemplateFileList == null || TemplateFileComboBox.SelectedIndex < 0 || TemplateFileComboBox.SelectedIndex >= App.TemplateFileList.Count)
+            {
+                MessageBox.Show("未选择有效模板，请检查 templates.json。", "模板校验失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var selectedTemplate = App.TemplateFileList[TemplateFileComboBox.SelectedIndex];
+            string validationMessage;
+            if (!TemplateValidator.Validate(selectedTemplate, out validationMessage))
+            {
+                MessageBox.Show(validationMessage, "模板校验失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string templateFile = Path.Combine(App.ReportTemplatesFolder, selectedTemplate.Name);
 
             string outputFile = App.OutputReportFileName;
 

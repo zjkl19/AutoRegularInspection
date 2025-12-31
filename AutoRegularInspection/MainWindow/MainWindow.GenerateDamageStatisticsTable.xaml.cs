@@ -17,7 +17,7 @@ namespace AutoRegularInspection
     {
         private void GenerateDamageStatisticsTable_Click(object sender, RoutedEventArgs e)
         {
-            IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
+            IKernel kernel = App.Kernel ?? new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
             if (File.Exists($"{Path.GetFileName(App.DamageSummaryStatisticsFileName)}"))

@@ -29,5 +29,14 @@ namespace AutoRegularInspection.Services
             }
             throw new Exception("不支持该模板");
         }
+
+        public static bool SupportsTemplate(string templateName)
+        {
+            if (string.IsNullOrWhiteSpace(templateName))
+            {
+                return false;
+            }
+            return strategies.ContainsKey(templateName);
+        }
     }
 }

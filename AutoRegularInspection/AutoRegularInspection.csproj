@@ -209,6 +209,7 @@
     <Compile Include="Services\NinjectDependencyResolver.cs" />
     <Compile Include="Services\OptionConfigurationLoader.cs" />
     <Compile Include="Services\PictureServices.cs" />
+    <Compile Include="Services\TemplateValidator.cs" />
     <Compile Include="Services\SaveExcelService.cs" />
     <Compile Include="Services\SuggestionServices.cs" />
     <Compile Include="Services\AsposeWordsServices\DefaultTemplateReportStrategy.cs" />

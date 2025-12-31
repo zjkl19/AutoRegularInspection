@@ -1,6 +1,7 @@
 ﻿using AutoRegularInspection.IRepository;
 using AutoRegularInspection.Models;
 using AutoRegularInspection.Services;
+using AutoRegularInspection;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace AutoRegularInspection.ViewModels
         public GridViewModel(BridgePart bridgePart=BridgePart.BridgeDeck)
         {
             GridSource = new GridModel();
-            IKernel kernel = new StandardKernel(new NinjectDependencyResolver());
+            IKernel kernel = App.Kernel ?? new StandardKernel(new NinjectDependencyResolver());
             var dataRepository = kernel.Get<IDataRepository>();
 
             List<DamageSummary> lst;
