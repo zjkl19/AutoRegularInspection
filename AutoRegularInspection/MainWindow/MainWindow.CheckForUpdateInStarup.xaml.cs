@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using AutoRegularInspection.Services;
 
 namespace AutoRegularInspection
 {
@@ -77,7 +78,7 @@ namespace AutoRegularInspection
 
                 if (obtain.tag_name != $"v{Application.ResourceAssembly.GetName().Version.ToString()}")
                 {
-                    if (MessageBox.Show($"检测到新版本{obtain.tag_name}\r更新说明：{obtain.body}\r是否下载新版本？", "检测到新版本", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+                    if (UserNotification.Confirm($"检测到新版本{obtain.tag_name}\r更新说明：{obtain.body}\r是否下载新版本？", "检测到新版本"))
                     {
                         Process.Start(obtain.assets[0].browser_download_url);    //所有下载内容都打包到第1个assets
                     }

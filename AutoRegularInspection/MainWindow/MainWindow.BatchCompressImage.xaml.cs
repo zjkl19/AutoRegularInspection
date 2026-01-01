@@ -21,7 +21,7 @@ namespace AutoRegularInspection
 {
     public partial class MainWindow : Window
     {
-        private void BatchCompressImage_Click(object sender, RoutedEventArgs e)
+        private async void BatchCompressImage_Click(object sender, RoutedEventArgs e)
         {
             var deserializedConfig = OptionConfigurationLoader.Load();
             double CompressImageWidth = deserializedConfig.Picture.CompressWidth;
@@ -31,7 +31,8 @@ namespace AutoRegularInspection
             ProgressBarWindow w = new ProgressBarWindow();
             ProgressBarModel progressBarModel = new ProgressBarModel
             {
-                ProgressValue = 0
+                ProgressValue = 0,
+                Content = "正在压缩图片..."
             };
             w.DataContext = progressBarModel;  // 设置 DataContext
 
@@ -41,9 +42,11 @@ namespace AutoRegularInspection
 
             w.Show();
 
-            Task.Run(() =>
+            var token = progressBarModel.CancellationTokenSource.Token;
+
+            try
             {
-                try
+                await Task.Run(() =>
                 {
                     var imageProcessor = new ImageProcessor();
                     imageProcessor.ProcessImages(App.PicturesFolder, App.PicturesOutFolder, CompressImageWidth, CompressImageHeight, new Progress<ProgressReport>(report =>
@@ -51,23 +54,23 @@ namespace AutoRegularInspection
                         progressBarModel.ProgressValue = report.ProgressPercentage;
                         progressBarModel.Content = report.CurrentOperation;
 
-                    }), progressBarModel.CancellationTokenSource.Token);
+                    }), token);
+                }, token);
 
-                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("图片压缩完成！"); });
-                }
-                catch (OperationCanceledException)
-                {
-                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("图片压缩已取消！"); });
-                }
-                catch (Exception ex)
-                {
-                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show(ex.Message.ToString(CultureInfo.InvariantCulture)); });
-                }
-                finally
-                {
-                    w.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
-                }
-            });
+                UserNotification.Info("图片压缩完成！");
+            }
+            catch (OperationCanceledException)
+            {
+                UserNotification.Info("图片压缩已取消！");
+            }
+            catch (Exception ex)
+            {
+                UserNotification.Error(ex.Message.ToString(CultureInfo.InvariantCulture), ex);
+            }
+            finally
+            {
+                w.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
+            }
 
         }
     }

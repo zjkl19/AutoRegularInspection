@@ -35,5 +35,25 @@ namespace AutoRegularInspection.Services
                 Logger.Error(message);
             }
         }
+
+        /// <summary>
+        /// 显示确认对话框（是/否），并记录选择。
+        /// </summary>
+        public static bool Confirm(string message, string title = "确认")
+        {
+            var result = MessageBox.Show(message, title, MessageBoxButton.YesNo, MessageBoxImage.Question);
+            Logger.Info($"{title}:{message} => {result}");
+            return result == MessageBoxResult.Yes;
+        }
+
+        /// <summary>
+        /// 显示确认对话框（是/否/取消），并记录选择。
+        /// </summary>
+        public static MessageBoxResult ConfirmWithCancel(string message, string title = "确认")
+        {
+            var result = MessageBox.Show(message, title, MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            Logger.Info($"{title}:{message} => {result}");
+            return result;
+        }
     }
 }

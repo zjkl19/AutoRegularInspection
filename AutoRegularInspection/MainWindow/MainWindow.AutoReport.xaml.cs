@@ -33,7 +33,7 @@ namespace AutoRegularInspection
 
             if (App.TemplateFileList == null || TemplateFileComboBox.SelectedIndex < 0 || TemplateFileComboBox.SelectedIndex >= App.TemplateFileList.Count)
             {
-                MessageBox.Show("未选择有效模板，请检查 templates.json。", "模板校验失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                UserNotification.Warn("未选择有效模板，请检查 templates.json。");
                 return;
             }
 
@@ -41,7 +41,7 @@ namespace AutoRegularInspection
             string validationMessage;
             if (!TemplateValidator.Validate(selectedTemplate, out validationMessage))
             {
-                MessageBox.Show(validationMessage, "模板校验失败", MessageBoxButton.OK, MessageBoxImage.Warning);
+                UserNotification.Warn(validationMessage);
                 return;
             }
 
@@ -273,13 +273,12 @@ namespace AutoRegularInspection
                     try
                     {
                         WriteInvalidPicturesResultToTxt(totalInvalidPictureCounts, validationResults);
-                        MessageBox.Show($"存在无效照片，无法生成报告，共计{totalInvalidPictureCounts}张，详见根目录{App.InvalidPicturesStoreFile}");
+                        UserNotification.Warn($"存在无效照片，无法生成报告，共计{totalInvalidPictureCounts}张，详见根目录{App.InvalidPicturesStoreFile}");
                         return;
                     }
                     catch (Exception ex)
                     {
-                        //MessageBox.Show(ex.Message);
-                        //throw;
+                        UserNotification.Error("写入无效照片结果时发生异常。", ex);
                     }
                 }
 
@@ -298,7 +297,7 @@ namespace AutoRegularInspection
                 }
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
-                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("成功生成报告！"); });
+                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)(() => UserNotification.Info("成功生成报告！")));
 
             }));
             thread.Start();

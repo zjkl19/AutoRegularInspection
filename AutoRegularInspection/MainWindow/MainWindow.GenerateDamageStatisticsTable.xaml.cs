@@ -24,7 +24,7 @@ namespace AutoRegularInspection
 
                 if (File.Exists($"{Path.GetFileName(App.DamageSummaryStatisticsFileName)}"))
                 {
-                    if (MessageBox.Show($"已存在{App.DamageSummaryStatisticsFileName}统计文件，是否覆盖？", "提示", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    if (UserNotification.Confirm($"已存在{App.DamageSummaryStatisticsFileName}统计文件，是否覆盖？", "提示"))
                     {
                         File.Copy(App.DamageSummaryFileName, App.DamageSummaryStatisticsFileName, true);
                     }

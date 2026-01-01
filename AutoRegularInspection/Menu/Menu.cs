@@ -72,11 +72,10 @@ namespace AutoRegularInspection
     typeof(AssemblyCopyrightAttribute));
             string copyright = copyrightAttribute != null ? copyrightAttribute.Copyright : "版权所有";
 
-            _ = MessageBox.Show($"当前版本v{Application.ResourceAssembly.GetName().Version}\r" +
+            UserNotification.Info($"当前版本v{Application.ResourceAssembly.GetName().Version}\r" +
             $"{copyright}\r" +
             "系统框架设计、编程及维护：桥梁监测与数字化研究所林迪南，等"
             , "关于");
         }
     }
 }
-

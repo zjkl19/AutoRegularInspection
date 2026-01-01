@@ -34,11 +34,11 @@ namespace AutoRegularInspection
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                UserNotification.Error("写入无效照片结果时发生异常。", ex);
                 throw;
             }
 
-            MessageBoxResult k = MessageBox.Show($"照片验证完成！其中无效照片共计{totalInvalidPictureCounts}张，结果详见根目录文件“无效照片列表.txt”");
+            UserNotification.Info($"照片验证完成！其中无效照片共计{totalInvalidPictureCounts}张，结果详见根目录文件“无效照片列表.txt”");
 
         }
 

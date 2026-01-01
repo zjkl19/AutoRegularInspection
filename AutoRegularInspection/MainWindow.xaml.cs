@@ -111,7 +111,7 @@ namespace AutoRegularInspection
                 if (File.Exists(App.DamageSummaryFileName))
                 {
                     File.Copy(App.DamageSummaryFileName, $"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx", true);
-                    _ = MessageBox.Show($"成功备份文件\"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx\"");
+                    UserNotification.Info($"成功备份文件\"{Path.GetFileNameWithoutExtension(App.DamageSummaryFileName)} - 副本 ({i}).xlsx\"");
                 }
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace AutoRegularInspection
 
         private void SaveExcel_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("保存后将会覆盖原来的Excel文件，你确定要继续吗？", "保存Excel", MessageBoxButton.YesNo, MessageBoxImage.Information) == MessageBoxResult.Yes)
+            if (UserNotification.Confirm("保存后将会覆盖原来的Excel文件，你确定要继续吗？", "保存Excel"))
             {
                 var _bridgeDeckListDamageSummary = BridgeDeckGrid.ItemsSource as ObservableCollection<DamageSummary>;
                 var _superSpaceListDamageSummary = SuperSpaceGrid.ItemsSource as ObservableCollection<DamageSummary>;
@@ -134,11 +134,11 @@ namespace AutoRegularInspection
                     , _superSpaceListDamageSummary.ToList()
                     , _subSpaceListDamageSummary.ToList()) == 1)
                 {
-                    MessageBox.Show("Excel保存成功！");
+                    UserNotification.Info("Excel保存成功！");
                 }
                 else
                 {
-                    MessageBox.Show("Excel保存失败！");
+                    UserNotification.Error("Excel保存失败！");
                 }
             }
         }
@@ -151,7 +151,7 @@ namespace AutoRegularInspection
             }
             else
             {
-                MessageBox.Show($"未找到文件{App.DamageSummaryFileName}");
+                UserNotification.Warn($"未找到文件{App.DamageSummaryFileName}");
             }
 
         }
@@ -290,18 +290,18 @@ namespace AutoRegularInspection
             }
             else
             {
-                MessageBox.Show("请先生成报告。");
+                UserNotification.Warn("请先生成报告。");
             }
 
         }
 
         private void DisclaimerButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("本软件计算结果及生成的报告等仅供参考，因本软件产生的计算错误、生成报告结果不正确的后果由软件使用者自行承担。");
+            UserNotification.Warn("本软件计算结果及生成的报告等仅供参考，因本软件产生的计算错误、生成报告结果不正确的后果由软件使用者自行承担。");
         }
         private void InstructionsButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("该功能开发中");
+            UserNotification.Info("该功能开发中");
         }
 
         private void AutoCheckForUpdateCheckBox_Click(object sender, RoutedEventArgs e)

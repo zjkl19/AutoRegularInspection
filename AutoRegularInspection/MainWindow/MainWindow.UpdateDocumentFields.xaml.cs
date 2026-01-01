@@ -5,6 +5,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Text; // 引入文本命名空间以访问编码类
 using Aspose.Words;
+using AutoRegularInspection.Services;
 
 namespace AutoRegularInspection
 {
@@ -20,7 +21,7 @@ namespace AutoRegularInspection
 
             if (fileEntries.Length == 0)
             {
-                MessageBox.Show("“更新域”目录下没有找到 .doc 或 .docx 文件。");
+                UserNotification.Warn("“更新域”目录下没有找到 .doc 或 .docx 文件。");
             }
             else
             {
@@ -38,12 +39,12 @@ namespace AutoRegularInspection
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show($"更新文件 {fileName} 时出错: {ex.Message}");
+                        UserNotification.Error($"更新文件 {fileName} 时出错: {ex.Message}", ex);
                     }
                 }
 
                 stopwatch.Stop();
-                MessageBox.Show($"所有文件的域更新过程已完成。程序运行耗时：{stopwatch.Elapsed.TotalMinutes} 分钟。");
+                UserNotification.Info($"所有文件的域更新过程已完成。程序运行耗时：{stopwatch.Elapsed.TotalMinutes} 分钟。");
             }
 
         }

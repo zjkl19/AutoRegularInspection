@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AutoRegularInspection.Services;
 
 namespace AutoRegularInspection
 {
@@ -20,7 +21,7 @@ namespace AutoRegularInspection
             }
             else
             {
-                MessageBox.Show($"请先生成报告。");
+                UserNotification.Warn("请先生成报告。");
             }
         }
     }

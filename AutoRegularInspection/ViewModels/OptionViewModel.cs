@@ -114,7 +114,7 @@ namespace AutoRegularInspection.ViewModels
                 IXmlSerializer<OptionConfiguration> serializer = new LocalXmlSerializer<OptionConfiguration>();
                 SaveFile(configuration, fileWriter, serializer);
 
-                _ = MessageBox.Show("保存设置成功！");
+                UserNotification.Info("保存设置成功！");
             }
             catch (Exception ex)
             {
