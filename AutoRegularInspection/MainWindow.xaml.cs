@@ -25,6 +25,8 @@ using NLog.Config;
 using NLog.Targets;
 using System.Globalization;
 using System.Xml.Serialization;
+using System.Windows.Media;
+using System.Diagnostics;
 
 namespace AutoRegularInspection
 {
@@ -63,6 +65,8 @@ namespace AutoRegularInspection
             //初始化ComboBoxReportTemplates
             TemplateFileComboBox.ItemsSource = App.TemplateFileList;
             TemplateFileComboBox.SelectedIndex = 0;
+            TemplateFileComboBox.SelectionChanged += TemplateFileComboBox_SelectionChanged;
+            UpdateStatusBar();
 
             BridgeDeckGrid.DataContext = new GridViewModel();
             SuperSpaceGrid.DataContext = new GridViewModel(BridgePart.SuperSpace);
@@ -150,6 +154,53 @@ namespace AutoRegularInspection
                 MessageBox.Show($"未找到文件{App.DamageSummaryFileName}");
             }
 
+        }
+
+        private void TemplateFileComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            UpdateStatusBar();
+        }
+
+        private void OpenTemplateFolderButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Process.Start(App.ReportTemplatesFolder);
+            }
+            catch (Exception ex)
+            {
+                UserNotification.Error("无法打开模板目录，请手动检查路径。", ex);
+            }
+        }
+
+        private void UpdateStatusBar()
+        {
+            if (TemplateStatusTextBlock != null)
+            {
+                if (TemplateFileComboBox.SelectedIndex >= 0 && App.TemplateFileList != null && TemplateFileComboBox.SelectedIndex < App.TemplateFileList.Count)
+                {
+                    var selected = App.TemplateFileList[TemplateFileComboBox.SelectedIndex];
+                    string msg;
+                    var ok = TemplateValidator.Validate(selected, out msg);
+                    TemplateStatusTextBlock.Text = ok ? $"模板状态：可用（{selected.DisplayName}）" : $"模板状态：不可用（{msg}）";
+                    TemplateStatusTextBlock.Foreground = ok ? Brushes.ForestGreen : Brushes.Firebrick;
+                }
+                else
+                {
+                    TemplateStatusTextBlock.Text = "模板状态：未选择";
+                    TemplateStatusTextBlock.Foreground = Brushes.Black;
+                }
+            }
+
+            if (ConfigPathTextBlock != null)
+            {
+                ConfigPathTextBlock.Text = $"配置路径：{Path.Combine(App.ConfigurationFolder, App.ConfigFileName)}";
+            }
+
+            if (LastReloadTextBlock != null)
+            {
+                LastReloadTextBlock.Text = $"上次加载：{App.TemplatesLastLoadedAt}";
+            }
         }
 
         private void OpenReport_Click(object sender, RoutedEventArgs e)

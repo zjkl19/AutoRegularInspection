@@ -21,7 +21,7 @@ namespace AutoRegularInspection
     public partial class MainWindow : Window
 
     {
-        private void AutoReport_Click(object sender, RoutedEventArgs e)
+        private async void AutoReport_Click(object sender, RoutedEventArgs e)
         {
             Configuration appConfig = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             bool commentColumnInsertTable;
@@ -133,33 +133,14 @@ namespace AutoRegularInspection
                     DamagePosition = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.DamagePosition),
                     DamageDescription = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.DamageDescription),
                     PictureNo = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.PictureNo),
-                    Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Comment)
-                }
+                Comment = ConvertUtil.MillimeterToPoint(deserializedConfig.SubSpaceSummaryTable.Comment)
+            }
             };
 
-            new Thread(() =>
-                {
-                    Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    GenerateReport(generateReportSettings,  templateFile, outputFile,  _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
-
-                //try
-                //{
-                //    GenerateReport(ImageWidth, ImageHeight, templateFile, outputFile, CompressImageFlag, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
-
-
-                //}
-                //catch (Exception ex)
-                //{
-                //    throw ex;
-                //}
-            }));
-                }).Start();
-
-
+            await GenerateReportAsync(generateReportSettings, templateFile, outputFile, _bridgeDeckListDamageSummary, _superSpaceListDamageSummary, _subSpaceListDamageSummary);
         }
 
-        private static void GenerateReport(GenerateReportSettings generateReportSettings, string templateFile, string outputFile,  ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
+        private async Task GenerateReportAsync(GenerateReportSettings generateReportSettings, string templateFile, string outputFile, ObservableCollection<DamageSummary> _bridgeDeckListDamageSummary, ObservableCollection<DamageSummary> _superSpaceListDamageSummary, ObservableCollection<DamageSummary> _subSpaceListDamageSummary)
         {
             var w = new RegularProgressBarWindow();
             w.Top = 0.4 * (App.ScreenHeight - w.Height);
@@ -167,62 +148,79 @@ namespace AutoRegularInspection
 
             var progressBarModel = new ProgressBarModel
             {
-                ProgressValue = 0
+                ProgressValue = 0,
+                Content = "正在校验图片..."
             };
+            w.DataContext = progressBarModel;
             w.progressBarNumberTextBlock.DataContext = progressBarModel;
             w.progressBar.DataContext = progressBarModel;
             w.progressBarContentTextBlock.DataContext = progressBarModel;
-
-            var progressSleepTime = 500;    //进度条停顿时间
 
             List<DamageSummary> l1 = _bridgeDeckListDamageSummary.ToList();
             List<DamageSummary> l2 = _superSpaceListDamageSummary.ToList();
             List<DamageSummary> l3 = _subSpaceListDamageSummary.ToList();
 
-            DamageSummaryServices.InitListDamageSummary1(l1,generateReportSettings.BookmarkSettings.BridgeDeckBookmarkStartNo);
+            DamageSummaryServices.InitListDamageSummary1(l1, generateReportSettings.BookmarkSettings.BridgeDeckBookmarkStartNo);
             DamageSummaryServices.InitListDamageSummary1(l2, generateReportSettings.BookmarkSettings.SuperSpaceBookmarkStartNo);
             DamageSummaryServices.InitListDamageSummary1(l3, generateReportSettings.BookmarkSettings.SubSpaceBookmarkStartNo);
 
-            var thread = new Thread(new ThreadStart(() =>
+            var token = progressBarModel.CancellationTokenSource.Token;
+
+            try
             {
-            //progressBarModel.ProgressValue = 0;    //测试数据
-            //生成报告前先验证照片的有效性
-            int totalInvalidPictureCounts = PictureServices.ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);
-                if (totalInvalidPictureCounts > 0)
+                // 先显示进度窗口以便用户可立即点击取消
+                w.Show();
+
+                var validationResult = await PictureServices.ValidatePicturesAsync(l1, l2, l3, token);
+                if (validationResult.TotalInvalidPictureCounts > 0)
                 {
-                    try
+                    WriteInvalidPicturesResultToTxt(validationResult.TotalInvalidPictureCounts, validationResult.BridgeDeckResults, validationResult.SuperSpaceResults, validationResult.SubSpaceResults);
+                    UserNotification.Warn($"存在无效照片，无法生成报告，共计{validationResult.TotalInvalidPictureCounts}张，详见根目录{App.InvalidPicturesStoreFile}");
+                    return;
+                }
+
+                token.ThrowIfCancellationRequested();
+
+                if (token.IsCancellationRequested)
+                {
+                    UserNotification.Info("已取消图片校验或生成。");
+                    return;
+                }
+
+                progressBarModel.Content = "正在生成报告...";
+
+                await Task.Run(() =>
+                {
+                    token.ThrowIfCancellationRequested();
+                    Document doc = new Document(templateFile);
+                    var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
+                    asposeService.GenerateReport(ref progressBarModel);
+                    token.ThrowIfCancellationRequested();
+
+                    if (generateReportSettings.SaveDocxFormat)
                     {
-                        WriteInvalidPicturesResultToTxt(totalInvalidPictureCounts, bridgeDeckValidationResult, superSpaceValidationResult, subSpaceValidationResult);
-                        MessageBox.Show($"存在无效照片，无法生成报告，共计{totalInvalidPictureCounts}张，详见根目录{App.InvalidPicturesStoreFile}");
-                        return;
+                        doc.Save($"{outputFile}.docx", SaveFormat.Docx);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                    //MessageBox.Show(ex.Message);
-                    //throw;
-                }
-                }
+                        doc.Save($"{outputFile}.doc", SaveFormat.Doc);
+                    }
+                }, token);
 
-                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });
-                Document doc = new Document(templateFile);
-                var asposeService = new AsposeWordsServices(ref doc, generateReportSettings, l1, l2, l3);
-                asposeService.GenerateReport(ref progressBarModel);
-
-                if(generateReportSettings.SaveDocxFormat)
-                {
-                    doc.Save($"{outputFile}.docx", SaveFormat.Docx);
-                }
-                else
-                {
-                    doc.Save($"{outputFile}.doc", SaveFormat.Doc);
-                }
-
-                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Close(); });
-                w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { MessageBox.Show("成功生成报告！"); });
-
-            }));
-            thread.Start();
-
+                UserNotification.Info("成功生成报告！");
+            }
+            catch (OperationCanceledException)
+            {
+                UserNotification.Info("已取消图片校验或生成。");
+            }
+            catch (Exception ex)
+            {
+                UserNotification.Error("生成报告时发生异常，请查看日志。", ex);
+            }
+            finally
+            {
+                w.Dispatcher.BeginInvoke(new Action(() => w.Close()));
+            }
         }
 
         /// <summary>

@@ -69,12 +69,13 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height = "*" />
+                <RowDefinition Height="30" />
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width = "*" />
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column = "0" Grid.Row = "1" Height="320">
+            <Grid Grid.Column = "0" Grid.Row = "0" Height="320">
                 <TabControl FontSize="{StaticResource DataGridFontSize}">
                     <TabItem Header="桥面系" Name="BridgeDeckTabItem">
                         <Grid>
@@ -493,6 +494,24 @@
 
                 </TabControl>
             </Grid>
+
+            <StatusBar Grid.Row="1">
+                <StatusBarItem>
+                    <TextBlock x:Name="TemplateStatusTextBlock" Text="模板状态：未知" />
+                </StatusBarItem>
+                <StatusBarItem>
+                    <TextBlock x:Name="ConfigPathTextBlock" Text="配置路径：未加载" />
+                </StatusBarItem>
+                <StatusBarItem>
+                    <TextBlock x:Name="LastReloadTextBlock" Text="上次加载：未知" />
+                </StatusBarItem>
+                <StatusBarItem>
+                    <Button x:Name="ReloadStatusBarButton" Content="重新加载" Click="StatusBarReloadButton_Click" Padding="8,2" />
+                </StatusBarItem>
+                <StatusBarItem>
+                    <Button x:Name="OpenTemplateFolderButton" Content="模板目录" Click="OpenTemplateFolderButton_Click" Padding="8,2" />
+                </StatusBarItem>
+            </StatusBar>
         </Grid>
 
 

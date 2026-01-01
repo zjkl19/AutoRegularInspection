@@ -46,6 +46,7 @@ namespace AutoRegularInspection
 
         public static List<ComboBoxReportTemplates> TemplateFileList { get; private set; }
         public static IKernel Kernel { get; private set; }
+        public static DateTime TemplatesLastLoadedAt { get; private set; }
 
         //public static List<ComboBoxReportTemplates> TemplateFileList => new List<ComboBoxReportTemplates> {
         //     new ComboBoxReportTemplates{DisplayName= "建研-常规定检--晋安区桥梁模板",Name="建研-常规定检--晋安区桥梁模板.doc",DocStyleOfMainText="晋安正文",DocStyleOfTable="晋安表格",DocStyleOfPicture="晋安图片"}
@@ -69,6 +70,7 @@ namespace AutoRegularInspection
             string jsonFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "templates.json");
             var templateService = new TemplateService(new FileSystem());
             TemplateFileList = templateService.LoadTemplates(jsonFilePath);
+            TemplatesLastLoadedAt = DateTime.Now;
         }
 
         public class TemplateService

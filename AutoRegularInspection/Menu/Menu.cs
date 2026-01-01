@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using AutoRegularInspection.Services;
 
 
 namespace AutoRegularInspection
@@ -34,6 +35,16 @@ namespace AutoRegularInspection
 
         private void MenuItem_ReloadConfig_Click(object sender, RoutedEventArgs e)
         {
+            ReloadConfigAndTemplates();
+        }
+
+        private void StatusBarReloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            ReloadConfigAndTemplates();
+        }
+
+        private void ReloadConfigAndTemplates()
+        {
             try
             {
                 App.ReloadTemplates();
@@ -45,12 +56,12 @@ namespace AutoRegularInspection
                     TemplateFileComboBox.SelectedIndex = 0;
                 }
 
-                MessageBox.Show("配置与模板已重新加载。", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
+                UpdateStatusBar();
+                UserNotification.Info("配置与模板已重新加载。");
             }
             catch (Exception ex)
             {
-                _ = MessageBox.Show($"重新加载配置或模板失败：{ex.Message}", "错误", MessageBoxButton.OK, MessageBoxImage.Error);
-                _log?.Error(ex, "Reload config/templates failed");
+                UserNotification.Error($"重新加载配置或模板失败：{ex.Message}", ex);
             }
         }
 

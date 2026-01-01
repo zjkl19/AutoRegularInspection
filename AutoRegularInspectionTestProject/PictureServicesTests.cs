@@ -2,6 +2,7 @@ using AutoRegularInspection.Models;
 using AutoRegularInspection.Services;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
 using Xunit;
 
 namespace AutoRegularInspectionTestProject
@@ -25,7 +26,7 @@ namespace AutoRegularInspectionTestProject
                 new DamageSummary { PictureNo = "1001", PictureCounts = 1, Component = "桥面系", Damage = "裂缝" }
             };
 
-            var count = PictureServices.ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, list, out List<string> result, tempPic, tempOut, cfg);
+            var count = PictureServices.ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, list, out List<string> result, tempPic, tempOut, cfg, CancellationToken.None);
 
             Assert.Equal(0, count);
             Assert.Empty(result);
@@ -47,7 +48,7 @@ namespace AutoRegularInspectionTestProject
                 new DamageSummary { PictureNo = "9999", PictureCounts = 1, Component = "桥面系", Damage = "裂缝" }
             };
 
-            var count = PictureServices.ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, list, out List<string> result, tempPic, tempOut, cfg);
+            var count = PictureServices.ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, list, out List<string> result, tempPic, tempOut, cfg, CancellationToken.None);
 
             Assert.Equal(1, count);
             Assert.Single(result);

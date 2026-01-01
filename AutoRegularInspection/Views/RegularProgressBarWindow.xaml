@@ -20,9 +20,16 @@
             <ProgressBar Name="progressBar" Value="{Binding ProgressValue}" Foreground="#FF2EAFF1" />
             <TextBlock Name="progressBarNumberTextBlock" Text="{Binding ProgressValue, StringFormat={}{0}%}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
-        <Grid Height="25">
+        <Grid Height="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="80" />
+            </Grid.ColumnDefinitions>
+
+            <Button Content="取消" Command="{Binding CancelCommand}" Width="70" Height="24"  HorizontalAlignment="Left" VerticalAlignment="Top" Margin="90,6,0,0"  />
         </Grid>
-        <TextBlock Name="progressBarContentTextBlock" Margin="{StaticResource InnerMargin}" Text="{Binding Content}" HorizontalAlignment="Left"  TextWrapping="Wrap" VerticalAlignment="Top"/>
+        <TextBlock Name="progressBarContentTextBlock" Margin="{StaticResource InnerMargin}" Text="{Binding Content}" HorizontalAlignment="Left"  TextWrapping="Wrap"/>
+        <Label  Content="取消操作仅能取消报告生成" Height="30" Width="180" />
 
     </StackPanel>
 </Window>
