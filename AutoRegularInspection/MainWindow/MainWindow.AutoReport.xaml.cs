@@ -179,6 +179,11 @@ namespace AutoRegularInspection
                     return;
                 }
 
+                if (validationResult.DuplicateExtensionWarnings != null && validationResult.DuplicateExtensionWarnings.Count > 0)
+                {
+                    UserNotification.Warn("检测到同名不同后缀的照片：\n" + string.Join("\n", validationResult.DuplicateExtensionWarnings.ToArray()));
+                }
+
                 token.ThrowIfCancellationRequested();
 
                 if (token.IsCancellationRequested)
@@ -266,7 +271,8 @@ namespace AutoRegularInspection
                 //progressBarModel.ProgressValue = 0;    //测试数据
                 //生成报告前先验证照片的有效性
  
-                int totalInvalidPictureCounts = PictureServices.ValidatePictures(damageSummaries, out Dictionary<string, List<string>> validationResults);
+                var duplicateWarnings = new List<string>();
+                int totalInvalidPictureCounts = PictureServices.ValidatePictures(damageSummaries, out Dictionary<string, List<string>> validationResults, duplicateWarnings);
 
                 if (totalInvalidPictureCounts > 0)
                 {
@@ -280,6 +286,10 @@ namespace AutoRegularInspection
                     {
                         UserNotification.Error("写入无效照片结果时发生异常。", ex);
                     }
+                }
+                else if (duplicateWarnings.Count > 0)
+                {
+                    w.progressBar.Dispatcher.BeginInvoke((ThreadStart)(() => UserNotification.Warn("检测到同名不同后缀的照片：\n" + string.Join("\n", duplicateWarnings.ToArray()))));
                 }
 
                 w.progressBar.Dispatcher.BeginInvoke((ThreadStart)delegate { w.Show(); });

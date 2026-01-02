@@ -16,9 +16,13 @@ namespace AutoRegularInspection.Services
         /// <returns></returns>
         public static string GetFileName(string folderName,string pictureNo)
         {
-            string[] dirs = Directory.GetFiles($@"{folderName}/", $"*{pictureNo}.*");    //结果含有路径
+            var lookup = ImageLocator.FindBest(pictureNo, folderName);
+            if (lookup != null && !string.IsNullOrWhiteSpace(lookup.SelectedPath))
+            {
+                return lookup.SelectedPath;
+            }
 
-            return dirs[0];
+            throw new FileNotFoundException($"未找到编号为 {pictureNo} 的图片文件。");
         }
 
     }

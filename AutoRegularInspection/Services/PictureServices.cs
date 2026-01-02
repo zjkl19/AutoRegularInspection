@@ -17,6 +17,7 @@ namespace AutoRegularInspection.Services
             public List<string> BridgeDeckResults { get; set; }
             public List<string> SuperSpaceResults { get; set; }
             public List<string> SubSpaceResults { get; set; }
+            public List<string> DuplicateExtensionWarnings { get; set; }
         }
 
         public static Task<PictureValidationResult> ValidatePicturesAsync(List<DamageSummary> l1, List<DamageSummary> l2, List<DamageSummary> l3, CancellationToken cancellationToken)
@@ -28,16 +29,17 @@ namespace AutoRegularInspection.Services
                     BridgeDeckResults = new List<string>(),
                     SuperSpaceResults = new List<string>(),
                     SubSpaceResults = new List<string>(),
-                    TotalInvalidPictureCounts = 0
+                    TotalInvalidPictureCounts = 0,
+                    DuplicateExtensionWarnings = new List<string>()
                 };
 
                 List<string> bridgeDeckResults;
                 List<string> superSpaceResults;
                 List<string> subSpaceResults;
 
-                result.TotalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, l1, out bridgeDeckResults, null, null, null, cancellationToken);
-                result.TotalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SuperSpace, l2, out superSpaceResults, null, null, null, cancellationToken);
-                result.TotalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SubSpace, l3, out subSpaceResults, null, null, null, cancellationToken);
+                result.TotalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, l1, out bridgeDeckResults, null, null, null, cancellationToken, result.DuplicateExtensionWarnings);
+                result.TotalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SuperSpace, l2, out superSpaceResults, null, null, null, cancellationToken, result.DuplicateExtensionWarnings);
+                result.TotalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SubSpace, l3, out subSpaceResults, null, null, null, cancellationToken, result.DuplicateExtensionWarnings);
 
                 result.BridgeDeckResults = bridgeDeckResults ?? new List<string>();
                 result.SuperSpaceResults = superSpaceResults ?? new List<string>();
@@ -46,12 +48,13 @@ namespace AutoRegularInspection.Services
             }, cancellationToken);
         }
 
-        public static int ValidatePictures(List<DamageSummary> l1, List<DamageSummary> l2, List<DamageSummary> l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult)
+        public static int ValidatePictures(List<DamageSummary> l1, List<DamageSummary> l2, List<DamageSummary> l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult, List<string> duplicateExtensionWarnings = null)
         {
+            var warnings = duplicateExtensionWarnings ?? new List<string>();
             int totalInvalidPictureCounts;
-            totalInvalidPictureCounts = ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, l1, out bridgeDeckValidationResult);
-            totalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SuperSpace, l2, out superSpaceValidationResult);
-            totalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SubSpace, l3, out subSpaceValidationResult);
+            totalInvalidPictureCounts = ValidatePicturesOfBridgePart(BridgePart.BridgeDeck, l1, out bridgeDeckValidationResult, null, null, null, CancellationToken.None, warnings);
+            totalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SuperSpace, l2, out superSpaceValidationResult, null, null, null, CancellationToken.None, warnings);
+            totalInvalidPictureCounts += ValidatePicturesOfBridgePart(BridgePart.SubSpace, l3, out subSpaceValidationResult, null, null, null, CancellationToken.None, warnings);
             return totalInvalidPictureCounts;
         }
 
@@ -61,8 +64,9 @@ namespace AutoRegularInspection.Services
         /// <param name="allDamageData">包含所有损坏数据的字典。</param>
         /// <param name="validationResults">存储验证结果的字典。</param>
         /// <returns>无效图片的总数。</returns>
-        public static int ValidatePictures(Dictionary<string, List<DamageSummary>> allDamageData, out Dictionary<string, List<string>> validationResults)
+        public static int ValidatePictures(Dictionary<string, List<DamageSummary>> allDamageData, out Dictionary<string, List<string>> validationResults, List<string> duplicateExtensionWarnings = null)
         {
+            var warnings = duplicateExtensionWarnings ?? new List<string>();
             int totalInvalidPictureCounts = 0;
             validationResults = new Dictionary<string, List<string>>();
 
@@ -71,7 +75,7 @@ namespace AutoRegularInspection.Services
                 string key = kvp.Key;
                 List<DamageSummary> damageSummaryList = kvp.Value;
 
-                int invalidCount = ValidatePicturesOfBridgePart(BridgePart.SuperSpace, damageSummaryList, out List<string> partValidationResult, null, null, null, CancellationToken.None);
+                int invalidCount = ValidatePicturesOfBridgePart(BridgePart.SuperSpace, damageSummaryList, out List<string> partValidationResult, null, null, null, CancellationToken.None, warnings);
                 totalInvalidPictureCounts += invalidCount;
 
                 validationResults[key] = partValidationResult;
@@ -83,20 +87,20 @@ namespace AutoRegularInspection.Services
         public static int ValidatePicturesOfBridgePart(BridgePart bridgePart, List<DamageSummary> lst, out List<string> validationResult)
         {
             var deserializedConfig = OptionConfigurationLoader.Load();
-            return ValidatePicturesOfBridgePart(bridgePart, lst, out validationResult, null, null, deserializedConfig, CancellationToken.None);
+            return ValidatePicturesOfBridgePart(bridgePart, lst, out validationResult, null, null, deserializedConfig, CancellationToken.None, null);
         }
 
         /// <summary>
         /// 提供可覆盖的图片目录与配置，用于测试或自定义路径。
         /// </summary>
-        public static int ValidatePicturesOfBridgePart(BridgePart bridgePart, List<DamageSummary> lst, out List<string> validationResult, string picturesFolder, string picturesOutFolder, OptionConfiguration config, CancellationToken cancellationToken)
+        public static int ValidatePicturesOfBridgePart(BridgePart bridgePart, List<DamageSummary> lst, out List<string> validationResult, string picturesFolder, string picturesOutFolder, OptionConfiguration config, CancellationToken cancellationToken, List<string> duplicateExtensionWarnings = null)
         {
             validationResult = new List<string>();
             int totalCounts = 0;
             var picFolder = string.IsNullOrWhiteSpace(picturesFolder) ? App.PicturesFolder : picturesFolder;
             var outFolder = string.IsNullOrWhiteSpace(picturesOutFolder) ? App.PicturesOutFolder : picturesOutFolder;
-                var deserializedConfig = config ?? OptionConfigurationLoader.Load();
-                string[] dirs, outdirs;
+            var deserializedConfig = config ?? OptionConfigurationLoader.Load();
+            var warningList = duplicateExtensionWarnings ?? new List<string>();
             cancellationToken.ThrowIfCancellationRequested();
             for (int i = 0; i < lst.Count; i++)
             {
@@ -105,31 +109,40 @@ namespace AutoRegularInspection.Services
                 {
                     continue;
                 }
-                else if (lst[i].PictureCounts == 1)
+                else if (lst[i].PictureCounts >= 1)
                 {
-                    dirs = Directory.GetFiles($@"{picFolder}/", $"*{lst[i].PictureNo}.*");    //结果含有路径
-                    outdirs = Directory.GetFiles($@"{outFolder}/", $"*{lst[i].PictureNo}.*");
-                    if (dirs.Length == 0 && outdirs.Length == 0)
-                    {
-                        totalCounts++;
-                        validationResult.Add($"{EnumHelper.GetEnumDesc(bridgePart)},{lst[i].Component},{lst[i].Damage}照片{lst[i].PictureNo}不存在");
-                        //writer.WriteLine($"{EnumHelper.GetEnumDesc(bridgePart)},{lst[i].Component},{lst[i].Damage}照片{lst[i].PictureNo}不存在");                            
-                    }
-                }
-                else if (lst[i].PictureCounts >= 2)
-                {
-                    var pictures = lst[i].PictureNo.Split(deserializedConfig.General.PictureNoSplitSymbol[0]);
+                    var pictures = lst[i].PictureCounts == 1
+                        ? new string[] { lst[i].PictureNo }
+                        : lst[i].PictureNo.Split(deserializedConfig.General.PictureNoSplitSymbol[0]);
 
                     for (int j = 0; j < pictures.Length; j++)
                     {
                         cancellationToken.ThrowIfCancellationRequested();
-                        dirs = Directory.GetFiles($@"{picFolder}/", $"*{pictures[j]}.*");    //结果含有路径
-                        outdirs = Directory.GetFiles($@"{outFolder}/", $"*{pictures[j]}.*");
-                        if (dirs.Length == 0 && outdirs.Length == 0)
+                        if (string.IsNullOrWhiteSpace(pictures[j]))
+                        {
+                            continue;
+                        }
+
+                        var lookup = ImageLocator.FindBest(pictures[j], picFolder, outFolder);
+                        if (lookup.SelectedPath == null)
                         {
                             totalCounts++;
-                            validationResult.Add($"{EnumHelper.GetEnumDesc(bridgePart)},{lst[i].Component}照片{pictures[j]}不存在");
-                            //writer.WriteLine($"{EnumHelper.GetEnumDesc(bridgePart)},{lst[i].Component}照片{pictures[j]}不存在");
+                            if (lst[i].PictureCounts == 1)
+                            {
+                                validationResult.Add($"{EnumHelper.GetEnumDesc(bridgePart)},{lst[i].Component},{lst[i].Damage}照片{lst[i].PictureNo}不存在");
+                            }
+                            else
+                            {
+                                validationResult.Add($"{EnumHelper.GetEnumDesc(bridgePart)},{lst[i].Component}照片{pictures[j]}不存在");
+                            }
+                        }
+                        else if (lookup.HasConflict)
+                        {
+                            var warning = ImageLocator.BuildConflictWarning(pictures[j], lookup);
+                            if (!string.IsNullOrEmpty(warning))
+                            {
+                                warningList.Add(warning);
+                            }
                         }
                     }
                 }

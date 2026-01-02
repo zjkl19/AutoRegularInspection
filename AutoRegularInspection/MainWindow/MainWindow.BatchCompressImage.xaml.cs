@@ -103,7 +103,8 @@ namespace AutoRegularInspection
                 throw new ArgumentException("目标高度不为负数", nameof(targetHeight));
             }
 
-            string[] searchPatterns = new[] { "*.jpg", "*.png", "*.jpeg", "*.bmp" };
+            var extensions = ImageExtensionSettings.GetSupportedExtensions();
+            var searchPatterns = extensions.Select(ext => $"*.{ext}").ToArray();
             var imageFiles = searchPatterns.SelectMany(pattern => Directory.GetFiles(sourceDirectory, pattern, SearchOption.AllDirectories)).ToArray();
 
             List<string> outputFiles = new List<string>();

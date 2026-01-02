@@ -27,7 +27,8 @@ namespace AutoRegularInspection
             DamageSummaryServices.InitListDamageSummary1(l2, 2_000_000);
             DamageSummaryServices.InitListDamageSummary1(l3, 3_000_000);
 
-            int totalInvalidPictureCounts = PictureServices.ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult);
+            var duplicateWarnings = new List<string>();
+            int totalInvalidPictureCounts = PictureServices.ValidatePictures(l1, l2, l3, out List<string> bridgeDeckValidationResult, out List<string> superSpaceValidationResult, out List<string> subSpaceValidationResult, duplicateWarnings);
             try
             {
                 WriteInvalidPicturesResultToTxt(totalInvalidPictureCounts, bridgeDeckValidationResult, superSpaceValidationResult, subSpaceValidationResult);
@@ -39,6 +40,10 @@ namespace AutoRegularInspection
             }
 
             UserNotification.Info($"照片验证完成！其中无效照片共计{totalInvalidPictureCounts}张，结果详见根目录文件“无效照片列表.txt”");
+            if (duplicateWarnings.Count > 0)
+            {
+                UserNotification.Warn("检测到同名不同后缀的照片：\n" + string.Join("\n", duplicateWarnings.ToArray()));
+            }
 
         }
 
