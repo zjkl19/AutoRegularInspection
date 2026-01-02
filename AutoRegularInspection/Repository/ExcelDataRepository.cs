@@ -14,6 +14,8 @@ namespace AutoRegularInspection.Repository
 {
     public class ExcelDataRepository : IDataRepository
     {
+        private static bool _damageFileValidated;
+
         /// <summary>
         /// 读取病害数据
         /// </summary>
@@ -28,6 +30,13 @@ namespace AutoRegularInspection.Repository
             if (!File.Exists(strFilePath))
             {
                 return lst;
+            }
+
+            // 仅对默认“外观检查.xlsx”做启动时校验，确保数据可解析
+            if (!_damageFileValidated && string.Equals(strFilePath, App.DamageSummaryFileName, StringComparison.OrdinalIgnoreCase))
+            {
+                ValidateDamageSummaryWorkbook(strFilePath);
+                _damageFileValidated = true;
             }
 
             try
@@ -226,6 +235,73 @@ namespace AutoRegularInspection.Repository
         {
             string value = worksheet.Cells[row, SaveExcelService.FindColumnIndexByName(worksheet, "缺损百分比")].Value?.ToString() ?? "0";
             return decimal.TryParse(value, out decimal result) ? result : 0;
+        }
+
+        private void ValidateDamageSummaryWorkbook(string strFilePath)
+        {
+            var errors = new List<string>();
+            var allowedUnit1 = new HashSet<string>(GlobalData.Unit1ComboBox.Select(u => u.DisplayTitle), StringComparer.OrdinalIgnoreCase);
+            var allowedUnit2 = new HashSet<string>(GlobalData.Unit2ComboBox.Select(u => u.DisplayTitle), StringComparer.OrdinalIgnoreCase);
+
+            var file = new FileInfo(strFilePath);
+            using (var package = new ExcelPackage(file))
+            {
+                foreach (var worksheet in package.Workbook.Worksheets)
+                {
+                    // 仅校验三大部位
+                    if (worksheet == null)
+                    {
+                        continue;
+                    }
+
+                    int rowCount = GetRowCount(worksheet);
+                    int unit1Col = SaveExcelService.FindColumnIndexByName(worksheet, "单位1数量");
+                    int unit2Col = SaveExcelService.FindColumnIndexByName(worksheet, "单位2数量");
+                    int unit1NameCol = SaveExcelService.FindColumnIndexByName(worksheet, "单位1");
+                    int unit2NameCol = SaveExcelService.FindColumnIndexByName(worksheet, "单位2");
+
+                    for (int row = 2; row <= rowCount; row++)
+                    {
+                        string unit1CountRaw = worksheet.Cells[row, unit1Col].Value?.ToString() ?? string.Empty;
+                        string unit2CountRaw = worksheet.Cells[row, unit2Col].Value?.ToString() ?? string.Empty;
+                        string unit1Name = worksheet.Cells[row, unit1NameCol].Value?.ToString() ?? string.Empty;
+                        string unit2Name = worksheet.Cells[row, unit2NameCol].Value?.ToString() ?? string.Empty;
+
+                        if (!string.IsNullOrWhiteSpace(unit1CountRaw))
+                        {
+                            decimal parsed;
+                            if (!decimal.TryParse(unit1CountRaw, NumberStyles.Any, CultureInfo.InvariantCulture, out parsed) || parsed < 0)
+                            {
+                                errors.Add($"{worksheet.Name} 行{row} 列\"单位1数量\"应为非负数字，实际：{unit1CountRaw}");
+                            }
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(unit2CountRaw))
+                        {
+                            decimal parsed;
+                            if (!decimal.TryParse(unit2CountRaw, NumberStyles.Any, CultureInfo.InvariantCulture, out parsed) || parsed < 0)
+                            {
+                                errors.Add($"{worksheet.Name} 行{row} 列\"单位2数量\"应为非负数字，实际：{unit2CountRaw}");
+                            }
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(unit1Name) && !allowedUnit1.Contains(unit1Name.Trim()))
+                        {
+                            errors.Add($"{worksheet.Name} 行{row} 列\"单位1\"不在统计单位表中：{unit1Name}");
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(unit2Name) && !allowedUnit2.Contains(unit2Name.Trim()))
+                        {
+                            errors.Add($"{worksheet.Name} 行{row} 列\"单位2\"不在统计单位表中：{unit2Name}");
+                        }
+                    }
+                }
+            }
+
+            if (errors.Count > 0)
+            {
+                throw new DataValidationException(errors);
+            }
         }
     }
 }
